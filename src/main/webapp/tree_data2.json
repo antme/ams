@@ -1,0 +1,13 @@
+[{
+	"text":"Add",
+	"iconCls":"icon-add"
+	},{
+		"text":"Remove",
+		"iconCls":"icon-remove"
+	},{
+		"text":"Save",
+		"iconCls":"icon-save"
+	},{
+		"text":"Search",
+		"iconCls":"icon-search"
+}]
