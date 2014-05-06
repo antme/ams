@@ -58,7 +58,7 @@ public class UserController extends AbstractController {
 //            } catch (IOException e) {
 //            	
 //            }
-			responseWithData(null, request, response);
+			responseWithEntity(user, request, response);
 //		} else {
 //			throw new ResponseException("请输入正确验证码");
 //		}

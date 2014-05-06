@@ -103,6 +103,7 @@ public class ECommerceUserServiceImpl extends AbstractService implements IEComme
 			throw new ResponseException("用户名或密码错误");
 		}
 
+		builder.limitColumns(new String[]{User.ID});
 		User u = (User) dao.findOneByQuery(builder, User.class);
 //		if (u.getStatus() != null && UserStatus.LOCKED.toString().equalsIgnoreCase(u.getStatus())) {
 //			throw new ResponseException("账户已冻结，请联系管理员！");
