@@ -652,3 +652,23 @@ function pagerFilter(response){
 }
 
 
+function initFormSubmit(formId, url, title, callBack){
+	$("#"+formId).form({
+		url : url,
+		onSubmit : function() {
+			return $(this).form('validate');
+		},
+		success : function(data) {
+			dealMessageWithCallBack(data, title, callBack);
+			
+		},
+		error : function() {
+			var data = {};
+			data.code = -1;
+			data.msg = "连接服务器失败";
+			dealMessageWithCallBack(data, "网络异常");
+		}
+	});
+}
+
+

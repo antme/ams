@@ -10,13 +10,15 @@
 <title>新鹰建筑工程考勤管理系统</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/easyui.css">
 <link rel="stylesheet" type="text/css" href="/resources/css/icon.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/resources/css/common.css" />
+
 <script src="/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/resources/js/user/login.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/resources/js/eweblib.js"></script>
-<script type="text/javascript" src="resources/js/validation.js"></script>
-<link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
-
+<script type="text/javascript" src="/resources/js/validation.js"></script>
+<script type="text/javascript" src="/resources/js/ams.js"></script>
 </head>
 <%
     if(session.getValue("userName")!=null){
@@ -40,7 +42,7 @@ window.onload = function(){
 <body class="view-login login_back" > 
 <div class="container">
 
-    <form action="/ecs/user/login.do" method="post" novalidate id="login-form">
+    <form action="/ams/user/login.do" method="post" novalidate id="login-form">
            <div class="login_title"></div>
            <div id="form-login" class="k-edit-form-container">
                 <label style="width:100px;">用户名：</label><input name="userName" id="userName" class="div_input_login easyui-validatebox" type="text" size="15" value=""    missingMessage="请输入用户名或手机号码" />

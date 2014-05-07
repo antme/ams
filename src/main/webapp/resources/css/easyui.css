@@ -290,6 +290,7 @@
 .textbox {
   border: 1px solid #D3D3D3;
   vertical-align: middle;
+  line-height: 18px;
 }
 .combo {
   display: inline-block;

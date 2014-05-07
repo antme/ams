@@ -8,7 +8,6 @@ $(document).ready(function() {
 		},
 		success : function(data) {
 			dealMessageWithCallBack(data, "登录信息", function(){
-				var host = window.location.host;
 				window.location.reload();
 				
 			});

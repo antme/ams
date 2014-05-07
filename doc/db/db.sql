@@ -19,6 +19,21 @@ CREATE TABLE `User` (
 
 
 
+CREATE TABLE `Notice` (
+  `id` varchar(36) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `publisher` varchar(255) DEFAULT NULL,
+  `attachFileUrl` varchar(255) DEFAULT NULL,
+  `content` TEXT DEFAULT NULL,
+  `publishDate` datetime DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `SystemConfig` (
   `id` varchar(36) NOT NULL,
   `configId` varchar(255) NOT NULL,

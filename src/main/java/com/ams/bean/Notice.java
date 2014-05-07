@@ -3,22 +3,39 @@ package com.ams.bean;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
 import com.eweblib.bean.BaseEntity;
 
+@Table(name = Notice.TABLE_NAME)
 public class Notice extends BaseEntity {
+	public static final String ATTACH_FILE_URL = "attachFileUrl";
 
+	public static final String CONTENT = "content";
+
+	public static final String PUBLISH_DATE = "publishDate";
+
+	public static final String PUBLISHER = "publisher";
+
+	public static final String TITLE = "title";
+
+	public static final String TABLE_NAME = "Notice";
+
+	@Column(name = TITLE)
 	public String title;
 
+	@Column(name = PUBLISHER)
 	public String publisher;
 
+	@Column(name = PUBLISH_DATE)
 	public Date publishDate;
 
+	@Column(name = CONTENT)
 	public String content;
-	
+
+	@Column(name = ATTACH_FILE_URL)
 	public String attachFileUrl;
-	
-	
-	
 
 	public String getAttachFileUrl() {
 		return attachFileUrl;
@@ -68,7 +85,7 @@ public class Notice extends BaseEntity {
 		notice.setPublishDate(new Date());
 		notice.setPublisher("dylan");
 		notice.setAttachFileUrl("http://www.baidu.com");
-		
+
 		System.out.println(notice.toString());
 	}
 }

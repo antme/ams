@@ -1,0 +1,36 @@
+* {
+	font-size: 12px;
+}
+
+html {
+	background: #e2e2e2 url("/resources/images/flowers-left.png") no-repeat
+		fixed 0 400px;
+}
+
+body {
+	padding: 0px;
+}
+
+.input-title {
+	width: 200px;
+}
+
+.form-container label {
+	width: 150px;
+}
+
+.form-container input {
+	margin-left: 20px;
+}
+
+.form-container span {
+	width: 80px;
+	display: inline-block;
+	text-align: right;
+}
+
+.form-container textarea {
+	margin-left: 20px;
+	height: 100px;
+	width:250px;
+}
