@@ -94,7 +94,6 @@ public class ECommerceUserServiceImpl extends AbstractService implements IEComme
 	public User login(User user, boolean fromApp) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.and(User.PASSWORD, DataEncrypt.generatePassword(user.getPassword()));
-
 		builder.and(User.USER_NAME, user.getUserName());
 
 

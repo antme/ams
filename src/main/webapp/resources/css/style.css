@@ -2,6 +2,16 @@ body {
 	padding: 0px;
 }
 
+.view-login {
+	padding-top: 0;
+	background-color: #c5c5c5;
+}
+
+#form-login {
+	margin-top: 150px;
+	margin-left: 40%;
+}
+
 .head {
 	width: 100%;
 	background-image: url(/resources/images/head_pic.jpg);
@@ -46,9 +56,15 @@ body {
 .left {
 	width: 201px;
 	height: 100%;
+	float: left;
 	border-right-width: 1px;
 	border-right-style: solid;
 	border-right-color: #cecece;
 	background-image: url(/resources/images/left_bg.jpg);
 	background-repeat: repeat-x;
+	border-right-width: 1px;
+}
+
+.right {
+	float: left;
 }

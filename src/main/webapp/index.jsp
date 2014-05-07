@@ -39,15 +39,19 @@
         <div class="left" >
             <div data-options="region:'west',split:true" style="width:250px;">
                 <div class="easyui-accordion left-accordion" data-options="multiple:false" style="width:200px; height:300px;">
-			        <div title="考勤管理" data-options="iconCls:'icon-ok'" style="overflow:auto; padding:10px;">
-			        </div>
-			        <div title="通告管理" style="">
+			        
+			        <div title="公告管理" style="">
 			        
 			        	<div class="easyui-panel" style="padding:5px; width:150px; border-style:none;">
-		        			<ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true"></ul>
+		        			<ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true,onClick:onAddNoticeClick"></ul>
 		 	 			</div>
 			        </div>
+			        <div title="考勤管理" data-options="iconCls:'icon-ok'" style="overflow:auto; padding:10px;">
+			        </div>
 			        <div title="任务管理" style="padding:10px;">
+			        	<div class="easyui-panel" style="padding:5px; width:150px; border-style:none;">
+		        			<ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true,onClick:onAddNoticeClick"></ul>
+		 	 			</div>
 			        </div>
 			        <div title="用户管理" style="padding:10px;">
 			        </div>
@@ -102,6 +106,11 @@
             resizeTabAndGrid();
         }
         
+        
+        function onAddNoticeClick(node){
+        	console.log(node.text);  // alert node text property when clicked
+        	loadRemotePage("notice/add");
+        }
     
 
      </script>

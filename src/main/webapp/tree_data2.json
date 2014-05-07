@@ -1,13 +1,7 @@
 [{
-	"text":"Add",
+	"text":"新增",
 	"iconCls":"icon-add"
 	},{
-		"text":"Remove",
+		"text":"公告管理",
 		"iconCls":"icon-remove"
-	},{
-		"text":"Save",
-		"iconCls":"icon-save"
-	},{
-		"text":"Search",
-		"iconCls":"icon-search"
 }]

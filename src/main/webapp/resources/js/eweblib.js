@@ -1,18 +1,18 @@
 var idParam = undefined;
 var gridId = undefined;
 var ieGridPopupInit = false;
-function loadRemotePage(page, config) {	
+function loadRemotePage(page) {	
 	if (page) {
 		var url = page;
 		if (!page.endWith(".html") && !page.endWith(".jsp")) {
 			var pages = page.split("/");
+			if (pages.length == 2) {
+				url = "/pages/" + pages[0] + "/" + pages[1] 
+						+ ".jsp";
+			}
 			if (pages.length == 3) {
 				url = "/pages/" + pages[0] + "/" + pages[1] + "/" + pages[2]
 						+ ".jsp";
-			}
-			if (pages.length == 4) {
-				url = "/pages/" + pages[0] + "/" + pages[1] + "/" + pages[2]
-						+ "/" + pages[3] + ".jsp";
 			}
 		}
 

@@ -31,21 +31,27 @@ window.onload = function(){
 </script>
 
 
+<style>
+	#form-login .div_input_login{
+		width : 150px;
+	}
+</style>
+
 <body class="view-login login_back" > 
+<div class="container">
 
     <form action="/ecs/user/login.do" method="post" novalidate id="login-form">
-        <div class="container">
            <div class="login_title"></div>
            <div id="form-login" class="k-edit-form-container">
-                <input name="userName" id="userName" class="div_input_login easyui-validatebox" type="text" size="15" value=""    missingMessage="请输入用户名或手机号码" />
-                <input name="password" id="password"  class="div_input_login2 easyui-validatebox" data-bind="value: password"   missingMessage="请输入密码"   type="password" size="15" />
-                <input type="submit" class="btn-submitx text_indent60" value="登录" />
+                <label style="width:100px;">用户名：</label><input name="userName" id="userName" class="div_input_login easyui-validatebox" type="text" size="15" value=""    missingMessage="请输入用户名或手机号码" />
+                <p></p>
+                <label style="width:100px;">密码：</label><input name="password" id="password"  style="margin-left: 16px;" class="div_input_login easyui-validatebox" data-bind="value: password"   missingMessage="请输入密码"   type="password" size="15" />
+                <p></p>
+                <input type="submit" class="btn-submitx text_indent60" value="登录" style="margin-left:60px;" />
            </div>
-        </div>
-        
  
-        
     </form>
+</div>
     
     <noscript>警告！为正确操作管理后台，JavaScript 必须启用。</noscript>    
         <script type="text/javascript">
