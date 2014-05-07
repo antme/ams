@@ -25,7 +25,7 @@ CREATE TABLE `Notice` (
   `publisher` varchar(255) DEFAULT NULL,
   `attachFileUrl` varchar(255) DEFAULT NULL,
   `content` TEXT DEFAULT NULL,
-  `publishDate` datetime DEFAULT NULL,
+  `publishDate` date DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
   `creatorId` varchar(36) DEFAULT NULL,

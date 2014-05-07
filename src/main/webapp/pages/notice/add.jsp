@@ -21,7 +21,7 @@
 			</div>
 
 			<div>
-				<span>附件:</span> <input class="easyui-validatebox textbox" type="text" name="content" data-options="required:true"></input>
+				<span>附件:</span> <input class="easyui-validatebox textbox" type="text" name="attachFileUrl" data-options="required:true"></input>
 			</div>
 
 			<div>

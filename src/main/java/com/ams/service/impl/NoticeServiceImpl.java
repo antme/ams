@@ -1,10 +1,11 @@
 package com.ams.service.impl;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.Notice;
 import com.ams.service.INoticeService;
-import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.service.AbstractService;
@@ -17,6 +18,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	public void addNotice(Notice notice) {
 
 		if (EweblibUtil.isEmpty(notice.getId())) {
+			notice.setPublishDate(new Date());
 			this.dao.insert(notice);
 		} else {
 			this.dao.updateById(notice);
