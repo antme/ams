@@ -40,6 +40,7 @@ public class NoticeController extends AbstractController {
 	
 	@RequestMapping("/app/list.do")
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
+		parserJsonParameters(request, true);
 		responseWithDataPagnation(siteMessageService.listNoticesForApp(), request, response);
 	}
 //	
