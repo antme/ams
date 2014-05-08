@@ -34,6 +34,22 @@ CREATE TABLE `Notice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `Reminder` (
+  `id` varchar(36) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` TEXT DEFAULT NULL,
+  `remindDate` datetime DEFAULT NULL,
+  `userId` varchar(36) NOT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 CREATE TABLE `SystemConfig` (
   `id` varchar(36) NOT NULL,
   `configId` varchar(255) NOT NULL,

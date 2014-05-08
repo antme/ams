@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ams.bean.Notice;
-import com.ams.bean.SiteMessageUser;
+import com.ams.bean.Reminder;
 import com.ams.service.INoticeService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
@@ -42,6 +42,22 @@ public class NoticeController extends AbstractController {
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
 		parserJsonParameters(request, true);
 		responseWithDataPagnation(siteMessageService.listNoticesForApp(), request, response);
+	}
+	
+	
+	@RequestMapping("/remind/add.do")
+	public void addReminder(HttpServletRequest request, HttpServletResponse response) {
+//		SiteMessage message = (SiteMessage) parserJsonParameters(request, false, SiteMessage.class);
+		Reminder reminder = (Reminder)  parserJsonParameters(request, false, Reminder.class);
+		
+		responseWithEntity(siteMessageService.addReminder(reminder), request, response);
+	}
+	
+	
+	@RequestMapping("/remind/list.do")
+	public void listUserReminder(HttpServletRequest request, HttpServletResponse response) {
+		Reminder reminder = (Reminder)  parserJsonParameters(request, false, Reminder.class);
+		responseWithDataPagnation(siteMessageService.listUserReminderForApp(reminder), request, response);
 	}
 //	
 //	
