@@ -75,7 +75,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 
 		builder.and(Reminder.USER_ID, reminder.getUserId());
 		
-		if (reminder.getIsQueryTotay() != null && reminder.getIsQueryTotay()) {
+		if (reminder.getIsQueryToday() != null && reminder.getIsQueryToday()) {
 			Calendar c = Calendar.getInstance();
 			c.set(Calendar.HOUR_OF_DAY, 0);
 			c.set(Calendar.MINUTE, 0);

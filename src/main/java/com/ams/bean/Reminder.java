@@ -35,7 +35,7 @@ public class Reminder extends BaseEntity {
 	
 	
 	//查询今天的
-	public Boolean isQueryTotay;
+	public Boolean isQueryToday;
 
 	public String getTitle() {
 		return title;
@@ -69,12 +69,12 @@ public class Reminder extends BaseEntity {
 		this.userId = userId;
 	}
 
-	public Boolean getIsQueryTotay() {
-		return isQueryTotay;
+	public Boolean getIsQueryToday() {
+		return isQueryToday;
 	}
 
-	public void setIsQueryTotay(Boolean isQueryTotay) {
-		this.isQueryTotay = isQueryTotay;
+	public void setIsQueryToday(Boolean isQueryTotay) {
+		this.isQueryToday = isQueryTotay;
 	}
 	
 	
