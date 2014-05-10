@@ -17,6 +17,16 @@ public class AmsUser extends User {
 	}
 	
 	
+
+	public String userType;
+
+	public String userCode;
+
+	public String userLevel;
+	
+	public String teams;
+	
+	
 	public static void main(String args[]){
 		AmsUser user = new AmsUser();
 		user.setUserName("test");

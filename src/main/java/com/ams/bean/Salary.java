@@ -1,6 +1,7 @@
 package com.ams.bean;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -20,17 +21,15 @@ public class Salary extends BaseEntity {
 
 	public static final String YEAR = "year";
 
-	public static final String EMPLOYEE_NAME = "employeeName";
 
-	public static final String EMPLOYEE_ID = "employeeId";
 
 	public static final String TABLE_NAME = "Salary";
 
-	@Column(name = EMPLOYEE_ID)
-	public String employeeId;
+	@Column(name = "userId")
+	public String userId;
 
-	@Column(name = EMPLOYEE_NAME)
-	public String employeeName;
+	@Column(name = "userName")
+	public String userName;
 
 	@Column(name = TOTAL_SALARY)
 	public Double totalSalary;
@@ -42,33 +41,34 @@ public class Salary extends BaseEntity {
 	public Double remainingSalaray;
 
 	@Column(name = YEAR)
-	public Date year;
+	public Integer year;
 
 	@Column(name = MONTH)
 	public Integer month;
 
-	public String getEmployeeId() {
-		return employeeId;
+	
+
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getEmployeeName() {
-		return employeeName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-
-	public Date getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(Date year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
@@ -105,5 +105,17 @@ public class Salary extends BaseEntity {
 	}
 	
 	
+	
+	public static void main(String args[]){
+		Salary salary = new Salary();
+		salary.setDeductedSalary(1000.5);
+		salary.setTotalSalary(5800d);
+		salary.setRemainingSalaray(5800-1000.5);
+		salary.setYear(2014);
+		salary.setMonth(05);
+		salary.setUserName("张三");
+		salary.setId(UUID.randomUUID().toString());
+		System.out.println(salary.toString());
+	}
 
 }
