@@ -2,47 +2,8 @@ var idParam = undefined;
 var gridId = undefined;
 var ieGridPopupInit = false;
 function loadRemotePage(page) {	
-	if (page) {
-		var url = page;
-		if (!page.endWith(".html") && !page.endWith(".jsp")) {
-			var pages = page.split("/");
-			if (pages.length == 2) {
-				url = "/pages/" + pages[0] + "/" + pages[1] 
-						+ ".jsp";
-			}
-			if (pages.length == 3) {
-				url = "/pages/" + pages[0] + "/" + pages[1] + "/" + pages[2]
-						+ ".jsp";
-			}
-		}
 
-		$.ajaxSetup({
-			cache : false
-		// 关闭AJAX相应的缓存
-		});
-		
-
-		$.ajax({
-			url : url,
-			success : function(data) {
-				
-				if(gridId && gridId == "soOrderList"){
-					$("#remotePagePopup").show();
-					$("#remotePagePopup").html(data);
-				}else{
-					$("#remotePage").show();
-					$("#remotePage").html(data);
-				}
-			},
-			error : function(res){
-
-			}
-		});
-		
-
-	}
-
-
+	window.location.href = "index.jsp?p="+page;
 
 }
 
