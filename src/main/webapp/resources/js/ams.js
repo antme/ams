@@ -100,7 +100,6 @@ function createLogPage(data, tableName){
  */
 
 function onNoticeClick(node) {
-	console.log(node.text); // alert node text property when clicked
 	var text = node.text;
 	if (text == '新增') {
 		loadRemotePage("notice/add");

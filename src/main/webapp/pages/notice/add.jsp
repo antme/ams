@@ -4,7 +4,18 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		initFormSubmit("add-notice", "/ams/notice/add.do", "添加公告", function(){
+			$.messager.defaults = {
+	        	ok : "继续加添",
+	        	cancel : "去管理"
+	        };
 			
+			$.messager.confirm('添加成功', '继续上传或跳转到公告管理列表页?', function(r){
+                if (!r){
+                    loadRemotePage('notice/list');
+                }else{
+                	
+                }
+        	});
 		});
 	});
 </script>
@@ -17,7 +28,7 @@
 			</div>
 			<div>
 				<span>发布人:</span>
-				<td><input class="easyui-validatebox textbox" type="text" name="publisher" data-options="required:true,validType:'email'"></input></td>
+				<td><input class="easyui-validatebox textbox" type="text" name="publisher" data-options="required:true"></input></td>
 			</div>
 
 			<div>
@@ -29,7 +40,7 @@
 				<textarea class="easyui-validatebox textbox" name="content" data-options="required:true"></textarea>
 			</div>
 			<div style="margin-left: 100px;">
-				<input type="submit" class="easyui-linkbutton" value="提交"></a>
+				<input type="submit" value="提交"></a>
 			</div>
 		</div>
 	</form>
