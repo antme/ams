@@ -44,19 +44,26 @@
 			        <div title="公告管理" style="">
 			        
 			        	<div class="easyui-panel" style="padding:5px; width:150px; border-style:none;">
-		        			<ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true,onClick:onNoticeClick"></ul>
+		        			<ul class="easyui-tree" data-options="url:'/menu/tree_notice.json',method:'get',animate:true,onClick:onNoticeClick"></ul>
 		 	 			</div>
 			        </div>
 			        <div title="考勤管理" data-options="iconCls:'icon-ok'" style="overflow:auto; padding:10px;">
 			        </div>
 			        <div title="任务管理" style="padding:10px;">
 			        	<div class="easyui-panel" style="padding:5px; width:150px; border-style:none;">
-		        			<ul class="easyui-tree" data-options="url:'tree_data2.json',method:'get',animate:true,onClick:onNoticeClick"></ul>
+		        			<ul class="easyui-tree" data-options="url:'/menu/tree_notice.json',method:'get',animate:true,onClick:onNoticeClick"></ul>
+		 	 			</div>
+			        </div>
+			        <div title="项目管理" style="padding:10px;">
+			        	<div class="easyui-panel" style="padding:5px; width:150px; border-style:none;">
+		        			<ul class="easyui-tree" data-options="url:'/menu/tree_project.json',method:'get',animate:true,onClick:onNoticeClick"></ul>
 		 	 			</div>
 			        </div>
 			        <div title="用户管理" style="padding:10px;">
 			        </div>
 			        <div title="系统设置" style="padding:10px;">
+			        </div>
+			        <div title="统计" style="padding:10px;">
 			        </div>
 			    </div>
             </div>

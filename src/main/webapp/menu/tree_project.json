@@ -1,0 +1,10 @@
+[
+{
+	"text":"项目管理",
+	"iconCls":"icon-add"
+},
+{
+		"text":"团队管理",
+		"iconCls":"icon-remove"
+}
+]
