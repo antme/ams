@@ -1,13 +1,7 @@
 package com.ams.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
@@ -19,8 +13,6 @@ import com.eweblib.util.EweblibUtil;
 public abstract class EcommerceService extends AbstractService {
 
 
-	@Autowired
-	protected ICategoryService cateService;
 
 	
 	public DataBaseQueryBuilder mergeCommonSearchQuery(SearchVo search, DataBaseQueryBuilder builder, String table, String closeKey, boolean defaultQuery) {
