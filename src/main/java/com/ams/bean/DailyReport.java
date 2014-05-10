@@ -1,5 +1,6 @@
 package com.ams.bean;
 
+import java.util.Date;
 import java.util.List;
 
 import com.eweblib.bean.BaseEntity;
@@ -7,6 +8,8 @@ import com.eweblib.bean.BaseEntity;
 public class DailyReport extends BaseEntity {
 
 	public String projectId;
+	
+	public String userId;
 
 	public String weather;
 
@@ -84,6 +87,40 @@ public class DailyReport extends BaseEntity {
 
 	public void setComments(List<DailyReportComment> comments) {
 		this.comments = comments;
+	}
+	
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public static void main(String args[]){
+		DailyReport report = new DailyReport();
+		report.setId("");
+		report.setMaterialRecord("");
+		report.setWorkingRecord("");
+		report.setSummary("");
+		report.setPlan("");
+		report.setWeather("");
+		report.setProjectId("");
+		report.setUserId("");
+		
+		System.out.println(report.toString());
+		
+		
+		DailyReportComment comment = new DailyReportComment();
+		comment.setUserName("经理一");
+		comment.setUserId("");
+		comment.setComment("计划安排不详细");
+		comment.setCommentDate(new Date());
+		comment.setDailyReportId("");
+		
+		System.out.println(comment.toString());
+		
 	}
 
 }

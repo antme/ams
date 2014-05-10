@@ -1,16 +1,21 @@
 package com.ams.bean;
 
+import java.util.Date;
+
 import com.eweblib.bean.BaseEntity;
 
 public class DailyReportComment extends BaseEntity {
 
 	public String userId;
+	
+	public String userName;
+	
 
 	public String dailyReportId;
 
 	public String comment;
 
-	public String commentDate;
+	public Date commentDate;
 
 	public String toUserId;
 
@@ -38,11 +43,11 @@ public class DailyReportComment extends BaseEntity {
 		this.comment = comment;
 	}
 
-	public String getCommentDate() {
+	public Date getCommentDate() {
 		return commentDate;
 	}
 
-	public void setCommentDate(String commentDate) {
+	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
 
@@ -54,6 +59,15 @@ public class DailyReportComment extends BaseEntity {
 		this.toUserId = toUserId;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	
 	
 	
 }

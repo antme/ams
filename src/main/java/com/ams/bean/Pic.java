@@ -15,6 +15,10 @@ public class Pic extends BaseEntity {
 	public String description;
 
 	public String picUrl;
+	
+	
+	public String dailyReportId;
+
 
 	public String getUserId() {
 		return userId;
@@ -55,5 +59,25 @@ public class Pic extends BaseEntity {
 	public void setPicUrl(String picUrl) {
 		this.picUrl = picUrl;
 	}
+	
+	
+	
 
+	public String getDailyReportId() {
+		return dailyReportId;
+	}
+
+	public void setDailyReportId(String dailyReportId) {
+		this.dailyReportId = dailyReportId;
+	}
+
+	public static void main(String args[]){
+		Pic pic = new Pic();
+		pic.setDescription("");
+		pic.setUserId("");
+		pic.setProjectName("");
+		
+		System.out.println(pic.toString());
+		
+	}
 }
