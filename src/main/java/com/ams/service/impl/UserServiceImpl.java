@@ -331,7 +331,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public EntityResults<AmsUser> listUserForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
 
-		builder.limitColumns(new String[]{User.USER_NAME, AmsUser.USER_CODE, AmsUser.MOBILE_NUMBER});
+		builder.limitColumns(new String[]{User.USER_NAME, AmsUser.USER_CODE, AmsUser.MOBILE_NUMBER, AmsUser.ID});
 		EntityResults<AmsUser> userList = this.dao.listByQueryWithPagnation(builder, AmsUser.class);
 
 		for (AmsUser user : userList.getEntityList()) {
