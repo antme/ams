@@ -1,0 +1,22 @@
+[
+{
+	"text":"新增用户",
+	"iconCls":"icon-add"
+},
+{
+		"text":"用户管理",
+		"iconCls":"icon-remove"
+},
+{
+		"text":"部门管理",
+		"iconCls":"icon-remove"
+},{
+		"text":"团队管理",
+		"iconCls":"icon-remove"
+},
+{
+		"text":"权限组管理",
+		"iconCls":"icon-remove"
+}
+
+]

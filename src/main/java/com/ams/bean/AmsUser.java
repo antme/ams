@@ -2,11 +2,29 @@ package com.ams.bean;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
+
 import com.eweblib.bean.User;
 
 public class AmsUser extends User {
 
+	@Column(name = "mobileNumber")
 	public String mobileNumber;
+
+	@Column(name = "userTypeId")
+	public String userTypeId;
+
+	@Column(name = "userCode")
+	public String userCode;
+
+	@Column(name = "userLevelId")
+	public String userLevelId;
+
+	public String teams;
+	
+	public String userType;
+	
+	public String userLevel;
 
 	public String getMobileNumber() {
 		return mobileNumber;
@@ -16,21 +34,7 @@ public class AmsUser extends User {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public String userType;
 
-	public String userCode;
-
-	public String userLevel;
-
-	public String teams;
-
-	public String getUserType() {
-		return userType;
-	}
-
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
 
 	public String getUserCode() {
 		return userCode;
@@ -39,7 +43,31 @@ public class AmsUser extends User {
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
 	}
+	
+	
+	public String getUserTypeId() {
+		return userTypeId;
+	}
 
+	public void setUserTypeId(String userTypeId) {
+		this.userTypeId = userTypeId;
+	}
+
+	public String getUserLevelId() {
+		return userLevelId;
+	}
+
+	public void setUserLevelId(String userLevelId) {
+		this.userLevelId = userLevelId;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	public String getUserLevel() {
 		return userLevel;
 	}

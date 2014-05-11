@@ -1,14 +1,16 @@
 package com.ams.service;
 
 import java.util.List;
-import java.util.Map;
 
+import com.ams.bean.AmsUser;
+import com.ams.bean.Department;
+import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.User;
 
-public interface IECommerceUserService {
+public interface IUserService {
 
 	public void updateUser(User user);
 
@@ -44,5 +46,15 @@ public interface IECommerceUserService {
 
 
 	public boolean inRole(String groupIds, String roleId);
+
+	public EntityResults<AmsUser> listUserForApp(SearchVo vo);
+
+	public void addDepartment(Department dep);
+
+	public EntityResults<Department> listDepartments(SearchVo vo);
+
+	public void addTeam(Team dep);
+
+	public EntityResults<Team> listTeams(SearchVo vo);
 
 }

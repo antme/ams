@@ -1,11 +1,5 @@
 package com.ams.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,16 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ams.service.IECommerceUserService;
+import com.ams.bean.Department;
+import com.ams.bean.Team;
+import com.ams.bean.vo.SearchVo;
+import com.ams.service.IUserService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
-import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.User;
 import com.eweblib.controller.AbstractController;
-import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
-import com.eweblib.util.ImgUtil;
 
 @Controller
 @RequestMapping("/ams/user")
@@ -40,7 +34,7 @@ public class UserController extends AbstractController {
 	private static final String FORGET_PWD_MOBILE_PHONE = "pwdMobilePhone_User";
 
 	@Autowired
-	private IECommerceUserService userService;
+	private IUserService userService;
 
 	private static Logger logger = LogManager.getLogger(UserController.class);
 
@@ -64,6 +58,51 @@ public class UserController extends AbstractController {
 //		}
 
 	}
+	
+	
+	@RequestMapping("/department/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addDepartment(HttpServletRequest request, HttpServletResponse response) {
+		Department dep = (Department) parserJsonParameters(request, false, Department.class);
+		userService.addDepartment(dep);
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/department/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listDepartments(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listDepartments(vo), request, response);
+	}
+	
+
+	@RequestMapping("/team/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addTeam(HttpServletRequest request, HttpServletResponse response) {
+		Team dep = (Team) parserJsonParameters(request, false, Team.class);
+		userService.addTeam(dep);
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/team/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listTeams(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listTeams(vo), request, response);
+	}
+	
+	
+	
+	@RequestMapping("/app/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listUserForApp(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listUserForApp(vo), request, response);
+	}
+	
+	
+	
+	
 //
 //	@RequestMapping("/logout.do")
 //	@LoginRequired(required = false)

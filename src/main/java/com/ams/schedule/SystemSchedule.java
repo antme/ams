@@ -4,7 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ams.service.IECommerceUserService;
+import com.ams.service.IUserService;
 import com.eweblib.dao.IQueryDao;
 
 public class SystemSchedule {
@@ -15,7 +15,7 @@ public class SystemSchedule {
 	public IQueryDao dao;
 
 	@Autowired
-	public IECommerceUserService us;
+	public IUserService us;
 
 	public void run() {
 

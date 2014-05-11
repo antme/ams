@@ -110,7 +110,23 @@ function onNoticeClick(node) {
 
 
 
-
+function onUserTreeClick(node){
+	
+	var text = node.text;
+	if (text == '新增用户') {
+		loadRemotePage("user/add");
+	} else if (text == '用户管理') {
+		loadRemotePage("user/list");
+	}else if (text == '部门管理') {
+		loadRemotePage("department/list");
+	}else if (text == '权限组管理') {
+		loadRemotePage("user/grouplist");
+	}else if (text == '团队管理') {
+		loadRemotePage("team/list");
+	}
+	
+	
+}
 
 
 
