@@ -8,16 +8,22 @@ import com.eweblib.bean.User;
 
 public class AmsUser extends User {
 
-	@Column(name = "mobileNumber")
+	public static final String USER_LEVEL_ID = "userLevelId";
+
+	public static final String USER_CODE = "userCode";
+
+	public static final String MOBILE_NUMBER = "mobileNumber";
+
+	@Column(name = MOBILE_NUMBER)
 	public String mobileNumber;
 
 	@Column(name = "userTypeId")
 	public String userTypeId;
 
-	@Column(name = "userCode")
+	@Column(name = USER_CODE)
 	public String userCode;
 
-	@Column(name = "userLevelId")
+	@Column(name = USER_LEVEL_ID)
 	public String userLevelId;
 
 	public String teams;
