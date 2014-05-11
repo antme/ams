@@ -6,5 +6,9 @@
 {
 		"text":"团队管理",
 		"iconCls":"icon-remove"
+},
+{
+		"text":"客户管理",
+		"iconCls":"icon-remove"
 }
 ]

@@ -3,6 +3,7 @@ package com.ams.service;
 import java.util.List;
 
 import com.ams.bean.AmsUser;
+import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
@@ -56,5 +57,9 @@ public interface IUserService {
 	public void addTeam(Team dep);
 
 	public EntityResults<Team> listTeams(SearchVo vo);
+
+	public void addCustomer(Customer customer);
+
+	public EntityResults<Customer> listCustomersForApp(SearchVo vo);
 
 }

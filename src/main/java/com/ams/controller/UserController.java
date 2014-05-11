@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
@@ -91,6 +92,21 @@ public class UserController extends AbstractController {
 		responseWithDataPagnation(userService.listTeams(vo), request, response);
 	}
 	
+	
+	@RequestMapping("/customer/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addCustomer(HttpServletRequest request, HttpServletResponse response) {
+		Customer customer = (Customer) parserJsonParameters(request, false, Customer.class);
+		userService.addCustomer(customer);
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/customer/app/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listCustomersForApp(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listCustomersForApp(vo), request, response);
+	}
 	
 	
 	@RequestMapping("/app/list.do")

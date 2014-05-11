@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.AmsUser;
+import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
@@ -371,6 +372,34 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
 
 		return this.dao.listByQueryWithPagnation(builder, Team.class);
+	}
+	
+	
+	public void addCustomer(Customer customer){
+		
+		if(EweblibUtil.isValid(customer.getId())){
+			this.dao.updateById(customer);
+		}else{
+			this.dao.insert(customer);
+		}
+			
+	}
+
+	public EntityResults<Customer> listCustomersForApp(SearchVo vo){
+		
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
+		
+		builder.limitColumns(new String[]{Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION});
+		
+		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
+
+		for (Customer customer : customerList.getEntityList()) {
+			
+			customer.setProjects("项目1， 项目2");
+		}
+
+		return customerList;
+		
 	}
 
 }

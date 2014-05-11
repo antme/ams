@@ -81,6 +81,23 @@ CREATE TABLE `Team` (
 
 
 
+CREATE TABLE `Customer` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `contactPerson` varchar(36) NOT NULL,
+  `position` varchar(36) NOT NULL,
+  `contactMobileNumber` varchar(36) NOT NULL,
+  `remark` TEXT DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 CREATE TABLE `SystemConfig` (
   `id` varchar(36) NOT NULL,
   `configId` varchar(255) NOT NULL,

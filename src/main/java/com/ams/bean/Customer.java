@@ -1,22 +1,45 @@
 package com.ams.bean;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
 import com.eweblib.bean.BaseEntity;
 
+@Table(name = Customer.TABLE_NAME)
 public class Customer extends BaseEntity {
+	public static final String CONTACT_MOBILE_NUMBER = "contactMobileNumber";
 
-	public String projects;
+	public static final String POSITION = "position";
 
+	public static final String CONTACT_PERSON = "contactPerson";
+
+	public static final String REMARK = "remark";
+
+	public static final String ADDRESS = "address";
+
+	public static final String NAME = "name";
+
+	public static final String TABLE_NAME = "Customer";
+
+	@Column(name = NAME)
 	public String name;
 
+	@Column(name = ADDRESS)
 	public String address;
 
+	@Column(name = REMARK)
 	public String remark;
 
+	@Column(name = CONTACT_PERSON)
 	public String contactPerson;
 
+	@Column(name = POSITION)
 	public String position;
 
+	@Column(name = CONTACT_MOBILE_NUMBER)
 	public String contactMobileNumber;
+
+	public String projects;
 
 	public String getProjects() {
 		return projects;

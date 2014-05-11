@@ -121,11 +121,21 @@ function onUserTreeClick(node){
 		loadRemotePage("department/list");
 	}else if (text == '权限组管理') {
 		loadRemotePage("user/grouplist");
-	}else if (text == '团队管理') {
-		loadRemotePage("team/list");
 	}
 	
 	
+}
+
+
+function onProjectClick(node) {
+	var text = node.text;
+	if (text == '项目管理') {
+		loadRemotePage("project/list");
+	} else if (text == '客户管理') {
+		loadRemotePage("customer/list");
+	}else if (text == '团队管理') {
+		loadRemotePage("team/list");
+	}
 }
 
 
