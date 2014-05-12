@@ -5,6 +5,7 @@ import java.util.List;
 import com.ams.bean.AmsUser;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.Pic;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
@@ -61,5 +62,9 @@ public interface IUserService {
 	public void addCustomer(Customer customer);
 
 	public EntityResults<Customer> listCustomersForApp(SearchVo vo);
+
+	public void addPic(Pic pic);
+
+	public EntityResults<Pic> listPics(SearchVo vo);
 
 }

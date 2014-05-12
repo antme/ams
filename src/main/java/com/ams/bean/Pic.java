@@ -2,23 +2,56 @@ package com.ams.bean;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
+
 import com.eweblib.bean.BaseEntity;
 
+@Table(name = Pic.TABLE_NAME)
 public class Pic extends BaseEntity {
+	public static final String UPLOAD_ADDRESS = "uploadAddress";
 
+	public static final String LAT = "lat";
+
+	public static final String LNG = "lng";
+
+	public static final String DAILY_REPORT_ID = "dailyReportId";
+
+	public static final String PIC_URL = "picUrl";
+
+	public static final String DESCRIPTION = "description";
+
+	public static final String PROJECT_NAME = "projectName";
+
+	public static final String USER_ID = "userId";
+
+	public static final String TABLE_NAME = "Pic";
+
+	@Column(name = USER_ID)
 	public String userId;
 
-	public Date uploadDate;
-
+	@Column(name = PROJECT_NAME)
 	public String projectName;
 
+	@Column(name = DESCRIPTION)
 	public String description;
 
+	@Column(name = PIC_URL)
 	public String picUrl;
-	
-	
+
+	@Column(name = DAILY_REPORT_ID)
 	public String dailyReportId;
 
+	@Column(name = LNG)
+	public Double lng;
+
+	@Column(name = LAT)
+	public Double lat;
+
+	@Column(name = UPLOAD_ADDRESS)
+	public String uploadAddress;
+
+	public Integer imagesCount;
 
 	public String getUserId() {
 		return userId;
@@ -26,14 +59,6 @@ public class Pic extends BaseEntity {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public Date getUploadDate() {
-		return uploadDate;
-	}
-
-	public void setUploadDate(Date uploadDate) {
-		this.uploadDate = uploadDate;
 	}
 
 	public String getProjectName() {
@@ -59,9 +84,6 @@ public class Pic extends BaseEntity {
 	public void setPicUrl(String picUrl) {
 		this.picUrl = picUrl;
 	}
-	
-	
-	
 
 	public String getDailyReportId() {
 		return dailyReportId;
@@ -71,13 +93,45 @@ public class Pic extends BaseEntity {
 		this.dailyReportId = dailyReportId;
 	}
 
-	public static void main(String args[]){
+	public Integer getImagesCount() {
+		return imagesCount;
+	}
+
+	public void setImagesCount(Integer imagesCount) {
+		this.imagesCount = imagesCount;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public String getUploadAddress() {
+		return uploadAddress;
+	}
+
+	public void setUploadAddress(String uploadAddress) {
+		this.uploadAddress = uploadAddress;
+	}
+
+	public static void main(String args[]) {
 		Pic pic = new Pic();
 		pic.setDescription("");
 		pic.setUserId("");
 		pic.setProjectName("");
-		
+
 		System.out.println(pic.toString());
-		
+
 	}
 }

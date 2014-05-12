@@ -97,6 +97,25 @@ CREATE TABLE `Customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `Pic` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) NOT NULL,
+  `dailyReportId` varchar(36) DEFAULT NULL,
+  `projectName` varchar(255) DEFAULT NULL,
+  `picUrl` varchar(255) NOT NULL,
+  `uploadAddress` varchar(255) DEFAULT NULL,
+  `lng` double DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `description` TEXT DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 
 CREATE TABLE `SystemConfig` (
   `id` varchar(36) NOT NULL,

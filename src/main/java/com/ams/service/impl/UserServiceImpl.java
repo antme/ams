@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ams.bean.AmsUser;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.Pic;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -400,6 +401,17 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return customerList;
 		
+	}
+	
+	public void addPic(Pic pic){
+		
+		this.dao.insert(pic);
+	}
+
+	public EntityResults<Pic> listPics(SearchVo vo){
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
+
+		return this.dao.listByQueryWithPagnation(builder, Pic.class);
 	}
 
 }

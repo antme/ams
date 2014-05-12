@@ -20,7 +20,9 @@ import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
 import com.eweblib.bean.User;
 import com.eweblib.controller.AbstractController;
+import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
+import com.eweblib.util.EweblibUtil;
 
 @Controller
 @RequestMapping("/ams/user")
@@ -122,11 +124,35 @@ public class UserController extends AbstractController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addPic(HttpServletRequest request, HttpServletResponse response) {
 		Pic pic = (Pic) parserJsonParameters(request, false, Pic.class);
+
+		Integer images = pic.getImagesCount();
+		if (images == null || images < 1) {
+			throw new ResponseException("请上传图片");
+		}
 		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
-		System.out.println(uploadFile(request, relativeFilePath, "picData0"));
-//		userService.addCustomer(customer);
+
+		if (EweblibUtil.isEmpty(pic.getUserId())) {
+			pic.setUserId(EWeblibThreadLocal.getCurrentUserId());
+		}
+		
+		if (EweblibUtil.isEmpty(pic.getUserId())) {
+			
+			throw new ResponseException("请先登录");
+		}
+		for (int i = 0; i < images; i++) {
+			pic.setPicUrl(uploadFile(request, relativeFilePath, "picData" + i));
+			userService.addPic(pic);
+		}
 		responseWithData(null, request, response);
 	}
+	
+	@RequestMapping("/pic/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listPics(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listPics(vo), request, response);
+	}
+	
 	
 	
 	

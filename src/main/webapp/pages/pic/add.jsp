@@ -13,12 +13,13 @@
 <div style="padding: 10px 60px 20px 60px">
 	<form id="add-pic" method="post" enctype="multipart/form-data">
 		<div class="form-container" style="width: 500px;">
+		
+			<input class="easyui-validatebox textbox" type="hidden" name="imagesCount" value="1" data-options="required:true"></input>
+			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="1111111" data-options="required:true"></input>
 			<div>
-				<span>团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
+				<span>团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="projectName" data-options="required:true"></input>
 			</div>
-			<div>
-				<span>所属部门:</span> <input class="easyui-validatebox textbox" type="text" name="departmentId" data-options="required:true"></input>
-			</div>
+			
 			
 			<div>
 				<span>图片:</span> <input type="file" class="easyui-validatebox textbox"  name="picData0" data-options="required:true"></input>
