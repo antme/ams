@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.Pic;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -116,6 +117,16 @@ public class UserController extends AbstractController {
 		responseWithDataPagnation(userService.listUserForApp(vo), request, response);
 	}
 	
+	
+	@RequestMapping("/pic/app/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addPic(HttpServletRequest request, HttpServletResponse response) {
+		Pic pic = (Pic) parserJsonParameters(request, false, Pic.class);
+		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
+		System.out.println(uploadFile(request, relativeFilePath, "picData0"));
+//		userService.addCustomer(customer);
+		responseWithData(null, request, response);
+	}
 	
 	
 	

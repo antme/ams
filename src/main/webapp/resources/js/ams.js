@@ -121,6 +121,8 @@ function onUserTreeClick(node){
 		loadRemotePage("department/list");
 	}else if (text == '权限组管理') {
 		loadRemotePage("user/grouplist");
+	}else if (text == '图片管理') {
+		loadRemotePage("pic/list");
 	}
 	
 	

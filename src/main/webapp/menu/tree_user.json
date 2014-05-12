@@ -17,6 +17,10 @@
 {
 		"text":"权限组管理",
 		"iconCls":"icon-remove"
+},
+{
+		"text":"图片管理",
+		"iconCls":"icon-remove"
 }
 
 ]
