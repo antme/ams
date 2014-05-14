@@ -15,7 +15,7 @@
 		<div class="form-container" style="width: 500px;">
 		
 			<input class="easyui-validatebox textbox" type="hidden" name="imagesCount" value="2" data-options="required:true"></input>
-			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="5c07bcc-833e-4b22-a8be-3c3a63609ac8" data-options="required:true"></input>
+			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="05c07bcc-833e-4b22-a8be-3c3a63609ac8" data-options="required:true"></input>
 			<input class="easyui-validatebox textbox" type="hidden" name="projectId" value="b8a353e0-b178-4e2f-8abf-7fb2ad60f9ab" data-options="required:true"></input>
 			<div>
 				<span>材料纪录:</span> <input class="easyui-validatebox textbox" type="text" name="materialRecord" data-options="required:true"></input>
