@@ -18,6 +18,9 @@ public class DailyReport extends BaseEntity {
 	public String workingRecord;
 
 	public String summary;
+	
+	public Date reportDay;
+	
 
 	public String plan;
 

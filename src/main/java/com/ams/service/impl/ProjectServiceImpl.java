@@ -2,6 +2,7 @@ package com.ams.service.impl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -31,18 +32,18 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	public EntityResults<Project> listProjects() {
 		
 		
-		return listProjectsForApp();
+		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(Project.TABLE_NAME), Project.class);
 	}
 
 	@Override
-	public EntityResults<Project> listProjectsForApp() {
+	public List<Project> listProjectsForAppDailyReport() {
 		
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		
 		builder.limitColumns(new String[]{Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE});
-		EntityResults<Project> projects =  this.dao.listByQueryWithPagnation(builder, Project.class);
+		List<Project> projects =  this.dao.listByQuery(builder, Project.class);
 		
-		for(Project project : projects.getEntityList()){
+		for(Project project : projects){
 			
 			Calendar c = Calendar.getInstance();
 			c.setTime(project.getProjectStartDate());

@@ -38,10 +38,10 @@ public class ProjectController extends AbstractController {
 		responseWithDataPagnation(projectService.listProjects(), request, response);
 	}
 	
-	@RequestMapping("/app/list.do")
+	@RequestMapping("/app/report/list.do")
 	public void listProjectsForApp(HttpServletRequest request, HttpServletResponse response) {
 		parserJsonParameters(request, true);
-		responseWithDataPagnation(projectService.listProjectsForApp(), request, response);
+		responseWithListData(projectService.listProjectsForAppDailyReport(), request, response);
 	}
 	
 }
