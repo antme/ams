@@ -39,10 +39,9 @@
 
 	<div class="left">
 		<div data-options="region:'west',split:true" style="width: 250px;">
-			<div class="easyui-accordion left-accordion" data-options="multiple:false" style="width: 200px; height: 300px;">
+			<div class="easyui-accordion left-accordion" data-options="multiple:false" style="width: 200px; height: 400px;">
 
 				<div title="公告管理" style="">
-
 					<div class="easyui-panel" style="padding: 5px; width: 150px; border-style: none;">
 						<ul class="easyui-tree" data-options="url:'/menu/tree_notice.json',method:'get',animate:true,onClick:onNoticeClick"></ul>
 					</div>

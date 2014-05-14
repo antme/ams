@@ -59,15 +59,6 @@ public class NoticeController extends AbstractController {
 		Reminder reminder = (Reminder)  parserJsonParameters(request, false, Reminder.class);
 		responseWithDataPagnation(siteMessageService.listUserReminderForApp(reminder), request, response);
 	}
-//	
-//	
-//	
-//	@RequestMapping("/detail.do")
-//	public void loadSiteMessageDetail(HttpServletRequest request, HttpServletResponse response) {
-//		SiteMessageUser smu = (SiteMessageUser) parserJsonParameters(request, true, SiteMessageUser.class);
-//		responseWithEntity(siteMessageService.loadSiteMessageDetail(smu), request, response);
-//	}
-	
 
 
 }

@@ -129,5 +129,25 @@ CREATE TABLE `SystemConfig` (
 
 
 
+CREATE TABLE `Project` (
+  `id` varchar(36) NOT NULL,
+  `departmentId` varchar(36) DEFAULT NULL,
+  `projectName` varchar(255) NOT NULL,
+  `projectManagerId` varchar(36) DEFAULT NULL,
+  `projectDescription` TEXT DEFAULT NULL,
+  `projectStatus` int DEFAULT 0,
+  `projectStartDate` date DEFAULT NULL,
+  `projectEndDate` date DEFAULT NULL,  
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  `status` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('05c07bcc-833e-4b22-a8be-3c3a63609ac8','admin','96e79218965eb72c92a549dd5a330112',now(),now());
 update User set mobileNumber="11111111", userCode="A000001";

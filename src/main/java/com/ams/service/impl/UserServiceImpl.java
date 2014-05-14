@@ -107,36 +107,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		builder.limitColumns(new String[] { User.ID, User.USER_NAME });
 		User u = (User) dao.findOneByQuery(builder, User.class);
-		// if (u.getStatus() != null &&
-		// UserStatus.LOCKED.toString().equalsIgnoreCase(u.getStatus())) {
-		// throw new ResponseException("账户已冻结，请联系管理员！");
-		// }
-		// if (!fromApp) {
-		//
-		// if (u.getGroupId() != null) {
-		// DataBaseQueryBuilder groupQuery = new
-		// DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
-		// groupQuery.and(RoleGroup.ID, u.getGroupId());
-		// groupQuery.limitColumns(new String[] { RoleGroup.INDEX_PAGE });
-		// RoleGroup group = (RoleGroup) this.dao.findOneByQuery(groupQuery,
-		// RoleGroup.class);
-		// if (group != null && group.getIndexPage() != null) {
-		// u.setIndexPage(group.getIndexPage());
-		// }
-		// }
-		// }
-		//
-		// if (fromApp) {
-		// // query field return to client
-		// nameQuery.limitColumns(new String[] { User.DEFAULT_ADDRESS,
-		// User.EMAIL, User.MOBILE_NUMBER, User.USER_NAME, User.NAME, User.SEX,
-		// User.AGE, User.ID, User.USER_CITY_NAME, User.STATUS });
-		//
-		//
-		// u.setUserId(u.getId());
-		//
-		// u = loadUserInfoForApp(u);
-		// }
+		
 		return u;
 	}
 
