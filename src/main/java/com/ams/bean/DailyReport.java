@@ -152,7 +152,6 @@ public class DailyReport extends BaseEntity {
 		comment.setUserName("经理一");
 		comment.setUserId("");
 		comment.setComment("计划安排不详细");
-		comment.setCommentDate(new Date());
 		comment.setDailyReportId("");
 
 		System.out.println(comment.toString());

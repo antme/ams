@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ams.bean.DailyReport;
+import com.ams.bean.DailyReportComment;
 import com.ams.bean.Project;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.service.IProjectService;
@@ -98,5 +99,14 @@ public class ProjectController extends AbstractController {
 		parserJsonParameters(request, true);
 		responseWithDataPagnation(projectService.listDailyReport(), request, response);
 	}
+	
+	@RequestMapping("/dailyreport/comment/add.do")
+	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
+	public void addDailyReportComment(HttpServletRequest request, HttpServletResponse response) {
+		DailyReportComment comment = (DailyReportComment)  parserJsonParameters(request, false, DailyReportComment.class);
+		projectService.addDailyReportComment(comment);
+		responseWithData(null, request, response);
+	}
+	
 
 }
