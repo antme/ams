@@ -135,10 +135,10 @@ public class UserController extends AbstractController {
 			pic.setUserId(EWeblibThreadLocal.getCurrentUserId());
 		}
 		
-		if (EweblibUtil.isEmpty(pic.getUserId())) {
-			
+		if (EweblibUtil.isEmpty(pic.getUserId())) {			
 			throw new ResponseException("请先登录");
 		}
+		
 		for (int i = 0; i < images; i++) {
 			pic.setPicUrl(uploadFile(request, relativeFilePath, "picData" + i));
 			userService.addPic(pic);
