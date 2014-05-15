@@ -4,6 +4,7 @@
 <br>
 <div class="p_height_div"></div>
 <button onclick="loadRemotePage('project/add');">新增</button>
+<button onclick="loadRemotePage('salary/add');">新增工资</button>
 <table id=projectList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>

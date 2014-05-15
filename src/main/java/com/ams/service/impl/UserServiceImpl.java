@@ -11,6 +11,7 @@ import com.ams.bean.AmsUser;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Pic;
+import com.ams.bean.Salary;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -107,7 +108,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		builder.limitColumns(new String[] { User.ID, User.USER_NAME });
 		User u = (User) dao.findOneByQuery(builder, User.class);
-		
+
 		return u;
 	}
 
@@ -304,7 +305,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public EntityResults<AmsUser> listUserForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
 
-		builder.limitColumns(new String[]{User.USER_NAME, AmsUser.USER_CODE, AmsUser.MOBILE_NUMBER, AmsUser.ID});
+		builder.limitColumns(new String[] { User.USER_NAME, AmsUser.USER_CODE, AmsUser.MOBILE_NUMBER, AmsUser.ID });
 		EntityResults<AmsUser> userList = this.dao.listByQueryWithPagnation(builder, AmsUser.class);
 
 		for (AmsUser user : userList.getEntityList()) {
@@ -316,22 +317,22 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return userList;
 
 	}
-	
-	public void addDepartment(Department dep){
-		
-		if(EweblibUtil.isValid(dep.getId())){
+
+	public void addDepartment(Department dep) {
+
+		if (EweblibUtil.isValid(dep.getId())) {
 			this.dao.updateById(dep);
-		}else{
+		} else {
 			this.dao.insert(dep);
 		}
 	}
-	
+
 	public EntityResults<Department> listDepartments(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
 
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
-	
+
 	public void addTeam(Team dep) {
 		if (EweblibUtil.isValid(dep.getId())) {
 			this.dao.updateById(dep);
@@ -345,44 +346,59 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return this.dao.listByQueryWithPagnation(builder, Team.class);
 	}
-	
-	
-	public void addCustomer(Customer customer){
-		
-		if(EweblibUtil.isValid(customer.getId())){
+
+	public void addCustomer(Customer customer) {
+
+		if (EweblibUtil.isValid(customer.getId())) {
 			this.dao.updateById(customer);
-		}else{
+		} else {
 			this.dao.insert(customer);
 		}
-			
+
 	}
 
-	public EntityResults<Customer> listCustomersForApp(SearchVo vo){
-		
+	public EntityResults<Customer> listCustomersForApp(SearchVo vo) {
+
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
-		
-		builder.limitColumns(new String[]{Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION});
-		
+
+		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
+
 		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
 
 		for (Customer customer : customerList.getEntityList()) {
-			
+
 			customer.setProjects("项目1， 项目2");
 		}
 
 		return customerList;
-		
+
 	}
-	
-	public void addPic(Pic pic){
-		
+
+	public void addPic(Pic pic) {
+
 		this.dao.insert(pic);
 	}
 
-	public EntityResults<Pic> listPics(SearchVo vo){
+	public EntityResults<Pic> listPics(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
 
 		return this.dao.listByQueryWithPagnation(builder, Pic.class);
+	}
+
+	public EntityResults<Salary> listUserSalaries(SearchVo vo) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
+		builder.join(Salary.TABLE_NAME, AmsUser.TABLE_NAME, Salary.USER_ID, AmsUser.ID);
+		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
+
+		builder.limitColumns(new String[] { Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
+
+		return this.dao.listByQueryWithPagnation(builder, Salary.class);
+	}
+
+	public void addSalart(Salary salary) {
+		salary.setUserId(EWeblibThreadLocal.getCurrentUserId());
+		this.dao.insert(salary);
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Pic;
+import com.ams.bean.Salary;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -149,6 +150,25 @@ public class UserController extends AbstractController {
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
 		responseWithDataPagnation(userService.listPics(vo), request, response);
 	}
+	
+	
+	@RequestMapping("/salary/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addSalary(HttpServletRequest request, HttpServletResponse response) {
+		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
+		userService.addSalart(salary);
+		responseWithData(null, request, response);
+	}
+	
+	
+	@RequestMapping("/salary/app/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listUserSalaries(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listUserSalaries(vo), request, response);
+	}
+	
+	
 	
 	
 }

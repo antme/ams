@@ -6,6 +6,7 @@ import com.ams.bean.AmsUser;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Pic;
+import com.ams.bean.Salary;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
@@ -26,26 +27,17 @@ public interface IUserService {
 
 	public EntityResults<User> listForAdmin(SearchVo vo);
 
-
-
-
 	public void resetPwd(User user);
 
 	public User loadUserInfo(User user);
-
 
 	public void lockUserById(BaseEntity be);
 
 	public void unlockUserById(BaseEntity be);
 
-
 	public List<String> listUserAccessMenuIds();
 
-
-
-
 	public void checkUserName(String userName);
-
 
 	public boolean inRole(String groupIds, String roleId);
 
@@ -66,5 +58,9 @@ public interface IUserService {
 	public void addPic(Pic pic);
 
 	public EntityResults<Pic> listPics(SearchVo vo);
+
+	public EntityResults<Salary> listUserSalaries(SearchVo vo);
+
+	public void addSalart(Salary salary);
 
 }

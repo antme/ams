@@ -23,6 +23,23 @@ CREATE TABLE `User` (
 
 
 
+CREATE TABLE `Salary` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) NOT NULL,
+  `totalSalary` double DEFAULT NULL,
+  `deductedSalary` double DEFAULT NULL,
+  `remainingSalaray` double DEFAULT NULL,
+  `year` int DEFAULT 0,
+  `month` int DEFAULT 0,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 CREATE TABLE `Notice` (
   `id` varchar(36) NOT NULL,
   `title` varchar(255) NOT NULL,

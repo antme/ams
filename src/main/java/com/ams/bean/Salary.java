@@ -1,6 +1,5 @@
 package com.ams.bean;
 
-import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -10,6 +9,8 @@ import com.eweblib.bean.BaseEntity;
 
 @Table(name = Salary.TABLE_NAME)
 public class Salary extends BaseEntity {
+
+	public static final String USER_ID = "userId";
 
 	public static final String REMAINING_SALARAY = "remainingSalaray";
 
@@ -25,11 +26,9 @@ public class Salary extends BaseEntity {
 
 	public static final String TABLE_NAME = "Salary";
 
-	@Column(name = "userId")
+	@Column(name = USER_ID)
 	public String userId;
 
-	@Column(name = "userName")
-	public String userName;
 
 	@Column(name = TOTAL_SALARY)
 	public Double totalSalary;
@@ -46,7 +45,8 @@ public class Salary extends BaseEntity {
 	@Column(name = MONTH)
 	public Integer month;
 
-	
+	public String userName;
+
 
 	public String getUserId() {
 		return userId;
