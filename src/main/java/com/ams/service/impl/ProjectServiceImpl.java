@@ -12,8 +12,10 @@ import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
+import com.ams.bean.Task;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.service.IProjectService;
+import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.service.AbstractService;
@@ -41,14 +43,61 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	}
 
 	@Override
-	public List<Project> listProjectsForAppDailyReport() {
+	public List<Task> listProjectTasksForAppDailyReport() {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
-		List<Project> projects = this.dao.listByQuery(builder, Project.class);
+		List<Task> projects = this.dao.listByQuery(builder, Task.class);
 
-		for (Project project : projects) {
+		for (Task task : projects) {
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(task.getProjectStartDate());
+			int startDay = c.get(Calendar.DAY_OF_YEAR);
+
+			c.setTime(task.getProjectEndDate());
+			int endDay = c.get(Calendar.DAY_OF_YEAR);
+
+			c.setTime(new Date());
+			int currentDay = c.get(Calendar.DAY_OF_YEAR);
+
+			task.setProjectTotalDays((endDay - startDay));
+
+			task.setProjectRemainingDays(endDay - currentDay);
+			task.setProjectUsedDays(currentDay - startDay);
+
+			task.setUserWorkedDays(2d);
+			
+			
+			task.setTaskName("任务一号");
+			task.setAmountDescription("4000㎡");
+			task.setPriceDescription("1.2元");
+			
+			task.setTeamName("施工队一号");
+			task.setMemebers("张三，李四");
+			task.setDescription("");
+			
+
+		}
+		
+		
+
+		return projects;
+
+	}
+	
+	
+	public EntityResults<Task> listProjectTasks(){
+
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
+
+		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
+		EntityResults<Task> projects = this.dao.listByQueryWithPagnation(builder, Task.class);
+
+		
+		for (Task project : projects.getEntityList()) {
 
 			Calendar c = Calendar.getInstance();
 			c.setTime(project.getProjectStartDate());
@@ -64,13 +113,25 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 			project.setProjectRemainingDays(endDay - currentDay);
 			project.setProjectUsedDays(currentDay - startDay);
-
-			project.setUserWorkedDays(2d);
+		
+			
+			project.setTaskName("任务一号");
+			project.setAmountDescription("4000㎡");
+			project.setPriceDescription("1.2元");
+			
+			project.setTeamName("施工队一号");
+			project.setMemebers("张三，李四");
+			project.setDescription("");
+			
+			
 
 		}
+		
+		
 
 		return projects;
 
+	
 	}
 
 	public DailyReport addDailyReport(DailyReportVo vo, List<String> pics) {

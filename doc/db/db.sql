@@ -152,6 +152,7 @@ CREATE TABLE `DailyReport` (
   `id` varchar(36) NOT NULL,
   `projectId` varchar(36) DEFAULT NULL,
   `userId` varchar(36) DEFAULT NULL,
+  `taskId` varchar(36) default null
   `weather` varchar(255) NOT NULL,
   `materialRecord` TEXT DEFAULT NULL,
   `workingRecord` TEXT DEFAULT NULL,
@@ -187,6 +188,6 @@ CREATE TABLE `DailyReportComment` (
 
 
 
-
+alter table dailyReport add column taskId varchar(36) default null;
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('05c07bcc-833e-4b22-a8be-3c3a63609ac8','admin','96e79218965eb72c92a549dd5a330112',now(),now());
 update User set mobileNumber="11111111", userCode="A000001";

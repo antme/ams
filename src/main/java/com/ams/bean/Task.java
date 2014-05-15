@@ -2,31 +2,123 @@ package com.ams.bean;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+
 import com.eweblib.bean.BaseEntity;
 
 public class Task extends BaseEntity {
+	
+	public static final String TASK_NAME = "taskName";
 
+	public static final String PROJECT_USED_DAYS = "projectUsedDays";
+
+	public static final String PROJECT_REMAINING_DAYS = "projectRemainingDays";
+
+	public static final String PROJECT_TOTAL_DAYS = "projectTotalDays";
+
+	public static final String PROJECT_END_DATE = "projectEndDate";
+
+	public static final String PROJECT_START_DATE = "projectStartDate";
+
+	public static final String PROJECT_NAME = "projectName";
+
+	public static final String TABLE_NAME = "Task";
+	
+	@Column(name = TASK_NAME)
+	public String taskName;
+	
+	@Column(name = "projectId")
+	public String projectId;
+
+	@Column(name = "teamId")
+	public String teamId;
+
+	public String unit;
+
+	public Double price;
+	
+	public Double amount;
+	
+	public String description;
+
+	public String amountDescription;
+	public String priceDescription;
+
+	public String teamName;
+
+	public String memebers;
+	
 	public String projectName;
 
 	public Date projectStartDate;
 
 	public Date projectEndDate;
 
-	public String teamName;
+	public Integer projectTotalDays;
 
-	public String memebers;
+	public Integer projectRemainingDays;
 
-	public String unit;
+	public Integer projectUsedDays;
+	
+	public Double userWorkedDays;
 
-	public Double amount;
+	
+	
+	public String getTaskName() {
+		return taskName;
+	}
 
-	public Double price;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
 
-	public String priceDescription;
+	public String getProjectId() {
+		return projectId;
+	}
 
-	public String amountDescription;
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
 
-	public String description;
+	public String getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(String teamId) {
+		this.teamId = teamId;
+	}
+
+	public Integer getProjectTotalDays() {
+		return projectTotalDays;
+	}
+
+	public void setProjectTotalDays(Integer projectTotalDays) {
+		this.projectTotalDays = projectTotalDays;
+	}
+
+	public Integer getProjectRemainingDays() {
+		return projectRemainingDays;
+	}
+
+	public void setProjectRemainingDays(Integer projectRemainingDays) {
+		this.projectRemainingDays = projectRemainingDays;
+	}
+
+	public Integer getProjectUsedDays() {
+		return projectUsedDays;
+	}
+
+	public void setProjectUsedDays(Integer projectUsedDays) {
+		this.projectUsedDays = projectUsedDays;
+	}
+
+	public Double getUserWorkedDays() {
+		return userWorkedDays;
+	}
+
+	public void setUserWorkedDays(Double userWorkedDays) {
+		this.userWorkedDays = userWorkedDays;
+	}
 
 	public String getProjectName() {
 		return projectName;

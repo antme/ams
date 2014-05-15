@@ -32,6 +32,9 @@ public class DailyReport extends BaseEntity {
 
 	@Column(name = PROJECT_ID)
 	public String projectId;
+	
+	@Column(name = "taskId")
+	public String taskId;
 
 	@Column(name = USER_ID)
 	public String userId;
@@ -57,8 +60,14 @@ public class DailyReport extends BaseEntity {
 	@Column(name = IS_COMMENTED)
 	public Boolean isCommented;
 	
-	
-	
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
+	}
 
 	public String getProjectId() {
 		return projectId;

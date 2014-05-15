@@ -49,10 +49,16 @@ public class ProjectController extends AbstractController {
 		responseWithDataPagnation(projectService.listProjects(), request, response);
 	}
 	
-	@RequestMapping("/app/report/list.do")
+	@RequestMapping("/app/task/select.do")
 	public void listProjectsForApp(HttpServletRequest request, HttpServletResponse response) {
 		parserJsonParameters(request, true);
-		responseWithListData(projectService.listProjectsForAppDailyReport(), request, response);
+		responseWithListData(projectService.listProjectTasksForAppDailyReport(), request, response);
+	}
+	
+	@RequestMapping("/app/task/list.do")
+	public void listTasksForApp(HttpServletRequest request, HttpServletResponse response) {
+		parserJsonParameters(request, true);
+		responseWithDataPagnation(projectService.listProjectTasks(), request, response);
 	}
 	
 	
@@ -68,8 +74,8 @@ public class ProjectController extends AbstractController {
 		if (EweblibUtil.isEmpty(report.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
-		if (EweblibUtil.isEmpty(report.getProjectId())) {
-			throw new ResponseException("请先选择项目");
+		if (EweblibUtil.isEmpty(report.getTaskId())) {
+			throw new ResponseException("请先选择任务");
 		}
 
 		Integer images = report.getImagesCount();
