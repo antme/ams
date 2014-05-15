@@ -71,12 +71,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			
 			
 			task.setTaskName("任务一号");
-			task.setAmountDescription("4000㎡");
-			task.setPriceDescription("1.2元");
-			
-			task.setTeamName("施工队一号");
-			task.setMemebers("张三，李四");
-			task.setDescription("");
+		
 			
 
 		}
