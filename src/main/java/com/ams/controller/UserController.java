@@ -33,9 +33,6 @@ public class UserController extends AbstractController {
 	//_User used in AbstractController.removeSessionInfo
 	public static final String IMG_CODE = "imgCode_User";
 	public static final String REG_CODE = "regCode_User";
-	private static final String FORGET_PWD_IMG_CODE = "pwdImgCode_User";
-	private static final String FORGET_PWD_SMS_CODE = "pwdSmsCode_User";
-	private static final String FORGET_PWD_MOBILE_PHONE = "pwdMobilePhone_User";
 
 	@Autowired
 	private IUserService userService;

@@ -110,7 +110,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.join(DailyReport.TABLE_NAME, AmsUser.TABLE_NAME, DailyReport.USER_ID, AmsUser.ID);
 		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
 
-		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY, DailyReport.REPORT_DAY,
+		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY, DailyReport.REPORT_DAY,
 		        DailyReport.CREATED_ON });
 
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
