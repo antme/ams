@@ -415,5 +415,26 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
+	
+	
+	public List<Team> listTeamsForApp(Team team){
+		
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
+		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
+		
+		builder.limitColumns(new String[]{Team.ID, Team.TEAM_DESCRIPTION, Team.TEAM_NAME});
+		
+		builder.and(Team.DEPARTMENT_ID, team.getDepartmentId());
+		
+		List<Team> teams =  this.dao.listByQuery(builder, Team.class);
+		
+		for(Team t: teams){
+			t.setMembersNumber((int)(Math.random() * 100));
+		}
+		
+		return teams;
+		
+	}
 
 }

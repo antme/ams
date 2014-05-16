@@ -7,9 +7,15 @@ import com.eweblib.bean.BaseEntity;
 
 @Table(name = Team.TABLE_NAME)
 public class Team extends BaseEntity {
+	public static final String DEPARTMENT_ID = "departmentId";
+
+	public static final String TEAM_DESCRIPTION = "teamDescription";
+
+	public static final String TEAM_NAME = "teamName";
+
 	public static final String TABLE_NAME = "Team";
 
-	@Column(name = "teamName")
+	@Column(name = TEAM_NAME)
 	public String teamName;
 
 	@Column(name = "teamLeaderId")
@@ -18,11 +24,17 @@ public class Team extends BaseEntity {
 	@Column(name = "projectId")
 	public String projectId;
 	
-	@Column(name = "departmentId")
+	@Column(name = DEPARTMENT_ID)
 	public String departmentId;
 
-	@Column(name = "teamDescription")
+	@Column(name = TEAM_DESCRIPTION)
 	public String teamDescription;
+	
+	
+	
+	public String departmentName;
+	
+	public Integer membersNumber;
 
 	public String getTeamName() {
 		return teamName;
@@ -64,6 +76,23 @@ public class Team extends BaseEntity {
 	public void setDepartmentId(String departmentId) {
 		this.departmentId = departmentId;
 	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
+	public Integer getMembersNumber() {
+		return membersNumber;
+	}
+
+	public void setMembersNumber(Integer membersNumber) {
+		this.membersNumber = membersNumber;
+	}
+	
 	
 	
 

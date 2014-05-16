@@ -68,4 +68,6 @@ public interface IUserService {
 
 	public EntityResults<Department> listDepartmentsForApp(SearchVo vo);
 
+	public List<Team> listTeamsForApp(Team team);
+
 }

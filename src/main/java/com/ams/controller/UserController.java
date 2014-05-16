@@ -73,7 +73,7 @@ public class UserController extends AbstractController {
 	@RequestMapping("/department/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listDepartments(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		SearchVo vo = (SearchVo) parserJsonParameters(request, true, SearchVo.class);
 		responseWithDataPagnation(userService.listDepartments(vo), request, response);
 	}
 	
@@ -98,6 +98,19 @@ public class UserController extends AbstractController {
 	public void listTeams(HttpServletRequest request, HttpServletResponse response) {
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
 		responseWithDataPagnation(userService.listTeams(vo), request, response);
+	}
+	
+	
+	@RequestMapping("/team/app/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listTeamsForApp(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		Team team  = (Team) parserJsonParameters(request, false, Team.class);
+		
+		if(EweblibUtil.isEmpty(team.getDepartmentId())){
+			throw new ResponseException("请先选择部门");
+		}
+		responseWithListData(userService.listTeamsForApp(team), request, response);
 	}
 	
 	
