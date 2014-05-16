@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
+import com.ams.bean.Task;
 
 public class DailyReportVo extends DailyReport {
 
@@ -19,6 +20,18 @@ public class DailyReportVo extends DailyReport {
 	public Integer imagesCount;
 	
 	
+	public Task taskInfo;
+
+
+	
+
+	public Task getTaskInfo() {
+		return taskInfo;
+	}
+
+	public void setTaskInfo(Task taskInfo) {
+		this.taskInfo = taskInfo;
+	}
 
 	public Integer getImagesCount() {
 		return imagesCount;

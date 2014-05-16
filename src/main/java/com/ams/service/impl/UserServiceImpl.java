@@ -12,6 +12,7 @@ import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
+import com.ams.bean.SalaryDetail;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -399,6 +400,12 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public void addSalart(Salary salary) {
 		salary.setUserId(EWeblibThreadLocal.getCurrentUserId());
 		this.dao.insert(salary);
+	}
+	
+	public Salary getSalaryDetail(Salary salary){
+		
+		
+		return null;
 	}
 
 }

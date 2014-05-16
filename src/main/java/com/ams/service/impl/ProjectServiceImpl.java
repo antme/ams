@@ -184,6 +184,39 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			vo.setPics(picUrls);
 			
 			
+			DataBaseQueryBuilder pbuilder = new DataBaseQueryBuilder(Project.TABLE_NAME);
+
+			pbuilder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
+			List<Task> projects = this.dao.listByQuery(pbuilder, Task.class);
+
+			for (Task task : projects) {
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(task.getProjectStartDate());
+				int startDay = c.get(Calendar.DAY_OF_YEAR);
+
+				c.setTime(task.getProjectEndDate());
+				int endDay = c.get(Calendar.DAY_OF_YEAR);
+
+				c.setTime(new Date());
+				int currentDay = c.get(Calendar.DAY_OF_YEAR);
+
+				task.setProjectTotalDays((endDay - startDay));
+
+				task.setProjectRemainingDays(endDay - currentDay);
+				task.setProjectUsedDays(currentDay - startDay);
+
+				task.setUserWorkedDays(2d);
+				
+				
+				task.setTaskName("任务一号");
+
+			}
+			
+			if (projects != null && projects.size() > 0) {
+				vo.setTaskInfo(projects.get(0));
+			}
+
 			DataBaseQueryBuilder commentQuery = new DataBaseQueryBuilder(DailyReportComment.TABLE_NAME);
 			commentQuery.join(DailyReportComment.TABLE_NAME, AmsUser.TABLE_NAME, DailyReportComment.USER_ID, AmsUser.ID);
 			commentQuery.joinColumns(AmsUser.TABLE_NAME, new String[]{AmsUser.USER_NAME});

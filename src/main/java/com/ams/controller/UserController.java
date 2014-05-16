@@ -161,6 +161,16 @@ public class UserController extends AbstractController {
 	}
 	
 	
+	@RequestMapping("/salary/app/detail.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void getSalaryDetail(HttpServletRequest request, HttpServletResponse response) {
+		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
+		userService.getSalaryDetail(salary);
+		responseWithData(null, request, response);
+	}
+	
+	
+	
 	@RequestMapping("/salary/app/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listUserSalaries(HttpServletRequest request, HttpServletResponse response) {

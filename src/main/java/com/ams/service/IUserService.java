@@ -7,6 +7,7 @@ import com.ams.bean.Customer;
 import com.ams.bean.Department;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
+import com.ams.bean.SalaryDetail;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
@@ -62,5 +63,7 @@ public interface IUserService {
 	public EntityResults<Salary> listUserSalaries(SearchVo vo);
 
 	public void addSalart(Salary salary);
+
+	public Salary getSalaryDetail(Salary salary);
 
 }
