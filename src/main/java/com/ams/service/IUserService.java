@@ -66,4 +66,6 @@ public interface IUserService {
 
 	public Salary getSalaryDetail(Salary salary);
 
+	public EntityResults<Department> listDepartmentsForApp(SearchVo vo);
+
 }

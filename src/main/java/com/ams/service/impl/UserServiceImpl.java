@@ -407,5 +407,13 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		
 		return null;
 	}
+	
+	
+	public EntityResults<Department> listDepartmentsForApp(SearchVo vo){
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
+		builder.limitColumns(new String[]{Department.ID, Department.DEPARTMENT_NAME});
+
+		return this.dao.listByQueryWithPagnation(builder, Department.class);
+	}
 
 }

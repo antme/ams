@@ -9,9 +9,11 @@ import com.eweblib.bean.BaseEntity;
 public class Department extends BaseEntity {
 
 	
+	public static final String DEPARTMENT_NAME = "departmentName";
+
 	public static final String TABLE_NAME = "Department";
 	
-	@Column(name = "departmentName")
+	@Column(name = DEPARTMENT_NAME)
 	public String departmentName;
 
 	@Column(name = "departmentDescription")

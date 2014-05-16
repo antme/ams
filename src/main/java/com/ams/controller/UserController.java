@@ -77,6 +77,13 @@ public class UserController extends AbstractController {
 		responseWithDataPagnation(userService.listDepartments(vo), request, response);
 	}
 	
+	@RequestMapping("/department/app/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listDepartmentsForApp(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listDepartmentsForApp(vo), request, response);
+	}
+	
 
 	@RequestMapping("/team/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
