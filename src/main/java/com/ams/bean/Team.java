@@ -31,10 +31,13 @@ public class Team extends BaseEntity {
 	public String teamDescription;
 	
 	
+	public String workTimePeriod;
 	
 	public String departmentName;
 	
 	public Integer membersNumber;
+	
+	public String[] teamMemberIds;
 
 	public String getTeamName() {
 		return teamName;
@@ -91,6 +94,22 @@ public class Team extends BaseEntity {
 
 	public void setMembersNumber(Integer membersNumber) {
 		this.membersNumber = membersNumber;
+	}
+
+	public String[] getTeamMemberIds() {
+		return teamMemberIds;
+	}
+
+	public void setTeamMemberIds(String[] teamMemberIds) {
+		this.teamMemberIds = teamMemberIds;
+	}
+
+	public String getWorkTimePeriod() {
+		return workTimePeriod;
+	}
+
+	public void setWorkTimePeriod(String workTimePeriod) {
+		this.workTimePeriod = workTimePeriod;
 	}
 	
 	

@@ -3,8 +3,10 @@ package com.ams.service;
 import java.util.List;
 
 import com.ams.bean.AmsUser;
+import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryDetail;
@@ -69,5 +71,9 @@ public interface IUserService {
 	public EntityResults<Department> listDepartmentsForApp(SearchVo vo);
 
 	public List<Team> listTeamsForApp(Team team);
+
+	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team);
+
+	public void addAttendance(List<Attendance> attendanceList);
 
 }

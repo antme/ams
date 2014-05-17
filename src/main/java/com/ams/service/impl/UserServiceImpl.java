@@ -1,18 +1,22 @@
 package com.ams.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.AmsUser;
+import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
-import com.ams.bean.SalaryDetail;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -340,6 +344,23 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		} else {
 			this.dao.insert(dep);
 		}
+
+		
+		//删除原来的队员
+		String[] members = dep.getTeamMemberIds();
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		query.and(EmployeeTeam.TEAM_ID, dep.getId());
+		this.dao.deleteByQuery(query);
+
+		if (members != null) {
+			for (String id : members) {
+				EmployeeTeam et = new EmployeeTeam();
+				et.setUserId(id);
+				et.setTeamId(dep.getId());
+				this.dao.insert(et);
+			}
+		}
 	}
 
 	public EntityResults<Team> listTeams(SearchVo vo) {
@@ -431,10 +452,48 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		
 		for(Team t: teams){
 			t.setMembersNumber((int)(Math.random() * 100));
+			t.setWorkTimePeriod("早上9:00-12:00,下午15:00-20:00");
 		}
 		
 		return teams;
 		
+	}
+
+	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		query.and(EmployeeTeam.TEAM_ID, team.getTeamId());
+		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
+
+		Set<String> userIds = new HashSet<String>();
+
+		for (EmployeeTeam et : ets) {
+			userIds.add(et.getUserId());
+		}
+
+		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
+		atquery.join(AmsUser.TABLE_NAME, Attendance.TABLE_NAME, AmsUser.ID, Attendance.USER_ID);
+		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE,
+		        Attendance.ATTENDANCE_TIME_SELECT_TYPE, Attendance.ATTENDANCE_TYPE, Attendance.TIME });
+
+		if (team.getAttendanceDate() != null) {
+			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
+		}
+		
+		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, team.getTeamId());
+
+		atquery.limitColumns(new String[] { AmsUser.USER_NAME,  AmsUser.ID + "," + Attendance.USER_ID });
+		atquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
+
+		return this.dao.listByQuery(atquery, Attendance.class);
+
+	}
+	
+	public void addAttendance(List<Attendance> attendanceList) {
+
+		for (Attendance attendance : attendanceList) {
+			this.dao.insert(attendance);
+		}
 	}
 
 }

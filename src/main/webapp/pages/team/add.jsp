@@ -53,6 +53,22 @@
 					}"></input>
 			</div>
 			<div>
+				<span>团队成员：</span> <select id="teamMemberIds" class="easyui-combogrid" name="teamMemberIds[]" style="width:250px;"
+								        data-options="
+								            panelWidth:450,
+								            idField:'id',
+								            multiple: true,
+								            textField:'userName',
+								            fitColumns: true,
+								            url:'/ams/user/app/list.do?userId=',
+								            columns:[[
+								            	{field:'ck',checkbox:true},
+								                {field:'userName',title:'用户名',width:60},
+								                {field:'id',title:'Id',width:100, hidden:true}
+								            ]]
+								        "></select>
+			</div>
+			<div>
 				<span>描述:</span>
 				<textarea class="easyui-validatebox textbox" name="teamDescription" ></textarea>
 			</div>

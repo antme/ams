@@ -22,6 +22,25 @@ CREATE TABLE `User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `Attendance` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) NOT NULL,
+  `operatorId` varchar(36) DEFAULT NULL,
+  `teamId` varchar(36) DEFAULT NULL,
+  `attendanceTimeSelectType` int DEFAULT 0,
+  `time` double DEFAULT NULL,
+  `attendanceDate` DATE DEFAULT NULL,
+  `attendanceType` int DEFAULT 0,
+  `attendanceDayType` int DEFAULT 0,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  `status` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 CREATE TABLE `Salary` (
   `id` varchar(36) NOT NULL,
@@ -196,8 +215,7 @@ CREATE TABLE `DailyReportComment` (
   `commentDate` datetime DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
-  `creatorId` varchar(36) DEFAULT NULL,
-  `status` int(11) DEFAULT 0,
+  `creatorId` varchar(36) DEFAULT NULL
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -205,6 +223,25 @@ CREATE TABLE `DailyReportComment` (
 
 
 
+
+CREATE TABLE `EmployeeTeam` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `teamId` varchar(36) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
 alter table dailyReport add column taskId varchar(36) default null;
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('05c07bcc-833e-4b22-a8be-3c3a63609ac8','admin','96e79218965eb72c92a549dd5a330112',now(),now());
 update User set mobileNumber="11111111", userCode="A000001";
+
+
+INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('12c07bcc-833e-4b22-a8be-3c3a63609ac8','dylan','96e79218965eb72c92a549dd5a330112',now(),now());

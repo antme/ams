@@ -1,5 +1,7 @@
 package com.ams.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
 import com.ams.bean.Team;
@@ -111,6 +115,27 @@ public class UserController extends AbstractController {
 			throw new ResponseException("请先选择部门");
 		}
 		responseWithListData(userService.listTeamsForApp(team), request, response);
+	}
+	
+	
+	@RequestMapping("/team/memebers/app/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listTeamMemebersForApp(HttpServletRequest request, HttpServletResponse response) {
+		EmployeeTeam team  = (EmployeeTeam) parserJsonParameters(request, false, EmployeeTeam.class);
+		
+		if(EweblibUtil.isEmpty(team.getTeamId())){
+			throw new ResponseException("请先选择团队");
+		}
+		responseWithListData(userService.listTeamMemebersForApp(team), request, response);
+	}
+	
+	
+	@RequestMapping("/attendance/app/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addAttendance(HttpServletRequest request, HttpServletResponse response) {
+		List<Attendance> attendanceList =  parserListJsonParameters(request,  false, Attendance.class);
+		userService.addAttendance(attendanceList);
+		responseWithData(null, request, response);
 	}
 	
 	
