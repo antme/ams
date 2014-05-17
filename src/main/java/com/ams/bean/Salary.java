@@ -47,6 +47,7 @@ public class Salary extends BaseEntity {
 
 	public String userName;
 
+	
 
 	public String getUserId() {
 		return userId;

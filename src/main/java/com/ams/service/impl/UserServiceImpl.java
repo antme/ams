@@ -424,6 +424,12 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	}
 	
 	public Salary getSalaryDetail(Salary salary){
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
+		builder.limitColumns(new String[] { Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
+		builder.and(Salary.ID, salary.getId());
+		
+		salary = (Salary) this.dao.findOneByQuery(builder, Salary.class);
+		
 		
 		
 		return null;
@@ -494,7 +500,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			userquery.limitColumns(new String[] { AmsUser.USER_NAME,  AmsUser.ID + "," + Attendance.USER_ID });
 			userquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
 			
-			result = this.dao.listByQuery(atquery, Attendance.class);
+			result = this.dao.listByQuery(userquery, Attendance.class);
 		}
 		
 		return result;
