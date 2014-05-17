@@ -9,7 +9,7 @@ import com.ams.bean.Department;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
-import com.ams.bean.SalaryDetail;
+import com.ams.bean.SalaryItem;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;

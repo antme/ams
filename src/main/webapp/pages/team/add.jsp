@@ -17,6 +17,14 @@
 				<span>团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
 			</div>
 			<div>
+				<p></p>
+				<input/><span>小时:</span><input/>分钟：
+				
+				
+				
+				<p></p>
+			</div>
+			<div>
 				<span>所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
 					data-options="url:'/ams/user/department/list.do',
                     method:'get',

@@ -245,6 +245,6 @@ update User set mobileNumber="11111111", userCode="A000001";
 
 
 alter table Attendance add column hours int default 0;
-alert table Attendance add column minutes int default 0;
+alter table Attendance add column minutes int default 0;
 
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('12c07bcc-833e-4b22-a8be-3c3a63609ac8','dylan','96e79218965eb72c92a549dd5a330112',now(),now());

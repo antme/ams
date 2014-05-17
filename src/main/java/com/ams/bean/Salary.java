@@ -1,5 +1,6 @@
 package com.ams.bean;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -49,6 +50,12 @@ public class Salary extends BaseEntity {
 
 	
 
+	public List<SalaryItem> salaryItems;
+	
+	public List<SalaryItem> deductedSalaryItems;
+	
+	
+	
 	public String getUserId() {
 		return userId;
 	}

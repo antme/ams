@@ -429,9 +429,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.and(Salary.ID, salary.getId());
 		
 		salary = (Salary) this.dao.findOneByQuery(builder, Salary.class);
-		
-		
-		
+	
 		return null;
 	}
 	

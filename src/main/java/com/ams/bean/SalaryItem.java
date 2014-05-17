@@ -7,8 +7,8 @@ import javax.persistence.Table;
 
 import com.eweblib.bean.BaseEntity;
 
-@Table(name = SalaryDetail.TABLE_NAME)
-public class SalaryDetail extends BaseEntity {
+@Table(name = SalaryItem.TABLE_NAME)
+public class SalaryItem extends BaseEntity {
 
 	public static final String COMMENT = "comment";
 	public static final String REMAINING_SALARAY = "remainingSalaray";
@@ -17,7 +17,7 @@ public class SalaryDetail extends BaseEntity {
 	public static final String ATTENDANCE_DAYS = "attendanceDays";
 	public static final String DISPAY_ORDER = "dispayOrder";
 	public static final String SALARY_ID = "salaryId";
-	public static final String TABLE_NAME = "SalaryDetail";
+	public static final String TABLE_NAME = "SalaryItem";
 	public static final String PROJECT_ID = "projectId";
 
 	@Column(name = SALARY_ID)
@@ -174,7 +174,7 @@ public class SalaryDetail extends BaseEntity {
 
 
 	public static void main(String args[]){
-		SalaryDetail sd = new SalaryDetail();
+		SalaryItem sd = new SalaryItem();
 		
 		sd.setId(UUID.randomUUID().toString());
 		sd.setAttendanceDays(12.5);
