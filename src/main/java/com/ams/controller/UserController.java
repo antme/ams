@@ -74,6 +74,14 @@ public class UserController extends AbstractController {
 		responseWithData(null, request, response);
 	}
 	
+	@RequestMapping("/department/load.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void loadDepartment(HttpServletRequest request, HttpServletResponse response) {
+		Department dep = (Department) parserJsonParameters(request, false, Department.class);
+
+		responseWithEntity(userService.loadDepartment(dep), request, response);
+	}
+	
 	@RequestMapping("/department/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listDepartments(HttpServletRequest request, HttpServletResponse response) {
@@ -210,8 +218,8 @@ public class UserController extends AbstractController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void getSalaryDetail(HttpServletRequest request, HttpServletResponse response) {
 		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
-		userService.getSalaryDetail(salary);
-		responseWithData(null, request, response);
+		
+		responseWithEntity(userService.getSalaryDetail(salary), request, response);
 	}
 	
 	

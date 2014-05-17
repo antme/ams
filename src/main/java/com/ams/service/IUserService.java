@@ -47,6 +47,9 @@ public interface IUserService {
 	public EntityResults<AmsUser> listUserForApp(SearchVo vo);
 
 	public void addDepartment(Department dep);
+	
+	public Department loadDepartment(Department dep);
+
 
 	public EntityResults<Department> listDepartments(SearchVo vo);
 
@@ -75,5 +78,6 @@ public interface IUserService {
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team);
 
 	public void addAttendance(List<Attendance> attendanceList);
+
 
 }

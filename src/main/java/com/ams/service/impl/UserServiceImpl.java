@@ -333,6 +333,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			this.dao.insert(dep);
 		}
 	}
+	
+	public Department loadDepartment(Department dep) {
+		return (Department) this.dao.findById(dep.getId(), Department.TABLE_NAME, Department.class);
+	}
 
 	public EntityResults<Department> listDepartments(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
@@ -427,7 +431,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public Salary getSalaryDetail(Salary salary) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
 		builder.limitColumns(new String[] { Salary.ID, Salary.MONTH, Salary.YEAR });
-		builder.and(Salary.USER_ID, salary.getUserId());
+		builder.and(Salary.ID, salary.getId());
 
 		salary = (Salary) this.dao.findOneByQuery(builder, Salary.class);
 		salary.setSalaryPerDay(200d);

@@ -13,6 +13,10 @@ function logout(){
 
 
 
+function formatterDepartmentOperation(val, row){
+	
+	return '<a href="#" onclick=loadRemotePage("department/add&id=' + row.id+ '")>' + val + '</a>';
+}
 function formatterNewsDetail(val, row){//新闻列表：查看新闻详情
 	return '<a href="#" onclick=openNewsDetailPage("' + row.id+ '")>' + val + '</a>';
 }
