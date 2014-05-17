@@ -12,11 +12,13 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Attendance.TABLE_NAME)
 public class Attendance extends BaseEntity {
 
+	public static final String MINUTES = "minutes";
+
+	public static final String HOURS = "hours";
+
 	public static final String TEAM_ID = "teamId";
 
-	public static final String TIME = "time";
 
-	public static final String ATTENDANCE_TIME_SELECT_TYPE = "attendanceTimeSelectType";
 
 	public static final String ATTENDANCE_TYPE = "attendanceType";
 
@@ -48,11 +50,11 @@ public class Attendance extends BaseEntity {
 	@Column(name = ATTENDANCE_TYPE)
 	public Integer attendanceType;
 
-	@Column(name = ATTENDANCE_TIME_SELECT_TYPE)
-	public Integer attendanceTimeSelectType;
+	@Column(name = HOURS)
+	public Integer hours;
 
-	@Column(name = TIME)
-	public Double time;
+	@Column(name = MINUTES)
+	public Integer minutes;
 
 	public String userName;
 
@@ -96,21 +98,7 @@ public class Attendance extends BaseEntity {
 		this.attendanceType = attendanceType;
 	}
 
-	public Integer getAttendanceTimeSelectType() {
-		return attendanceTimeSelectType;
-	}
-
-	public void setAttendanceTimeSelectType(Integer attendanceTimeSelectType) {
-		this.attendanceTimeSelectType = attendanceTimeSelectType;
-	}
-
-	public Double getTime() {
-		return time;
-	}
-
-	public void setTime(Double time) {
-		this.time = time;
-	}
+	
 
 	public String getUserName() {
 		return userName;
@@ -127,6 +115,24 @@ public class Attendance extends BaseEntity {
 	public void setTeamId(String teamId) {
 		this.teamId = teamId;
 	}
+	
+	
+
+	public Integer getHours() {
+		return hours;
+	}
+
+	public void setHours(Integer hours) {
+		this.hours = hours;
+	}
+
+	public Integer getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(Integer minutes) {
+		this.minutes = minutes;
+	}
 
 	public static void main(String args[]) {
 
@@ -135,24 +141,24 @@ public class Attendance extends BaseEntity {
 		Attendance ad = new Attendance();
 		ad.setAttendanceDate(new Date());
 		ad.setAttendanceDayType(0);
-		ad.setAttendanceTimeSelectType(1);
+		ad.setHours(1);
 		ad.setAttendanceType(0);
 		ad.setOperatorId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
 		ad.setUserId("12c07bcc-833e-4b22-a8be-3c3a63609ac8");
-		ad.setTeamId("1098fcd9-8f05-4b44-938f-071e000b923e");
-		ad.setTime(5d);
+		ad.setTeamId("4758847b-f81e-4047-b31a-9a758085a469");
+		ad.setMinutes(5);
 
 		list.add(ad);
 
 		ad = new Attendance();
 		ad.setAttendanceDate(new Date());
 		ad.setAttendanceDayType(0);
-		ad.setAttendanceTimeSelectType(1);
+		ad.setHours(1);
 		ad.setAttendanceType(0);
 		ad.setOperatorId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
 		ad.setUserId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
-		ad.setTeamId("1098fcd9-8f05-4b44-938f-071e000b923e");
-		ad.setTime(5d);
+		ad.setTeamId("4758847b-f81e-4047-b31a-9a758085a469");
+		ad.setMinutes(5);
 
 		list.add(ad);
 		System.out.println(list);

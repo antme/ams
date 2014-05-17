@@ -480,7 +480,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
 		atquery.join(AmsUser.TABLE_NAME, Attendance.TABLE_NAME, AmsUser.ID, Attendance.USER_ID);
 		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE,
-		        Attendance.ATTENDANCE_TIME_SELECT_TYPE, Attendance.ATTENDANCE_TYPE, Attendance.TIME });
+		        Attendance.MINUTES, Attendance.ATTENDANCE_TYPE, Attendance.HOURS });
 
 		if (team.getAttendanceDate() != null) {
 			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
