@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import com.ams.bean.AmsUser;
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
+import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
+import com.ams.bean.SalaryItem;
 import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
@@ -345,8 +347,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			this.dao.insert(dep);
 		}
 
-		
-		//删除原来的队员
+		// 删除原来的队员
 		String[] members = dep.getTeamMemberIds();
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
@@ -413,7 +414,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.join(Salary.TABLE_NAME, AmsUser.TABLE_NAME, Salary.USER_ID, AmsUser.ID);
 		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
 
-		builder.limitColumns(new String[] { Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
+		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
 
 		return this.dao.listByQueryWithPagnation(builder, Salary.class);
 	}
@@ -422,45 +423,85 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		salary.setUserId(EWeblibThreadLocal.getCurrentUserId());
 		this.dao.insert(salary);
 	}
-	
-	public Salary getSalaryDetail(Salary salary){
+
+	public Salary getSalaryDetail(Salary salary) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
-		builder.limitColumns(new String[] { Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
-		builder.and(Salary.ID, salary.getId());
-		
+		builder.limitColumns(new String[] { Salary.ID, Salary.MONTH, Salary.YEAR });
+		builder.and(Salary.USER_ID, salary.getUserId());
+
 		salary = (Salary) this.dao.findOneByQuery(builder, Salary.class);
-	
-		return null;
+		salary.setSalaryPerDay(200d);
+
+		List<SalaryItem> items = new ArrayList<SalaryItem>();
+		for (int i = 1; i < 8; i++) {
+
+			SalaryItem item = new SalaryItem();
+			item.setAttendanceDays((double) i);
+			item.setProjectName("project" + i);
+			item.setComment("备注" + i);
+			item.setTotolSalary((double) i * 200);
+			item.setPerformanceSalary((double) i * 100);
+			items.add(item);
+
+		}
+
+		double salaryTotal = 0;
+
+		for (SalaryItem item : items) {
+			salaryTotal += item.getTotolSalary();
+		}
+		salary.setTotalSalary(salaryTotal);
+
+		salary.setSalaryItems(items);
+
+		List<DeductedSalaryItem> ditems = new ArrayList<DeductedSalaryItem>();
+
+		for (int i = 1; i < 3; i++) {
+
+			DeductedSalaryItem item = new DeductedSalaryItem();
+			item.setComment("扣款备注" + i);
+			item.setName("扣款项" + i);
+			item.setTotolSalary((double) i * 100);
+			ditems.add(item);
+		}
+		salaryTotal = 0;
+
+		for (DeductedSalaryItem item : ditems) {
+			salaryTotal += item.getTotolSalary();
+		}
+		salary.setDeductedSalaryItems(ditems);
+
+		salary.setDeductedSalary(salaryTotal);
+
+		return salary;
 	}
-	
-	
-	public EntityResults<Department> listDepartmentsForApp(SearchVo vo){
+
+	public EntityResults<Department> listDepartmentsForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
-		builder.limitColumns(new String[]{Department.ID, Department.DEPARTMENT_NAME});
+		builder.limitColumns(new String[] { Department.ID, Department.DEPARTMENT_NAME });
 
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
-	
-	
-	public List<Team> listTeamsForApp(Team team){
-		
+
+	public List<Team> listTeamsForApp(Team team) {
+
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
 		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
-		builder.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
-		
-		builder.limitColumns(new String[]{Team.ID, Team.TEAM_DESCRIPTION, Team.TEAM_NAME});
-		
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
+		builder.limitColumns(new String[] { Team.ID, Team.TEAM_DESCRIPTION, Team.TEAM_NAME });
+
 		builder.and(Team.DEPARTMENT_ID, team.getDepartmentId());
-		
-		List<Team> teams =  this.dao.listByQuery(builder, Team.class);
-		
-		for(Team t: teams){
-			t.setMembersNumber((int)(Math.random() * 100));
+
+		List<Team> teams = this.dao.listByQuery(builder, Team.class);
+
+		for (Team t : teams) {
+			t.setMembersNumber((int) (Math.random() * 100));
 			t.setWorkTimePeriod("早上9:00-12:00,下午15:00-20:00");
 		}
-		
+
 		return teams;
-		
+
 	}
 
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
@@ -477,34 +518,32 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
 		atquery.join(AmsUser.TABLE_NAME, Attendance.TABLE_NAME, AmsUser.ID, Attendance.USER_ID);
-		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE,
-		        Attendance.MINUTES, Attendance.ATTENDANCE_TYPE, Attendance.HOURS });
+		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE, Attendance.MINUTES, Attendance.ATTENDANCE_TYPE,
+		        Attendance.HOURS });
 
 		if (team.getAttendanceDate() != null) {
 			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
 		}
-		
+
 		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, team.getTeamId());
 
-		atquery.limitColumns(new String[] { AmsUser.USER_NAME,  AmsUser.ID + "," + Attendance.USER_ID });
+		atquery.limitColumns(new String[] { AmsUser.USER_NAME, AmsUser.ID + "," + Attendance.USER_ID });
 		atquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
-		
-		
 
 		List<Attendance> result = this.dao.listByQuery(atquery, Attendance.class);
-		
-		if(result.isEmpty()){
+
+		if (result.isEmpty()) {
 			DataBaseQueryBuilder userquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
-			userquery.limitColumns(new String[] { AmsUser.USER_NAME,  AmsUser.ID + "," + Attendance.USER_ID });
+			userquery.limitColumns(new String[] { AmsUser.USER_NAME, AmsUser.ID + "," + Attendance.USER_ID });
 			userquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
-			
+
 			result = this.dao.listByQuery(userquery, Attendance.class);
 		}
-		
+
 		return result;
 
 	}
-	
+
 	public void addAttendance(List<Attendance> attendanceList) {
 
 		for (Attendance attendance : attendanceList) {

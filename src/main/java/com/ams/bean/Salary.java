@@ -23,13 +23,10 @@ public class Salary extends BaseEntity {
 
 	public static final String YEAR = "year";
 
-
-
 	public static final String TABLE_NAME = "Salary";
 
 	@Column(name = USER_ID)
 	public String userId;
-
 
 	@Column(name = TOTAL_SALARY)
 	public Double totalSalary;
@@ -48,14 +45,12 @@ public class Salary extends BaseEntity {
 
 	public String userName;
 
-	
+	public Double salaryPerDay;
 
 	public List<SalaryItem> salaryItems;
-	
-	public List<SalaryItem> deductedSalaryItems;
-	
-	
-	
+
+	public List<DeductedSalaryItem> deductedSalaryItems;
+
 	public String getUserId() {
 		return userId;
 	}
@@ -111,14 +106,36 @@ public class Salary extends BaseEntity {
 	public void setRemainingSalaray(Double remainingSalaray) {
 		this.remainingSalaray = remainingSalaray;
 	}
-	
-	
-	
-	public static void main(String args[]){
+
+	public List<SalaryItem> getSalaryItems() {
+		return salaryItems;
+	}
+
+	public void setSalaryItems(List<SalaryItem> salaryItems) {
+		this.salaryItems = salaryItems;
+	}
+
+	public List<DeductedSalaryItem> getDeductedSalaryItems() {
+		return deductedSalaryItems;
+	}
+
+	public void setDeductedSalaryItems(List<DeductedSalaryItem> deductedSalaryItems) {
+		this.deductedSalaryItems = deductedSalaryItems;
+	}
+
+	public Double getSalaryPerDay() {
+		return salaryPerDay;
+	}
+
+	public void setSalaryPerDay(Double salaryPerDay) {
+		this.salaryPerDay = salaryPerDay;
+	}
+
+	public static void main(String args[]) {
 		Salary salary = new Salary();
 		salary.setDeductedSalary(1000.5);
 		salary.setTotalSalary(5800d);
-		salary.setRemainingSalaray(5800-1000.5);
+		salary.setRemainingSalaray(5800 - 1000.5);
 		salary.setYear(2014);
 		salary.setMonth(05);
 		salary.setUserName("张三");
