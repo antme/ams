@@ -484,8 +484,20 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		atquery.limitColumns(new String[] { AmsUser.USER_NAME,  AmsUser.ID + "," + Attendance.USER_ID });
 		atquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
+		
+		
 
-		return this.dao.listByQuery(atquery, Attendance.class);
+		List<Attendance> result = this.dao.listByQuery(atquery, Attendance.class);
+		
+		if(result.isEmpty()){
+			DataBaseQueryBuilder userquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
+			userquery.limitColumns(new String[] { AmsUser.USER_NAME,  AmsUser.ID + "," + Attendance.USER_ID });
+			userquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
+			
+			result = this.dao.listByQuery(atquery, Attendance.class);
+		}
+		
+		return result;
 
 	}
 	
