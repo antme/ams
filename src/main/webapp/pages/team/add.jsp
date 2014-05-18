@@ -1,29 +1,32 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% String id = request.getParameter("id"); %>
 
 <script type="text/javascript">
+	var id = "<%=id%>";
+
 	$(document).ready(function() {
-		initFormSubmit("add-department", "/ams/user/team/add.do", "添加团队", function(){
+		initFormSubmit("add-team", "/ams/user/team/add.do", "添加团队", function(){
 			alert("添加成功");
 			loadRemotePage("team/list");
 		});
+		
+		if(id!="null"){
+			postAjaxRequest("/ams/user/team/get.do", {id: id}, function(data){
+				$("#add-team").form('load',data.data);
+				
+			});
+		}
 	});
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-department" method="post">
+	<form id="add-team" method="post">
 		<div class="form-container" style="width: 500px;">
 			<div>
 				<span>团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
 			</div>
-			<div>
-				<p></p>
-				<input/><span>小时:</span><input/>分钟：
-				
-				
-				
-				<p></p>
-			</div>
+		
 			<div>
 				<span>所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
 					data-options="url:'/ams/user/department/list.do',

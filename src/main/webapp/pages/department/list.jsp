@@ -6,6 +6,7 @@
 	<thead>
 		<tr>
 			<th align="center" field="departmentName" width="200" sortable="false" resizable="true">部门名称</th>
+			<th align="center" field="userName" width="200" sortable="false" resizable="true">部门主管</th>
 			<th align="center" field="departmentDescription" width="200" sortable="false" resizable="true">部门描述</th>
 			<th align="center" data-options="field:'id',formatter:formatterDepartmentOperation"  width="120">操作</th>
 

@@ -53,7 +53,10 @@ public interface IUserService {
 
 	public EntityResults<Department> listDepartments(SearchVo vo);
 
-	public void addTeam(Team dep);
+	public void addTeam(Team team);
+	
+	public Team getTeam(Team team);
+
 
 	public EntityResults<Team> listTeams(SearchVo vo);
 
@@ -78,6 +81,7 @@ public interface IUserService {
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team);
 
 	public void addAttendance(List<Attendance> attendanceList);
+
 
 
 }

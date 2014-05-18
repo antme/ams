@@ -105,6 +105,17 @@ public class UserController extends AbstractController {
 		responseWithData(null, request, response);
 	}
 	
+	
+
+	@RequestMapping("/team/get.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void getTeam(HttpServletRequest request, HttpServletResponse response) {
+		Team dep = (Team) parserJsonParameters(request, false, Team.class);
+		
+		responseWithEntity(userService.getTeam(dep), request, response);
+	}
+	
+	
 	@RequestMapping("/team/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeams(HttpServletRequest request, HttpServletResponse response) {

@@ -11,10 +11,12 @@
 			loadRemotePage("department/list");
 		});
 		
-		postAjaxRequest("/ams/user/department/load.do", {id:departmentId}, function(data){
-			$("#add-department").form('load',data.data);
-			
-		});
+		if(departmentId!="null"){
+			postAjaxRequest("/ams/user/department/load.do", {id:departmentId}, function(data){
+				$("#add-department").form('load',data.data);
+				
+			});
+		}
 		
 	});
 </script>
@@ -25,7 +27,16 @@
 			<div>
 				<span>部门名称:</span> <input class="easyui-validatebox textbox" type="text" name="departmentName" data-options="required:true"></input>
 			</div>
-
+			<span>部门主管:</span> <input class="easyui-combobox"  name="departmentManagerId" 
+					data-options="url:'/ams/user/app/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
 			<div>
 				<span>描述:</span>
 				<textarea class="easyui-validatebox textbox" name="departmentDescription" ></textarea>

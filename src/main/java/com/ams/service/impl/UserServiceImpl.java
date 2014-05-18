@@ -17,6 +17,7 @@ import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
+import com.ams.bean.Project;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
 import com.ams.bean.Team;
@@ -340,36 +341,53 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	public EntityResults<Department> listDepartments(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
-
+		builder.join(Department.TABLE_NAME, AmsUser.TABLE_NAME, Department.DEPARTMENT_MANAGER_ID, AmsUser.ID);
+		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
+		builder.limitColumns(new Department().getColumnList());
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
 
-	public void addTeam(Team dep) {
-		if (EweblibUtil.isValid(dep.getId())) {
-			this.dao.updateById(dep);
+	public void addTeam(Team team) {
+		if (EweblibUtil.isValid(team.getId())) {
+			this.dao.updateById(team);
 		} else {
-			this.dao.insert(dep);
+			this.dao.insert(team);
 		}
 
 		// 删除原来的队员
-		String[] members = dep.getTeamMemberIds();
+		String[] members = team.getTeamMemberIds();
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-		query.and(EmployeeTeam.TEAM_ID, dep.getId());
+		query.and(EmployeeTeam.TEAM_ID, team.getId());
 		this.dao.deleteByQuery(query);
 
 		if (members != null) {
 			for (String id : members) {
 				EmployeeTeam et = new EmployeeTeam();
 				et.setUserId(id);
-				et.setTeamId(dep.getId());
+				et.setTeamId(team.getId());
 				this.dao.insert(et);
 			}
 		}
 	}
+	
+	public Team getTeam(Team team){
+		
+		return (Team) this.dao.findById(team.getId(), Team.TABLE_NAME, Team.class);
+	}
 
 	public EntityResults<Team> listTeams(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
+		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
+		
+		builder.join(Team.TABLE_NAME, AmsUser.TABLE_NAME, Team.TEAM_LEADER_ID, AmsUser.ID);
+		builder.joinColumns(AmsUser.TABLE_NAME, new String[]{AmsUser.USER_NAME});
+		
+		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[]{Project.PROJECT_NAME});
+		
+		builder.limitColumns(new Team().getColumnList());
 
 		return this.dao.listByQueryWithPagnation(builder, Team.class);
 	}
