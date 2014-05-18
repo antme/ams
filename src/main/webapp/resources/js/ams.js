@@ -19,6 +19,10 @@ function formatterDepartmentOperation(val, row){
 }
 
 
+function formatterPicOperation(val, row){
+	return '<a target="_blank" href="' + val + '")> <img height="50" width="100" src="' + val +'"/> </a>';
+}
+
 function formatterUserOperation(val, row){
 	return '<a href="#" onclick=loadRemotePage("user/add&a=4&id=' + row.id+ '")> 编辑 </a>';
 }

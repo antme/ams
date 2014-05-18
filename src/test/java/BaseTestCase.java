@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.Notice;
+import com.ams.bean.User;
 import com.ams.service.INoticeService;
 import com.ams.service.impl.NoticeServiceImpl;
 import com.eweblib.dao.IQueryDao;
@@ -42,12 +42,30 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 		
-		Notice notice = new Notice();
-		notice.setTitle("test");
-//		this.dao.insert(notice);
+//		Notice notice = new Notice();
+//		notice.setTitle("test");
+////		this.dao.insert(notice);
+//		
+//		
+//		System.out.println(noticeService.listNoticesForApp().getEntityList());;
 		
+		try {
+	        System.out.println(User.class.getField("userName").getType().getName());
+        } catch (NoSuchFieldException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } catch (SecurityException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+
+//		Field[] fields = User.class.getFields();
+//		for(Field field: fields){
+//			System.out.println(field.getType().getName());
+//			System.out.println(field.getGenericType());
+//		}
+//		
 		
-		System.out.println(noticeService.listNoticesForApp().getEntityList());;
 		
 	}
 

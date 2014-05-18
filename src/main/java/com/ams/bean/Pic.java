@@ -50,6 +50,9 @@ public class Pic extends BaseEntity {
 
 	@Column(name = UPLOAD_ADDRESS)
 	public String uploadAddress;
+	
+	
+	public String userName;
 
 	public Integer imagesCount;
 
@@ -123,6 +126,15 @@ public class Pic extends BaseEntity {
 
 	public void setUploadAddress(String uploadAddress) {
 		this.uploadAddress = uploadAddress;
+	}
+
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public static void main(String args[]) {
