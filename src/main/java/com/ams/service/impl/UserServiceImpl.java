@@ -67,6 +67,11 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return user;
 	}
+	
+	public User loadUser(User user){
+		
+		return (User) this.dao.findById(user.getId(), User.TABLE_NAME, User.class);
+	}
 
 	public User login(User user, boolean fromApp) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);

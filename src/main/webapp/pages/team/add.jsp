@@ -8,7 +8,7 @@
 	$(document).ready(function() {
 		initFormSubmit("add-team", "/ams/user/team/add.do", "添加团队", function(){
 			alert("添加成功");
-			loadRemotePage("team/list");
+			loadRemotePage("team/list&a=4");
 		});
 		
 		if(id!="null"){
@@ -23,6 +23,7 @@
 <div style="padding: 10px 60px 20px 60px">
 	<form id="add-team" method="post">
 		<div class="form-container" style="width: 500px;">
+			<input class="" type="hidden" name="id" />
 			<div>
 				<span>团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
 			</div>

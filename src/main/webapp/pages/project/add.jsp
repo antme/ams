@@ -13,6 +13,7 @@
 <div style="padding: 10px 60px 20px 60px">
 	<form id="add-project" method="post">
 		<div class="form-container" style="width: 500px;">
+			<input class="" type="hidden" name="id" />
 			<div>
 				<span>项目名称:</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectName" ></input>
 			</div>

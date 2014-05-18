@@ -5,7 +5,8 @@
 	<thead>
 		<tr>
 			<th align="center" field="userName" width="200" sortable="false" resizable="true">用户名</th>
-			<th align="center" data-options="field:'id',formatter:formatterDepartmentOperation"  width="120">操作</th>
+			<th align="center" field="createdOn" width="200" sortable="false" resizable="true">创建时期</th>
+			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="120">操作</th>
 
 		</tr>
 	</thead>

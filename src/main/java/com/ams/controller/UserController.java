@@ -67,6 +67,13 @@ public class UserController extends AmsController {
 		responseWithData(null, request, response);
 	}
 	
+	@RequestMapping("/load.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void loadUser(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) parserJsonParameters(request, false, User.class);	
+		responseWithEntity(userService.loadUser(user), request, response);
+	}
+	
 	@RequestMapping("/department/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addDepartment(HttpServletRequest request, HttpServletResponse response) {

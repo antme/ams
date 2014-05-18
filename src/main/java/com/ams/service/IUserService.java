@@ -19,6 +19,8 @@ public interface IUserService {
 	public void updateUser(User user);
 
 	public User regUser(User user);
+	
+	public User loadUser(User user);
 
 	public User login(User user, boolean fromApp);
 
@@ -79,6 +81,7 @@ public interface IUserService {
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team);
 
 	public void addAttendance(List<Attendance> attendanceList);
+
 
 
 

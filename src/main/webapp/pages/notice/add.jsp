@@ -23,6 +23,7 @@
 <div style="padding: 10px 60px 20px 60px">
 	<form id="add-notice" method="post" enctype="multipart/form-data">
 		<div class="form-container" style="width: 500px;">
+			<input class="" type="hidden" name="id" />
 			<div>
 				<span>标题:</span> <input class="easyui-validatebox textbox input-title" type="text" name="title" data-options="required:true"></input>
 			</div>

@@ -13,7 +13,7 @@
 <div style="padding: 10px 60px 20px 60px">
 	<form id="add-pic" method="post" enctype="multipart/form-data">
 		<div class="form-container" style="width: 500px;">
-		
+			<input class="" type="hidden" name="id" />
 			<input class="easyui-validatebox textbox" type="hidden" name="imagesCount" value="1" data-options="required:true"></input>
 			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="1111111" data-options="required:true"></input>
 			<div>
