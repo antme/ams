@@ -1,0 +1,10 @@
+[
+{
+	"text":"任务管理",
+	"iconCls":"icon-add"
+},
+{
+		"text":"日报查询",
+		"iconCls":"icon-remove"
+}
+]

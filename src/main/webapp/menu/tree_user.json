@@ -10,16 +10,9 @@
 {
 		"text":"部门管理",
 		"iconCls":"icon-remove"
-},{
-		"text":"团队管理",
-		"iconCls":"icon-remove"
 },
 {
 		"text":"权限组管理",
-		"iconCls":"icon-remove"
-},
-{
-		"text":"图片管理",
 		"iconCls":"icon-remove"
 }
 

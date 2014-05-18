@@ -129,6 +129,10 @@ function onNoticeClick(node) {
 }
 
 
+function onAttendanceClick(node){
+	
+}
+
 
 function onUserTreeClick(node){
 	var accor = "&a=4";
