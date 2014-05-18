@@ -25,9 +25,10 @@
 		<div class="form-container" style="width: 500px;">
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span>部门名称:</span> <input class="easyui-validatebox textbox" type="text" name="departmentName" data-options="required:true"></input>
+				<span class="label">部门名称:</span> <input class="easyui-validatebox textbox" type="text" name="departmentName" data-options="required:true"></input>
 			</div>
-			<span>部门主管:</span> <input class="easyui-combobox"  name="departmentManagerId" 
+			<div>
+			<span class="label">部门主管:</span> <input class="easyui-combobox"  name="departmentManagerId" 
 					data-options="url:'/ams/user/app/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -37,8 +38,9 @@
                     loadFilter:function(data){
 						return data.rows;
 					}"></input>
+			</div>
 			<div>
-				<span>描述:</span>
+				<span class="label">描述:</span>
 				<textarea class="easyui-validatebox textbox" name="departmentDescription" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">

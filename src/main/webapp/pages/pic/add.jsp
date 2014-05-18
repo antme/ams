@@ -17,15 +17,15 @@
 			<input class="easyui-validatebox textbox" type="hidden" name="imagesCount" value="1" data-options="required:true"></input>
 			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="1111111" data-options="required:true"></input>
 			<div>
-				<span>团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="projectName" data-options="required:true"></input>
+				<span class="label">团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="projectName" data-options="required:true"></input>
 			</div>
 			
 			
 			<div>
-				<span>图片:</span> <input type="file" class="easyui-validatebox textbox"  name="picData0" data-options="required:true"></input>
+				<span class="label">图片:</span> <input type="file" class="easyui-validatebox textbox"  name="picData0" data-options="required:true"></input>
 			</div>
 			<div>
-				<span>描述:</span>
+				<span class="label">描述:</span>
 				<textarea class="easyui-validatebox textbox" name="teamDescription" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">

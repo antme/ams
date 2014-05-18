@@ -23,13 +23,19 @@ body {
 	margin-left: 20px;
 }
 
+.form-container .combo{
+	margin-left: 20px;
+}
+
+.form-container  .label{
+	display: inline-block;
+	width : 80px;
+}
 .form-container input {
 	margin-left: 20px;
 }
 
 .form-container span {
-	width: 80px;
-	display: inline-block;
 	text-align: right;
 }
 

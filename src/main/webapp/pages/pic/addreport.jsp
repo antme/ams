@@ -18,26 +18,26 @@
 			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="05c07bcc-833e-4b22-a8be-3c3a63609ac8" data-options="required:true"></input>
 			<input class="easyui-validatebox textbox" type="hidden" name="projectId" value="b8a353e0-b178-4e2f-8abf-7fb2ad60f9ab" data-options="required:true"></input>
 			<div>
-				<span>材料纪录:</span> <input class="easyui-validatebox textbox" type="text" name="materialRecord" data-options="required:true"></input>
+				<span class="label">材料纪录:</span> <input class="easyui-validatebox textbox" type="text" name="materialRecord" data-options="required:true"></input>
 			</div>
 			
 			<div>
-				<span>工作纪录:</span> <input class="easyui-validatebox textbox" type="text" name="workingRecord" data-options="required:true"></input>
+				<span class="label">工作纪录:</span> <input class="easyui-validatebox textbox" type="text" name="workingRecord" data-options="required:true"></input>
 			</div>
 			<div>
-				<span>天气:</span> <input class="easyui-validatebox textbox" type="text" name="weather" data-options="required:true"></input>
+				<span class="label">天气:</span> <input class="easyui-validatebox textbox" type="text" name="weather" data-options="required:true"></input>
+			</div> 
+			<div>
+				<span class="label">总结:</span> <input class="easyui-validatebox textbox" type="text" name="summary" data-options="required:true"></input>
 			</div>
 			<div>
-				<span>总结:</span> <input class="easyui-validatebox textbox" type="text" name="summary" data-options="required:true"></input>
+				<span class="label">明日计划:</span> <input class="easyui-validatebox textbox" type="text" name="plan" data-options="required:true"></input>
 			</div>
 			<div>
-				<span>明日计划:</span> <input class="easyui-validatebox textbox" type="text" name="plan" data-options="required:true"></input>
+				<span class="label">图片0:</span> <input type="file" class="easyui-validatebox textbox"  name="picData0" data-options="required:true"></input>
 			</div>
 			<div>
-				<span>图片0:</span> <input type="file" class="easyui-validatebox textbox"  name="picData0" data-options="required:true"></input>
-			</div>
-			<div>
-				<span>图片1:</span> <input type="file" class="easyui-validatebox textbox"  name="picData1" data-options="required:true"></input>
+				<span class="label">图片1:</span> <input type="file" class="easyui-validatebox textbox"  name="picData1" data-options="required:true"></input>
 			</div>
 			
 			<div style="margin-left: 100px;">

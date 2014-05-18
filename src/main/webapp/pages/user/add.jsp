@@ -24,11 +24,11 @@
 		<div class="form-container" style="width: 500px;">
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span>用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
+				<span class="label">用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
 			</div>
 			
 			<div>
-				<span>描述:</span>
+				<span class="label">描述:</span>
 				<textarea class="easyui-validatebox textbox" name="departmentDescription"></textarea>
 			</div>
 			<div style="margin-left: 100px;">

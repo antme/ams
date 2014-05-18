@@ -15,23 +15,23 @@
 		<div class="form-container" style="width: 500px;">
 			<input class="easyui-validatebox textbox" type="hidden" name="userId" value="05c07bcc-833e-4b22-a8be-3c3a63609ac8" data-options="required:true"></input>
 			<div>
-				<span>月份:</span> <input class="easyui-validatebox textbox input-title" type="text" name="month" ></input>
+				<span class="label">月份:</span> <input class="easyui-validatebox textbox input-title" type="text" name="month" ></input>
 			</div>
 			<div>
-				<span>年份:</span> <input class="easyui-validatebox textbox input-title" type="text" name="year" ></input>
+				<span class="label">年份:</span> <input class="easyui-validatebox textbox input-title" type="text" name="year" ></input>
 			</div>
 			<div>
-				<span>总工资:</span>
+				<span class="label">总工资:</span>
 				<td><input class="easyui-validatebox textbox" type="text" name="totalSalary" ></input></td>
 			</div>
 
 			<div>
-				<span>扣除工资:</span>
+				<span class="label">扣除工资:</span>
 				<td><input class="easyui-validatebox textbox" type="text" name="deductedSalary" ></input></td>
 			</div>
 
 			<div>
-				<span>剩余工资:</span>
+				<span class="label">剩余工资:</span>
 				<td><input class="easyui-validatebox textbox" type="text" name="remainingSalaray" ></input></td>
 			</div>
 			<div style="margin-left: 100px;">

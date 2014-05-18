@@ -25,24 +25,24 @@
 		<div class="form-container" style="width: 500px;">
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span>标题:</span> <input class="easyui-validatebox textbox input-title" type="text" name="title" data-options="required:true"></input>
+				<span class="label">标题:</span> <input class="easyui-validatebox textbox input-title" type="text" name="title" data-options="required:true"></input>
 			</div>
 			
 			<div>
-				<span>优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
+				<span class="label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
 			</div>
 			
 			<div>
-				<span>公告结束时间:</span> <input class="easyui-datebox textbox input-title" type="text" name="publishEndDate" ></input>
+				<span class="label">公告结束时间:</span> <input class="easyui-datebox textbox input-title" type="text" name="publishEndDate" ></input>
 			</div>
 		
 
 			<div>
-				<span>附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" ></input>
+				<span class="label">附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" ></input>
 			</div>
 
 			<div>
-				<span>公告内容:</span>
+				<span class="label">公告内容:</span>
 				<textarea class="easyui-validatebox textbox" name="content" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">
