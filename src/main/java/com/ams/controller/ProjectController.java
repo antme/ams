@@ -20,7 +20,6 @@ import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
 import com.eweblib.constants.EWebLibConstants;
-import com.eweblib.controller.AbstractController;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
@@ -29,7 +28,7 @@ import com.eweblib.util.EweblibUtil;
 @RequestMapping("/ams/project")
 @Permission()
 @LoginRequired()
-public class ProjectController extends AbstractController {
+public class ProjectController extends AmsController {
 
 	@Autowired
 	private IProjectService projectService;

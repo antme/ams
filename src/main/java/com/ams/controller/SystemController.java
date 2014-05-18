@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ams.service.ISystemService;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
-import com.eweblib.controller.AbstractController;
 
 @Controller
 @RequestMapping("/ecs/sys")
 @Permission()
 @LoginRequired()
-public class SystemController extends AbstractController {
+public class SystemController extends AmsController {
 
 
 	@Autowired

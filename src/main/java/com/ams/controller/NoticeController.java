@@ -13,13 +13,12 @@ import com.ams.service.INoticeService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
-import com.eweblib.controller.AbstractController;
 
 @Controller
 @RequestMapping("/ams/notice")
 @Permission()
 @LoginRequired()
-public class NoticeController extends AbstractController {
+public class NoticeController extends AmsController {
 
 	@Autowired
 	private INoticeService siteMessageService;

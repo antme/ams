@@ -24,7 +24,6 @@ import com.ams.service.IUserService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
-import com.eweblib.controller.AbstractController;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
@@ -33,7 +32,7 @@ import com.eweblib.util.EweblibUtil;
 @RequestMapping("/ams/user")
 @Permission()
 @LoginRequired()
-public class UserController extends AbstractController {
+public class UserController extends AmsController {
 
 	//_User used in AbstractController.removeSessionInfo
 	public static final String IMG_CODE = "imgCode_User";
@@ -51,20 +50,22 @@ public class UserController extends AbstractController {
 		String imgCode = getSessionValue(request, IMG_CODE);
 //		if (imgCode != null && user.getImgCode() != null && user.getImgCode().equalsIgnoreCase(imgCode)) {
 			user = userService.login(user, false);
-//			setLoginSessionInfo(request, response, user);
+			setLoginSessionInfo(request, response, user);
 			EWeblibThreadLocal.set(User.ID, user.getId());
-//			try {
-//	            response.sendRedirect("/index.jsp");
-//            } catch (IOException e) {
-//            	
-//            }
+
 			responseWithEntity(user, request, response);
 //		} else {
 //			throw new ResponseException("请输入正确验证码");
 //		}
 
 	}
-	
+	@RequestMapping("/user/add.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void addUser(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) parserJsonParameters(request, false, User.class);
+		userService.regUser(user);
+		responseWithData(null, request, response);
+	}
 	
 	@RequestMapping("/department/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
