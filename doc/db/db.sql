@@ -169,6 +169,7 @@ CREATE TABLE `SystemConfig` (
 CREATE TABLE `Project` (
   `id` varchar(36) NOT NULL,
   `departmentId` varchar(36) DEFAULT NULL,
+  `customerId` varchar(36) DEFAULT NULL,
   `projectName` varchar(255) NOT NULL,
   `projectManagerId` varchar(36) DEFAULT NULL,
   `projectDescription` TEXT DEFAULT NULL,
@@ -252,5 +253,7 @@ alter table department add column departmentManagerId varchar(36) default null;
 alter table notice add column priority int default 0;
 alter table notice add column publisherId varchar(36) default null;
 alter table notice add column publishEndDate datetime default null;
+
+alter table project add column customerId varchar(36) default null;
 
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('12c07bcc-833e-4b22-a8be-3c3a63609ac8','dylan','96e79218965eb72c92a549dd5a330112',now(),now());

@@ -42,7 +42,7 @@
 						return data.rows;
 					}"></input>
 			</div>
-
+			
 			<div>
 				<span class="label">项目状态</span> <select class="easyui-combobox" name="projectStatus" style="width: 200px;">
 					<option value="1">进行中</option>				
@@ -61,7 +61,18 @@
 				<span class="label">项目结束时间:</span>
 				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectEndDate"></input></td>
 			</div>
-
+			<div>
+				<span class="label">客户:</span> <input class="easyui-combobox"  name="customerId" 
+					data-options="url:'/ams/user/customer/app/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'name',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+			</div>
 
 			<div>
 				<span class="label">项目描述:</span>
