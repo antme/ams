@@ -6,10 +6,8 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
-
 @Table(name = Notice.TABLE_NAME)
-public class Notice extends BaseEntity {
+public class Notice extends AmsBaseEntity {
 	public static final String PUBLISH_END_DATE = "publishEndDate";
 
 	public static final String PUBLISHER_ID = "publisherId";

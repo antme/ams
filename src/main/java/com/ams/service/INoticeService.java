@@ -12,7 +12,7 @@ public interface INoticeService {
 
 	public EntityResults<Notice> listNotices();
 
-	public EntityResults<Notice> listNoticesForApp();
+	public EntityResults<Notice> listNoticesForApp(Notice notice);
 
 	public Reminder addReminder(Reminder reminder);
 

@@ -48,8 +48,8 @@ public class NoticeController extends AmsController {
 	
 	@RequestMapping("/app/list.do")
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
-		parserJsonParameters(request, true);
-		responseWithDataPagnation(siteMessageService.listNoticesForApp(), request, response);
+		Notice notice = (Notice)  parserJsonParameters(request, true, Notice.class);
+		responseWithDataPagnation(siteMessageService.listNoticesForApp(notice), request, response);
 	}
 	
 	
