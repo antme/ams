@@ -1,7 +1,6 @@
 package com.ams.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +9,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.ams.bean.AmsUser;
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.DeductedSalaryItem;
@@ -18,16 +16,16 @@ import com.ams.bean.Department;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
+import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
 import com.ams.bean.Team;
+import com.ams.bean.User;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
 import com.ams.util.Role;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
-import com.eweblib.bean.RoleGroup;
-import com.eweblib.bean.User;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.LoginException;
@@ -54,55 +52,20 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	@Override
 	public User regUser(User user) {
-		// // 手机号码作为默认登录名字
-		// if (EweblibUtil.isEmpty(user.getUserName())) {
-		// user.setUserName(user.getMobileNumber());
-		// }
-		//
-		// if (EweblibUtil.isEmpty(user.getPassword())) {
-		// user.setPassword(DataEncrypt.generatePassword(user.getMobileNumber()));
-		// } else {
-		// user.setPassword(DataEncrypt.generatePassword(user.getPassword()));
-		// }
-		// ValidatorUtil.validate(user, "user", "userReg",
-		// PermissionConstants.validateFiles);
-		// DataBaseQueryBuilder builder = new
-		// DataBaseQueryBuilder(User.TABLE_NAME);
-		// builder.and(User.USER_NAME, user.getUserName());
-		// if (dao.exists(builder)) {
-		// throw new ResponseException("此用户名已经被注册");
-		// }
-		//
-		// builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		// builder.and(User.MOBILE_NUMBER, user.getMobileNumber());
-		// if (dao.exists(builder)) {
-		// throw new ResponseException("此手机号码已经被注册");
-		// }
-		//
-		// if (user.getRoleName() == null) {
-		// user.setRoleName(Role.USER.toString());
-		// }
-		//
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
+		builder.and(User.USER_NAME, user.getUserName());
+		if (dao.exists(builder)) {
+			throw new ResponseException("此用户名已经被注册");
+		}
+
 		// if (EweblibUtil.isEmpty(user.getStatus())) {
 		// user.setStatus(UserStatus.NORMAL.toString());
 		// }
-		//
-		//
-		// user = (User) dao.insert(user);
-		//
-		// // checkUserMobile(user.getMobileNumber());
-		//
-		// // query field return to client
-		// DataBaseQueryBuilder userQuery = new
-		// DataBaseQueryBuilder(User.TABLE_NAME);
-		// userQuery.and(User.ID, user.getId());
-		//
-		// userQuery.limitColumns(new String[] { User.DEFAULT_ADDRESS,
-		// User.EMAIL, User.MOBILE_NUMBER, User.USER_NAME, User.NAME, User.SEX,
-		// User.AGE, User.ID, User.STATUS });
-		// return (User) dao.findOneByQuery(userQuery, User.class);
 
-		return null;
+		dao.insert(user);
+
+		return user;
 	}
 
 	public User login(User user, boolean fromApp) {
@@ -155,7 +118,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		// builder.and(User.ROLE_NAME, roleName.toUpperCase());
 
 		if (!EweblibUtil.isEmpty(userStatus)) {
-			builder.and(User.STATUS, userStatus);
+//			builder.and(User.STATUS, userStatus);
 		}
 
 		if (!EweblibUtil.isEmpty(keyword)) {
@@ -310,13 +273,13 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		}
 	}
 
-	public EntityResults<AmsUser> listUserForApp(SearchVo vo) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
+	public EntityResults<User> listUserForApp(SearchVo vo) {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 
-		builder.limitColumns(new String[] { User.USER_NAME, AmsUser.USER_CODE, AmsUser.MOBILE_NUMBER, AmsUser.ID });
-		EntityResults<AmsUser> userList = this.dao.listByQueryWithPagnation(builder, AmsUser.class);
+		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
+		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
-		for (AmsUser user : userList.getEntityList()) {
+		for (User user : userList.getEntityList()) {
 			user.setUserType("油漆工");
 			user.setUserLevel("油漆工一级");
 			user.setTeams("施工一对,  施工三对");
@@ -341,8 +304,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	public EntityResults<Department> listDepartments(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
-		builder.join(Department.TABLE_NAME, AmsUser.TABLE_NAME, Department.DEPARTMENT_MANAGER_ID, AmsUser.ID);
-		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
+		builder.join(Department.TABLE_NAME, User.TABLE_NAME, Department.DEPARTMENT_MANAGER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		builder.limitColumns(new Department().getColumnList());
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
@@ -381,8 +344,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
 		
-		builder.join(Team.TABLE_NAME, AmsUser.TABLE_NAME, Team.TEAM_LEADER_ID, AmsUser.ID);
-		builder.joinColumns(AmsUser.TABLE_NAME, new String[]{AmsUser.USER_NAME});
+		builder.join(Team.TABLE_NAME, User.TABLE_NAME, Team.TEAM_LEADER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[]{User.USER_NAME});
 		
 		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[]{Project.PROJECT_NAME});
@@ -433,8 +396,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public EntityResults<Salary> listUserSalaries(SearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
-		builder.join(Salary.TABLE_NAME, AmsUser.TABLE_NAME, Salary.USER_ID, AmsUser.ID);
-		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
+		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
 
@@ -538,8 +501,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			userIds.add(et.getUserId());
 		}
 
-		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
-		atquery.join(AmsUser.TABLE_NAME, Attendance.TABLE_NAME, AmsUser.ID, Attendance.USER_ID);
+		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		atquery.join(User.TABLE_NAME, Attendance.TABLE_NAME, User.ID, Attendance.USER_ID);
 		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE, Attendance.MINUTES, Attendance.ATTENDANCE_TYPE,
 		        Attendance.HOURS });
 
@@ -549,15 +512,15 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, team.getTeamId());
 
-		atquery.limitColumns(new String[] { AmsUser.USER_NAME, AmsUser.ID + "," + Attendance.USER_ID });
-		atquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
+		atquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
+		atquery.and(DataBaseQueryOpertion.IN, User.ID, userIds);
 
 		List<Attendance> result = this.dao.listByQuery(atquery, Attendance.class);
 
 		if (result.isEmpty()) {
-			DataBaseQueryBuilder userquery = new DataBaseQueryBuilder(AmsUser.TABLE_NAME);
-			userquery.limitColumns(new String[] { AmsUser.USER_NAME, AmsUser.ID + "," + Attendance.USER_ID });
-			userquery.and(DataBaseQueryOpertion.IN, AmsUser.ID, userIds);
+			DataBaseQueryBuilder userquery = new DataBaseQueryBuilder(User.TABLE_NAME);
+			userquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
+			userquery.and(DataBaseQueryOpertion.IN, User.ID, userIds);
 
 			result = this.dao.listByQuery(userquery, Attendance.class);
 		}

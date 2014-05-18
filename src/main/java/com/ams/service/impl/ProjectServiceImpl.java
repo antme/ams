@@ -7,15 +7,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ams.bean.AmsUser;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
 import com.ams.bean.Task;
+import com.ams.bean.User;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.service.IProjectService;
-import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.service.AbstractService;
@@ -163,8 +162,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	public EntityResults<DailyReportVo> listDailyReport() {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
-		builder.join(DailyReport.TABLE_NAME, AmsUser.TABLE_NAME, DailyReport.USER_ID, AmsUser.ID);
-		builder.joinColumns(AmsUser.TABLE_NAME, new String[] { AmsUser.USER_NAME });
+		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY, DailyReport.REPORT_DAY,
 		        DailyReport.CREATED_ON });
@@ -218,8 +217,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			}
 
 			DataBaseQueryBuilder commentQuery = new DataBaseQueryBuilder(DailyReportComment.TABLE_NAME);
-			commentQuery.join(DailyReportComment.TABLE_NAME, AmsUser.TABLE_NAME, DailyReportComment.USER_ID, AmsUser.ID);
-			commentQuery.joinColumns(AmsUser.TABLE_NAME, new String[]{AmsUser.USER_NAME});
+			commentQuery.join(DailyReportComment.TABLE_NAME, User.TABLE_NAME, DailyReportComment.USER_ID, User.ID);
+			commentQuery.joinColumns(User.TABLE_NAME, new String[]{User.USER_NAME});
 
 			commentQuery.and(DailyReportComment.DAILY_REPORT_ID, vo.getId());
 			

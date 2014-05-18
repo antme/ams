@@ -18,12 +18,12 @@ import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
 import com.ams.bean.Team;
+import com.ams.bean.User;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
-import com.eweblib.bean.User;
 import com.eweblib.controller.AbstractController;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
@@ -51,7 +51,7 @@ public class UserController extends AbstractController {
 		String imgCode = getSessionValue(request, IMG_CODE);
 //		if (imgCode != null && user.getImgCode() != null && user.getImgCode().equalsIgnoreCase(imgCode)) {
 			user = userService.login(user, false);
-			setLoginSessionInfo(request, response, user);
+//			setLoginSessionInfo(request, response, user);
 			EWeblibThreadLocal.set(User.ID, user.getId());
 //			try {
 //	            response.sendRedirect("/index.jsp");

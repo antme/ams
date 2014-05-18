@@ -39,7 +39,7 @@
 
 	<div class="left" >
 		<div data-options="region:'west',split:true" style="width: 250px; height:800px">
-			<div class="easyui-accordion left-accordion" data-options="multiple:false" style="width: 200px;">
+			<div class="easyui-accordion left-accordion" id="accordion" data-options="multiple:false,animate:false" style="width: 200px;">
 
 				<div title="公告管理" style="">
 					<div class="easyui-panel" style="padding: 5px; width: 150px; border-style: none;">
@@ -73,7 +73,7 @@
 		<div id="content-right" style="margin-top: 5px; height: auto; overflow: hidden">
 			<% 
 		               String pagePath = request.getParameter("p"); 
-		            
+		               String accindex = request.getParameter("a"); 
 		               if(pagePath == null){	                
 		                       pagePath = "main";	                   
 		               }
@@ -100,11 +100,14 @@
 	<script type="text/javascript">
         var roleName = "<%=userRoleName%>";
         var pagePath = "<%=pagePath%>";
-        
+        var index = <%=accindex%>;
       
         $(document).ready(function(){
             //初始化页面最小宽度  
             initDataGridEvent();
+            
+           	$('#accordion').accordion('select', index); 
+            
         });
 
    

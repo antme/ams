@@ -121,18 +121,20 @@ function onNoticeClick(node) {
 
 
 function onUserTreeClick(node){
-	
+	var accor = "&a=4";
 	var text = node.text;
 	if (text == '新增用户') {
-		loadRemotePage("user/add");
+		loadRemotePage("user/add" + accor);
 	} else if (text == '用户管理') {
-		loadRemotePage("user/list");
+		loadRemotePage("user/list" + accor);
 	}else if (text == '部门管理') {
-		loadRemotePage("department/list");
+		loadRemotePage("department/list" + accor);
 	}else if (text == '权限组管理') {
-		loadRemotePage("user/grouplist");
+		loadRemotePage("user/grouplist" + accor);
 	}else if (text == '图片管理') {
-		loadRemotePage("pic/list");
+		loadRemotePage("pic/list" + accor);
+	}else if (text == '团队管理') {
+		loadRemotePage("team/list" + accor);
 	}
 	
 	
