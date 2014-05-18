@@ -35,7 +35,11 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 
 	@Override
 	public EntityResults<Notice> listNotices() {
+		
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Notice.TABLE_NAME);
+		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });
+		builder.limitColumns(new String[] { Notice.TITLE, Notice.PRIORITY, Notice.CONTENT, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
 		return this.dao.listByQueryWithPagnation(builder, Notice.class);
 	}
 
