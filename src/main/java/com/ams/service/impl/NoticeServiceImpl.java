@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ams.bean.Notice;
 import com.ams.bean.Reminder;
+import com.ams.bean.User;
 import com.ams.service.INoticeService;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.constants.EWebLibConstants;
@@ -25,7 +26,6 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	public void addNotice(Notice notice) {
 
 		if (EweblibUtil.isEmpty(notice.getId())) {
-			notice.setPublishDate(new Date());
 			this.dao.insert(notice);
 		} else {
 			this.dao.updateById(notice);
@@ -42,7 +42,9 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	@Override
 	public EntityResults<Notice> listNoticesForApp() {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Notice.TABLE_NAME);
-		builder.limitColumns(new String[] { Notice.TITLE, Notice.CONTENT, Notice.PUBLISHER, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
+		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });
+		builder.limitColumns(new String[] { Notice.TITLE, Notice.CONTENT, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
 
 		return this.dao.listByQueryWithPagnation(builder, Notice.class);
 	}

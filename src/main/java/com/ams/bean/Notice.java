@@ -10,6 +10,12 @@ import com.eweblib.bean.BaseEntity;
 
 @Table(name = Notice.TABLE_NAME)
 public class Notice extends BaseEntity {
+	public static final String PUBLISH_END_DATE = "publishEndDate";
+
+	public static final String PUBLISHER_ID = "publisherId";
+
+	public static final String PRIORITY = "priority";
+
 	public static final String ATTACH_FILE_URL = "attachFileUrl";
 
 	public static final String CONTENT = "content";
@@ -25,17 +31,32 @@ public class Notice extends BaseEntity {
 	@Column(name = TITLE)
 	public String title;
 
-	@Column(name = PUBLISHER)
-	public String publisher;
-
 	@Column(name = PUBLISH_DATE)
 	public Date publishDate;
 
+	@Column(name = PUBLISH_END_DATE)
+	public Date publishEndDate;
+	
+	
 	@Column(name = CONTENT)
 	public String content;
 
 	@Column(name = ATTACH_FILE_URL)
 	public String attachFileUrl;
+
+	@Column(name = PRIORITY)
+	public Integer priority;
+	
+	
+	public String publisher;
+	
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
 
 	public String getAttachFileUrl() {
 		return attachFileUrl;
@@ -75,6 +96,16 @@ public class Notice extends BaseEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	
+
+	public Date getPublishEndDate() {
+		return publishEndDate;
+	}
+
+	public void setPublishEndDate(Date publishEndDate) {
+		this.publishEndDate = publishEndDate;
 	}
 
 	public static void main(String args[]) {

@@ -1,5 +1,7 @@
 package com.ams.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,7 @@ import com.ams.service.INoticeService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.util.EWeblibThreadLocal;
 
 @Controller
 @RequestMapping("/ams/notice")
@@ -28,6 +31,12 @@ public class NoticeController extends AmsController {
 	public void addNotice(HttpServletRequest request, HttpServletResponse response) {
 //		SiteMessage message = (SiteMessage) parserJsonParameters(request, false, SiteMessage.class);
 		Notice notice = (Notice)  parserJsonParameters(request, false, Notice.class);
+		
+		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
+		notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUrl", 0 , null));
+		
+		notice.setPublishDate(new Date());
+		
 		siteMessageService.addNotice(notice);
 		responseWithData(null, request, response);
 	}

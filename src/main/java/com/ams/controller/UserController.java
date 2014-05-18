@@ -59,7 +59,7 @@ public class UserController extends AmsController {
 //		}
 
 	}
-	@RequestMapping("/user/add.do")
+	@RequestMapping("/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addUser(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) parserJsonParameters(request, false, User.class);
@@ -203,7 +203,7 @@ public class UserController extends AmsController {
 		}
 		
 		for (int i = 0; i < images; i++) {
-			pic.setPicUrl(uploadFile(request, relativeFilePath, "picData" + i));
+			pic.setPicUrl(uploadFile(request, relativeFilePath, "picData" + i, 512, new String[]{"gif","jpg","jpeg","png"}));
 			userService.addPic(pic);
 		}
 		responseWithData(null, request, response);

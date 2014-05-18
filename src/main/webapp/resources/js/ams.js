@@ -142,13 +142,14 @@ function onUserTreeClick(node){
 
 
 function onProjectClick(node) {
+	var accor = "&a=3";
 	var text = node.text;
 	if (text == '项目管理') {
-		loadRemotePage("project/list");
+		loadRemotePage("project/list" + accor);
 	} else if (text == '客户管理') {
-		loadRemotePage("customer/list");
+		loadRemotePage("customer/list" + accor);
 	}else if (text == '团队管理') {
-		loadRemotePage("team/list");
+		loadRemotePage("team/list" + accor);
 	}
 }
 

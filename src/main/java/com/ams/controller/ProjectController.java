@@ -87,7 +87,7 @@ public class ProjectController extends AmsController {
 		List<String> pics = new ArrayList<String>();
 
 		for (int i = 0; i < images; i++) {
-			pics.add(uploadFile(request, relativeFilePath, "picData" + i));
+			pics.add(uploadFile(request, relativeFilePath, "picData" + i, 512, new String[]{"gif","jpg","jpeg","png"}));
 		}
 
 	

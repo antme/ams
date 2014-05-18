@@ -19,6 +19,10 @@ body {
 	width: 150px;
 }
 
+.form-container .datebox{
+	margin-left: 20px;
+}
+
 .form-container input {
 	margin-left: 20px;
 }

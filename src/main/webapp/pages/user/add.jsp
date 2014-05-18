@@ -7,7 +7,7 @@
 	$(document).ready(function() {
 		initFormSubmit("add-user", "/ams/user/add.do", "添加用户", function(){
 			alert("添加成功");
-			loadRemotePage("user/list");
+			loadRemotePage("user/list&a=4");
 		});
 		
 		if(id!="null"){
