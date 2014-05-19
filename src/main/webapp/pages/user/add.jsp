@@ -26,7 +26,26 @@
 			<div>
 				<span class="r-edit-label">用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
 			</div>
-
+			<div>
+				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text"   name="userCode" ></input>
+			</div>
+			<div>
+				<span class="r-edit-label">员工类型:</span> <input class="easyui-validatebox textbox" type="text"  name="userTypeId" ></input>
+			</div>
+			<div>
+				<span class="r-edit-label">员工级别:</span> <input class="easyui-validatebox textbox" type="text"  name="userLevelId" ></input>
+			</div>
+			<div>
+				<span class="r-edit-label">登录状态:</span> <input class="easyui-validatebox textbox" type="text"  name="status" ></input>
+			</div>
+			
+			<div>
+				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text"  validType="mobile" name="mobileNumber" ></input>
+			</div>
+			<div>
+				<span class="r-edit-label">住址:</span> <input class="easyui-validatebox textbox" type="text"   name="address" ></input>
+			</div>
+			
 			<div>
 				<span class="r-edit-label">密码：</span> <input name="password" id="userpassword" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
 					type="password" validType="username" required="true" missingMessage="请输入密码" /> <span class="get_span"><label class="g-label">*</label></span>

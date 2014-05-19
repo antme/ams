@@ -27,6 +27,11 @@ body {
 	margin-left: 20px;
 }
 
+.form-container input{
+	width: 150px;
+	border: 2px inset;
+}
+
 .form-container  .r-edit-label{
 	display: inline-block;
 	width : 80px;

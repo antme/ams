@@ -44,9 +44,7 @@ public class User extends BaseEntity {
 	@Column(name = USER_LEVEL_ID)
 	public String userLevelId;
 
-	@Column(name = NAME)
-	@Expose
-	public String name;
+
 
 	@Column(name = STATUS)
 	@Expose
@@ -90,13 +88,7 @@ public class User extends BaseEntity {
 		this.userLevelId = userLevelId;
 	}
 
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public Integer getStatus() {
 		return status;
