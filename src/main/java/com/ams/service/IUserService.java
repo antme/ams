@@ -28,11 +28,9 @@ public interface IUserService {
 
 	public String getRoleNameByUserId(String id);
 
-	public EntityResults<User> listForAdmin(SearchVo vo);
 
 	public void resetPwd(User user);
 
-	public User loadUserInfo(User user);
 
 	public void lockUserById(BaseEntity be);
 

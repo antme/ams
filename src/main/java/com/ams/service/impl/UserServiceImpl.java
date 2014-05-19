@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -112,42 +111,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return null;
 	}
 
-	@Override
-	public EntityResults<User> listForAdmin(SearchVo vo) {
-		String keyword = vo.getKeyword();
-		String userStatus = vo.getUserStatus();
-		String roleName = vo.getRoleName();
-
-		if (EweblibUtil.isEmpty(roleName)) {
-			roleName = Role.USER.toString();
-		}
-
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		// builder.and(User.ROLE_NAME, roleName.toUpperCase());
-
-		if (!EweblibUtil.isEmpty(userStatus)) {
-//			builder.and(User.STATUS, userStatus);
-		}
-
-		if (!EweblibUtil.isEmpty(keyword)) {
-			DataBaseQueryBuilder builder2 = new DataBaseQueryBuilder(User.TABLE_NAME);
-			builder2.or(DataBaseQueryOpertion.LIKE, User.USER_NAME, keyword);
-			builder2.or(DataBaseQueryOpertion.LIKE, "name", keyword);
-			// builder2.or(DataBaseQueryOpertion.LIKE, User.MOBILE_NUMBER,
-			// keyword);
-			// if (Role.CUSTOMER_SERVICE.toString().equalsIgnoreCase(roleName))
-			// {
-			// builder2.or(DataBaseQueryOpertion.LIKE, User.USER_EXT_PHONE,
-			// keyword);
-			// builder2.or(DataBaseQueryOpertion.LIKE, User.USER_CODE, keyword);
-			// }
-			builder.and(builder2);
-		}
-
-		builder.orderBy(User.CREATED_ON, false);
-
-		return dao.listByQueryWithPagnation(builder, User.class);
-	}
 
 	public void resetPwd(User user) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
@@ -163,24 +126,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	}
 
-	public User loadUserInfo(User user) {
 
-		return (User) this.dao.findById(user.getId(), User.TABLE_NAME, User.class);
-	}
-
-	public User loadUserInfoForApp(User user) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		// builder.and(User.ID, user.getUserId());
-		// builder.limitColumns(new String[]{User.USER_NAME, User.MOBILE_NUMBER,
-		// User.NAME, User.DEFAULT_ADDRESS, User.AGE, User.SEX, User.EMAIL,
-		// User.USER_CITY_NAME, User.ID});
-
-		User u = (User) this.dao.findOneByQuery(builder, User.class);
-		// u.setUserId(u.getId());
-
-		return u;
-
-	}
 
 	@Override
 	public void lockUserById(BaseEntity be) {
@@ -285,6 +231,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
+		
+		//FIXME:根据上下级关系查询数据
+		mergeKeywordQuery(builder, vo.getKeyword(), User.TABLE_NAME, new String[]{User.USER_NAME, User.MOBILE_NUMBER});
+		
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
 		for (User user : userList.getEntityList()) {
