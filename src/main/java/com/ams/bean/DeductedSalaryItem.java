@@ -30,6 +30,31 @@ public class DeductedSalaryItem extends BaseEntity {
 
 	@Column(name = NAME)
 	public String name;
+	
+	
+	@Column(name = "year")
+	public Integer year;
+	
+	@Column(name = "month")
+	public Integer month;
+	
+	
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
 
 	public String getSalaryId() {
 		return salaryId;

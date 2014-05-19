@@ -164,6 +164,8 @@ function onUserTreeClick(node){
 		loadRemotePage("pic/list" + accor);
 	}else if (text == '团队管理') {
 		loadRemotePage("team/list" + accor);
+	}else if (text == '工资管理') {
+		loadRemotePage("salary/list" + accor);
 	}
 	
 	

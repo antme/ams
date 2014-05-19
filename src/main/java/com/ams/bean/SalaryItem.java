@@ -10,6 +10,7 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = SalaryItem.TABLE_NAME)
 public class SalaryItem extends BaseEntity {
 
+	public static final String PERFORMANCE_SALARY_UNIT = "performanceSalaryUnit";
 	public static final String COMMENT = "comment";
 	public static final String REMAINING_SALARAY = "remainingSalaray";
 	public static final String PERFORMANCE_SALARY = "performanceSalary";
@@ -37,6 +38,9 @@ public class SalaryItem extends BaseEntity {
 
 	@Column(name = PERFORMANCE_SALARY)
 	public Double performanceSalary;
+	
+	@Column(name = PERFORMANCE_SALARY_UNIT)
+	public Double performanceSalaryUnit;
 
 	@Column(name = COMMENT)
 	public String comment;
@@ -169,6 +173,18 @@ public class SalaryItem extends BaseEntity {
 
 	public void setMonth(Integer month) {
 		this.month = month;
+	}
+
+
+
+	public Double getPerformanceSalaryUnit() {
+		return performanceSalaryUnit;
+	}
+
+
+
+	public void setPerformanceSalaryUnit(Double performanceSalaryUnit) {
+		this.performanceSalaryUnit = performanceSalaryUnit;
 	}
 
 

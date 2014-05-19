@@ -59,6 +59,49 @@ CREATE TABLE `Salary` (
 
 
 
+CREATE TABLE `SalaryItem` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `salaryId` varchar(36) DEFAULT NULL,
+  `dispayOrder` int default 0,
+  `projectId` varchar(36) DEFAULT NULL,
+  `attendanceDays` double DEFAULT 0,
+  `totolSalary` double DEFAULT 0,
+  `performanceSalary` double DEFAULT 0,
+  `performanceSalaryUnit` double DEFAULT 0,
+  `comment` varchar(255) DEFAULT NULL,
+  `year` int DEFAULT 0,
+  `month` int DEFAULT 0,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `DeductedSalaryItem` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `salaryId` varchar(36) DEFAULT NULL,
+  `dispayOrder` int default 0,
+  `projectId` varchar(36) DEFAULT NULL,
+  `totolSalary` double DEFAULT 0,
+  `comment` varchar(255) DEFAULT NULL,
+  `year` int DEFAULT 0,
+  `month` int DEFAULT 0,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 CREATE TABLE `Notice` (
   `id` varchar(36) NOT NULL,
   `title` varchar(255) NOT NULL,
