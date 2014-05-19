@@ -2,7 +2,9 @@ package com.ams.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +76,7 @@ public class ProjectController extends AmsController {
 		if (EweblibUtil.isEmpty(report.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
+		
 		if (EweblibUtil.isEmpty(report.getTaskId())) {
 			throw new ResponseException("请先选择任务");
 		}
@@ -102,8 +105,27 @@ public class ProjectController extends AmsController {
 	@RequestMapping("/dailyreport/app/list.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void listDailyReport(HttpServletRequest request, HttpServletResponse response) {
-		parserJsonParameters(request, true);
-		responseWithDataPagnation(projectService.listDailyReport(), request, response);
+		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
+		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
+	}
+	
+	@RequestMapping("/dailyreport/app/view.do")
+	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
+	public void viewDailyReport(HttpServletRequest request, HttpServletResponse response) {
+		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
+		projectService.viewDailyReport(report);
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/dailyreport/app/count.do")
+	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
+	public void countDailyReport(HttpServletRequest request, HttpServletResponse response) {
+		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("count", projectService.countDailyReport(report));
+
+		responseWithData(result, request, response);
 	}
 	
 	@RequestMapping("/dailyreport/comment/add.do")

@@ -1,5 +1,9 @@
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -8,11 +12,13 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.User;
+import com.ams.bean.vo.SalaryMonth;
 import com.ams.service.INoticeService;
 import com.ams.service.impl.NoticeServiceImpl;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
+import com.eweblib.util.EweblibUtil;
+import com.eweblib.util.ExcleUtil;
 
 public class BaseTestCase extends TestCase {
 	private static Logger logger = LogManager.getLogger(BaseTestCase.class);
@@ -41,32 +47,64 @@ public class BaseTestCase extends TestCase {
 	}
 
 	public void testEmpty() throws IOException, InterruptedException {
-		
-//		Notice notice = new Notice();
-//		notice.setTitle("test");
-////		this.dao.insert(notice);
-//		
-//		
-//		System.out.println(noticeService.listNoticesForApp().getEntityList());;
-		
-		try {
-	        System.out.println(User.class.getField("userName").getType().getName());
-        } catch (NoSuchFieldException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        } catch (SecurityException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        }
 
-//		Field[] fields = User.class.getFields();
-//		for(Field field: fields){
-//			System.out.println(field.getType().getName());
-//			System.out.println(field.getGenericType());
-//		}
-//		
+		InputStream inputStream = new FileInputStream(new File("/Users/ymzhou/Documents/salary.xls"));
+
+		ExcleUtil excleUtil = new ExcleUtil(inputStream);
+		List<String[]> list = excleUtil.getAllData(0);
+
+		if (!list.isEmpty()) {
+			getMonthAndSalaryPerDay(list);
+		}
 		
 		
+
+	}
+
+	public SalaryMonth getMonthAndSalaryPerDay(List<String[]> list) {
+		for (int i = 0; i < list.size(); i++) {// 从第5行开始读数据
+
+			String[] rows = list.get(i);
+
+			int monthSearch = 0;
+			int month = 0;
+			int salaryPerDay = 0;
+
+			for (String row : rows) {
+
+				if (EweblibUtil.isValid(row)) {
+					if (row.contains("结算单")) {
+						monthSearch = 1;
+						continue;
+					}
+
+					int number = 0;
+					try {
+						number = Integer.parseInt(row);
+					} catch (Exception e) {
+					}
+
+					if (number > 0 && monthSearch == 1) {
+						month = number;
+						monthSearch = 2;
+					} else if (number > 0 && monthSearch == 2) {
+						salaryPerDay = number;
+					}
+
+				}
+			}
+
+			if (month > 0) {
+				SalaryMonth sm = new SalaryMonth();
+				sm.setMonth(month);
+				sm.setSalaryPerDay(salaryPerDay);
+				sm.setRowNumber(i);
+				return sm;
+			}
+
+		}
+		return null;
+
 	}
 
 }

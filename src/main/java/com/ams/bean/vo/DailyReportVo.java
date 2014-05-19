@@ -10,6 +10,11 @@ public class DailyReportVo extends DailyReport {
 
 	
 	public String userName;
+	
+	public Boolean isViewed;
+	
+	public String dailyReportId;
+	
 
 	public List<String> pics;
 	
@@ -74,4 +79,23 @@ public class DailyReportVo extends DailyReport {
 	public void setComments(List<DailyReportComment> comments) {
 		this.comments = comments;
 	}
+
+	public Boolean getIsViewed() {
+		return isViewed;
+	}
+
+	public void setIsViewed(Boolean isViewed) {
+		this.isViewed = isViewed;
+	}
+
+	public String getDailyReportId() {
+		return dailyReportId;
+	}
+
+	public void setDailyReportId(String dailyReportId) {
+		this.dailyReportId = dailyReportId;
+	}
+	
+	
+	
 }

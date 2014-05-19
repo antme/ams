@@ -208,6 +208,17 @@ CREATE TABLE `DailyReport` (
 
 
 
+CREATE TABLE `DailyReportView` (
+  `id` varchar(36) NOT NULL,
+  `dailyReportId` varchar(36) DEFAULT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `DailyReportComment` (
   `id` varchar(36) NOT NULL,

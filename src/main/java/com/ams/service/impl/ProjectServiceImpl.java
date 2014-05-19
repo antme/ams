@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ams.bean.Customer;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
+import com.ams.bean.DailyReportView;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
 import com.ams.bean.Task;
@@ -198,15 +199,50 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		return report;
 
 	}
+	
+	public void viewDailyReport(DailyReportVo report) {
 
-	public EntityResults<DailyReportVo> listDailyReport() {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
+		builder.and(DailyReportView.DAILY_REPORT_ID, report.getDailyReportId());
+		builder.and(DailyReportView.USER_ID, report.getUserId());
 
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
-		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
-		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		if (!this.dao.exists(builder)) {
 
-		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY, DailyReport.REPORT_DAY,
-		        DailyReport.CREATED_ON });
+			DailyReportView view = new DailyReportView();
+			view.setDailyReportId(report.getDailyReportId());
+			view.setUserId(report.getUserId());
+
+			this.dao.insert(view);
+		}
+
+	}
+	
+	public int countDailyReport(DailyReportVo report) {
+		
+		//FXIME: 性能问题
+		DataBaseQueryBuilder query = getDaliReportQueryBuilderForApp();
+
+		List<DailyReport> reports = this.dao.listByQuery(query, DailyReport.class);
+
+		int count = reports.size();
+
+		for (DailyReport rep : reports) {
+			DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
+			viewQuery.and(DailyReportView.USER_ID, report.getUserId());
+			viewQuery.and(DailyReportView.DAILY_REPORT_ID, rep.getId());
+			if (this.dao.exists(viewQuery)) {
+				count = count - 1;
+			}
+
+		}
+
+		return count;
+
+	}
+
+	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report) {
+
+		DataBaseQueryBuilder builder = getDaliReportQueryBuilderForApp();
 
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
 
@@ -222,6 +258,15 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			}
 			vo.setPics(picUrls);
 			
+			
+			DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
+			viewQuery.and(DailyReportView.DAILY_REPORT_ID, vo.getId());
+			viewQuery.and(DailyReportView.USER_ID, report.getUserId());
+			if (this.dao.exists(viewQuery)) {
+				vo.setIsViewed(true);
+			} else {
+				vo.setIsViewed(false);
+			}
 			
 			DataBaseQueryBuilder pbuilder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
@@ -272,6 +317,17 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		return reports;
 
 	}
+
+	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp() {
+	    DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		
+
+		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY, DailyReport.REPORT_DAY,
+		        DailyReport.CREATED_ON });
+	    return builder;
+    }
 
 	public void addDailyReportComment(DailyReportComment comment) {
 		comment.setCommentDate(new Date());
