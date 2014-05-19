@@ -43,7 +43,7 @@
 
 			<div>
 				<span class="r-edit-label">公告内容:</span>
-				<textarea class="easyui-validatebox textbox" name="content" ></textarea>
+				<textarea class="easyui-validatebox textarea" name="content" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>

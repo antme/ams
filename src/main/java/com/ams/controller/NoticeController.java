@@ -26,7 +26,7 @@ import com.eweblib.util.EweblibUtil;
 public class NoticeController extends AmsController {
 
 	@Autowired
-	private INoticeService siteMessageService;
+	private INoticeService noticeService;
 	
 	@RequestMapping("/add.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
@@ -39,19 +39,19 @@ public class NoticeController extends AmsController {
 		
 		notice.setPublishDate(new Date());
 		
-		siteMessageService.addNotice(notice);
+		noticeService.addNotice(notice);
 		responseWithData(null, request, response);
 	}
 	
 	@RequestMapping("/list.do")
 	public void listNotices(HttpServletRequest request, HttpServletResponse response) {
-		responseWithDataPagnation(siteMessageService.listNotices(), request, response);
+		responseWithDataPagnation(noticeService.listNotices(), request, response);
 	}
 	
 	@RequestMapping("/app/list.do")
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
 		Notice notice = (Notice)  parserJsonParameters(request, true, Notice.class);
-		responseWithDataPagnation(siteMessageService.listNoticesForApp(notice), request, response);
+		responseWithDataPagnation(noticeService.listNoticesForApp(notice), request, response);
 	}
 	
 	
@@ -63,7 +63,7 @@ public class NoticeController extends AmsController {
 			throw new ResponseException("请先登录");
 		}
 
-		responseWithEntity(siteMessageService.addReminder(reminder), request, response);
+		responseWithEntity(noticeService.addReminder(reminder), request, response);
 	}
 	
 	
@@ -74,7 +74,7 @@ public class NoticeController extends AmsController {
 		if (EweblibUtil.isEmpty(reminder.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
-		responseWithDataPagnation(siteMessageService.listUserReminderForApp(reminder), request, response);
+		responseWithDataPagnation(noticeService.listUserReminderForApp(reminder), request, response);
 	}
 	
 	
@@ -82,7 +82,7 @@ public class NoticeController extends AmsController {
 	@RequestMapping("/remind/all/list.do")
 	public void listAllUserReminders(HttpServletRequest request, HttpServletResponse response) {
 	
-		responseWithDataPagnation(siteMessageService.listAllUserReminders(), request, response);
+		responseWithDataPagnation(noticeService.listAllUserReminders(), request, response);
 	}
 
 

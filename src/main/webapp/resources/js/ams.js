@@ -13,6 +13,10 @@ function logout(){
 
 
 
+function formatterNoticeOperation(val, row){
+	return '<a href="#" onclick=loadRemotePage("notice/add&a=0&id=' + row.id+ '")> 编辑 </a>';
+}
+
 function formatterDepartmentOperation(val, row){
 	
 	return '<a href="#" onclick=loadRemotePage("department/add&a=4&id=' + row.id+ '")> 编辑 </a>';
