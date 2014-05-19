@@ -137,6 +137,16 @@ function onNoticeClick(node) {
 }
 
 
+function onTaskClick(node) {
+	var accor = "&a=2";
+	var text = node.text;
+	if (text == '任务管理') {
+		loadRemotePage("task/list" + accor);
+	} else if (text == '日报查询') {
+		loadRemotePage("report/list" + accor);
+	}
+}
+
 function onAttendanceClick(node){
 	var accor = "&a=1";
 	var text = node.text;
