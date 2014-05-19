@@ -14,18 +14,16 @@
 	<input type="file" name="salaryFile"/>
 	<input type="submit" value="上传"/>
 </form>
-<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/notice/list.do" iconCls="icon-save"
+<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
-			<th align="center" field="title" width="100" sortable="false" resizable="true">标题</th>
-			<th align="center" field="publisher" width="100" sortable="false" resizable="true">发布人</th>
-			<th align="center" field="priority" width="50" sortable="false" resizable="true">优先级</th>
-			<th align="center" field="createdOn" width="100" sortable="false" resizable="true">发布日期</th>
-			<th align="center" field="publishEndDate" width="100" sortable="false" resizable="true">公告结束日期</th>
-			<th align="center" field="attachFileUrl" width="100" sortable="false" formatter="formatteAttachFileLink" resizable="true">附件地址</th>
-			<th align="center" field="content" width="200" sortable="false" resizable="true">内容</th>
-			<th align="center" data-options="field:'id',formatter:formatterNoticeOperation"  width="120">操作</th>
+			<th align="center" field="userName" width="100" sortable="false" resizable="true">用户名</th>
+			<th align="center" field="year" width="100" sortable="false" resizable="true">年份</th>
+			<th align="center" field="month" width="50" sortable="false" resizable="true">月份</th>
+			<th align="center" field="totalSalary" width="100" sortable="false" resizable="true">应发工资</th>
+			<th align="center" field="deductedSalary" width="100" sortable="false" resizable="true">应扣工资</th>
+			<th align="center" field="remainingSalaray" width="100" sortable="false" resizable="true">剩余工资</th>
 		</tr>
 	</thead>
 </table>

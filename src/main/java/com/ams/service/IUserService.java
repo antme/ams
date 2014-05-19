@@ -80,6 +80,8 @@ public interface IUserService {
 
 	public void addAttendance(List<Attendance> attendanceList);
 
+	public EntityResults<Salary> listAllUserSalaries(SearchVo vo);
+
 
 
 

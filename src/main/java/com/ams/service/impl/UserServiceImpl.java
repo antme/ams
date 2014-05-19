@@ -58,7 +58,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		if (dao.exists(builder)) {
 			throw new ResponseException("此用户名已经被注册");
 		}
-		
+
 		user.setPassword(DataEncrypt.generatePassword(user.getPassword()));
 
 		// if (EweblibUtil.isEmpty(user.getStatus())) {
@@ -69,9 +69,9 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return user;
 	}
-	
-	public User loadUser(User user){
-		
+
+	public User loadUser(User user) {
+
 		return (User) this.dao.findById(user.getId(), User.TABLE_NAME, User.class);
 	}
 
@@ -111,7 +111,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return null;
 	}
 
-
 	public void resetPwd(User user) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.and(User.ID, user.getId());
@@ -125,8 +124,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		}
 
 	}
-
-
 
 	@Override
 	public void lockUserById(BaseEntity be) {
@@ -231,10 +228,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
-		
-		//FIXME:根据上下级关系查询数据
-		mergeKeywordQuery(builder, vo.getKeyword(), User.TABLE_NAME, new String[]{User.USER_NAME, User.MOBILE_NUMBER});
-		
+
+		// FIXME:根据上下级关系查询数据
+		mergeKeywordQuery(builder, vo.getKeyword(), User.TABLE_NAME, new String[] { User.USER_NAME, User.MOBILE_NUMBER });
+
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
 		for (User user : userList.getEntityList()) {
@@ -255,7 +252,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			this.dao.insert(dep);
 		}
 	}
-	
+
 	public Department loadDepartment(Department dep) {
 		return (Department) this.dao.findById(dep.getId(), Department.TABLE_NAME, Department.class);
 	}
@@ -291,23 +288,23 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			}
 		}
 	}
-	
-	public Team getTeam(Team team){
-		
+
+	public Team getTeam(Team team) {
+
 		return (Team) this.dao.findById(team.getId(), Team.TABLE_NAME, Team.class);
 	}
 
 	public EntityResults<Team> listTeams(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
 		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
-		builder.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
-		
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
 		builder.join(Team.TABLE_NAME, User.TABLE_NAME, Team.TEAM_LEADER_ID, User.ID);
-		builder.joinColumns(User.TABLE_NAME, new String[]{User.USER_NAME});
-		
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
 		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
-		builder.joinColumns(Project.TABLE_NAME, new String[]{Project.PROJECT_NAME});
-		
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
 		builder.limitColumns(new Team().getColumnList());
 
 		return this.dao.listByQueryWithPagnation(builder, Team.class);
@@ -370,7 +367,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.join(Pic.TABLE_NAME, User.TABLE_NAME, Pic.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		builder.limitColumns(new Pic().getColumnList());
-		
+
 		builder.and(DataBaseQueryOpertion.NULL, Pic.DAILY_REPORT_ID);
 		return this.dao.listByQueryWithPagnation(builder, Pic.class);
 	}
@@ -384,6 +381,18 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
 
 		return this.dao.listByQueryWithPagnation(builder, Salary.class);
+	}
+
+	public EntityResults<Salary> listAllUserSalaries(SearchVo vo) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
+		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
+
+		return this.dao.listByQueryWithPagnation(builder, Salary.class);
+
 	}
 
 	public void addSalart(Salary salary) {

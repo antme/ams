@@ -170,21 +170,21 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			if (!rows[3].contains("小计")) {
 				SalaryItem item = new SalaryItem();
 				item.setProjectName(rows[3]);
-				if (EweblibUtil.isValid(rows[4])) {
-					item.setAttendanceDays(Double.parseDouble(rows[4]));
+				if (EweblibUtil.isValid(rows[5])) {
+					item.setAttendanceDays(Double.parseDouble(rows[5]));
 				}
 
-				if (EweblibUtil.isValid(rows[5])) {
-					item.setTotolSalary(Double.parseDouble(rows[5]));
-				}
 				if (EweblibUtil.isValid(rows[6])) {
-					item.setPerformanceSalary(Double.parseDouble(rows[6]));
+					item.setTotolSalary(Double.parseDouble(rows[6]));
 				}
 				if (EweblibUtil.isValid(rows[7])) {
-					item.setPerformanceSalaryUnit(Double.parseDouble(rows[7]));
+					item.setPerformanceSalary(Double.parseDouble(rows[7]));
+				}
+				if (EweblibUtil.isValid(rows[8])) {
+					item.setPerformanceSalaryUnit(Double.parseDouble(rows[8]));
 				}
 
-				item.setComment(rows[8]);
+				item.setComment(rows[9]);
 				items.add(item);
 
 			}
