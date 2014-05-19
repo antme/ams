@@ -21,28 +21,28 @@
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-notice" method="post" enctype="multipart/form-data">
-		<div class="form-container" style="width: 500px;">
+	<form novalidate id="add-notice" method="post" enctype="multipart/form-data">
+		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="label">标题:</span> <input class="easyui-validatebox textbox input-title" type="text" name="title" data-options="required:true"></input>
+				<span class="r-edit-label">标题:</span> <input class="easyui-validatebox textbox input-title" type="text" name="title" data-options="required:true"></input>
 			</div>
 			
 			<div>
-				<span class="label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
+				<span class="r-edit-label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
 			</div>
 			
 			<div>
-				<span class="label">公告结束时间:</span> <input class="easyui-datebox textbox input-title" type="text" name="publishEndDate" ></input>
+				<span class="r-edit-label">公告结束时间:</span> <input class="easyui-datebox textbox input-title" type="text" name="publishEndDate" ></input>
 			</div>
 		
 
 			<div>
-				<span class="label">附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" ></input>
+				<span class="r-edit-label">附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" ></input>
 			</div>
 
 			<div>
-				<span class="label">公告内容:</span>
+				<span class="r-edit-label">公告内容:</span>
 				<textarea class="easyui-validatebox textbox" name="content" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">

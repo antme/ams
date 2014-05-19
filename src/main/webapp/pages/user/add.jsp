@@ -20,15 +20,23 @@
 	});
 </script>
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-user" method="post">
-		<div class="form-container" style="width: 500px;">
+	<form id="add-user" method="post" novalidate>
+		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="label">用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
+				<span class="r-edit-label">用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
 			</div>
-			
+
 			<div>
-				<span class="label">描述:</span>
+				<span class="r-edit-label">密码：</span> <input name="password" id="userpassword" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
+					type="password" validType="username" required="true" missingMessage="请输入密码" /> <span class="get_span"><label class="g-label">*</label></span>
+			</div>
+			<div>
+				<span class="r-edit-label">确认密码：</span> <input name="userpasswordConfirm" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
+					type="password" required="true" missingMessage="请再次输入密码" validType="pwdEquals['#userpassword']" /> <span class="get_span"><label class="g-label">*</label></span>
+			</div>
+			<div>
+				<span class="r-edit-label">描述:</span>
 				<textarea class="easyui-validatebox textbox" name="departmentDescription"></textarea>
 			</div>
 			<div style="margin-left: 100px;">

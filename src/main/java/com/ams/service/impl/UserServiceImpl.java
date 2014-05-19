@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		if (dao.exists(builder)) {
 			throw new ResponseException("此用户名已经被注册");
 		}
+		
+		user.setPassword(DataEncrypt.generatePassword(user.getPassword()));
 
 		// if (EweblibUtil.isEmpty(user.getStatus())) {
 		// user.setStatus(UserStatus.NORMAL.toString());

@@ -21,14 +21,14 @@
 	});
 </script>
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-department" method="post">
-		<div class="form-container" style="width: 500px;">
+	<form novalidate id="add-department" method="post">
+		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="label">部门名称:</span> <input class="easyui-validatebox textbox" type="text" name="departmentName" data-options="required:true"></input>
+				<span class="r-edit-label">部门名称:</span> <input class="easyui-validatebox textbox" type="text" name="departmentName" data-options="required:true"></input>
 			</div>
 			<div>
-			<span class="label">部门主管:</span> <input class="easyui-combobox"  name="departmentManagerId" 
+			<span class="r-edit-label">部门主管:</span> <input class="easyui-combobox"  name="departmentManagerId" 
 					data-options="url:'/ams/user/app/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -40,7 +40,7 @@
 					}"></input>
 			</div>
 			<div>
-				<span class="label">描述:</span>
+				<span class="r-edit-label">描述:</span>
 				<textarea class="easyui-validatebox textbox" name="departmentDescription" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">

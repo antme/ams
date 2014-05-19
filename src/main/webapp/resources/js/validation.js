@@ -24,15 +24,11 @@ $.extend($.fn.validatebox.defaults.rules,{
         },
         message: '身份证号码格式不正确'
     },
-    same: {
-        validator: function (value, param) {
-            if ($("#" + param[0]).val() != "" && value != "") {
-                return $("#" + param[0]).val() == value;
-            } else {
-                return true;
-            }
+    pwdEquals: {
+        validator: function(value,param){
+            return value == $(param[0]).val();
         },
-        message: '两次输入的密码不一致！'
+        message: '密码不匹配'
     },
     username : {// 验证用户名         
     	validator : function(value) {              

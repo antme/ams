@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="/resources/js/eweblib.js"></script>
 		<script type="text/javascript" src="/resources/js/json2.js"></script>
 		<script type="text/javascript" src="/resources/js/ams.js"></script>
+		<script type="text/javascript" src="/resources/js/validation.js"></script>
 </head>
 
 <%

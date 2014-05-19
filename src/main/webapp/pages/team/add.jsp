@@ -21,15 +21,15 @@
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-team" method="post">
-		<div class="form-container" style="width: 500px;">
+	<form novalidate id="add-team" method="post">
+		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="label">团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
+				<span class="r-edit-label">团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
 			</div>
 		
 			<div>
-				<span class="label">所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
+				<span class="r-edit-label">所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
 					data-options="url:'/ams/user/department/list.do',
                     method:'get',
                     valueField:'id',
@@ -41,7 +41,7 @@
 					}"></input>
 			</div>
 			<div>
-				<span class="label">团队负责人:</span> <input class="easyui-combobox"  name="teamLeaderId" 
+				<span class="r-edit-label">团队负责人:</span> <input class="easyui-combobox"  name="teamLeaderId" 
 					data-options="url:'/ams/user/app/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -53,7 +53,7 @@
 					}"></input>
 			</div>
 			<div>
-			<span class="label">所属项目:</span> <input class="easyui-combobox"  name="projectId" 
+			<span class="r-edit-label">所属项目:</span> <input class="easyui-combobox"  name="projectId" 
 					data-options="url:'/ams/project/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -65,7 +65,7 @@
 					}"></input>
 			</div>
 			<div>
-				<span class="label">团队成员：</span> <select id="teamMemberIds" class="easyui-combogrid" name="teamMemberIds[]" style="width:250px;"
+				<span class="r-edit-label">团队成员：</span> <select id="teamMemberIds" class="easyui-combogrid" name="teamMemberIds[]" style="width:250px;"
 								        data-options="
 								            panelWidth:450,
 								            idField:'id',
@@ -81,7 +81,7 @@
 								        "></select>
 			</div>
 			<div>
-				<span class="label">描述:</span>
+				<span class="r-edit-label">描述:</span>
 				<textarea class="easyui-validatebox textbox" name="teamDescription" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">

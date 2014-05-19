@@ -11,26 +11,26 @@
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-customer" method="post">
-		<div class="form-container" style="width: 500px;">
+	<form novalidate novalidate id="add-customer" method="post">
+		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="label">客户名称:</span> <input class="easyui-validatebox textbox" type="text" name="name" data-options="required:true"></input>
+				<span class="r-edit-label">客户名称:</span> <input class="easyui-validatebox textbox" type="text" name="name" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="label">联系人:</span> <input class="easyui-validatebox textbox" type="text" name="contactPerson" data-options="required:true"></input>
+				<span class="r-edit-label">联系人:</span> <input class="easyui-validatebox textbox" type="text" name="contactPerson" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="label"> 职位:</span> <input class="easyui-validatebox textbox" type="text" name="position" data-options="required:true"></input>
+				<span class="r-edit-label"> 职位:</span> <input class="easyui-validatebox textbox" type="text" name="position" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="label">手机:</span> <input class="easyui-validatebox textbox" type="text" name="contactMobileNumber" data-options="required:true"></input>
+				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" name="contactMobileNumber" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="label">联系地址:</span> <input class="easyui-validatebox textbox" type="text" name="address" data-options="required:true"></input>
+				<span class="r-edit-label">联系地址:</span> <input class="easyui-validatebox textbox" type="text" name="address" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="label">备注:</span>
+				<span class="r-edit-label">备注:</span>
 				<textarea class="easyui-validatebox textbox" name="remark" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">

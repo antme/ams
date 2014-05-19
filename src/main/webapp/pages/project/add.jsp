@@ -11,14 +11,14 @@
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
-	<form id="add-project" method="post">
-		<div class="form-container" style="width: 500px;">
+	<form novalidate id="add-project" method="post">
+		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="label">项目名称:</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectName" ></input>
+				<span class="r-edit-label">项目名称:</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectName" ></input>
 			</div>
 			<div>
-				<span class="label">所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
+				<span class="r-edit-label">所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
 					data-options="url:'/ams/user/department/list.do',
                     method:'get',
                     valueField:'id',
@@ -31,7 +31,7 @@
 			</div>
 			
 			<div>
-				<span class="label">团队负责人:</span> <input class="easyui-combobox"  name="projectManagerId" 
+				<span class="r-edit-label">团队负责人:</span> <input class="easyui-combobox"  name="projectManagerId" 
 					data-options="url:'/ams/user/app/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -44,7 +44,7 @@
 			</div>
 			
 			<div>
-				<span class="label">项目状态</span> <select class="easyui-combobox" name="projectStatus" style="width: 200px;">
+				<span class="r-edit-label">项目状态</span> <select class="easyui-combobox" name="projectStatus" style="width: 200px;">
 					<option value="1">进行中</option>				
 					<option value="0">未开始</option>
 					<option value="2">延期</option>
@@ -53,16 +53,16 @@
 			</div>
 
 			<div>
-				<span class="label">项目开始时间:</span>
+				<span class="r-edit-label">项目开始时间:</span>
 				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectStartDate" ></input></td>
 			</div>
 
 			<div>
-				<span class="label">项目结束时间:</span>
+				<span class="r-edit-label">项目结束时间:</span>
 				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectEndDate"></input></td>
 			</div>
 			<div>
-				<span class="label">客户:</span> <input class="easyui-combobox"  name="customerId" 
+				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId" 
 					data-options="url:'/ams/user/customer/app/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -75,7 +75,7 @@
 			</div>
 
 			<div>
-				<span class="label">项目描述:</span>
+				<span class="r-edit-label">项目描述:</span>
 				<textarea class="easyui-validatebox textbox" name="projectDescription"></textarea>
 			</div>
 			<div style="margin-left: 100px;">
