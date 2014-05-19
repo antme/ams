@@ -138,6 +138,13 @@ function onNoticeClick(node) {
 
 
 function onAttendanceClick(node){
+	var accor = "&a=1";
+	var text = node.text;
+	if (text == '考勤查询') {
+		loadRemotePage("attendance/list" + accor);
+	} else if (text == '图片管理') {
+		loadRemotePage("pic/list" + accor);
+	}
 	
 }
 
