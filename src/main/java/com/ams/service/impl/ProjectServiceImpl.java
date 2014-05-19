@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ams.bean.Customer;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Pic;
@@ -14,6 +15,7 @@ import com.ams.bean.Project;
 import com.ams.bean.Task;
 import com.ams.bean.User;
 import com.ams.bean.vo.DailyReportVo;
+import com.ams.bean.vo.SearchVo;
 import com.ams.service.IProjectService;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
@@ -79,6 +81,44 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		return projects;
 
+	}
+	
+	public EntityResults<Customer> listCustomers(SearchVo vo){
+
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
+
+		// FIXME: 上下级查询
+		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
+
+		mergeKeywordQuery(builder, vo.getKeyword(), Customer.TABLE_NAME, new String[] { Customer.ID, Customer.NAME, Customer.ADDRESS, Customer.CONTACT_PERSON, Customer.CONTACT_MOBILE_NUMBER });
+		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
+
+		for (Customer customer : customerList.getEntityList()) {
+
+			DataBaseQueryBuilder projectQuery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+			projectQuery.and(Project.CUSTOMER_ID, customer.getId());
+			projectQuery.limitColumns(new String[] { Project.PROJECT_NAME });
+
+			List<Project> projects = this.dao.listByQuery(projectQuery, Project.class);
+
+			if (projects.size() > 0) {
+				String p = "";
+				for (Project project : projects) {
+					p = p + project.getProjectName() + ",";
+				}
+
+				p = p + "]]";
+				p = p.replace(",]]", "");
+				customer.setProjects(p);
+			} else {
+				customer.setProjects("");
+			}
+		}
+
+		return customerList;
+
+	
 	}
 	
 	

@@ -5,7 +5,7 @@
 	$(document).ready(function() {
 		initFormSubmit("add-customer", "/ams/user/customer/add.do", "添加客户", function(){
 			alert("添加成功");
-			loadRemotePage("customer/list");
+			loadRemotePage("customer/list&a=3");
 		});
 	});
 </script>
@@ -27,11 +27,11 @@
 				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" name="contactMobileNumber" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">联系地址:</span> <input class="easyui-validatebox textbox" type="text" name="address" data-options="required:true"></input>
+				<span class="r-edit-label">联系地址:</span> <input class="easyui-validatebox textbox-long" type="text" name="address" data-options="required:true"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">备注:</span>
-				<textarea class="easyui-validatebox textbox" name="remark" ></textarea>
+				<textarea class="easyui-validatebox textarea" name="remark" ></textarea>
 			</div>
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>

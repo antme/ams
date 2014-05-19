@@ -15,6 +15,7 @@ import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Project;
 import com.ams.bean.vo.DailyReportVo;
+import com.ams.bean.vo.SearchVo;
 import com.ams.service.IProjectService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
@@ -112,6 +113,15 @@ public class ProjectController extends AmsController {
 		projectService.addDailyReportComment(comment);
 		responseWithData(null, request, response);
 	}
+	
+	@RequestMapping("/customer/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listCustomers(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, true, SearchVo.class);
+	
+		responseWithDataPagnation(projectService.listCustomers(vo), request, response);
+	}
+	
 	
 
 }

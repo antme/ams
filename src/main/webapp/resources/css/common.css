@@ -27,8 +27,13 @@ body {
 	margin-left: 20px;
 }
 
-.form-container textbox{
+.form-container .textbox{
 	width: 150px;
+	border: 2px inset;
+}
+
+.form-container .textbox-long{
+	width: 250px;
 	border: 2px inset;
 }
 
@@ -47,5 +52,5 @@ body {
 .form-container textarea {
 	margin-left: 20px;
 	height: 100px;
-	width:250px;
+	width:300px;
 }

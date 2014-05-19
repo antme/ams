@@ -1,7 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<button onclick="loadRemotePage('project/add');">新增</button>
+<button onclick="loadRemotePage('project/add&a=3');">新增</button>
 <button onclick="loadRemotePage('salary/add');">新增工资</button>
 <table id=projectList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
