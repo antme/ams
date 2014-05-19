@@ -27,7 +27,7 @@ body {
 	margin-left: 20px;
 }
 
-.form-container input{
+.form-container textbox{
 	width: 150px;
 	border: 2px inset;
 }

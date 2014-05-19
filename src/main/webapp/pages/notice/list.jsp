@@ -13,7 +13,7 @@
 			<th align="center" field="priority" width="50" sortable="false" resizable="true">优先级</th>
 			<th align="center" field="publishDate" width="100" sortable="false" resizable="true">发布日期</th>
 			<th align="center" field="publishEndDate" width="100" sortable="false" resizable="true">公告结束日期</th>
-			<th align="center" field="attachFileUrl" width="100" sortable="false" resizable="true">附件地址</th>
+			<th align="center" field="attachFileUrl" width="100" sortable="false" formatter="formatteAttachFileLink" resizable="true">附件地址</th>
 			<th align="center" field="content" width="200" sortable="false" resizable="true">内容</th>
 		</tr>
 	</thead>

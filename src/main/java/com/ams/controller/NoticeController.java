@@ -15,7 +15,9 @@ import com.ams.service.INoticeService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
+import com.eweblib.util.EweblibUtil;
 
 @Controller
 @RequestMapping("/ams/notice")
@@ -55,9 +57,12 @@ public class NoticeController extends AmsController {
 	
 	@RequestMapping("/remind/add.do")
 	public void addReminder(HttpServletRequest request, HttpServletResponse response) {
-//		SiteMessage message = (SiteMessage) parserJsonParameters(request, false, SiteMessage.class);
-		Reminder reminder = (Reminder)  parserJsonParameters(request, false, Reminder.class);
-		
+		Reminder reminder = (Reminder) parserJsonParameters(request, false, Reminder.class);
+
+		if (EweblibUtil.isEmpty(reminder.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
+
 		responseWithEntity(siteMessageService.addReminder(reminder), request, response);
 	}
 	
@@ -65,7 +70,19 @@ public class NoticeController extends AmsController {
 	@RequestMapping("/remind/list.do")
 	public void listUserReminder(HttpServletRequest request, HttpServletResponse response) {
 		Reminder reminder = (Reminder)  parserJsonParameters(request, false, Reminder.class);
+		
+		if (EweblibUtil.isEmpty(reminder.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
 		responseWithDataPagnation(siteMessageService.listUserReminderForApp(reminder), request, response);
+	}
+	
+	
+	
+	@RequestMapping("/remind/all/list.do")
+	public void listAllUserReminders(HttpServletRequest request, HttpServletResponse response) {
+	
+		responseWithDataPagnation(siteMessageService.listAllUserReminders(), request, response);
 	}
 
 

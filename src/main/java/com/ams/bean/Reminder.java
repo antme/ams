@@ -5,10 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
-
 @Table(name = Reminder.TABLE_NAME)
-public class Reminder extends BaseEntity {
+public class Reminder extends AmsBaseEntity {
 	public static final String USER_ID = "userId";
 
 	public static final String CONTENT = "content";

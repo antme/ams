@@ -38,7 +38,7 @@
 		
 
 			<div>
-				<span class="r-edit-label">附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" ></input>
+				<span class="r-edit-label">附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" style="width:250px; border: 0px;"></input>
 			</div>
 
 			<div>

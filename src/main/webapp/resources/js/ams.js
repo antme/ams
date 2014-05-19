@@ -19,6 +19,10 @@ function formatterDepartmentOperation(val, row){
 }
 
 
+function formatteAttachFileLink(val, row){
+	return '<a target="_blank" href="' + val + '")> 下载 </a>';
+}
+
 function formatterPicOperation(val, row){
 	return '<a target="_blank" href="' + val + '")> <img height="50" width="100" src="' + val +'"/> </a>';
 }
