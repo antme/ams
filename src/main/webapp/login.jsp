@@ -5,20 +5,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="Expires" content="0">
 <meta http-equiv="kiben" content="no-cache">
-<meta name="keywords" content="新鹰建筑工程考勤管理系统"/>
-<meta name="description" content="新鹰建筑工程考勤管理系统"/>
+<meta name="keywords" content="新鹰建筑工程考勤管理系统" />
+<meta name="description" content="新鹰建筑工程考勤管理系统" />
 <title>新鹰建筑工程考勤管理系统</title>
+<link rel="stylesheet" type="text/css" href="/resources/css/alogin.css" />
 <link rel="stylesheet" type="text/css" href="/resources/css/easyui.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/icon.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
-<link rel="stylesheet" type="text/css" href="/resources/css/common.css" />
-
 <script src="/resources/js/jquery-1.11.1.min.js"></script>
 <script src="/resources/js/user/login.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/resources/js/eweblib.js"></script>
 <script type="text/javascript" src="/resources/js/validation.js"></script>
-<script type="text/javascript" src="/resources/js/ams.js"></script>
 </head>
 <%
     if(session.getValue("userName")!=null){
@@ -34,29 +30,49 @@ window.onload = function(){
 
 
 <style>
-	#form-login .div_input_login{
-		width : 150px;
-	}
+#form-login .div_input_login {
+	width: 150px;
+}
 </style>
 
-<body class="view-login login_back" > 
-<div class="container">
+<body >
 
-    <form action="/ams/user/login.do" method="post" novalidate id="login-form">
-           <div class="login_title"></div>
-           <div id="form-login" class="k-edit-form-container">
-                <label style="width:100px;">用户名：</label><input name="userName" id="userName" class="div_input_login easyui-validatebox" type="text" size="15" value=""    missingMessage="请输入用户名或手机号码" />
-                <p></p>
-                <label style="width:100px;">密码：</label><input name="password" id="password"  style="margin-left: 16px;" class="div_input_login easyui-validatebox" data-bind="value: password"   missingMessage="请输入密码"   type="password" size="15" />
-                <p></p>
-                <input type="submit" class="btn-submitx text_indent60" value="登录" style="margin-left:60px;" />
-           </div>
- 
-    </form>
-</div>
-    
-    <noscript>警告！为正确操作管理后台，JavaScript 必须启用。</noscript>    
-        <script type="text/javascript">
+	<div class="view-login login_back">
+		<form id="login-form" novalidate>
+		<div class="Main">
+			<ul>
+				<li class="top"></li>
+				<li class="top2"></li>
+				<li class="topA"></li>
+				<li class="topB"><span><h1>新鹰考勤管理系统</h1></span></li>
+				<li class="topC"></li>
+				<li class="topD">
+					<ul class="login">
+						<li><span class="left">用户名：</span> <span style=""> <input name="userName" required id="userName" class="txt easyui-validatebox" type="text"   missingMessage="请输入用户名" />
+
+						</span></li>
+						<li><span class="left">密码：</span> <span style=""> <input name="password"  required id="password"   class="txt easyui-validatebox"  missingMessage="请输入密码"   type="password" />
+						</span></li>
+						<li><span class="left">验证码: </span> <span style=""> <input id="Text3" type="text" class="txtCode" />
+						</span></li>
+
+
+					</ul>
+				</li>
+				<li class="topE"></li>
+				<li class="middle_A"></li>
+				<li class="middle_B"></li>
+				<li class="middle_C"><input type="submit" value="登录" style="margin-left:50px;"/></li>
+				<li class="middle_D"></li>
+				<li class="bottom_A"></li>
+
+			</ul>
+		</div>
+		</form>
+	</div>
+
+	<noscript>警告！为正确操作管理后台，JavaScript 必须启用。</noscript>
+	<script type="text/javascript">
 	    $(document).ready(function(){
 	    	
 	    });
@@ -91,6 +107,6 @@ window.onload = function(){
             }
         });
     </script>
-    
+
 </body>
 </html>
