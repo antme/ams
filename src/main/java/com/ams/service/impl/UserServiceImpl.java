@@ -327,13 +327,32 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
 
+		// FIXME: 上下级查询
 		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
 
+		mergeKeywordQuery(builder, vo.getKeyword(), Customer.TABLE_NAME, new String[] { Customer.ID, Customer.NAME, Customer.ADDRESS, Customer.CONTACT_PERSON, Customer.CONTACT_MOBILE_NUMBER });
 		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
 
 		for (Customer customer : customerList.getEntityList()) {
 
-			customer.setProjects("项目1， 项目2");
+			DataBaseQueryBuilder projectQuery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+			projectQuery.and(Project.CUSTOMER_ID, customer.getId());
+			projectQuery.limitColumns(new String[] { Project.PROJECT_NAME });
+
+			List<Project> projects = this.dao.listByQuery(projectQuery, Project.class);
+
+			if (projects.size() > 0) {
+				String p = "";
+				for (Project project : projects) {
+					p = p + project.getProjectName() + ",";
+				}
+
+				p = p + "]]";
+				p = p.replace(",]]", "");
+				customer.setProjects(p);
+			} else {
+				customer.setProjects("");
+			}
 		}
 
 		return customerList;

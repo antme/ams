@@ -178,6 +178,10 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listCustomersForApp(HttpServletRequest request, HttpServletResponse response) {
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		
+		if(vo.getUserId() == null){
+			throw new ResponseException("请先登录");
+		}
 		responseWithDataPagnation(userService.listCustomersForApp(vo), request, response);
 	}
 	
