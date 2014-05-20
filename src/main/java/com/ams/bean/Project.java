@@ -69,6 +69,19 @@ public class Project extends BaseEntity {
 	
 	public Double userWorkedDays;
 	
+	public String[] projectMemberIds;
+	
+	
+	
+	
+
+	public String[] getProjectMemberIds() {
+		return projectMemberIds;
+	}
+
+	public void setProjectMemberIds(String[] projectMemberIds) {
+		this.projectMemberIds = projectMemberIds;
+	}
 
 	public Integer getProjectStatus() {
 		return projectStatus;

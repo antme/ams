@@ -3,23 +3,31 @@ package com.ams.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.DailyReportView;
+import com.ams.bean.Department;
+import com.ams.bean.EmployeeProject;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
 import com.ams.bean.Task;
+import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IProjectService;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
+import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
 import com.eweblib.util.EweblibUtil;
 
@@ -36,7 +44,174 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			this.dao.insert(project);
 		}
 
+		// 删除原来的队员
+		String[] members = project.getProjectMemberIds();
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		query.and(EmployeeProject.PROJECT_ID, project.getId());
+		this.dao.deleteByQuery(query);
+
+		if (members != null) {
+			for (String id : members) {
+				EmployeeProject ep = new EmployeeProject();
+				ep.setUserId(id);
+				ep.setProjectId(project.getId());
+				this.dao.insert(ep);
+			}
+		}
+
 	}
+	
+	public Project getProjectInfo(Project project) {
+		project = (Project) this.dao.findById(project.getId(), Project.TABLE_NAME, Project.class);
+
+		if (project != null) {
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+			query.and(EmployeeProject.PROJECT_ID, project.getId());
+			query.limitColumns(new String[] { EmployeeProject.USER_ID });
+
+			List<EmployeeProject> epList = this.dao.listByQuery(query, EmployeeProject.class);
+			String[] userIds = new String[epList.size()];
+			int i = 0;
+			for (EmployeeProject ep : epList) {
+				userIds[i] = ep.getUserId();
+				i++;
+			}
+
+			project.setProjectMemberIds(userIds);
+		}
+
+		return project;
+	}
+	
+
+	public void addTeam(Team team) {
+		if (EweblibUtil.isValid(team.getId())) {
+			this.dao.updateById(team);
+		} else {
+			this.dao.insert(team);
+		}
+
+		// 删除原来的队员
+		String[] members = team.getTeamMemberIds();
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		query.and(EmployeeTeam.TEAM_ID, team.getId());
+		this.dao.deleteByQuery(query);
+
+		if (members != null) {
+			for (String id : members) {
+				EmployeeTeam et = new EmployeeTeam();
+				et.setUserId(id);
+				et.setTeamId(team.getId());
+				this.dao.insert(et);
+			}
+		}
+	}
+
+	public Team getTeam(Team t) {
+
+		Team team = (Team) this.dao.findById(t.getId(), Team.TABLE_NAME, Team.class);
+
+		if (team != null) {
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+			query.and(EmployeeTeam.TEAM_ID, team.getId());
+			query.limitColumns(new String[] { EmployeeTeam.USER_ID });
+
+			List<EmployeeTeam> etList = this.dao.listByQuery(query, EmployeeTeam.class);
+			String[] userIds = new String[etList.size()];
+			int i = 0;
+			for (EmployeeTeam ep : etList) {
+				userIds[i] = ep.getUserId();
+				i++;
+			}
+
+			team.setTeamMemberIds(userIds);
+		}
+
+		return team;
+	}
+	
+	
+	public EntityResults<Team> listTeams(SearchVo vo) {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
+		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
+		builder.join(Team.TABLE_NAME, User.TABLE_NAME, Team.TEAM_LEADER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
+		builder.limitColumns(new Team().getColumnList());
+
+		return this.dao.listByQueryWithPagnation(builder, Team.class);
+	}
+	
+
+	public List<Team> listTeamsForApp(Team team) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
+		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
+		builder.limitColumns(new String[] { Team.ID, Team.TEAM_DESCRIPTION, Team.TEAM_NAME });
+
+		builder.and(Team.DEPARTMENT_ID, team.getDepartmentId());
+
+		List<Team> teams = this.dao.listByQuery(builder, Team.class);
+
+		for (Team t : teams) {
+			t.setMembersNumber((int) (Math.random() * 100));
+			t.setWorkTimePeriod("早上9:00-12:00,下午15:00-20:00");
+		}
+
+		return teams;
+
+	}
+	
+
+	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		query.and(EmployeeTeam.TEAM_ID, team.getTeamId());
+		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
+
+		Set<String> userIds = new HashSet<String>();
+
+		for (EmployeeTeam et : ets) {
+			userIds.add(et.getUserId());
+		}
+
+		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		atquery.join(User.TABLE_NAME, Attendance.TABLE_NAME, User.ID, Attendance.USER_ID);
+		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE, Attendance.MINUTES, Attendance.ATTENDANCE_TYPE,
+		        Attendance.HOURS });
+
+		if (team.getAttendanceDate() != null) {
+			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
+		}
+
+		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, team.getTeamId());
+
+		atquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
+		atquery.and(DataBaseQueryOpertion.IN, User.ID, userIds);
+
+		List<Attendance> result = this.dao.listByQuery(atquery, Attendance.class);
+
+		if (result.isEmpty()) {
+			DataBaseQueryBuilder userquery = new DataBaseQueryBuilder(User.TABLE_NAME);
+			userquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
+			userquery.and(DataBaseQueryOpertion.IN, User.ID, userIds);
+
+			result = this.dao.listByQuery(userquery, Attendance.class);
+		}
+
+		return result;
+
+	}
+
 
 	@Override
 	public EntityResults<Project> listProjects() {

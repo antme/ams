@@ -1,12 +1,24 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<% String id = request.getParameter("id"); %>
 <script type="text/javascript">
+
+	var id = "<%=id%>";	
 	$(document).ready(function() {
 		initFormSubmit("add-project", "/ams/project/add.do", "添加项目", function(){
 			alert("添加成功");
-			loadRemotePage("project/list");
+			loadRemotePage("project/list&a=3");
 		});
+		
+		if(id!="null"){
+			postAjaxRequest("/ams/project/get.do", {id: id}, function(data){
+				var project = data.data;
+				$("#add-project").form('load',project);
+				
+				$('#projectMemberIds').combogrid('setValues', project.projectMemberIds);
+				
+			});
+		}
 	});
 </script>
 
@@ -18,7 +30,7 @@
 				<span class="r-edit-label">项目名称:</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectName" ></input>
 			</div>
 			<div>
-				<span class="r-edit-label">所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
+				<span class="r-edit-label">所属部门:</span> <input class="easyui-combobox "  name="departmentId" 
 					data-options="url:'/ams/user/department/list.do',
                     method:'get',
                     valueField:'id',
@@ -73,10 +85,27 @@
 						return data.rows;
 					}"></input>
 			</div>
+			
+			<div>
+				<span class="r-edit-label">项目成员：</span> <select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:300px;"
+								        data-options="
+								            panelWidth:450,
+								            idField:'id',
+								            multiple: true,
+								            textField:'userName',
+								            fitColumns: true,
+								            url:'/ams/user/app/list.do?userId=',
+								            columns:[[
+								            	{field:'ck',checkbox:true},
+								                {field:'userName',title:'用户名',width:60},
+								                {field:'id',title:'Id',width:100, hidden:true}
+								            ]]
+								        "></select>
+			</div>
 
 			<div>
 				<span class="r-edit-label">项目描述:</span>
-				<textarea class="easyui-validatebox textbox" name="projectDescription"></textarea>
+				<textarea class="easyui-validatebox textarea" name="projectDescription"></textarea>
 			</div>
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>

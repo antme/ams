@@ -11,6 +11,9 @@ function logout(){
 	}, false);
 }
 
+function formatterProjectOperation(val, row){
+	return '<a href="#" onclick=loadRemotePage("project/add&a=3&id=' + row.id+ '")> 编辑 </a>';
+}
 
 
 function formatterNoticeOperation(val, row){

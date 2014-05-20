@@ -13,8 +13,9 @@
 		
 		if(id!="null"){
 			postAjaxRequest("/ams/user/team/get.do", {id: id}, function(data){
-				$("#add-team").form('load',data.data);
-				
+				var team = data.data;
+				$("#add-team").form('load',team);
+				$('#teamMemberIds').combogrid('setValues', team.teamMemberIds);
 			});
 		}
 	});

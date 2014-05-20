@@ -292,6 +292,16 @@ CREATE TABLE `EmployeeTeam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `EmployeeProject` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `projectId` varchar(36) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 

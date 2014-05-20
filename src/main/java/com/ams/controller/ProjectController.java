@@ -45,6 +45,14 @@ public class ProjectController extends AmsController {
 		responseWithData(null, request, response);
 	}
 	
+	@RequestMapping("/get.do")
+	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
+	public void getProject(HttpServletRequest request, HttpServletResponse response) {
+		Project project = (Project) parserJsonParameters(request, false, Project.class);
+		responseWithEntity(projectService.getProjectInfo(project), request, response);
+	}
+	
+	
 	@RequestMapping("/list.do")
 	public void listProjects(HttpServletRequest request, HttpServletResponse response) {
 		parserJsonParameters(request, true);

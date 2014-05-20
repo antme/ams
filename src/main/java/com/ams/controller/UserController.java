@@ -20,6 +20,7 @@ import com.ams.bean.Salary;
 import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.bean.vo.SearchVo;
+import com.ams.service.IProjectService;
 import com.ams.service.IUserService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
@@ -40,6 +41,9 @@ public class UserController extends AmsController {
 
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IProjectService projectService;
 
 	private static Logger logger = LogManager.getLogger(UserController.class);
 
@@ -109,7 +113,7 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addTeam(HttpServletRequest request, HttpServletResponse response) {
 		Team dep = (Team) parserJsonParameters(request, false, Team.class);
-		userService.addTeam(dep);
+		projectService.addTeam(dep);
 		responseWithData(null, request, response);
 	}
 	
@@ -120,7 +124,7 @@ public class UserController extends AmsController {
 	public void getTeam(HttpServletRequest request, HttpServletResponse response) {
 		Team dep = (Team) parserJsonParameters(request, false, Team.class);
 		
-		responseWithEntity(userService.getTeam(dep), request, response);
+		responseWithEntity(projectService.getTeam(dep), request, response);
 	}
 	
 	
@@ -128,7 +132,7 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeams(HttpServletRequest request, HttpServletResponse response) {
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
-		responseWithDataPagnation(userService.listTeams(vo), request, response);
+		responseWithDataPagnation(projectService.listTeams(vo), request, response);
 	}
 	
 	
@@ -141,7 +145,7 @@ public class UserController extends AmsController {
 		if(EweblibUtil.isEmpty(team.getDepartmentId())){
 			throw new ResponseException("请先选择部门");
 		}
-		responseWithListData(userService.listTeamsForApp(team), request, response);
+		responseWithListData(projectService.listTeamsForApp(team), request, response);
 	}
 	
 	
@@ -153,7 +157,7 @@ public class UserController extends AmsController {
 		if(EweblibUtil.isEmpty(team.getTeamId())){
 			throw new ResponseException("请先选择团队");
 		}
-		responseWithListData(userService.listTeamMemebersForApp(team), request, response);
+		responseWithListData(projectService.listTeamMemebersForApp(team), request, response);
 	}
 	
 	
