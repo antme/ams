@@ -2,22 +2,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% String id = request.getParameter("id"); %>
 <script type="text/javascript">
+	var id = "<%=id%>";
 	$(document).ready(function() {
+		
 		initFormSubmit("add-notice", "/ams/notice/add.do", "添加公告", function(){
-			$.messager.defaults = {
-	        	ok : "继续加添",
-	        	cancel : "去管理"
-	        };
-			
-			$.messager.confirm('添加成功', '继续上传或跳转到公告管理列表页?', function(r){
-                if (!r){
-                    loadRemotePage('notice/list');
-                }else{
-                	
-                }
-        	});
-		});
+			   alert("添加成功");
+               loadRemotePage('notice/list');
+               
+        });
+		
+		if(id!="null"){
+			postAjaxRequest("/ams/notice/get.do", {id: id}, function(data){
+				var notice = data.data;
+				$("#add-notice").form('load',notice);
+				if(notice.attachFileUrl){
+					$("#att_url").attr("href", notice.attachFileUrl);
+					$("#attachFileDiv").show();
+					
+				}
+			});
+		}
 	});
+
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
@@ -36,10 +42,14 @@
 				<span class="r-edit-label">公告结束时间:</span> <input class="easyui-datebox textbox input-title" type="text" name="publishEndDate" ></input>
 			</div>
 		
-
-			<div>
-				<span class="r-edit-label">附件:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUrl" style="width:250px; border: 0px;"></input>
+			<div id="attachFileDiv" style="display:none;">
+				<span class="r-edit-label">原始附件地址:</span> <span><a id="att_url" style="margin-left:20px;">下载</a></span>
 			</div>
+			<div>
+				<span class="r-edit-label">附件上传:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUpload" style="width:250px; border: 0px;"></input>
+			</div>
+			
+			
 
 			<div>
 				<span class="r-edit-label">公告内容:</span>

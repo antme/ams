@@ -35,7 +35,7 @@ public class NoticeController extends AmsController {
 		Notice notice = (Notice)  parserJsonParameters(request, false, Notice.class);
 		
 		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
-		notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUrl", 0 , null));
+		notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUpload", 0 , null));
 		
 		notice.setPublishDate(new Date());
 		
@@ -53,6 +53,13 @@ public class NoticeController extends AmsController {
 		Notice notice = (Notice)  parserJsonParameters(request, true, Notice.class);
 		responseWithDataPagnation(noticeService.listNoticesForApp(notice), request, response);
 	}
+	
+	@RequestMapping("/get.do")
+	public void getNoticeInfo(HttpServletRequest request, HttpServletResponse response) {
+		Notice notice = (Notice)  parserJsonParameters(request, true, Notice.class);
+		responseWithEntity(noticeService.getNoticeInfo(notice), request, response);
+	}
+	
 	
 	
 	@RequestMapping("/remind/add.do")

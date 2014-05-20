@@ -11,7 +11,7 @@
 		});
 		
 		if(id!="null"){
-			postAjaxRequest("/ams/customer/get.do", {id: id}, function(data){
+			postAjaxRequest("/ams/project/customer/get.do", {id: id}, function(data){
 				var customer = data.data;
 				$("#add-customer").form('load',customer);
 			});

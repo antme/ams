@@ -9,6 +9,7 @@ import com.ams.bean.Notice;
 import com.ams.bean.Reminder;
 import com.ams.bean.User;
 import com.ams.service.INoticeService;
+import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.constants.EWebLibConstants;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
@@ -50,7 +51,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });
 		builder.limitColumns(new String[] { Notice.TITLE, Notice.CONTENT, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
 
-		mergeKeywordQuery(builder, notice.getKeyword(),  Notice.TABLE_NAME, new String[]{Notice.TITLE, Notice.CONTENT});
+		mergeKeywordQuery(builder, notice.getKeyword(), Notice.TABLE_NAME, new String[] { Notice.TITLE, Notice.CONTENT });
 
 		return this.dao.listByQueryWithPagnation(builder, Notice.class);
 	}
@@ -96,12 +97,9 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 			builder.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, Reminder.REMIND_DATE, c.getTime());
 
 		}
-		
 
-		mergeKeywordQuery(builder, reminder.getKeyword(),  Reminder.TABLE_NAME, new String[]{Reminder.TITLE, Reminder.CONTENT});
+		mergeKeywordQuery(builder, reminder.getKeyword(), Reminder.TABLE_NAME, new String[] { Reminder.TITLE, Reminder.CONTENT });
 
-		
-		
 		builder.limitColumns(new String[] { Reminder.TITLE, Reminder.CONTENT, Reminder.REMIND_DATE, Notice.ID });
 
 		return this.dao.listByQueryWithPagnation(builder, Reminder.class);
@@ -109,10 +107,15 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	}
 
 	public EntityResults<Reminder> listAllUserReminders() {
-		
+
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Reminder.TABLE_NAME);
 		return this.dao.listByQueryWithPagnation(builder, Reminder.class);
 
+	}
+
+	public BaseEntity getNoticeInfo(Notice notice) {
+
+		return this.dao.findById(notice.getId(), Notice.TABLE_NAME, Notice.class);
 	}
 
 }
