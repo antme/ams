@@ -21,31 +21,40 @@
 </script>
 <div style="padding: 10px 60px 20px 60px">
 	<form id="add-user" method="post" novalidate>
-		<div class="form-container" >
+		<div class="form-container">
 			<input class="" type="hidden" name="id" />
 			<div>
 				<span class="r-edit-label">用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text"   name="userCode" ></input>
+				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text" name="userCode"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工类型:</span> <input class="easyui-validatebox textbox" type="text"  name="userTypeId" ></input>
+				<span class="r-edit-label">员工类型:</span> <input class="easyui-validatebox textbox" type="text" name="userTypeId"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工级别:</span> <input class="easyui-validatebox textbox" type="text"  name="userLevelId" ></input>
+				<span class="r-edit-label">员工级别:</span> <input class="easyui-validatebox textbox" type="text" name="userLevelId"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">登录状态:</span> <input class="easyui-validatebox textbox" type="text"  name="status" ></input>
+				<span class="r-edit-label">手机登录状态:</span> <select class="easyui-combobox" name="status" style="width: 200px;">
+					<option value="0">启用</option>
+					<option value="1">禁用</option>
+				</select>
 			</div>
-			
 			<div>
-				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text"  validType="mobile" name="mobileNumber" ></input>
+				<span class="r-edit-label">后台登录状态:</span> <select class="easyui-combobox" name="bstatus" style="width: 200px;">
+					<option value="0">启用</option>
+					<option value="1">禁用</option>
+				</select>
+			</div>
+
+			<div>
+				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" validType="mobile" name="mobileNumber"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">住址:</span> <input class="easyui-validatebox textbox" type="text"   name="address" ></input>
+				<span class="r-edit-label">住址:</span> <input class="easyui-validatebox textbox-long" type="text" name="address"></input>
 			</div>
-			
+
 			<div>
 				<span class="r-edit-label">密码：</span> <input name="password" id="userpassword" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
 					type="password" validType="username" required="true" missingMessage="请输入密码" /> <span class="get_span"><label class="g-label">*</label></span>
@@ -55,8 +64,8 @@
 					type="password" required="true" missingMessage="请再次输入密码" validType="pwdEquals['#userpassword']" /> <span class="get_span"><label class="g-label">*</label></span>
 			</div>
 			<div>
-				<span class="r-edit-label">描述:</span>
-				<textarea class="easyui-validatebox textbox" name="departmentDescription"></textarea>
+				<span class="r-edit-label">备注:</span>
+				<textarea class="easyui-validatebox textarea" name="departmentDescription"></textarea>
 			</div>
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>

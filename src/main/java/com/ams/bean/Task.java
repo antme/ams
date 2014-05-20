@@ -32,6 +32,8 @@ public class Task extends BaseEntity {
 
 	@Column(name = "teamId")
 	public String teamId;
+	
+	public Integer displayOrder;
 
 	public String unit;
 
@@ -206,6 +208,16 @@ public class Task extends BaseEntity {
 
 	public void setPriceDescription(String priceDescription) {
 		this.priceDescription = priceDescription;
+	}
+	
+	
+
+	public Integer getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 
 	public static void main(String args[]) {

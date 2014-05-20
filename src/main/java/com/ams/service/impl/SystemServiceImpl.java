@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
+import com.ams.bean.Task;
 import com.ams.bean.User;
 import com.ams.bean.vo.SalaryMonth;
 import com.ams.service.ISystemService;
@@ -84,6 +85,91 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 		}
 
+	}
+
+	public void importTask(InputStream inputStream) {
+		ExcleUtil excleUtil = new ExcleUtil(inputStream);
+		List<String[]> list = excleUtil.getAllData(0);
+
+		int index = 0;
+		String teamName = "";
+		String teamLeaderName = "";
+		String teamLeaderContactPhone = "";
+		String projectName = "";
+		String projectStartDate = "";
+		String projectEndDate = "";
+		String projectPeriod = "";
+
+		List<Task> taskList = new ArrayList<Task>();
+
+		boolean taskStart = true;
+		if (!list.isEmpty()) {
+
+			for (String[] rows : list) {
+
+				String row = "";
+				for (int i = 0; i < rows.length; i++) {
+					if (EweblibUtil.isValid(rows[i])) {
+						row = row + rows[i];
+					}
+				}
+
+				if (index == 1) {
+
+					String[] teamInfo = row.split(getKey(row, "联系电话"));
+					if (teamInfo.length > 1) {
+						teamLeaderContactPhone = teamInfo[1].trim();
+					}
+
+					teamInfo = teamInfo[0].split(getKey(row, "班组名称"));
+					for (String ti : teamInfo) {
+						if (EweblibUtil.isValid(ti)) {
+							teamInfo = ti.trim().split(" ");
+							if (teamInfo.length > 1) {
+								teamName = teamInfo[0].trim();
+								teamLeaderName = teamInfo[1].trim();
+							}
+						}
+					}
+
+				} else if (index == 2) {
+					projectPeriod = row.split(getKey(row, "工期"))[1];
+					projectStartDate = row.split(getKey(row, "工期"))[0].split("开工日期")[1].replace(" ", "").trim();
+
+				} else if (index == 3) {
+					projectName = row.split(getKey(row, "项目名称"))[1].trim();
+				} else if (!row.startsWith("施工细节") && !row.startsWith("序号") && taskStart) {
+
+					Task task = new Task();
+					task.setAmount(EweblibUtil.getDouble(rows[3], 0d));
+					task.setUnit(rows[2]);
+					task.setTaskName(rows[1]);
+					task.setDisplayOrder(EweblibUtil.getInteger(rows[0], 0));
+					task.setDescription(rows[5]);
+					task.setPrice(EweblibUtil.getDouble(rows[4], 0d));
+
+					taskList.add(task);
+
+				} else if (row.startsWith("施工细节")) {
+					taskStart = false;
+				} else if (row.startsWith("竣工日期")) {
+					projectEndDate = row.split(getKey(row, "绩效单价"))[0].trim().split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
+				}
+
+				index++;
+			}
+
+		}
+	}
+
+	public String getKey(String row, String splitKey) {
+		if (row.contains(splitKey + "：")) {
+			splitKey = splitKey + "：";
+		} else if (row.contains(splitKey + ":")) {
+			splitKey = splitKey + ":";
+		} else if (row.contains(splitKey)) {
+		}
+		return splitKey;
 	}
 
 	private List<DeductedSalaryItem> getDeductedSalary(List<String[]> list) {

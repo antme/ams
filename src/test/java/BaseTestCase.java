@@ -12,9 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.DeductedSalaryItem;
-import com.ams.bean.SalaryItem;
-import com.ams.bean.vo.SalaryMonth;
+import com.ams.bean.Task;
 import com.ams.service.INoticeService;
 import com.ams.service.impl.NoticeServiceImpl;
 import com.eweblib.dao.IQueryDao;
@@ -50,24 +48,8 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 
-		InputStream inputStream = new FileInputStream(new File("/Users/ymzhou/Documents/task.xls"));
-
-		ExcleUtil excleUtil = new ExcleUtil(inputStream);
-		List<String[]> list = excleUtil.getAllData(0);
-
-		if (!list.isEmpty()) {
-
-			for (String[] rows : list) {
-
-				String row = "";
-				for (int i = 0; i < rows.length; i++) {
-					row = row + rows[i];
-				}
-				System.out.println(row);
-			}
-
-		}
+		// InputStream inputStream = new FileInputStream(new
+		// File("/Users/ymzhou/Documents/task.xls"));
 
 	}
-
 }

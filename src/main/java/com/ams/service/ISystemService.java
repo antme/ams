@@ -7,5 +7,7 @@ public interface ISystemService {
 
 	void importSalary(InputStream inputStream);
 
+	void importTask(InputStream inputStream);
+
 	
 }

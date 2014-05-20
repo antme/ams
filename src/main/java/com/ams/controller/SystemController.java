@@ -24,30 +24,36 @@ import com.eweblib.annotation.column.Permission;
 @LoginRequired()
 public class SystemController extends AmsController {
 
-
 	@Autowired
 	private ISystemService sys;
 
+	@RequestMapping("/salary/import.do")
+	public void importSalary(HttpServletRequest request, HttpServletResponse response) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile uploadFile = multipartRequest.getFile("salaryFile");
+		try {
+			InputStream inputStream = uploadFile.getInputStream();
+			sys.importSalary(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		responseWithData(null, request, response);
+	}
 	
-	  @RequestMapping("/salary/import.do")
-	    //@RoleValidate(roleID=RoleValidConstants.SALES_CONTRACT_ADD, desc = RoleValidConstants.SALES_CONTRACT_ADD_DESC)
-	    public void importSalary(HttpServletRequest request, HttpServletResponse response){
-	        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;   
-	        MultipartFile uploadFile = multipartRequest.getFile("salaryFile");        
-	        try {
-				InputStream inputStream = uploadFile.getInputStream();
-				sys.importSalary(inputStream);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	        
-	    	responseWithData(null, request, response);
-	    }  
-	    
-
-
-
-
 	
+	@RequestMapping("/task/import.do")
+	public void importTask(HttpServletRequest request, HttpServletResponse response) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultipartFile uploadFile = multipartRequest.getFile("taskFile");
+		try {
+			InputStream inputStream = uploadFile.getInputStream();
+			sys.importTask(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		responseWithData(null, request, response);
+	}
 
 }
