@@ -174,7 +174,7 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addCustomer(HttpServletRequest request, HttpServletResponse response) {
 		Customer customer = (Customer) parserJsonParameters(request, false, Customer.class);
-		userService.addCustomer(customer);
+		projectService.addCustomer(customer);
 		responseWithData(null, request, response);
 	}
 	
@@ -186,7 +186,7 @@ public class UserController extends AmsController {
 		if(vo.getUserId() == null){
 			throw new ResponseException("请先登录");
 		}
-		responseWithDataPagnation(userService.listCustomersForApp(vo), request, response);
+		responseWithDataPagnation(projectService.listCustomersForApp(vo), request, response);
 	}
 	
 	

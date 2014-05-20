@@ -25,6 +25,7 @@ import com.ams.bean.User;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IProjectService;
+import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
@@ -61,7 +62,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		}
 
 	}
-	
+
 	public Project getProjectInfo(Project project) {
 		project = (Project) this.dao.findById(project.getId(), Project.TABLE_NAME, Project.class);
 
@@ -83,7 +84,6 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		return project;
 	}
-	
 
 	public void addTeam(Team team) {
 		if (EweblibUtil.isValid(team.getId())) {
@@ -131,8 +131,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		return team;
 	}
-	
-	
+
 	public EntityResults<Team> listTeams(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
 		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
@@ -148,7 +147,6 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		return this.dao.listByQueryWithPagnation(builder, Team.class);
 	}
-	
 
 	public List<Team> listTeamsForApp(Team team) {
 
@@ -170,7 +168,6 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		return teams;
 
 	}
-	
 
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
 
@@ -212,7 +209,6 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	}
 
-
 	@Override
 	public EntityResults<Project> listProjects() {
 
@@ -245,22 +241,16 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			task.setProjectUsedDays(currentDay - startDay);
 
 			task.setUserWorkedDays(2d);
-			
-			
+
 			task.setTaskName("任务一号");
-		
-			
 
 		}
-		
-		
 
 		return projects;
 
 	}
-	
-	public EntityResults<Customer> listCustomers(SearchVo vo){
 
+	public EntityResults<Customer> listCustomers(SearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
 
@@ -294,19 +284,15 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		return customerList;
 
-	
 	}
-	
-	
-	public EntityResults<Task> listProjectTasks(){
 
+	public EntityResults<Task> listProjectTasks() {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
 		EntityResults<Task> projects = this.dao.listByQueryWithPagnation(builder, Task.class);
 
-		
 		for (Task project : projects.getEntityList()) {
 
 			Calendar c = Calendar.getInstance();
@@ -323,25 +309,19 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 			project.setProjectRemainingDays(endDay - currentDay);
 			project.setProjectUsedDays(currentDay - startDay);
-		
-			
+
 			project.setTaskName("任务一号");
 			project.setAmountDescription("4000㎡");
 			project.setPriceDescription("1.2元");
-			
+
 			project.setTeamName("施工队一号");
 			project.setMemebers("张三，李四");
 			project.setDescription("");
-			
-			
 
 		}
-		
-		
 
 		return projects;
 
-	
 	}
 
 	public DailyReport addDailyReport(DailyReportVo vo, List<String> pics) {
@@ -374,7 +354,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		return report;
 
 	}
-	
+
 	public void viewDailyReport(DailyReportVo report) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
@@ -391,10 +371,10 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		}
 
 	}
-	
+
 	public int countDailyReport(DailyReportVo report) {
-		
-		//FXIME: 性能问题
+
+		// FXIME: 性能问题
 		DataBaseQueryBuilder query = getDaliReportQueryBuilderForApp();
 
 		List<DailyReport> reports = this.dao.listByQuery(query, DailyReport.class);
@@ -432,8 +412,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 				picUrls.add(p.getPicUrl());
 			}
 			vo.setPics(picUrls);
-			
-			
+
 			DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
 			viewQuery.and(DailyReportView.DAILY_REPORT_ID, vo.getId());
 			viewQuery.and(DailyReportView.USER_ID, report.getUserId());
@@ -442,7 +421,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			} else {
 				vo.setIsViewed(false);
 			}
-			
+
 			DataBaseQueryBuilder pbuilder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
 			pbuilder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
@@ -466,26 +445,25 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 				task.setProjectUsedDays(currentDay - startDay);
 
 				task.setUserWorkedDays(2d);
-				
-				
+
 				task.setTaskName("任务一号");
 
 			}
-			
+
 			if (projects != null && projects.size() > 0) {
 				vo.setTaskInfo(projects.get(0));
 			}
 
 			DataBaseQueryBuilder commentQuery = new DataBaseQueryBuilder(DailyReportComment.TABLE_NAME);
 			commentQuery.join(DailyReportComment.TABLE_NAME, User.TABLE_NAME, DailyReportComment.USER_ID, User.ID);
-			commentQuery.joinColumns(User.TABLE_NAME, new String[]{User.USER_NAME});
+			commentQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 			commentQuery.and(DailyReportComment.DAILY_REPORT_ID, vo.getId());
-			
-			commentQuery.limitColumns(new String[]{DailyReportComment.COMMENT, DailyReportComment.COMMENT_DATE, DailyReportComment.ID});
-			
+
+			commentQuery.limitColumns(new String[] { DailyReportComment.COMMENT, DailyReportComment.COMMENT_DATE, DailyReportComment.ID });
+
 			List<DailyReportComment> comments = this.dao.listByQuery(commentQuery, DailyReportComment.class);
-			
+
 			vo.setComments(comments);
 		}
 
@@ -494,20 +472,70 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	}
 
 	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp() {
-	    DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-		
 
-		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY, DailyReport.REPORT_DAY,
-		        DailyReport.CREATED_ON });
-	    return builder;
-    }
+		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
+		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
+		return builder;
+	}
 
 	public void addDailyReportComment(DailyReportComment comment) {
 		comment.setCommentDate(new Date());
 		this.dao.insert(comment);
 
+	}
+
+	public void addCustomer(Customer customer) {
+
+		if (EweblibUtil.isValid(customer.getId())) {
+			this.dao.updateById(customer);
+		} else {
+			this.dao.insert(customer);
+		}
+
+	}
+
+	public EntityResults<Customer> listCustomersForApp(SearchVo vo) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
+
+		// FIXME: 上下级查询
+		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
+
+		mergeKeywordQuery(builder, vo.getKeyword(), Customer.TABLE_NAME, new String[] { Customer.ID, Customer.NAME, Customer.ADDRESS, Customer.CONTACT_PERSON, Customer.CONTACT_MOBILE_NUMBER });
+		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
+
+		for (Customer customer : customerList.getEntityList()) {
+
+			DataBaseQueryBuilder projectQuery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+			projectQuery.and(Project.CUSTOMER_ID, customer.getId());
+			projectQuery.limitColumns(new String[] { Project.PROJECT_NAME });
+
+			List<Project> projects = this.dao.listByQuery(projectQuery, Project.class);
+
+			if (projects.size() > 0) {
+				String p = "";
+				for (Project project : projects) {
+					p = p + project.getProjectName() + ",";
+				}
+
+				p = p + "]]";
+				p = p.replace(",]]", "");
+				customer.setProjects(p);
+			} else {
+				customer.setProjects("");
+			}
+		}
+
+		return customerList;
+
+	}
+
+	public BaseEntity getCustomerInfo(Customer customer) {
+
+		return this.dao.findById(customer.getId(), Customer.TABLE_NAME, Customer.class);
 	}
 
 }

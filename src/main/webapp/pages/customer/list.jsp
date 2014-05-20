@@ -11,6 +11,7 @@
 			<th align="center" field="position" width="200" sortable="false" resizable="true">联系人职位</th>
 			<th align="center" field="contactMobileNumber" width="200" sortable="false" resizable="true">手机</th>
 			<th align="center" field="remark" width="200" sortable="false" resizable="true">备注</th>
+			<th align="center" data-options="field:'id',formatter:formatterCustomerOperation"  width="120">操作</th>
 		</tr>
 	</thead>
 </table>

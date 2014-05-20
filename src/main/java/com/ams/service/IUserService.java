@@ -54,10 +54,6 @@ public interface IUserService {
 
 
 
-	public void addCustomer(Customer customer);
-
-	public EntityResults<Customer> listCustomersForApp(SearchVo vo);
-
 	public void addPic(Pic pic);
 
 	public EntityResults<Pic> listPics(SearchVo vo);

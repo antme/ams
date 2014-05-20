@@ -2,11 +2,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% String id = request.getParameter("id"); %>
 <script type="text/javascript">
+	var id = "<%=id%>";
+
 	$(document).ready(function() {
 		initFormSubmit("add-customer", "/ams/user/customer/add.do", "添加客户", function(){
 			alert("添加成功");
 			loadRemotePage("customer/list&a=3");
 		});
+		
+		if(id!="null"){
+			postAjaxRequest("/ams/customer/get.do", {id: id}, function(data){
+				var customer = data.data;
+				$("#add-customer").form('load',customer);
+			});
+		}
+		
 	});
 </script>
 

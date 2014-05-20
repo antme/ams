@@ -38,10 +38,15 @@ function formatterUserOperation(val, row){
 	return '<a href="#" onclick=loadRemotePage("user/add&a=4&id=' + row.id+ '")> 编辑 </a>';
 }
 
+function formatterCustomerOperation(val, row){
+	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id+ '")> 编辑 </a>';
+}
+
+
 
 function formatterTeamOperation(val, row){
 	
-	return '<a href="#" onclick=loadRemotePage("team/add&a=4&id=' + row.id+ '")> 编辑 </a>';
+	return '<a href="#" onclick=loadRemotePage("team/add&a=3&id=' + row.id+ '")> 编辑 </a>';
 }
 
 function formatterNewsDetail(val, row){//新闻列表：查看新闻详情

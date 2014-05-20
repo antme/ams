@@ -12,6 +12,7 @@ import com.ams.bean.Task;
 import com.ams.bean.Team;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
+import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 
 public interface IProjectService {
@@ -48,6 +49,13 @@ public interface IProjectService {
 	public List<Team> listTeamsForApp(Team team);
 	
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team);
+	
+
+	public void addCustomer(Customer customer);
+
+	public EntityResults<Customer> listCustomersForApp(SearchVo vo);
+
+	BaseEntity getCustomerInfo(Customer customer);
 
 
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ams.bean.Customer;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Project;
@@ -151,6 +152,15 @@ public class ProjectController extends AmsController {
 	
 		responseWithDataPagnation(projectService.listCustomers(vo), request, response);
 	}
+	
+	
+	@RequestMapping("/customer/get.do")
+	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
+	public void getCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
+		Customer customer = (Customer) parserJsonParameters(request, false, Customer.class);
+		responseWithEntity(projectService.getCustomerInfo(customer), request, response);
+	}
+	
 	
 	
 
