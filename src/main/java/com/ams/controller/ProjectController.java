@@ -72,6 +72,12 @@ public class ProjectController extends AmsController {
 		responseWithDataPagnation(projectService.listProjectTasks(), request, response);
 	}
 	
+	@RequestMapping("/task/list.do")
+	public void listAllTasksFor(HttpServletRequest request, HttpServletResponse response) {
+		parserJsonParameters(request, true);
+		responseWithDataPagnation(projectService.listAllTasksFor(), request, response);
+	}
+	
 	
 	@RequestMapping("/dailyreport/app/add.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)

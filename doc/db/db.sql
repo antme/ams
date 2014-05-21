@@ -243,8 +243,34 @@ CREATE TABLE `DailyReport` (
   `isCommented` tinyint DEFAULT 0,  
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `Task` (
+  `id` varchar(36) NOT NULL,
+  `projectId` varchar(36) DEFAULT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `teamId` varchar(36) default null,
+  `unit` varchar(36) default null,
+  `price` double default 0,
+  `amount` double default 0,
+  `amountDescription` varchar(36) default null,
+  `priceDescription` varchar(36) default null,
+  `taskName` varchar(255) NOT NULL,
+  `teamName` varchar(255) default NULL,
+  `taskContactPhone` varchar(255) default NULL,
+  `taskPeriod` varchar(255) default NULL,
+  `description` TEXT DEFAULT NULL,
+  `projectName` varchar(255) DEFAULT NULL,
+  `projectStartDate` date DEFAULT NULL,
+  `projectEndDate` date DEFAULT NULL,
+  `displayOrder` int(11) DEFAULT 0,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
   `creatorId` varchar(36) DEFAULT NULL,
-  `status` int(11) DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,9 +1,4 @@
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -12,13 +7,11 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.Task;
 import com.ams.service.INoticeService;
 import com.ams.service.impl.NoticeServiceImpl;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
-import com.eweblib.util.EweblibUtil;
-import com.eweblib.util.ExcleUtil;
+import com.eweblib.util.DateUtil;
 
 public class BaseTestCase extends TestCase {
 	private static Logger logger = LogManager.getLogger(BaseTestCase.class);
@@ -48,6 +41,7 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 
+		System.out.println(DateUtil.getDate("2014年5月10日", "YYYY年MM月DD日"));
 		// InputStream inputStream = new FileInputStream(new
 		// File("/Users/ymzhou/Documents/task.xls"));
 

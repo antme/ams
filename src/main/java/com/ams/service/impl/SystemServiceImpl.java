@@ -8,15 +8,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ams.bean.DeductedSalaryItem;
+import com.ams.bean.Project;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
 import com.ams.bean.Task;
+import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.bean.vo.SalaryMonth;
 import com.ams.service.ISystemService;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.service.AbstractService;
+import com.eweblib.util.DateUtil;
 import com.eweblib.util.EweblibUtil;
 import com.eweblib.util.ExcleUtil;
 
@@ -140,15 +143,18 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 					projectName = row.split(getKey(row, "项目名称"))[1].trim();
 				} else if (!row.startsWith("施工细节") && !row.startsWith("序号") && taskStart) {
 
-					Task task = new Task();
-					task.setAmount(EweblibUtil.getDouble(rows[3], 0d));
-					task.setUnit(rows[2]);
-					task.setTaskName(rows[1]);
-					task.setDisplayOrder(EweblibUtil.getInteger(rows[0], 0));
-					task.setDescription(rows[5]);
-					task.setPrice(EweblibUtil.getDouble(rows[4], 0d));
-
-					taskList.add(task);
+					if (EweblibUtil.isValid(rows[1])) {
+						Task task = new Task();
+						task.setAmount(EweblibUtil.getDouble(rows[3], 0d));
+						task.setUnit(rows[2]);
+						task.setTaskName(rows[1]);
+						task.setDisplayOrder(EweblibUtil.getInteger(rows[0], 0));
+						task.setDescription(rows[5]);
+						task.setPrice(EweblibUtil.getDouble(rows[4], 0d));
+						task.setAmountDescription(EweblibUtil.getDouble(rows[3], 0d) + rows[2]);
+						task.setPriceDescription(EweblibUtil.getDouble(rows[4], 0d) + "元");
+						taskList.add(task);
+					}
 
 				} else if (row.startsWith("施工细节")) {
 					taskStart = false;
@@ -159,6 +165,41 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 				index++;
 			}
 
+		}
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		query.and(Project.PROJECT_NAME, projectName);
+		Project project = (Project) this.dao.findOneByQuery(query, Project.class);
+
+		if (project == null) {
+			throw new ResponseException("项目不存在，请先创建此项目");
+		}
+
+		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
+		teamQuery.and(Team.TEAM_NAME, teamName);
+		Team team = (Team) this.dao.findOneByQuery(query, Team.class);
+
+		if (team == null) {
+			throw new ResponseException("施工队不存在，请先创建施工队");
+		}
+
+		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		userQuery.and(User.USER_NAME, teamLeaderName);
+		User user = (User) this.dao.findOneByQuery(userQuery, User.class);
+
+		if (user == null) {
+			throw new ResponseException("用户不存在，请先创建施工队");
+		}
+
+		for (Task task : taskList) {
+			task.setTeamId(team.getId());
+			task.setProjectId(project.getId());
+			task.setProjectName(projectName);
+			task.setProjectStartDate(DateUtil.getDate(projectStartDate, "YYYY年MM月DD日"));
+			task.setProjectEndDate(DateUtil.getDate(projectEndDate, "YYYY年MM月DD日"));
+			task.setTeamName(teamName);
+			task.setTaskContactPhone(teamLeaderContactPhone);
+			task.setTaskPeriod(projectPeriod);
+			this.dao.insert(task);
 		}
 	}
 
@@ -226,16 +267,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		int payEndIndex = 0;
 		for (int i = 0; i < list.size(); i++) {
 			String[] rows = list.get(i);
-			String userName;
-			boolean findUserName = false;
 			for (String row : rows) {
 
 				if (row.contains("应付款")) {
 					payStartIndex = i;
-					findUserName = true;
-				}
-				if (EweblibUtil.isValid(row) && !findUserName) {
-					userName = row.trim();
 				}
 
 				if (row.contains("应扣款")) {

@@ -3,11 +3,37 @@ package com.ams.bean;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Table;
 
 import com.eweblib.bean.BaseEntity;
 
+@Table(name = Task.TABLE_NAME)
 public class Task extends BaseEntity {
-	
+
+	public static final String TEAM_NAME = "teamName";
+
+	public static final String TASK_PERIOD = "taskPeriod";
+
+	public static final String TASK_CONTACT_PHONE = "taskContactPhone";
+
+	public static final String PRICE_DESCRIPTION = "priceDescription";
+
+	public static final String AMOUNT_DESCRIPTION = "amountDescription";
+
+	public static final String DESCRIPTION = "description";
+
+	public static final String AMOUNT = "amount";
+
+	public static final String PRICE = "price";
+
+	public static final String UNIT = "unit";
+
+	public static final String DISPLAY_ORDER = "displayOrder";
+
+	public static final String TEAM_ID = "teamId";
+
+	public static final String PROJECT_ID = "projectId";
+
 	public static final String TASK_NAME = "taskName";
 
 	public static final String PROJECT_USED_DAYS = "projectUsedDays";
@@ -23,49 +49,83 @@ public class Task extends BaseEntity {
 	public static final String PROJECT_NAME = "projectName";
 
 	public static final String TABLE_NAME = "Task";
-	
+
 	@Column(name = TASK_NAME)
 	public String taskName;
-	
-	@Column(name = "projectId")
+
+	@Column(name = PROJECT_ID)
 	public String projectId;
 
-	@Column(name = "teamId")
+	@Column(name = TEAM_ID)
 	public String teamId;
-	
+
+	@Column(name = DISPLAY_ORDER)
 	public Integer displayOrder;
 
+	@Column(name = UNIT)
 	public String unit;
 
+	@Column(name = PRICE)
 	public Double price;
-	
+
+	@Column(name = AMOUNT)
 	public Double amount;
-	
+
+	@Column(name = DESCRIPTION)
 	public String description;
 
+	@Column(name = AMOUNT_DESCRIPTION)
 	public String amountDescription;
+
+	@Column(name = PRICE_DESCRIPTION)
 	public String priceDescription;
 
-	public String teamName;
-
-	public String memebers;
-	
+	@Column(name = PROJECT_NAME)
 	public String projectName;
 
+	@Column(name = PROJECT_START_DATE)
 	public Date projectStartDate;
 
+	@Column(name = PROJECT_END_DATE)
 	public Date projectEndDate;
+
+	@Column(name = TEAM_NAME)
+	public String teamName;
+	
+	@Column(name = TASK_CONTACT_PHONE)
+	public String taskContactPhone;
+	
+	
+	@Column(name = TASK_PERIOD)
+	public String taskPeriod;
 
 	public Integer projectTotalDays;
 
 	public Integer projectRemainingDays;
 
 	public Integer projectUsedDays;
-	
+
+	public String memebers;
+
 	public Double userWorkedDays;
 
 	
-	
+	public String getTaskContactPhone() {
+		return taskContactPhone;
+	}
+
+	public void setTaskContactPhone(String taskContactPhone) {
+		this.taskContactPhone = taskContactPhone;
+	}
+
+	public String getTaskPeriod() {
+		return taskPeriod;
+	}
+
+	public void setTaskPeriod(String taskPeriod) {
+		this.taskPeriod = taskPeriod;
+	}
+
 	public String getTaskName() {
 		return taskName;
 	}
@@ -209,8 +269,6 @@ public class Task extends BaseEntity {
 	public void setPriceDescription(String priceDescription) {
 		this.priceDescription = priceDescription;
 	}
-	
-	
 
 	public Integer getDisplayOrder() {
 		return displayOrder;
@@ -230,7 +288,7 @@ public class Task extends BaseEntity {
 		task.setDescription("");
 		task.setTeamName("");
 		task.setMemebers("");
-		
+
 		System.out.println(task);
 
 	}

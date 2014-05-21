@@ -57,5 +57,7 @@ public interface IProjectService {
 
 	BaseEntity getCustomerInfo(Customer customer);
 
+	EntityResults<Task> listAllTasksFor();
+
 
 }

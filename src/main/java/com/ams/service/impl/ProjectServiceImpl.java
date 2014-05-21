@@ -250,6 +250,13 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	}
 
+	public EntityResults<Task> listAllTasksFor() {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
+
+		return this.dao.listByQueryWithPagnation(builder, Task.class);
+	}
+
 	public EntityResults<Customer> listCustomers(SearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
