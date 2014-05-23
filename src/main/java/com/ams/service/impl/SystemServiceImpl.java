@@ -229,13 +229,29 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public EntityResults<UserType> listUserTypes(UserType type) {
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(UserType.TABLE_NAME);
+		query.join(UserType.TABLE_NAME, User.TABLE_NAME, UserType.CREATOR_ID, User.ID);
+		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(UserType.TABLE_NAME), UserType.class);
+		query.limitColumns(new UserType().getColumnList());
+
+		return this.dao.listByQueryWithPagnation(query, UserType.class);
 
 	}
 
 	public EntityResults<UserLevel> listUserLevels(UserLevel level) {
-		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(UserLevel.TABLE_NAME), UserLevel.class);
+		
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(UserLevel.TABLE_NAME);
+		query.join(UserLevel.TABLE_NAME, User.TABLE_NAME, UserLevel.CREATOR_ID, User.ID);
+		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		
+		query.join(UserLevel.TABLE_NAME, UserType.TABLE_NAME, UserLevel.USER_TYPE_ID, UserType.ID);
+		query.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
+
+		query.limitColumns(new UserLevel().getColumnList());
+		
+		
+		return this.dao.listByQueryWithPagnation(query, UserLevel.class);
 	}
 
 	public String getKey(String row, String splitKey) {

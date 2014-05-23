@@ -20,6 +20,8 @@ public class UserType extends BaseEntity {
 	@Column(name = TYPE_DESCRIPTION)
 	public String typeDescription;
 
+	public String userName;
+
 	public String getTypeName() {
 		return typeName;
 	}
@@ -34,6 +36,14 @@ public class UserType extends BaseEntity {
 
 	public void setTypeDescription(String typeDescription) {
 		this.typeDescription = typeDescription;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }
