@@ -10,7 +10,7 @@ public interface INoticeService {
 
 	public void addNotice(Notice notice);
 
-	public EntityResults<Notice> listNotices();
+	public EntityResults<Notice> listNotices(Notice notice);
 
 	public EntityResults<Notice> listNoticesForApp(Notice notice);
 
