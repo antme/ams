@@ -55,18 +55,22 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.and(User.USER_NAME, user.getUserName());
+		if (user.getId() != null) {
+			builder.and(DataBaseQueryOpertion.NOT_EQUALS, User.ID, user.getId());
+		}
+
 		if (dao.exists(builder)) {
 			throw new ResponseException("此用户名已经被注册");
 		}
 
 		user.setPassword(DataEncrypt.generatePassword(user.getPassword()));
 
-		// if (EweblibUtil.isEmpty(user.getStatus())) {
-		// user.setStatus(UserStatus.NORMAL.toString());
-		// }
+		if (EweblibUtil.isValid(user.getId())) {
+			this.dao.updateById(user);
+		} else {
+			dao.insert(user);
 
-		dao.insert(user);
-
+		}
 		return user;
 	}
 

@@ -27,7 +27,9 @@ function formatterDepartmentOperation(val, row){
 
 
 function formatteAttachFileLink(val, row){
-	return '<a target="_blank" href="' + val + '")> 下载 </a>';
+	if(val){
+		return '<a target="_blank" href="' + val + '")> 下载 </a>';
+	}
 }
 
 function formatterUserTypeOperation(val, row){

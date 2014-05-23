@@ -43,7 +43,7 @@
 			</div>
 		
 			<div id="attachFileDiv" style="display:none;">
-				<span class="r-edit-label">原始附件地址:</span> <span><a id="att_url" style="margin-left:20px;">下载</a></span>
+				<span class="r-edit-label">原始附件地址:</span> <span><a id="att_url" style="margin-left:20px;">下载</a> <input type="checkbox" name="deleteAttachFile" id="deleteAttachFile"/> <label for="deleteAttachFile">是否删除附件</label></span>
 			</div>
 			<div>
 				<span class="r-edit-label">附件上传:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUpload" style="width:250px; border: 0px;"></input>

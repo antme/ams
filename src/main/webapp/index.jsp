@@ -114,7 +114,7 @@
       
         $(document).ready(function(){
             //初始化页面最小宽度  
-            initDataGridEvent();
+           // initDataGridEvent();
             
            	$('#accordion').accordion('select', index); 
             

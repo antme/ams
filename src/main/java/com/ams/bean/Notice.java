@@ -10,7 +10,6 @@ import javax.persistence.Table;
 public class Notice extends AmsBaseEntity {
 	public static final String PUBLISH_END_DATE = "publishEndDate";
 
-	public static final String PUBLISHER_ID = "publisherId";
 
 	public static final String PRIORITY = "priority";
 
@@ -48,6 +47,18 @@ public class Notice extends AmsBaseEntity {
 	
 	public String publisher;
 	
+	public String deleteAttachFile;
+	
+
+	
+	public String getDeleteAttachFile() {
+		return deleteAttachFile;
+	}
+
+	public void setDeleteAttachFile(String deleteAttachFile) {
+		this.deleteAttachFile = deleteAttachFile;
+	}
+
 	public Integer getPriority() {
 		return priority;
 	}

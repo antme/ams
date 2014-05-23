@@ -27,41 +27,50 @@ public class NoticeController extends AmsController {
 
 	@Autowired
 	private INoticeService noticeService;
-	
+
 	@RequestMapping("/add.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void addNotice(HttpServletRequest request, HttpServletResponse response) {
-//		SiteMessage message = (SiteMessage) parserJsonParameters(request, false, SiteMessage.class);
-		Notice notice = (Notice)  parserJsonParameters(request, false, Notice.class);
-		
+		// SiteMessage message = (SiteMessage) parserJsonParameters(request,
+		// false, SiteMessage.class);
+		Notice notice = (Notice) parserJsonParameters(request, false, Notice.class);
+
 		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
-		notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUpload", 0 , null));
-		
+
+		if (notice.getDeleteAttachFile() != null) {
+			//TODO: delete file 
+			notice.setAttachFileUrl("");
+		}
+
+		String upFile = uploadFile(request, relativeFilePath, "attachFileUpload", 0, null);
+
+		if (upFile != null) {
+			notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUpload", 0, null));
+		}
+
 		notice.setPublishDate(new Date());
-		
+
 		noticeService.addNotice(notice);
 		responseWithData(null, request, response);
 	}
-	
+
 	@RequestMapping("/list.do")
 	public void listNotices(HttpServletRequest request, HttpServletResponse response) {
 		responseWithDataPagnation(noticeService.listNotices(), request, response);
 	}
-	
+
 	@RequestMapping("/app/list.do")
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
-		Notice notice = (Notice)  parserJsonParameters(request, true, Notice.class);
+		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
 		responseWithDataPagnation(noticeService.listNoticesForApp(notice), request, response);
 	}
-	
+
 	@RequestMapping("/get.do")
 	public void getNoticeInfo(HttpServletRequest request, HttpServletResponse response) {
-		Notice notice = (Notice)  parserJsonParameters(request, true, Notice.class);
+		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
 		responseWithEntity(noticeService.getNoticeInfo(notice), request, response);
 	}
-	
-	
-	
+
 	@RequestMapping("/remind/add.do")
 	public void addReminder(HttpServletRequest request, HttpServletResponse response) {
 		Reminder reminder = (Reminder) parserJsonParameters(request, false, Reminder.class);
@@ -72,25 +81,21 @@ public class NoticeController extends AmsController {
 
 		responseWithEntity(noticeService.addReminder(reminder), request, response);
 	}
-	
-	
+
 	@RequestMapping("/remind/list.do")
 	public void listUserReminder(HttpServletRequest request, HttpServletResponse response) {
-		Reminder reminder = (Reminder)  parserJsonParameters(request, false, Reminder.class);
-		
+		Reminder reminder = (Reminder) parserJsonParameters(request, false, Reminder.class);
+
 		if (EweblibUtil.isEmpty(reminder.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
 		responseWithDataPagnation(noticeService.listUserReminderForApp(reminder), request, response);
 	}
-	
-	
-	
+
 	@RequestMapping("/remind/all/list.do")
 	public void listAllUserReminders(HttpServletRequest request, HttpServletResponse response) {
-	
+
 		responseWithDataPagnation(noticeService.listAllUserReminders(), request, response);
 	}
-
 
 }

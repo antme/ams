@@ -15,6 +15,8 @@
 				$("#add-user").form('load',data.data);
 				
 			});
+			
+			$("#userName").readonly();
 		}
 		
 	});
@@ -24,16 +26,36 @@
 		<div class="form-container">
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="r-edit-label">用户名:</span> <input class="easyui-validatebox textbox" type="text" name="userName" data-options="required:true"></input>
+				<span class="r-edit-label">用户名:</span> <input class="easyui-validatebox textbox" type="text" id="userName" name="userName" data-options="required:true"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text" name="userCode"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工类型:</span> <input class="easyui-validatebox textbox" type="text" name="userTypeId"></input>
+				<span class="r-edit-label">员工类型:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'typeName',
+                    panelHeight:'auto',
+                    onSelect: function(rec){
+			            var url = '/ams/sys/userlevel/list.do?userTypeId=?id='+rec.id;
+			            $('#userTypeId').combobox('reload', url);
+			        },
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工级别:</span> <input class="easyui-validatebox textbox" type="text" name="userLevelId"></input>
+				<span class="r-edit-label">员工级别:</span> <input class="easyui-combobox textbox"  id ="userTypeId" type="text" name="userLevelId"
+				data-options="
+                    valueField:'id',
+                    required:true,
+                    textField:'levelName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">手机登录状态:</span> <select class="easyui-combobox" name="status" style="width: 200px;">
