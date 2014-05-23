@@ -63,6 +63,11 @@ public class NoticeController extends AmsController {
 	@RequestMapping("/app/list.do")
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
 		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
+
+		if (EweblibUtil.isEmpty(notice.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
+
 		responseWithDataPagnation(noticeService.listNoticesForApp(notice), request, response);
 	}
 

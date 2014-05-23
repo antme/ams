@@ -62,7 +62,10 @@ public class ProjectController extends AmsController {
 	
 	@RequestMapping("/app/task/select.do")
 	public void listProjectsForApp(HttpServletRequest request, HttpServletResponse response) {
-		parserJsonParameters(request, true);
+		SearchVo vo = (SearchVo)parserJsonParameters(request, false, SearchVo.class);
+		if (EweblibUtil.isEmpty(vo.getUserId())) {			
+			throw new ResponseException("请先登录");
+		}
 		responseWithListData(projectService.listProjectTasksForAppDailyReport(), request, response);
 	}
 	
@@ -121,6 +124,12 @@ public class ProjectController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void listDailyReport(HttpServletRequest request, HttpServletResponse response) {
 		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
+		
+		SearchVo vo = (SearchVo)parserJsonParameters(request, false, SearchVo.class);
+		if (EweblibUtil.isEmpty(vo.getUserId())) {			
+			throw new ResponseException("请先登录");
+		}
+		
 		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
 	}
 	
@@ -147,6 +156,10 @@ public class ProjectController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void addDailyReportComment(HttpServletRequest request, HttpServletResponse response) {
 		DailyReportComment comment = (DailyReportComment)  parserJsonParameters(request, false, DailyReportComment.class);
+		
+		if (EweblibUtil.isEmpty(comment.getUserId())) {			
+			throw new ResponseException("请先登录");
+		}
 		projectService.addDailyReportComment(comment);
 		responseWithData(null, request, response);
 	}

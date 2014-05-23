@@ -194,6 +194,10 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listUserForApp(HttpServletRequest request, HttpServletResponse response) {
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+
+		if (EweblibUtil.isEmpty(vo.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
 		responseWithDataPagnation(userService.listUserForApp(vo), request, response);
 	}
 	
