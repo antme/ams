@@ -66,6 +66,15 @@ public class SystemController extends AmsController {
 		responseWithData(null, request, response);
 	}
 	
+	
+	@RequestMapping("/usertype/get.do")
+	public void getUserType(HttpServletRequest request, HttpServletResponse response) {
+
+		UserType type = (UserType)parserJsonParameters(request, false, UserType.class);
+	
+		responseWithEntity(sys.getUserType(type), request, response);
+	}
+	
 	@RequestMapping("/usertype/list.do")
 	public void listUserTypes(HttpServletRequest request, HttpServletResponse response) {
 
@@ -88,5 +97,13 @@ public class SystemController extends AmsController {
 		
 		sys.addUserLevel(level);
 		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/userlevel/get.do")
+	public void getUserLevel(HttpServletRequest request, HttpServletResponse response) {
+
+		UserLevel level = (UserLevel)parserJsonParameters(request, false, UserLevel.class);
+	
+		responseWithEntity(sys.getUserLevel(level), request, response);
 	}
 }

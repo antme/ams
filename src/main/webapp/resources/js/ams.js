@@ -30,6 +30,14 @@ function formatteAttachFileLink(val, row){
 	return '<a target="_blank" href="' + val + '")> 下载 </a>';
 }
 
+function formatterUserTypeOperation(val, row){
+	return '<a href="#" onclick=loadRemotePage("sys/addusertype&a=5&id=' + row.id+ '")> 编辑 </a>';
+}
+
+function formatteruserlevelOperation(val, row){
+	return '<a href="#" onclick=loadRemotePage("sys/adduserlevel&a=5&id=' + row.id+ '")> 编辑 </a>';
+	
+}
 function formatterPicOperation(val, row){
 	return '<a target="_blank" href="' + val + '")> <img height="50" width="100" src="' + val +'"/> </a>';
 }

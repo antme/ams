@@ -331,6 +331,35 @@ CREATE TABLE `EmployeeProject` (
 
 
 
+CREATE TABLE `UserType` (
+  `id` varchar(36) NOT NULL,
+  `typeName` varchar(255) DEFAULT NULL,
+  `typeDescription` varchar(255) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE `UserLevel` (
+  `id` varchar(36) NOT NULL,
+  `levelName` varchar(255) DEFAULT NULL,
+  `levelDescription` varchar(255) DEFAULT NULL,
+  `userTypeId` varchar(36) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 alter table dailyReport add column taskId varchar(36) default null;
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('05c07bcc-833e-4b22-a8be-3c3a63609ac8','admin','96e79218965eb72c92a549dd5a330112',now(),now());
 update User set mobileNumber="11111111", userCode="A000001";

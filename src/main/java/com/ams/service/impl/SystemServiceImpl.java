@@ -18,6 +18,7 @@ import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SalaryMonth;
 import com.ams.service.ISystemService;
+import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.exception.ResponseException;
@@ -215,6 +216,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		}
 	}
 
+	public BaseEntity getUserType(UserType type) {
+		return this.dao.findById(type.getId(), UserType.TABLE_NAME, UserType.class);
+	}
+
 	public void addUserLevel(UserLevel level) {
 		if (EweblibUtil.isValid(level.getId())) {
 			this.dao.updateById(level);
@@ -222,8 +227,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			this.dao.insert(level);
 		}
 	}
-	
-	
+
 	public EntityResults<UserType> listUserTypes(UserType type) {
 
 		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(UserType.TABLE_NAME), UserType.class);
@@ -242,6 +246,11 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		} else if (row.contains(splitKey)) {
 		}
 		return splitKey;
+	}
+
+	public BaseEntity getUserLevel(UserLevel level) {
+		return this.dao.findById(level.getId(), UserLevel.TABLE_NAME, UserLevel.class);
+
 	}
 
 	private List<DeductedSalaryItem> getDeductedSalary(List<String[]> list) {
