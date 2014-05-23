@@ -16,7 +16,6 @@
 				
 			});
 			
-			$("#userName").readonly();
 		}
 		
 	});
@@ -59,14 +58,14 @@
 			</div>
 			<div>
 				<span class="r-edit-label">手机登录状态:</span> <select class="easyui-combobox" name="status" style="width: 200px;">
-					<option value="0">启用</option>
-					<option value="1">禁用</option>
+					<option value="1">启用</option>
+					<option value="0">禁用</option>
 				</select>
 			</div>
 			<div>
-				<span class="r-edit-label">后台登录状态:</span> <select class="easyui-combobox" name="bstatus" style="width: 200px;">
-					<option value="0">启用</option>
-					<option value="1">禁用</option>
+				<span class="r-edit-label">后台登录状态:</span> <select class="easyui-combobox" name="bstatus" style="width: 200px;" >
+					<option value="1">启用</option>
+					<option value="0">禁用</option>
 				</select>
 			</div>
 

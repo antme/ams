@@ -8,8 +8,8 @@
 			<th align="center" field="userCode" width="100" sortable="false" resizable="true">员工编号</th>
 			<th align="center" field="typeName" width="80" sortable="false" resizable="true">员工类型</th>
 			<th align="center" field="levelName" width="80" sortable="false" resizable="true">员工级别</th>
-			<th align="center" field="status" width="80" sortable="false" resizable="true">手机登录</th>
-			<th align="center" field="bstatus" width="80" sortable="false" resizable="true">后台登录</th>
+			<th align="center" field="status" width="80" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
+			<th align="center" field="bstatus" width="80" sortable="false" resizable="true" formatter="formatterUserWebLoginOperation">后台登录</th>
 			<th align="center" field="mobileNumber" width="100" sortable="false" resizable="true">手机号</th>
 			<th align="center" field="address" width="120" sortable="false" resizable="true">住址</th>
 			<th align="center" field="createdOn" width="140" sortable="false" resizable="true">创建时期</th>
