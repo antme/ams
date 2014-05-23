@@ -57,6 +57,19 @@ public class Attendance extends BaseEntity {
 	public Integer minutes;
 
 	public String userName;
+	
+	
+	public String operator;
+	
+	
+
+	public String getOperator() {
+		return operator;
+	}
+
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 
 	public String getUserId() {
 		return userId;

@@ -6,6 +6,8 @@
 	<thead>
 		<tr>
 			<th align="center" field="attendanceDate" width="200" sortable="false" resizable="true">考勤日期</th>
+			<th align="center" field="operator" width="200" sortable="false" resizable="true">考勤人</th>
+			<th align="center" field="userName" width="200" sortable="false" resizable="true">员工</th>
 			<th align="center" field="attendanceDayType" width="200" sortable="false" resizable="true">上午，下午</th>
 			<th align="center" field="attendanceType" width="200" sortable="false" resizable="true">考勤类型</th>
 			<th align="center" field="createdOn" width="200" sortable="false" resizable="true">提交日期</th>
