@@ -68,7 +68,11 @@
 						<ul class="easyui-tree" data-options="url:'/menu/tree_user.json',method:'get',animate:true,onClick:onUserTreeClick"></ul>
 					</div>
 				</div>
-				<div title="系统设置" style="padding: 10px;"></div>
+				<div title="系统设置" style="padding: 10px;">
+					<div class="easyui-panel" style="padding: 5px; width: 150px; border-style: none;">
+						<ul class="easyui-tree" data-options="url:'/menu/tree_sys.json',method:'get',animate:true,onClick:onSysTreeClick"></ul>
+					</div>
+				</div>
 				<div title="统计" style="padding: 10px;"></div>
 			</div>
 		</div>

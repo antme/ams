@@ -14,8 +14,11 @@ import com.ams.bean.SalaryItem;
 import com.ams.bean.Task;
 import com.ams.bean.Team;
 import com.ams.bean.User;
+import com.ams.bean.UserLevel;
+import com.ams.bean.UserType;
 import com.ams.bean.vo.SalaryMonth;
 import com.ams.service.ISystemService;
+import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.service.AbstractService;
@@ -201,6 +204,34 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			task.setTaskPeriod(projectPeriod);
 			this.dao.insert(task);
 		}
+	}
+
+	public void addUserType(UserType type) {
+
+		if (EweblibUtil.isValid(type.getId())) {
+			this.dao.updateById(type);
+		} else {
+			this.dao.insert(type);
+		}
+	}
+
+	public void addUserLevel(UserLevel level) {
+		if (EweblibUtil.isValid(level.getId())) {
+			this.dao.updateById(level);
+		} else {
+			this.dao.insert(level);
+		}
+	}
+	
+	
+	public EntityResults<UserType> listUserTypes(UserType type) {
+
+		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(UserType.TABLE_NAME), UserType.class);
+
+	}
+
+	public EntityResults<UserLevel> listUserLevels(UserLevel level) {
+		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(UserLevel.TABLE_NAME), UserLevel.class);
 	}
 
 	public String getKey(String row, String splitKey) {

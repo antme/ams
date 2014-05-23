@@ -155,6 +155,16 @@ function onTaskClick(node) {
 	}
 }
 
+function onSysTreeClick(node){
+	var accor = "&a=5";
+	var text = node.text;
+	if (text == '员工类型管理') {
+		loadRemotePage("sys/usertypelist" + accor);
+	} else if (text == '员工级别管理') {
+		loadRemotePage("sys/userlevellist" + accor);
+	}
+}
+
 function onAttendanceClick(node){
 	var accor = "&a=1";
 	var text = node.text;
