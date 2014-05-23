@@ -4,4 +4,8 @@
 	},{
 		"text":"员工级别管理",
 		"iconCls":"icon-remove"
+},
+{
+		"text":"部门管理",
+		"iconCls":"icon-remove"
 }]

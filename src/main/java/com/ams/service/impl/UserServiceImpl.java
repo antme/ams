@@ -1,29 +1,24 @@
 package com.ams.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
-import com.ams.bean.Customer;
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
-import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
-import com.ams.bean.Project;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
-import com.ams.bean.Team;
 import com.ams.bean.User;
+import com.ams.bean.UserLevel;
+import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
-import com.ams.util.Role;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
@@ -381,6 +376,20 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		for (Attendance attendance : attendanceList) {
 			this.dao.insert(attendance);
 		}
+	}
+	
+	
+	public EntityResults<User> listAllUsers(SearchVo vo) {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
+		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.joinColumns(UserType.TABLE_NAME, new String[]{UserType.TYPE_NAME});
+		
+		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.joinColumns(UserLevel.TABLE_NAME, new String[]{UserLevel.LEVEL_NAME});
+		
+		builder.limitColumns(new User().getColumnList());
+
+		return this.dao.listByQueryWithPagnation(builder, User.class);
 	}
 
 }

@@ -8,7 +8,7 @@
 	$(document).ready(function() {
 		initFormSubmit("add-department", "/ams/user/department/add.do", "添加部门", function(){
 			alert("添加成功");
-			loadRemotePage("department/list");
+			loadRemotePage("department/list&a=5");
 		});
 		
 		if(departmentId!="null"){

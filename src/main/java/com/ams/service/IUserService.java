@@ -72,6 +72,8 @@ public interface IUserService {
 
 	public EntityResults<Salary> listAllUserSalaries(SearchVo vo);
 
+	public EntityResults<User> listAllUsers(SearchVo vo);
+
 
 
 

@@ -9,18 +9,12 @@ import com.google.gson.annotations.Expose;
 @Table(name = User.TABLE_NAME)
 public class User extends BaseEntity {
 
+	public static final String USER_TYPE_ID = "userTypeId";
+
 	public static final String TABLE_NAME = "User";
 
 	public static final String PASSWORD = "password";
 	public static final String USER_NAME = "userName";
-
-	@Column(name = USER_NAME, unique = true)
-	@Expose
-	public String userName;
-
-	@Column(name = PASSWORD)
-	@Expose
-	public String password;
 
 	public static final String USER_LEVEL_ID = "userLevelId";
 
@@ -32,10 +26,18 @@ public class User extends BaseEntity {
 
 	public static final String NAME = "name";
 
+	@Column(name = USER_NAME, unique = true)
+	@Expose
+	public String userName;
+
+	@Column(name = PASSWORD)
+	@Expose
+	public String password;
+
 	@Column(name = MOBILE_NUMBER)
 	public String mobileNumber;
 
-	@Column(name = "userTypeId")
+	@Column(name = USER_TYPE_ID)
 	public String userTypeId;
 
 	@Column(name = USER_CODE)
@@ -43,8 +45,6 @@ public class User extends BaseEntity {
 
 	@Column(name = USER_LEVEL_ID)
 	public String userLevelId;
-
-
 
 	@Column(name = STATUS)
 	@Expose
@@ -55,6 +55,9 @@ public class User extends BaseEntity {
 	public String userType;
 
 	public String userLevel;
+
+	public String levelName;
+	public String typeName;
 
 	public String getMobileNumber() {
 		return mobileNumber;
@@ -87,8 +90,6 @@ public class User extends BaseEntity {
 	public void setUserLevelId(String userLevelId) {
 		this.userLevelId = userLevelId;
 	}
-
-
 
 	public Integer getStatus() {
 		return status;
@@ -136,6 +137,22 @@ public class User extends BaseEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getLevelName() {
+		return levelName;
+	}
+
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 }

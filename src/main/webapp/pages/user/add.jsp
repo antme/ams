@@ -85,10 +85,7 @@
 				<span class="r-edit-label">确认密码：</span> <input name="userpasswordConfirm" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
 					type="password" required="true" missingMessage="请再次输入密码" validType="pwdEquals['#userpassword']" /> <span class="get_span"><label class="g-label">*</label></span>
 			</div>
-			<div>
-				<span class="r-edit-label">备注:</span>
-				<textarea class="easyui-validatebox textarea" name="departmentDescription"></textarea>
-			</div>
+			
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>
 			</div>

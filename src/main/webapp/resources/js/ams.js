@@ -172,6 +172,8 @@ function onSysTreeClick(node){
 		loadRemotePage("sys/usertypelist" + accor);
 	} else if (text == '员工级别管理') {
 		loadRemotePage("sys/userlevellist" + accor);
+	}else if (text == '部门管理') {
+		loadRemotePage("department/list" + accor);
 	}
 }
 

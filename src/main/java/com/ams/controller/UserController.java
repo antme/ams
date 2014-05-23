@@ -198,6 +198,14 @@ public class UserController extends AmsController {
 	}
 	
 	
+	
+	@RequestMapping("/list.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void listAllUsers(HttpServletRequest request, HttpServletResponse response) {
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		responseWithDataPagnation(userService.listAllUsers(vo), request, response);
+	}
+	
 	@RequestMapping("/pic/app/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addPic(HttpServletRequest request, HttpServletResponse response) {
