@@ -60,6 +60,20 @@ public class UserController extends AmsController {
 
 	}
 	
+
+	@RequestMapping("/changepwd.do")
+	@LoginRequired(required = false)
+	public void changePwd(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) parserJsonParameters(request, false, User.class);
+		user.setId(EWeblibThreadLocal.getCurrentUserId());
+		if (EweblibUtil.isEmpty(user.getId())) {
+			throw new ResponseException("请先登录");
+		}
+		userService.resetPwd(user);
+		responseWithEntity(null, request, response);
+
+	}	
+	
 	@RequestMapping("/web/login.do")
 	@LoginRequired(required = false)
 	public void loginForWeb(HttpServletRequest request, HttpServletResponse response) {

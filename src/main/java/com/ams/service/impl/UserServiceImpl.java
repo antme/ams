@@ -41,14 +41,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-	@Override
-	public void updateUser(User user) {
-		if (EweblibUtil.isEmpty(user.getId())) {
-			user.setId(EWeblibThreadLocal.getCurrentUserId());
-		}
-		this.dao.updateById(user);
 
-	}
 
 	@Override
 	public User regUser(User user) {
@@ -96,15 +89,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return u;
 	}
 
-	@Override
-	public String getRoleByUserId(String id) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.and(User.ID, id);
-
-		User user = (User) dao.findOneByQuery(builder, User.class);
-
-		return user.getId();
-	}
 
 	@Override
 	public String getRoleNameByUserId(String id) {
@@ -118,34 +102,11 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	}
 
 	public void resetPwd(User user) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.and(User.ID, user.getId());
-		builder.and(User.PASSWORD, DataEncrypt.generatePassword(user.getPassword()));
-
-		if (this.dao.exists(builder)) {
-			// user.setPassword(DataEncrypt.generatePassword(user.getNewPwd()));
-			this.dao.updateById(user);
-		} else {
-			throw new ResponseException("原始密码错误");
-		}
-
+		user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
+		this.dao.updateById(user);
 	}
 
-	@Override
-	public void lockUserById(BaseEntity be) {
-		User user = (User) dao.findById(be.getId(), User.TABLE_NAME, User.class);
-		// user.setStatus(UserStatus.LOCKED.toString());
 
-		dao.updateById(user);
-	}
-
-	@Override
-	public void unlockUserById(BaseEntity be) {
-		User user = (User) dao.findById(be.getId(), User.TABLE_NAME, User.class);
-		// user.setStatus(UserStatus.NORMAL.toString());
-		dao.updateById(user);
-
-	}
 
 	public List<String> listUserAccessMenuIds() {
 		User user = (User) this.dao.findById(EWeblibThreadLocal.getCurrentUserId(), User.TABLE_NAME, User.class);
@@ -222,13 +183,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	}
 
-	public void checkUserName(String userName) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.and(User.USER_NAME, userName);
-		if (dao.exists(builder)) {
-			throw new ResponseException("此用户已经注册");
-		}
-	}
 
 	public EntityResults<User> listUserForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
