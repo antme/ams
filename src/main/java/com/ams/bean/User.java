@@ -9,6 +9,8 @@ import com.google.gson.annotations.Expose;
 @Table(name = User.TABLE_NAME)
 public class User extends BaseEntity {
 
+	public static final String USER_CATEGORY = "userCategory";
+
 	public static final String BSTATUS = "bstatus";
 
 	public static final String USER_TYPE_ID = "userTypeId";
@@ -55,6 +57,10 @@ public class User extends BaseEntity {
 	@Column(name = BSTATUS)
 	@Expose
 	public Integer bstatus;
+	
+	@Column(name = USER_CATEGORY)
+	public String userCategory;
+	
 
 	public String teams;
 

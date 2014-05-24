@@ -7,7 +7,8 @@ CREATE TABLE `User` (
   `id` varchar(36) NOT NULL,
   `userName` varchar(36) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `password` varchar(36) DEFAULT NULL,
+  `password` varchar(36) DEFAULT NULL,  
+  `userCategory` varchar(255) DEFAULT NULL,
   `mobileNumber` varchar(36) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `userTypeId` varchar(36) DEFAULT NULL,
@@ -384,3 +385,5 @@ alter table User add column bstatus int default 0;
 
 
 alter table User add column address varchar(255) default null;
+alter table User add column userCategory varchar(255) default null;
+

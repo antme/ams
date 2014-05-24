@@ -331,6 +331,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		salary = (Salary) this.dao.findOneByQuery(builder, Salary.class);
 		salary.setSalaryPerDay(200d);
 
+		//FIXME: for details
 		List<SalaryItem> items = new ArrayList<SalaryItem>();
 		for (int i = 1; i < 8; i++) {
 

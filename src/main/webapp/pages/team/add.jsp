@@ -42,7 +42,7 @@
 					}"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">团队负责人:</span> <input class="easyui-combobox"  name="teamLeaderId" 
+				<span class="r-edit-label">施工队长:</span> <input class="easyui-combobox"  name="teamLeaderId" 
 					data-options="url:'/ams/user/app/list.do?userId=',
                     method:'get',
                     valueField:'id',

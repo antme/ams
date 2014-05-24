@@ -264,17 +264,20 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public EntityResults<UserLevel> listUserLevels(UserLevel level) {
-		
+
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(UserLevel.TABLE_NAME);
 		query.join(UserLevel.TABLE_NAME, User.TABLE_NAME, UserLevel.CREATOR_ID, User.ID);
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-		
+
 		query.join(UserLevel.TABLE_NAME, UserType.TABLE_NAME, UserLevel.USER_TYPE_ID, UserType.ID);
 		query.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
 
 		query.limitColumns(new UserLevel().getColumnList());
-		
-		
+
+		if (level.getUserTypeId() != null) {
+			query.and(UserLevel.USER_TYPE_ID, level.getUserTypeId());
+		}
+
 		return this.dao.listByQueryWithPagnation(query, UserLevel.class);
 	}
 

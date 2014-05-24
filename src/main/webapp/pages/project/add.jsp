@@ -43,8 +43,8 @@
 			</div>
 			
 			<div>
-				<span class="r-edit-label">团队负责人:</span> <input class="easyui-combobox"  name="projectManagerId" 
-					data-options="url:'/ams/user/app/list.do?userId=',
+				<span class="r-edit-label">项目负责人:</span> <input class="easyui-combobox"  name="projectManagerId" 
+					data-options="url:'/ams/user/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,
@@ -94,10 +94,12 @@
 								            multiple: true,
 								            textField:'userName',
 								            fitColumns: true,
-								            url:'/ams/user/app/list.do?userId=',
+								            url:'/ams/user/list.do?userId=',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
 								                {field:'userName',title:'用户名',width:60},
+								                 {field:'typeName',title:'员工类型',width:60},
+								                  {field:'levelName',title:'员工级别',width:60},
 								                {field:'id',title:'Id',width:100, hidden:true}
 								            ]]
 								        "></select>

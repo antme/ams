@@ -31,14 +31,17 @@
 				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text" name="userCode"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工类型:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
+				<span class="r-edit-label">用户类型:</span> <input class="easyui-validatebox textbox" type="text" name="userCategory"></input>
+			</div>
+			<div>
+				<span class="r-edit-label">工种:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,
                     textField:'typeName',
                     panelHeight:'auto',
                     onSelect: function(rec){
-			            var url = '/ams/sys/userlevel/list.do?userTypeId=?id='+rec.id;
+			            var url = '/ams/sys/userlevel/list.do?userTypeId='+rec.id;
 			            $('#userTypeId').combobox('reload', url);
 			        },
                     loadFilter:function(data){
@@ -46,7 +49,7 @@
 					}"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工级别:</span> <input class="easyui-combobox textbox"  id ="userTypeId" type="text" name="userLevelId"
+				<span class="r-edit-label">级别:</span> <input class="easyui-combobox textbox"  id ="userTypeId" type="text" name="userLevelId"
 				data-options="
                     valueField:'id',
                     required:true,
