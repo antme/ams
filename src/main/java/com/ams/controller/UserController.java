@@ -60,6 +60,23 @@ public class UserController extends AmsController {
 
 	}
 	
+	
+	@RequestMapping("/logout.do")
+	@LoginRequired(required = false)
+	public void logout(HttpServletRequest request, HttpServletResponse response) {
+		clearLoginSession(request, response);
+		response.setContentType("text/html;charset=UTF-8");
+		response.addHeader("Accept-Encoding", "gzip, deflate");
+		response.addHeader("Location","index.jsp");
+		try {
+	        response.sendRedirect("/index.jsp");
+        } catch (IOException e) {
+	      
+        }
+		
+	
+	}
+	
 
 	@RequestMapping("/changepwd.do")
 	@LoginRequired(required = false)

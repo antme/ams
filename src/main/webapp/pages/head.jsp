@@ -13,7 +13,7 @@
             <div style="float:right;margin-right:15px;margin-top:5px;color:gray;">
                 <a href="/index.jsp" title="返回首页"><img src="/resources/images/title_icon_home.png">&nbsp;<b>返回首页</b></a>&nbsp;&nbsp;&nbsp;
                 <a href="?p=/user/changepwd" title="修改密码"><img src="/resources/images/title_icon_help.png">&nbsp;<b>修改密码</b></a>&nbsp;&nbsp;&nbsp;
-                <a href="javascript:void(0)" title="退出系统"><img src="/resources/images/title_icon_quit.png">&nbsp;<b>退出系统</b></a>
+                <a href="/ams/user/logout.do" title="退出系统"><img src="/resources/images/title_icon_quit.png">&nbsp;<b>退出系统</b></a>
             </div>
         </div>
 
