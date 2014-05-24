@@ -20,7 +20,7 @@
 <%
 	if (session.getValue("userName") == null) {
 		String url = request.getServerName();
-		response.sendRedirect("https://" + url + "/login.jsp");
+		response.sendRedirect("http://" + url + "/login.jsp");
 	}
 %>
 
