@@ -53,8 +53,17 @@ window.onload = function(){
 						</span></li>
 						<li><span class="left">密码：</span> <span style=""> <input name="password"  required id="password"   class="txt easyui-validatebox"  missingMessage="请输入密码"   type="password" />
 						</span></li>
-						<li><span class="left">验证码: </span> <span style=""> <input id="Text3" type="text" class="txtCode" />
-						</span></li>
+						<li><span class="left">验证码: </span> 
+						 <span>
+						 	<input  name="imgCode" id="" class="txt_shot easyui-validatebox" type="text" deltaX="50" size="15" style="_height:30px; " validType="unnormal" required missingMessage="请输入验证码"/>
+						 </span>
+                                <span><a class="verification"><img style="width:63px; height:23px; cursor: pointer; margin-top:5px;" id="randomcode" src="/ams/user/img.do" onclick="changeImage();" ></a> </span>              
+                                <script type="text/javascript">
+                                    function changeImage(){
+                                         $("#randomcode").attr("src", "/ams/user/img.do?_id=" + +Math.random());
+                                    }
+                                </script>
+						</li>
 
 
 					</ul>

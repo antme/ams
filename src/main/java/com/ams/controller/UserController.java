@@ -1,7 +1,10 @@
 package com.ams.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,6 +31,7 @@ import com.eweblib.annotation.column.Permission;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
+import com.eweblib.util.ImgUtil;
 
 @Controller
 @RequestMapping("/ams/user")
@@ -51,18 +55,46 @@ public class UserController extends AmsController {
 	@LoginRequired(required = false)
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) parserJsonParameters(request, false, User.class);
+		user = userService.login(user, false);
+		responseWithEntity(user, request, response);
+
+	}
+	
+	@RequestMapping("/web/login.do")
+	@LoginRequired(required = false)
+	public void loginForWeb(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) parserJsonParameters(request, false, User.class);
+		
 		String imgCode = getSessionValue(request, IMG_CODE);
-//		if (imgCode != null && user.getImgCode() != null && user.getImgCode().equalsIgnoreCase(imgCode)) {
+		if (imgCode != null && user.getImgCode() != null && user.getImgCode().equalsIgnoreCase(imgCode)) {
 			user = userService.login(user, false);
 			setLoginSessionInfo(request, response, user);
 			EWeblibThreadLocal.set(User.ID, user.getId());
 
 			responseWithEntity(user, request, response);
-//		} else {
-//			throw new ResponseException("请输入正确验证码");
-//		}
+		} else {
+			throw new ResponseException("请输入正确验证码");
+		}
 
 	}
+	
+	@RequestMapping("/img.do")
+	@LoginRequired(required = false)
+	public void loadLoginImg(HttpServletRequest request, HttpServletResponse response) {
+		response.setContentType("image/png");
+		String word = ImgUtil.getRandomWord(4);
+		setSessionValue(request, IMG_CODE, word);
+		BufferedImage image = ImgUtil.getCaptchaImage(word, 93, 35);
+
+		try {
+			ImageIO.write(image, "png", response.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	@RequestMapping("/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addUser(HttpServletRequest request, HttpServletResponse response) {

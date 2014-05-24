@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 
 	$("#login-form").form({
-		url : '/ams/user/login.do',
+		url : '/ams/user/web/login.do',
 		onSubmit : function() {
 			return $(this).form('validate');
 		},

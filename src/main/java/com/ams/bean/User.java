@@ -72,6 +72,26 @@ public class User extends BaseEntity {
 	public String typeName;
 
 	public String userPassword;
+	
+	public String imgCode;
+	
+	
+
+	public String getUserCategory() {
+		return userCategory;
+	}
+
+	public void setUserCategory(String userCategory) {
+		this.userCategory = userCategory;
+	}
+
+	public String getImgCode() {
+		return imgCode;
+	}
+
+	public void setImgCode(String imgCode) {
+		this.imgCode = imgCode;
+	}
 
 	public Integer getBstatus() {
 		return bstatus;

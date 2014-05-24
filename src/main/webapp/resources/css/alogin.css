@@ -169,6 +169,16 @@ ul
 	background: url(../images/login/txt.gif) no-repeat left center;
 }
 
+.txt_shot
+{
+	width: 100px;
+	height: 20px;
+	line-height: 33px;
+	overflow: hidden;
+	padding-left: 3px;
+	color: #999999;
+}
+
 .txtCode
 {
 	line-height: 30px;
