@@ -58,7 +58,9 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			throw new ResponseException("此用户名已经被注册");
 		}
 
-		user.setPassword(DataEncrypt.generatePassword(user.getPassword()));
+		if (user.getUserPassword() != null) {
+			user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
+		}
 
 		if (EweblibUtil.isValid(user.getId())) {
 			this.dao.updateById(user);
@@ -244,6 +246,16 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	}
 
 	public void addDepartment(Department dep) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
+		builder.and(Department.DEPARTMENT_NAME, dep.getDepartmentName());
+		if (dep.getId() != null) {
+			builder.and(DataBaseQueryOpertion.NOT_EQUALS, Department.ID, dep.getId());
+		}
+
+		if (dao.exists(builder)) {
+			throw new ResponseException("此部门已经存在");
+		}
 
 		if (EweblibUtil.isValid(dep.getId())) {
 			this.dao.updateById(dep);

@@ -26,7 +26,7 @@
 		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="r-edit-label">员工类型名:</span> <input class="easyui-validatebox textbox input-title" type="text" name="typeName" data-options="required:true"></input>
+				<span class="r-edit-label">员工类型名:</span> <input class="easyui-validatebox textbox input-title"   missingMessage="请输入员工类型"  type="text" name="typeName" data-options="required:true"></input>
 			</div>
 			
 

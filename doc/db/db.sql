@@ -9,6 +9,7 @@ CREATE TABLE `User` (
   `name` varchar(255) DEFAULT NULL,
   `password` varchar(36) DEFAULT NULL,
   `mobileNumber` varchar(36) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `userTypeId` varchar(36) DEFAULT NULL,
   `userCode` varchar(36) DEFAULT NULL,
   `userLevelId` varchar(36) DEFAULT NULL,  
@@ -380,3 +381,6 @@ INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('
 
 
 alter table User add column bstatus int default 0;
+
+
+alter table User add column address varchar(255) default null;

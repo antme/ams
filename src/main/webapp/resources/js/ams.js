@@ -2,11 +2,28 @@ function forceLogin() {
 	window.location.href = "/login.jsp";
 }
 
+
+function searchData(divId, inputId) {
+	$('#' + divId).datagrid('load', {
+		keyword : $("#" + inputId).val()
+	});
+}
+
+
 function logout() {
 	postAjaxRequest("/ecs/user/logout.do", {}, function(data) {
 		window.location.href = "https://" + document.location.host
 				+ "/login.jsp";
 	}, false);
+}
+
+function formatterAttendanceDayType(val, row){
+	if(val == 1){
+		return "下午";
+	}
+	
+	return "上午";
+	
 }
 
 function formatterUserMobileLoginOperation(val, row) {

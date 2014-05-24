@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<div>
+	<label>用户名:</label>
+	<input type="text" name="keyword" id="keyword"/> 
+	
+	<button onclick="search();">搜索</button>
+</div>
+<p></p>
+
 <button onclick="loadRemotePage('user/add&a=4');">新增</button>
 <table id=userList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: false" url="/ams/user/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">

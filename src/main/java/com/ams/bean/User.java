@@ -51,7 +51,7 @@ public class User extends BaseEntity {
 	@Column(name = STATUS)
 	@Expose
 	public Integer status;
-	
+
 	@Column(name = BSTATUS)
 	@Expose
 	public Integer bstatus;
@@ -65,9 +65,8 @@ public class User extends BaseEntity {
 	public String levelName;
 	public String typeName;
 
-	
-	
-	
+	public String userPassword;
+
 	public Integer getBstatus() {
 		return bstatus;
 	}
@@ -170,6 +169,14 @@ public class User extends BaseEntity {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
 }

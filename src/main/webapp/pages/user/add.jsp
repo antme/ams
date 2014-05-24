@@ -77,12 +77,12 @@
 			</div>
 
 			<div>
-				<span class="r-edit-label">密码：</span> <input name="password" id="userpassword" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
-					type="password" validType="username" required="true" missingMessage="请输入密码" /> <span class="get_span"><label class="g-label">*</label></span>
+				<span class="r-edit-label">密码：</span> <input name="userPassword" id="userpassword" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
+					type="password" validType="username" /> <span class="get_span"></span>
 			</div>
 			<div>
 				<span class="r-edit-label">确认密码：</span> <input name="userpasswordConfirm" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
-					type="password" required="true" missingMessage="请再次输入密码" validType="pwdEquals['#userpassword']" /> <span class="get_span"><label class="g-label">*</label></span>
+					type="password" validType="pwdEquals['#userpassword']" /> <span class="get_span"></span>
 			</div>
 			
 			<div style="margin-left: 100px;">

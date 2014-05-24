@@ -21,6 +21,7 @@ import com.ams.service.ISystemService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
+import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.service.AbstractService;
 import com.eweblib.util.DateUtil;
@@ -208,6 +209,17 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public void addUserType(UserType type) {
+		
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(UserType.TABLE_NAME);
+		builder.and(UserType.TYPE_NAME, type.getTypeName());
+		if (type.getId() != null) {
+			builder.and(DataBaseQueryOpertion.NOT_EQUALS, UserType.ID, type.getId());
+		}
+
+		if (dao.exists(builder)) {
+			throw new ResponseException("此类型已经存在");
+		}
 
 		if (EweblibUtil.isValid(type.getId())) {
 			this.dao.updateById(type);
@@ -221,6 +233,18 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public void addUserLevel(UserLevel level) {
+		
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(UserLevel.TABLE_NAME);
+		builder.and(UserLevel.LEVEL_NAME, level.getLevelName());
+		if (level.getId() != null) {
+			builder.and(DataBaseQueryOpertion.NOT_EQUALS, UserLevel.ID, level.getId());
+			builder.and(UserLevel.USER_TYPE_ID, level.getUserTypeId());
+		}
+
+		if (dao.exists(builder)) {
+			throw new ResponseException("此级别已经存在");
+		}
+		
 		if (EweblibUtil.isValid(level.getId())) {
 			this.dao.updateById(level);
 		} else {
