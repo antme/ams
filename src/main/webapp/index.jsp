@@ -53,7 +53,7 @@
 					</div>
 				
 				</div>
-				<div title="任务管理" style="padding: 10px;">
+				<div title="任务,备忘录,日报管理" style="padding: 10px;">
 					<div class="easyui-panel" style="padding: 5px; width: 150px; border-style: none;">
 						<ul class="easyui-tree" data-options="url:'/menu/tree_task.json',method:'get',animate:true,onClick:onTaskClick"></ul>
 					</div>

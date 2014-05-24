@@ -36,14 +36,18 @@
 			
 			<div>
 				<span class="r-edit-label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
+				<span>优先级越高的将现实在最顶上</span>
 			</div>
 			
 			<div>
 				<span class="r-edit-label">公告结束时间:</span> <input class="easyui-datebox textbox input-title" type="text" name="publishEndDate" ></input>
+				<span>此时间过后公告将不显示在手机上</span>
 			</div>
 		
 			<div id="attachFileDiv" style="display:none;">
-				<span class="r-edit-label">原始附件地址:</span> <span><a id="att_url" style="margin-left:20px;">下载</a> <input type="checkbox" name="deleteAttachFile" id="deleteAttachFile"/> <label for="deleteAttachFile">是否删除附件</label></span>
+				<span class="r-edit-label">原始附件地址:</span> <span><a id="att_url" style="margin-left:20px;">下载</a> 
+				<input type="checkbox" name="deleteAttachFile" id="deleteAttachFile"/> <label for="deleteAttachFile">是否删除附件</label></span>
+				<span style="margin-left:20px;">勾选此项将会删除已经上传的附件</span>
 			</div>
 			<div>
 				<span class="r-edit-label">附件上传:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUpload" style="width:250px; border: 0px;"></input>

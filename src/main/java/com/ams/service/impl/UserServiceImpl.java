@@ -1,7 +1,9 @@
 package com.ams.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -10,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.ams.bean.Attendance;
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
+import com.ams.bean.Project;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
+import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
@@ -228,6 +233,12 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public EntityResults<User> listUserForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 
+		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
+
+		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
+
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
 
 		// FIXME:根据上下级关系查询数据
@@ -235,10 +246,23 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
-		for (User user : userList.getEntityList()) {
-			user.setUserType("油漆工");
-			user.setUserLevel("油漆工一级");
-			user.setTeams("施工一对,  施工三对");
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		query.join(EmployeeTeam.TABLE_NAME, Team.TABLE_NAME, EmployeeTeam.TEAM_ID, Team.ID);
+		query.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+		query.limitColumns(new String[] { EmployeeTeam.USER_ID });
+
+		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
+
+		if (ets != null) {
+			for (User user : userList.getEntityList()) {
+				user.setTeams("");
+				for (EmployeeTeam et : ets) {
+					if (et.getUserId().equalsIgnoreCase(user.getId())) {
+						user.setTeams(user.getTeams() + " " + et.getTeamName());
+					}
+				}
+
+			}
 		}
 
 		return userList;
@@ -329,50 +353,39 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.and(Salary.ID, salary.getId());
 
 		salary = (Salary) this.dao.findOneByQuery(builder, Salary.class);
+
 		salary.setSalaryPerDay(200d);
 
-		//FIXME: for details
-		List<SalaryItem> items = new ArrayList<SalaryItem>();
-		for (int i = 1; i < 8; i++) {
-
-			SalaryItem item = new SalaryItem();
-			item.setAttendanceDays((double) i);
-			item.setProjectName("project" + i);
-			item.setComment("备注" + i);
-			item.setTotolSalary((double) i * 200);
-			item.setPerformanceSalary((double) i * 100);
-			items.add(item);
-
+		Map<String, String> pMap = new HashMap<String, String>();
+		List<Project> projects = this.dao.listByQuery(new DataBaseQueryBuilder(Project.TABLE_NAME), Project.class);
+		for (Project p : projects) {
+			pMap.put(p.getId(), p.getProjectName());
 		}
 
+		DataBaseQueryBuilder detailQuery = new DataBaseQueryBuilder(SalaryItem.TABLE_NAME);
+		detailQuery.and(SalaryItem.SALARY_ID, salary.getId());
+		detailQuery.limitColumns(new String[] { SalaryItem.ATTENDANCE_DAYS, SalaryItem.PROJECT_ID, SalaryItem.TOTOL_SALARY, SalaryItem.PERFORMANCE_SALARY, SalaryItem.COMMENT });
+
+		List<SalaryItem> items = this.dao.listByQuery(detailQuery, SalaryItem.class);
 		double salaryTotal = 0;
 
 		for (SalaryItem item : items) {
+			item.setProjectName(pMap.get(item.getProjectId()));
 			salaryTotal += item.getTotolSalary();
 		}
+
 		salary.setTotalSalary(salaryTotal);
-
 		salary.setSalaryItems(items);
-
-		List<DeductedSalaryItem> ditems = new ArrayList<DeductedSalaryItem>();
-
-		for (int i = 1; i < 3; i++) {
-
-			DeductedSalaryItem item = new DeductedSalaryItem();
-			item.setComment("扣款备注" + i);
-			item.setName("扣款项" + i);
-			item.setTotolSalary((double) i * 100);
-			ditems.add(item);
-		}
+		DataBaseQueryBuilder deductedQuery = new DataBaseQueryBuilder(DeductedSalaryItem.TABLE_NAME);
+		deductedQuery.and(SalaryItem.SALARY_ID, salary.getId());
+		deductedQuery.limitColumns(new String[] { DeductedSalaryItem.TOTOL_SALARY, DeductedSalaryItem.NAME, DeductedSalaryItem.COMMENT });
+		List<DeductedSalaryItem> ditems = this.dao.listByQuery(deductedQuery, DeductedSalaryItem.class);
 		salaryTotal = 0;
-
 		for (DeductedSalaryItem item : ditems) {
 			salaryTotal += item.getTotolSalary();
 		}
 		salary.setDeductedSalaryItems(ditems);
-
 		salary.setDeductedSalary(salaryTotal);
-
 		return salary;
 	}
 

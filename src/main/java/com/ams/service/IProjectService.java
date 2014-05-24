@@ -23,7 +23,7 @@ public interface IProjectService {
 
 	EntityResults<Project> listProjects();
 
-	EntityResults<Task> listProjectTasks();
+	EntityResults<Task> listProjectTasks(Task task);
 
 	public DailyReport addDailyReport(DailyReportVo report, List<String> pics);
 

@@ -10,6 +10,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Task.TABLE_NAME)
 public class Task extends BaseEntity {
 
+	public static final String USER_ID = "userId";
+
 	public static final String TEAM_NAME = "teamName";
 
 	public static final String TASK_PERIOD = "taskPeriod";
@@ -94,10 +96,13 @@ public class Task extends BaseEntity {
 	
 	@Column(name = TASK_CONTACT_PHONE)
 	public String taskContactPhone;
-	
-	
+
 	@Column(name = TASK_PERIOD)
 	public String taskPeriod;
+	
+	@Column(name = USER_ID)
+	public String userId;
+	
 
 	public Integer projectTotalDays;
 
@@ -110,6 +115,15 @@ public class Task extends BaseEntity {
 	public Double userWorkedDays;
 
 	
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public String getTaskContactPhone() {
 		return taskContactPhone;
 	}

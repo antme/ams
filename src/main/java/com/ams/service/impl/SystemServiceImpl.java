@@ -204,6 +204,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			task.setTeamName(teamName);
 			task.setTaskContactPhone(teamLeaderContactPhone);
 			task.setTaskPeriod(projectPeriod);
+			task.setUserId(user.getId());
 			this.dao.insert(task);
 		}
 	}

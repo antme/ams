@@ -22,8 +22,21 @@ public class EmployeeTeam extends BaseEntity {
 	public String teamId;
 	
 	
+	public String teamName;
+	
+	
 	public Date attendanceDate;
 	
+	
+	
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
 
 	public String getUserId() {
 		return userId;
