@@ -57,7 +57,7 @@
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=salary/list&a=1">考勤管理</a>
+							<span></span><a href="?p=attendance/list&a=1">考勤管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=pic/list&a=1">图片管理</a>
