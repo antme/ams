@@ -26,6 +26,34 @@ function formatterAttendanceDayType(val, row){
 	
 }
 
+function formatterAttendanceType(val, row) {
+
+	if (val == 0) {
+		return "应勤出勤";
+	} else if (val == 1) {
+		return "应休休息";
+	} else if (val == 2) {
+		return "应勤请假";
+	} else if (val == 3) {
+		return "旷工";
+	} else if (val == 4) {
+		return "加班";
+	} else if (val == 5) {
+		return "迟到";
+	} else if (val == 6) {
+		return "早退";
+	} else if (val == 7) {
+		return "中途脱岗";
+	} else if (val == 8) {
+		return "未到岗位";
+	} else if (val == 9) {
+		return "应出勤要求休息";
+	}
+
+	return "其他出勤";
+
+}
+
 function formatterUserMobileLoginOperation(val, row) {
 
 	if (val == 1) {

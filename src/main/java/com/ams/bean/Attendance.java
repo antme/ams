@@ -18,8 +18,6 @@ public class Attendance extends BaseEntity {
 
 	public static final String TEAM_ID = "teamId";
 
-
-
 	public static final String ATTENDANCE_TYPE = "attendanceType";
 
 	public static final String ATTENDANCE_DAY_TYPE = "attendanceDayType";
@@ -57,11 +55,10 @@ public class Attendance extends BaseEntity {
 	public Integer minutes;
 
 	public String userName;
-	
-	
+
 	public String operator;
-	
-	
+
+	public String teamName;
 
 	public String getOperator() {
 		return operator;
@@ -111,8 +108,6 @@ public class Attendance extends BaseEntity {
 		this.attendanceType = attendanceType;
 	}
 
-	
-
 	public String getUserName() {
 		return userName;
 	}
@@ -128,8 +123,6 @@ public class Attendance extends BaseEntity {
 	public void setTeamId(String teamId) {
 		this.teamId = teamId;
 	}
-	
-	
 
 	public Integer getHours() {
 		return hours;

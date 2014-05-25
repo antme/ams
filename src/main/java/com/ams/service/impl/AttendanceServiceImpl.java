@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
+import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.service.IAttendanceService;
 import com.eweblib.bean.EntityResults;
@@ -21,6 +22,9 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
 		builder.join(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.join(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
+		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 
 		builder.limitColumns(new Attendance().getColumnList());
 

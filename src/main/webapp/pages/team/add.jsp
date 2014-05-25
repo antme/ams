@@ -29,21 +29,10 @@
 				<span class="r-edit-label">团队名称:</span> <input class="easyui-validatebox textbox" type="text" name="teamName" data-options="required:true"></input>
 			</div>
 		
-			<div>
-				<span class="r-edit-label">所属部门:</span> <input class="easyui-combobox"  name="departmentId" 
-					data-options="url:'/ams/user/department/list.do',
-                    method:'get',
-                    valueField:'id',
-                    required:true,
-                    textField:'departmentName',
-                    panelHeight:'auto',
-                    loadFilter:function(data){
-						return data.rows;
-					}"></input>
-			</div>
+	
 			<div>
 				<span class="r-edit-label">施工队长:</span> <input class="easyui-combobox"  name="teamLeaderId" 
-					data-options="url:'/ams/user/app/list.do?userId=',
+					data-options="url:'/ams/user/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,
@@ -61,9 +50,18 @@
                     required:true,
                     textField:'projectName',
                     panelHeight:'auto',
+                    onSelect: function(rec){
+			            $('#departmentId').val(rec.departmentId);
+			            $('#departmentName').val(rec.departmentName);
+			        },
                     loadFilter:function(data){
 						return data.rows;
 					}"></input>
+			</div>
+			
+			<div>
+				<span class="r-edit-label">所属部门:</span> <input type="hidden" class=""  id="departmentId" name="departmentId"></input>
+				<input class=""  disabled id="departmentName" name="departmentName"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">团队成员：</span> <select id="teamMemberIds" class="easyui-combogrid" name="teamMemberIds[]" style="width:250px;"
@@ -73,7 +71,7 @@
 								            multiple: true,
 								            textField:'userName',
 								            fitColumns: true,
-								            url:'/ams/user/app/list.do?userId=',
+								            url:'/ams/user/list.do?userId=',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
 								                {field:'userName',title:'用户名',width:60},

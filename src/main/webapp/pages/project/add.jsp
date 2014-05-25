@@ -39,7 +39,7 @@
                     panelHeight:'auto',
                     loadFilter:function(data){
 						return data.rows;
-					}"></input>
+					}"></input> <span>部门改变的时候，项目下的团队的部门也将一起改变</span>
 			</div>
 			
 			<div>
@@ -104,7 +104,10 @@
 								            ]]
 								        "></select>
 			</div>
-
+			<div>
+				<span class="r-edit-label">项目作息时间:</span>
+				<textarea class="easyui-validatebox textarea" name="workTimePeriod"></textarea>
+			</div>
 			<div>
 				<span class="r-edit-label">项目描述:</span>
 				<textarea class="easyui-validatebox textarea" name="projectDescription"></textarea>

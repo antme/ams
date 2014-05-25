@@ -129,6 +129,10 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			team.setTeamMemberIds(userIds);
 		}
 
+		Department dep = (Department) this.dao.findById(team.getDepartmentId(), Department.TABLE_NAME, Department.class);
+
+		team.setDepartmentName(dep.getDepartmentName());
+
 		return team;
 	}
 
@@ -212,7 +216,16 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	@Override
 	public EntityResults<Project> listProjects() {
 
-		return this.dao.listByQueryWithPagnation(new DataBaseQueryBuilder(Project.TABLE_NAME), Project.class);
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
+		builder.join(Project.TABLE_NAME, User.TABLE_NAME, Project.PROJECT_MANAGER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.limitColumns(new Project().getColumnList());
+
+		return this.dao.listByQueryWithPagnation(builder, Project.class);
 	}
 
 	@Override
@@ -254,7 +267,34 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
-		return this.dao.listByQueryWithPagnation(builder, Task.class);
+		builder.join(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
+
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.limitColumns(new String[] {Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.PRICE_DESCRIPTION, Task.TEAM_NAME, Task.PROJECT_NAME, Task.ID,
+		        Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
+		EntityResults<Task> tasks = this.dao.listByQueryWithPagnation(builder, Task.class);
+
+		for (Task t : tasks.getEntityList()) {
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(t.getProjectStartDate());
+			int startDay = c.get(Calendar.DAY_OF_YEAR);
+
+			c.setTime(t.getProjectEndDate());
+			int endDay = c.get(Calendar.DAY_OF_YEAR);
+
+			c.setTime(new Date());
+			int currentDay = c.get(Calendar.DAY_OF_YEAR);
+
+			t.setProjectTotalDays((endDay - startDay));
+
+			t.setProjectRemainingDays(endDay - currentDay);
+			t.setProjectUsedDays(currentDay - startDay);
+
+		}
+
+		return tasks;
 	}
 
 	public EntityResults<Customer> listCustomers(SearchVo vo) {

@@ -216,6 +216,7 @@ CREATE TABLE `Project` (
   `departmentId` varchar(36) DEFAULT NULL,
   `customerId` varchar(36) DEFAULT NULL,
   `projectName` varchar(255) NOT NULL,
+  `workTimePeriod` varchar(255) NOT NULL,
   `projectManagerId` varchar(36) DEFAULT NULL,
   `projectDescription` TEXT DEFAULT NULL,
   `projectStatus` int DEFAULT 0,
@@ -386,4 +387,8 @@ alter table User add column bstatus int default 0;
 
 alter table User add column address varchar(255) default null;
 alter table User add column userCategory varchar(255) default null;
+alter table Project add column workTimePeriod varchar(255) default null;
+
+
+
 

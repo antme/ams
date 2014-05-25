@@ -10,6 +10,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Project.TABLE_NAME)
 public class Project extends BaseEntity {
 
+	public static final String WORK_TIME_PERIOD = "workTimePeriod";
+
 	public static final String CUSTOMER_ID = "customerId";
 
 	public static final String PROJECT_STATUS = "projectStatus";
@@ -49,6 +51,8 @@ public class Project extends BaseEntity {
 	@Column(name = DEPARTMENT_ID)
 	public String departmentId;
 	
+	@Column(name = WORK_TIME_PERIOD)
+	public String workTimePeriod;
 
 	@Column(name = PROJECT_DESCRIPTION)
 	public String projectDescription;
@@ -72,8 +76,35 @@ public class Project extends BaseEntity {
 	public String[] projectMemberIds;
 	
 	
+	public String userName;
 	
+	public String departmentName;
 	
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
+	public String getWorkTimePeriod() {
+		return workTimePeriod;
+	}
+
+	public void setWorkTimePeriod(String workTimePeriod) {
+		this.workTimePeriod = workTimePeriod;
+	}
 
 	public String[] getProjectMemberIds() {
 		return projectMemberIds;
