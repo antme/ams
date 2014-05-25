@@ -42,44 +42,44 @@
 		<div data-options="region:'west',split:true" style="width: 250px; height:800px">
 			<div class="easyui-accordion left-accordion" id="accordion" data-options="multiple:false,animate:false" style="width: 200px;">
 
-				<div title="公告管理" style="">
+				<div title="公告管理" style="" data-options="iconCls:'icon-notice'">
 	
 					<ul>
 						<li>
-							<span><img src="/resources/css/icons/edit_add.png"></img></span><a href="?p=notice/add">新增</a>
+							<a href="?p=notice/add">新增</a>
 						</li>
 						<li>
 							<span></span><a href="?p=notice/list">公告管理</a>
 						</li>
 					</ul>
 				</div>
-				<div title="考勤管理" data-options="iconCls:'icon-ok'" style="overflow: auto; padding: 10px;">
+				<div title="考勤管理" data-options="iconCls:'icon-attendance'" style="overflow: auto;">
 				
 					<ul>
 						<li>
-							<span><img src="/resources/css/icons/edit_add.png"></img></span><a href="?p=salary/list&a=1">考勤管理</a>
+							<span></span><a href="?p=salary/list&a=1">考勤管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=pic/list&a=1">图片管理</a>
 						</li>
 					</ul>
 				</div>
-				<div title="任务,备忘录,日报管理" style="padding: 10px;">
+				<div title="任务,备忘录,日报管理"  data-options="iconCls:'icon-task'" style="">
 				
 					<ul>
 						<li>
-							<span><img src="/resources/css/icons/edit_add.png"></img></span><a href="?p=task/list&a=2">任务管理</a>
+							<span></span><a href="?p=task/list&a=2">任务管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=report/list&a=2"> 日报管理</a>
 						</li>
 					</ul>
 				</div>
-				<div title="项目管理" style="padding: 10px;">
+				<div title="项目管理" style="" data-options="iconCls:'icon-project'">
 				
 					<ul>
 						<li>
-							<span><img src="/resources/css/icons/edit_add.png"></img></span><a href="?p=project/list&a=3">项目管理</a>
+							<span></span><a href="?p=project/list&a=3">项目管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=team/list&a=3">施工队管理</a>
@@ -90,11 +90,11 @@
 					</ul>
 					
 				</div>
-				<div title="用户管理" style="padding: 10px;">
+				<div title="用户管理" style="" data-options="iconCls:'icon-user'">
 				
 					<ul>
 						<li>
-							<span><img src="/resources/css/icons/edit_add.png"></img></span><a href="?p=user/add&a=4">新增用户</a>
+							<span></span><a href="?p=user/add&a=4">新增用户</a>
 						</li>
 						<li>
 							<span></span><a href="?p=user/list&a=4">用户管理</a>
@@ -104,11 +104,11 @@
 						</li>
 					</ul>
 				</div>
-				<div title="系统设置" style="padding: 10px;" data-options="iconCls:'icon-sys'">
+				<div title="系统设置" style="" data-options="iconCls:'icon-sys'">
 				
 					<ul>
 						<li>
-							<span><img src="/resources/css/icons/edit_add.png"></img></span><a href="?p=sys/usertypelist&a=5">员工类型管理</a>
+							<span></span><a href="?p=sys/usertypelist&a=5">员工类型管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=sys/userlevellist&a=5">员工级别管理</a>
