@@ -35,7 +35,7 @@
 <p></p>
 
 <button onclick="loadRemotePage('user/add&a=4');">新增</button>
-<table id=userList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: false" url="/ams/user/list.do" iconCls="icon-save"
+<table id=userList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

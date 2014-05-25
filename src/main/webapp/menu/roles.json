@@ -1,0 +1,7 @@
+[ {
+	"text" : "用户审核",
+	"id" : "adm_user_approve"
+}, {
+	"text" : "用户管理",
+	"id" : "adm_user_manage"
+}]

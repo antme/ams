@@ -268,11 +268,10 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
 		builder.join(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
-
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		builder.limitColumns(new String[] {Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.PRICE_DESCRIPTION, Task.TEAM_NAME, Task.PROJECT_NAME, Task.ID,
-		        Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
+		builder.limitColumns(new String[] { Task.UNIT, Task.TASK_PERIOD, Task.TASK_CONTACT_PHONE, Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.PRICE_DESCRIPTION, Task.TEAM_NAME,
+		        Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
 		EntityResults<Task> tasks = this.dao.listByQueryWithPagnation(builder, Task.class);
 
 		for (Task t : tasks.getEntityList()) {

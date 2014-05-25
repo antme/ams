@@ -33,6 +33,19 @@
 			<div>
 				<span class="r-edit-label">用户类型:</span> <input class="easyui-validatebox textbox" type="text" name="userCategory"></input>
 			</div>
+			
+			<div>
+				<span class="r-edit-label">角色:</span> <input class="easyui-combobox textbox" type="text" name="groupId" data-options="url:'/ams/sys/group/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'groupName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+			</div>
+			
 			<div>
 				<span class="r-edit-label">工种:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
                     method:'get',

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ams.bean.RoleGroup;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.service.ISystemService;
@@ -106,4 +107,29 @@ public class SystemController extends AmsController {
 	
 		responseWithEntity(sys.getUserLevel(level), request, response);
 	}
+	
+	@RequestMapping("/group/list.do")
+	public void listUserGroups(HttpServletRequest request, HttpServletResponse response) {
+		RoleGroup group = (RoleGroup) parserJsonParameters(request, false, RoleGroup.class);
+		responseWithDataPagnation(sys.listUserGroups( group), request, response);
+	}
+	
+	@RequestMapping("/group/add.do")
+	public void addUserGroup(HttpServletRequest request, HttpServletResponse response) {
+
+		RoleGroup group = (RoleGroup)parserJsonParameters(request, false, RoleGroup.class);
+		
+		sys.addUserGroup(group);
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/group/get.do")
+	public void getUserGroup(HttpServletRequest request, HttpServletResponse response) {
+
+		RoleGroup group = (RoleGroup)parserJsonParameters(request, false, RoleGroup.class);
+	
+		responseWithEntity(sys.getUserGroup(group), request, response);
+	}
+	
+	
 }

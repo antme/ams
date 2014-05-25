@@ -10,6 +10,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Project.TABLE_NAME)
 public class Project extends BaseEntity {
 
+	public static final String PROJECT_ATTENDANCE_MANAGER_ID = "projectAttendanceManagerId";
+
 	public static final String WORK_TIME_PERIOD = "workTimePeriod";
 
 	public static final String CUSTOMER_ID = "customerId";
@@ -63,6 +65,10 @@ public class Project extends BaseEntity {
 	@Column(name = CUSTOMER_ID)
 	public String customerId;
 	
+	@Column(name = PROJECT_ATTENDANCE_MANAGER_ID)
+	public String projectAttendanceManagerId;
+	
+	
 	
 	
 	public Integer projectTotalDays;
@@ -81,6 +87,15 @@ public class Project extends BaseEntity {
 	public String departmentName;
 	
 
+
+	
+	public String getProjectAttendanceManagerId() {
+		return projectAttendanceManagerId;
+	}
+
+	public void setProjectAttendanceManagerId(String projectAttendanceManagerId) {
+		this.projectAttendanceManagerId = projectAttendanceManagerId;
+	}
 
 	public String getUserName() {
 		return userName;

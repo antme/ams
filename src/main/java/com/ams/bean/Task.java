@@ -93,16 +93,15 @@ public class Task extends BaseEntity {
 
 	@Column(name = TEAM_NAME)
 	public String teamName;
-	
+
 	@Column(name = TASK_CONTACT_PHONE)
 	public String taskContactPhone;
 
 	@Column(name = TASK_PERIOD)
 	public String taskPeriod;
-	
+
 	@Column(name = USER_ID)
 	public String userId;
-	
 
 	public Integer projectTotalDays;
 
@@ -114,8 +113,16 @@ public class Task extends BaseEntity {
 
 	public Double userWorkedDays;
 
-	
-	
+	public String userName;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

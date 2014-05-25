@@ -13,6 +13,7 @@ CREATE TABLE `User` (
   `address` varchar(255) DEFAULT NULL,
   `userTypeId` varchar(36) DEFAULT NULL,
   `userCode` varchar(36) DEFAULT NULL,
+  `groupId` varchar(36) DEFAULT NULL,
   `userLevelId` varchar(36) DEFAULT NULL,  
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
@@ -215,6 +216,7 @@ CREATE TABLE `Project` (
   `id` varchar(36) NOT NULL,
   `departmentId` varchar(36) DEFAULT NULL,
   `customerId` varchar(36) DEFAULT NULL,
+  `projectAttendanceManagerId` varchar(36) DEFAULT NULL,
   `projectName` varchar(255) NOT NULL,
   `workTimePeriod` varchar(255) NOT NULL,
   `projectManagerId` varchar(36) DEFAULT NULL,
@@ -361,6 +363,17 @@ CREATE TABLE `UserLevel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `RoleGroup` (
+  `id` varchar(36) NOT NULL,
+  `groupName` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `permissions` varchar(512) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 alter table dailyReport add column taskId varchar(36) default null;
@@ -388,7 +401,9 @@ alter table User add column bstatus int default 0;
 alter table User add column address varchar(255) default null;
 alter table User add column userCategory varchar(255) default null;
 alter table Project add column workTimePeriod varchar(255) default null;
+alter table User add column groupId varchar(36) default null;
 
+alter table Project add column projectAttendanceManagerId varchar(36) default null;
 
 
 

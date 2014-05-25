@@ -2,6 +2,7 @@ package com.ams.service;
 
 import java.io.InputStream;
 
+import com.ams.bean.RoleGroup;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.eweblib.bean.BaseEntity;
@@ -26,6 +27,12 @@ public interface ISystemService {
 	EntityResults<UserLevel> listUserLevels(UserLevel level);
 
 	BaseEntity getUserLevel(UserLevel level);
+
+	EntityResults<RoleGroup> listUserGroups(RoleGroup group);
+
+	void addUserGroup(RoleGroup group);
+
+	BaseEntity getUserGroup(RoleGroup group);
 
 
 	

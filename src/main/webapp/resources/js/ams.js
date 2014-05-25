@@ -26,6 +26,31 @@ function formatterAttendanceDayType(val, row){
 	
 }
 
+function formatterDescription(val, row) {
+
+	if (val.length > 10) {
+		var display = val.substr(0, 10) + "...";
+
+		val = val.replace('\n', '<br>');
+
+		return '<div  title="Basic Dialog" data-options="iconCls:\'icon-save\'" >'
+				+ display
+				+ '<a href="javascript:void(0)" title="'
+				+ val
+				+ '" style="margin-left:20px"; class="easyui-linkbutton" onclick="openDetail($(this));">更多</a></div>';
+
+	} else {
+		return val;
+	}
+}
+
+
+function openDetail(target){
+	$('#dlg').html(target.attr("title"));
+	$('#dlg').dialog();
+	$('#dlg').dialog('open');
+	
+}
 function formatterAttendanceType(val, row) {
 
 	if (val == 0) {
@@ -191,6 +216,13 @@ function formatterUserOperation(val, row) {
 			+ '")> 编辑 </a>';
 }
 
+
+function formatterGroupOperation(val, row){
+	return '<a href="#" onclick=loadRemotePage("user/addgroup&a=5&id=' + row.id
+	+ '")> 编辑 </a>';
+}
+
+
 function formatterCustomerOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id
 			+ '")> 编辑 </a>';
@@ -319,6 +351,8 @@ function onSysTreeClick(node) {
 		loadRemotePage("sys/userlevellist" + accor);
 	} else if (text == '部门管理') {
 		loadRemotePage("department/list" + accor);
+	}else if (text == '权限组管理') {
+		loadRemotePage("user/grouplist" + accor);
 	}
 }
 

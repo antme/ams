@@ -27,12 +27,12 @@
 	<thead>
 		<tr>
 			<th align="center" field="title" width="200" sortable="false" resizable="true">标题</th>
-			<th align="center" field="publisher" width="100" sortable="false" resizable="true">发布人</th>
+			<th align="center" field="publisher" width="80" sortable="false" resizable="true">发布人</th>
 			<th align="center" field="priority" width="50" sortable="false" resizable="true">优先级</th>
 			<th align="center" field="createdOn" width="120" sortable="false" resizable="true">发布日期</th>
-			<th align="center" field="publishEndDate" width="120" sortable="false" resizable="true">公告结束日期</th>
-			<th align="center" field="attachFileUrl" width="80" sortable="false" formatter="formatteAttachFileLink" resizable="true">附件地址</th>
-			<th align="center" field="content" width="350" sortable="false" resizable="true">内容</th>
+			<th align="center" field="publishEndDate" width="120" sortable="false" resizable="true">结束日期</th>
+			<th align="center" field="attachFileUrl" width="60" sortable="false" formatter="formatteAttachFileLink" resizable="true">附件</th>
+			<th align="center" field="content" width="350"  data-options="formatter:formatterDescription"  sortable="false" resizable="true">内容</th>
 		</tr>
 	</thead>
 </table>

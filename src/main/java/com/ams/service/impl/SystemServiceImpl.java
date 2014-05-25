@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Project;
+import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
 import com.ams.bean.Task;
@@ -107,6 +108,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		String projectStartDate = "";
 		String projectEndDate = "";
 		String projectPeriod = "";
+		String taskDescrpition = "";
 
 		List<Task> taskList = new ArrayList<Task>();
 
@@ -114,7 +116,6 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		if (!list.isEmpty()) {
 
 			for (String[] rows : list) {
-
 				String row = "";
 				for (int i = 0; i < rows.length; i++) {
 					if (EweblibUtil.isValid(rows[i])) {
@@ -154,14 +155,16 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 						task.setUnit(rows[2]);
 						task.setTaskName(rows[1]);
 						task.setDisplayOrder(EweblibUtil.getInteger(rows[0], 0));
-						task.setDescription(rows[5]);
+						task.setDescription(taskDescrpition);
 						task.setPrice(EweblibUtil.getDouble(rows[4], 0d));
 						task.setAmountDescription(EweblibUtil.getDouble(rows[3], 0d) + rows[2]);
 						task.setPriceDescription(EweblibUtil.getDouble(rows[4], 0d) + "元");
 						taskList.add(task);
 					}
 
-				} else if (row.startsWith("施工细节")) {
+				} else if (row.startsWith("施工细节描述")) {
+					taskDescrpition = row.split(getKey(row, "施工细节描述"))[1].trim();
+
 					taskStart = false;
 				} else if (row.startsWith("竣工日期")) {
 					projectEndDate = row.split(getKey(row, "绩效单价"))[0].trim().split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
@@ -202,6 +205,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			task.setProjectStartDate(DateUtil.getDate(projectStartDate, "YYYY年MM月DD日"));
 			task.setProjectEndDate(DateUtil.getDate(projectEndDate, "YYYY年MM月DD日"));
 			task.setTeamName(teamName);
+			task.setDescription(taskDescrpition);
 			task.setTaskContactPhone(teamLeaderContactPhone);
 			task.setTaskPeriod(projectPeriod);
 			task.setUserId(user.getId());
@@ -210,7 +214,6 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public void addUserType(UserType type) {
-		
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(UserType.TABLE_NAME);
 		builder.and(UserType.TYPE_NAME, type.getTypeName());
@@ -234,7 +237,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public void addUserLevel(UserLevel level) {
-		
+
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(UserLevel.TABLE_NAME);
 		builder.and(UserLevel.LEVEL_NAME, level.getLevelName());
 		if (level.getId() != null) {
@@ -245,7 +248,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		if (dao.exists(builder)) {
 			throw new ResponseException("此级别已经存在");
 		}
-		
+
 		if (EweblibUtil.isValid(level.getId())) {
 			this.dao.updateById(level);
 		} else {
@@ -295,6 +298,43 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	public BaseEntity getUserLevel(UserLevel level) {
 		return this.dao.findById(level.getId(), UserLevel.TABLE_NAME, UserLevel.class);
 
+	}
+
+	public EntityResults<RoleGroup> listUserGroups(RoleGroup group) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
+
+		return this.dao.listByQueryWithPagnation(query, RoleGroup.class);
+
+	}
+
+	public void addUserGroup(RoleGroup group) {
+
+		if (group.getPermissionitems() != null) {
+
+			String p = "";
+
+			for (String per : group.getPermissionitems()) {
+				p = p + per + ",";
+			}
+
+			p = p + "]]";
+			p = p.replace(",]]", "");
+
+			group.setPermissions(p);
+		}
+
+		if (EweblibUtil.isValid(group.getId())) {
+			this.dao.updateById(group);
+		} else {
+			this.dao.insert(group);
+		}
+
+	}
+
+	public BaseEntity getUserGroup(RoleGroup group) {
+
+		return this.dao.findById(group.getId(), RoleGroup.TABLE_NAME, RoleGroup.class);
 	}
 
 	private List<DeductedSalaryItem> getDeductedSalary(List<String[]> list) {

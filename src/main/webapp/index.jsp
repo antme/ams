@@ -68,7 +68,7 @@
 						<ul class="easyui-tree" data-options="url:'/menu/tree_user.json',method:'get',animate:true,onClick:onUserTreeClick"></ul>
 					</div>
 				</div>
-				<div title="系统设置" style="padding: 10px;">
+				<div title="系统设置" style="padding: 10px;" data-options="iconCls:'icon-sys'">
 					<div class="easyui-panel" style="padding: 5px; width: 150px; border-style: none;">
 						<ul class="easyui-tree" data-options="url:'/menu/tree_sys.json',method:'get',animate:true,onClick:onSysTreeClick"></ul>
 					</div>
@@ -106,6 +106,10 @@
 			<span id="detailspan" height="200" style="margin-top: 20px;"></span>
 		</div>
 	</div>
+	
+	 <div id="dlg"  title="详情" data-options="iconCls:'icon-save'" style="width:400px;padding:10px;">
+	 
+     </div>
 
 	<script type="text/javascript">
         var roleName = "<%=userRoleName%>";

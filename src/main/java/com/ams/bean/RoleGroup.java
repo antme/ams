@@ -10,8 +10,6 @@ import com.google.gson.annotations.Expose;
 public class RoleGroup extends BaseEntity {
 	public static final String PERMISSIONS = "permissions";
 
-	public static final String INDEX_PAGE = "indexPage";
-
 	public static final String TABLE_NAME = "RoleGroup";
 
 	@Column(name = "groupName")
@@ -26,9 +24,17 @@ public class RoleGroup extends BaseEntity {
 	@Expose
 	public String description;
 	
-	@Column(name = INDEX_PAGE)
-	@Expose
-	public String indexPage;
+	
+	public String[] permissionitems;
+	
+
+	public String[] getPermissionitems() {
+		return permissionitems;
+	}
+
+	public void setPermissionitems(String[] permissionitems) {
+		this.permissionitems = permissionitems;
+	}
 
 	public String getPermissions() {
 		return permissions;
@@ -53,15 +59,5 @@ public class RoleGroup extends BaseEntity {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-
-	public String getIndexPage() {
-    	return indexPage;
-    }
-
-	public void setIndexPage(String indexPage) {
-    	this.indexPage = indexPage;
-    }
-	
-	
 
 }

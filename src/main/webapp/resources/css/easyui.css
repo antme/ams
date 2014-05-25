@@ -1112,7 +1112,7 @@
 .datagrid-cell-rownumber {
   margin: 0;
   padding: 0 4px;
-  white-space: nowrap;
+
   word-wrap: normal;
   overflow: hidden;
   height: 18px;

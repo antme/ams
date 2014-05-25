@@ -41,7 +41,18 @@
 						return data.rows;
 					}"></input> <span>部门改变的时候，项目下的团队的部门也将一起改变</span>
 			</div>
-			
+			<div>
+				<span class="r-edit-label">考勤负责人:</span> <input class="easyui-combobox"  name="projectAttendanceManagerId" 
+					data-options="url:'/ams/user/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+			</div>
 			<div>
 				<span class="r-edit-label">项目负责人:</span> <input class="easyui-combobox"  name="projectManagerId" 
 					data-options="url:'/ams/user/list.do?userId=',
