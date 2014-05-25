@@ -404,6 +404,10 @@ alter table Project add column workTimePeriod varchar(255) default null;
 alter table User add column groupId varchar(36) default null;
 
 alter table Project add column projectAttendanceManagerId varchar(36) default null;
+alter table Attendance add column departmentId varchar(36) default null;
 
+alter table Attendance add column projectId varchar(36) default null;
+
+alter table Project modify column projectStatus varchar(255) default null;
 
 

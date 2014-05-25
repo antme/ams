@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
@@ -23,6 +24,7 @@ import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
+import com.ams.service.IProjectService;
 import com.ams.service.IUserService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
@@ -41,6 +43,20 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
+
+
+	public List<String> getUserIds(String userName) {
+	    DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+	    userQuery.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, userName);
+
+	    List<User> users = this.dao.listByQuery(userQuery, User.class);
+	    List<String> userIds = new ArrayList<String>();
+
+	    for (User user : users) {
+	    	userIds.add(user.getId());
+	    }
+	    return userIds;
+    }
 
 
 	@Override
@@ -273,11 +289,24 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return this.dao.listByQueryWithPagnation(builder, Pic.class);
 	}
 
-	public EntityResults<Salary> listUserSalaries(SearchVo vo) {
+	public EntityResults<Salary> listUserSalaries(Salary salary) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
 		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		if (EweblibUtil.isValid(salary.getUserName())) {
+			List<String> userIds = this.getUserIds(salary.getUserName());
+			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, userIds);
+		}
+
+		if (EweblibUtil.isValid(salary.getYear())) {
+			builder.and(Salary.YEAR, salary.getYear());
+		}
+
+		if (EweblibUtil.isValid(salary.getMonth())) {
+			builder.and(Salary.MONTH, salary.getMonth());
+		}
 
 		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
 
@@ -354,18 +383,35 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public void addAttendance(List<Attendance> attendanceList) {
 
 		for (Attendance attendance : attendanceList) {
+
+			Team team = (Team) this.dao.findById(attendance.getTeamId(), Attendance.TABLE_NAME, Attendance.class);
+			attendance.setProjectId(team.getProjectId());
+			attendance.setDepartmentId(team.getDepartmentId());
+
 			this.dao.insert(attendance);
 		}
 	}
 	
 	
-	public EntityResults<User> listAllUsers(SearchVo vo) {
+	public EntityResults<User> listAllUsers(User vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
 		builder.joinColumns(UserType.TABLE_NAME, new String[]{UserType.TYPE_NAME});
 		
 		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[]{UserLevel.LEVEL_NAME});
+		
+		if(EweblibUtil.isValid(vo.getUserName())){
+			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
+		}
+		
+		if(EweblibUtil.isValid(vo.getUserTypeId())){
+			builder.and( User.USER_TYPE_ID, vo.getUserTypeId());
+		}
+		
+		if(EweblibUtil.isValid(vo.getUserLevelId())){
+			builder.and( User.USER_LEVEL_ID, vo.getUserLevelId());
+		}
 		
 		builder.limitColumns(new User().getColumnList());
 

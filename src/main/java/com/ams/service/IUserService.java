@@ -12,7 +12,7 @@ import com.eweblib.bean.EntityResults;
 
 public interface IUserService {
 
-
+	public List<String> getUserIds(String userName);
 	public User regUser(User user);
 	
 	public User loadUser(User user);
@@ -43,7 +43,7 @@ public interface IUserService {
 
 	public EntityResults<Pic> listPics(SearchVo vo);
 
-	public EntityResults<Salary> listUserSalaries(SearchVo vo);
+	public EntityResults<Salary> listUserSalaries(Salary salary);
 
 	public void addSalart(Salary salary);
 
@@ -57,7 +57,7 @@ public interface IUserService {
 
 	public EntityResults<Salary> listAllUserSalaries(SearchVo vo);
 
-	public EntityResults<User> listAllUsers(SearchVo vo);
+	public EntityResults<User> listAllUsers(User vo);
 
 
 

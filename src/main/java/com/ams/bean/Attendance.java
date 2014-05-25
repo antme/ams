@@ -12,6 +12,10 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Attendance.TABLE_NAME)
 public class Attendance extends BaseEntity {
 
+	public static final String DEPARTMENT_ID = "departmentId";
+
+	public static final String PROJECT_ID = "projectId";
+
 	public static final String MINUTES = "minutes";
 
 	public static final String HOURS = "hours";
@@ -36,6 +40,12 @@ public class Attendance extends BaseEntity {
 	@Column(name = TEAM_ID)
 	public String teamId;
 
+	@Column(name = DEPARTMENT_ID)
+	public String departmentId;
+
+	@Column(name = PROJECT_ID)
+	public String projectId;
+
 	@Column(name = OPERATOR_ID)
 	public String operatorId;
 
@@ -59,6 +69,50 @@ public class Attendance extends BaseEntity {
 	public String operator;
 
 	public String teamName;
+
+	public String departmentName;
+
+	public String projectName;
+
+	public String getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
 	public String getOperator() {
 		return operator;

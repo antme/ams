@@ -1,10 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script>
+
+	function search() {
+		$('#userList').datagrid('load', {
+			userName : $("#userName").val(),
+			userTypeId : $("#userTypeId").combobox('getValue'),
+			userLevelId : $("#userLevelId").combobox('getValue')
+			
+		});
+	}
+</script>
 <div>
-	<label>关键字:</label>
-	<input type="text" name="keyword" id="keyword"/> 
+	<label>用户名:</label>
+	<input type="text" name="userName" id="userName"/> 
 	
 
-				<span class="r-edit-label">工种:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
+				<span class="r-edit-label">工种:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" id="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,
@@ -18,7 +29,7 @@
 						return data.rows;
 					}"></input>
 			
-				<span class="r-edit-label">级别:</span> <input class="easyui-combobox textbox"  id ="userTypeId" type="text" name="userLevelId"
+				<span class="r-edit-label">级别:</span> <input class="easyui-combobox textbox"  id ="userLevelId" type="text" name="userLevelId"
 				data-options="
                     valueField:'id',
                     required:true,

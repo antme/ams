@@ -1,7 +1,37 @@
 [ {
-	"text" : "用户审核",
-	"id" : "adm_user_approve"
+	"text" : "公告管理",
+	"id" : "adm_notice_management"
 }, {
 	"text" : "用户管理",
 	"id" : "adm_user_manage"
+}, {
+	"text" : "权限组管理",
+	"id" : "adm_group_manage"
+}, {
+	"text" : "考勤管理",
+	"id" : "adm_attendance_manage"
+}, {
+	"text" : "图片管理",
+	"id" : "adm_pic_manage"
+}, {
+	"text" : "任务管理",
+	"id" : "adm_task_manage"
+}, {
+	"text" : "日报管理",
+	"id" : "adm_dailyreport_manage"
+}, {
+	"text" : "项目管理",
+	"id" : "adm_project_manage"
+}, {
+	"text" : "施工队管理",
+	"id" : "adm_team_manage"
+}, {
+	"text" : "客户管理",
+	"id" : "adm_customer_manage"
+}, {
+	"text" : "工资管理",
+	"id" : "adm_salary_manage"
+}, {
+	"text" : "系统设置",
+	"id" : "adm_sys_manage"
 }]

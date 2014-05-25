@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ams.bean.Attendance;
 import com.ams.service.IAttendanceService;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
@@ -25,6 +26,9 @@ public class AttendanceController extends AmsController {
 	
 	@RequestMapping("/list.do")
 	public void listAttendances(HttpServletRequest request, HttpServletResponse response) {
-		responseWithDataPagnation(attendanceService.listAttendances(), request, response);
+		
+		Attendance attendance = (Attendance) parserJsonParameters(request, false, Attendance.class);
+		
+		responseWithDataPagnation(attendanceService.listAttendances(attendance), request, response);
 	}
 }

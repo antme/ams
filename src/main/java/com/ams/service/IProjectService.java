@@ -14,6 +14,7 @@ import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.dbhelper.DataBaseQueryBuilder;
 
 public interface IProjectService {
 
@@ -21,7 +22,7 @@ public interface IProjectService {
 	
 	public Project getProjectInfo(Project project);
 
-	EntityResults<Project> listProjects();
+	EntityResults<Project> listProjects(Project project);
 
 	EntityResults<Task> listProjectTasks(Task task);
 
@@ -44,7 +45,9 @@ public interface IProjectService {
 	
 	public Team getTeam(Team team);
 	
-	public EntityResults<Team> listTeams(SearchVo vo);
+	public EntityResults<Team> listTeams(Team team);
+	
+	public DataBaseQueryBuilder getTeamQuery(Team team);
 
 	public List<Team> listTeamsForApp(Team team);
 	
@@ -57,7 +60,7 @@ public interface IProjectService {
 
 	BaseEntity getCustomerInfo(Customer customer);
 
-	EntityResults<Task> listAllTasksFor();
+	EntityResults<Task> listAllTasksFor(Task task);
 
 
 }

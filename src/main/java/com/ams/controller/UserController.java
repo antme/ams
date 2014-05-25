@@ -194,7 +194,7 @@ public class UserController extends AmsController {
 	@RequestMapping("/team/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeams(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		Team vo = (Team) parserJsonParameters(request, false, Team.class);
 		responseWithDataPagnation(projectService.listTeams(vo), request, response);
 	}
 	
@@ -269,7 +269,7 @@ public class UserController extends AmsController {
 	@RequestMapping("/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listAllUsers(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		User vo = (User) parserJsonParameters(request, false, User.class);
 		responseWithDataPagnation(userService.listAllUsers(vo), request, response);
 	}
 	
@@ -329,8 +329,8 @@ public class UserController extends AmsController {
 	@RequestMapping("/salary/app/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listUserSalaries(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
-		responseWithDataPagnation(userService.listUserSalaries(vo), request, response);
+		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
+		responseWithDataPagnation(userService.listUserSalaries(salary), request, response);
 	}
 	
 	

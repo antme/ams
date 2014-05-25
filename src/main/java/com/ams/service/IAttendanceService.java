@@ -6,6 +6,6 @@ import com.eweblib.bean.EntityResults;
 
 public interface IAttendanceService {
 
-	EntityResults<Attendance> listAttendances();
+	EntityResults<Attendance> listAttendances(Attendance attendance);
 
 }

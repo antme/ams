@@ -60,7 +60,7 @@ public class Project extends BaseEntity {
 	public String projectDescription;
 	
 	@Column(name = PROJECT_STATUS)
-	public Integer projectStatus;
+	public String projectStatus;
 	
 	@Column(name = CUSTOMER_ID)
 	public String customerId;
@@ -87,8 +87,40 @@ public class Project extends BaseEntity {
 	public String departmentName;
 	
 
+	public String projectAttendanceManagerName;
+	
+	public String projectManagerName;
+	
+	public String customerName;
+	
+	
+	
 
 	
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getProjectAttendanceManagerName() {
+		return projectAttendanceManagerName;
+	}
+
+	public void setProjectAttendanceManagerName(String projectAttendanceManagerName) {
+		this.projectAttendanceManagerName = projectAttendanceManagerName;
+	}
+
+	public String getProjectManagerName() {
+		return projectManagerName;
+	}
+
+	public void setProjectManagerName(String projectManagerName) {
+		this.projectManagerName = projectManagerName;
+	}
+
 	public String getProjectAttendanceManagerId() {
 		return projectAttendanceManagerId;
 	}
@@ -129,11 +161,11 @@ public class Project extends BaseEntity {
 		this.projectMemberIds = projectMemberIds;
 	}
 
-	public Integer getProjectStatus() {
+	public String getProjectStatus() {
 		return projectStatus;
 	}
 
-	public void setProjectStatus(Integer projectStatus) {
+	public void setProjectStatus(String projectStatus) {
 		this.projectStatus = projectStatus;
 	}
 

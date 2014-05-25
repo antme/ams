@@ -67,12 +67,7 @@
 			</div>
 			
 			<div>
-				<span class="r-edit-label">项目状态</span> <select class="easyui-combobox" name="projectStatus" style="width: 200px;">
-					<option value="1">进行中</option>				
-					<option value="0">未开始</option>
-					<option value="2">延期</option>
-					<option value="3">已结束</option>
-				</select>
+				<span class="r-edit-label">项目状态</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectStatus" style="width: 200px;"/>			
 			</div>
 
 			<div>

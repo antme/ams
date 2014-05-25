@@ -57,8 +57,8 @@ public class ProjectController extends AmsController {
 	
 	@RequestMapping("/list.do")
 	public void listProjects(HttpServletRequest request, HttpServletResponse response) {
-		parserJsonParameters(request, true);
-		responseWithDataPagnation(projectService.listProjects(), request, response);
+		Project project = (Project) parserJsonParameters(request, false, Project.class);
+		responseWithDataPagnation(projectService.listProjects(project), request, response);
 	}
 	
 	@RequestMapping("/app/task/select.do")
@@ -78,8 +78,8 @@ public class ProjectController extends AmsController {
 	
 	@RequestMapping("/task/list.do")
 	public void listAllTasksFor(HttpServletRequest request, HttpServletResponse response) {
-		parserJsonParameters(request, true);
-		responseWithDataPagnation(projectService.listAllTasksFor(), request, response);
+		Task task = (Task) parserJsonParameters(request, true, Task.class);
+		responseWithDataPagnation(projectService.listAllTasksFor(task), request, response);
 	}
 	
 	
@@ -138,8 +138,6 @@ public class ProjectController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void listAllDailyReport(HttpServletRequest request, HttpServletResponse response) {
 		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
-
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
 
 		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
 	}

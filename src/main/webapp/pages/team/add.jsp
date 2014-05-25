@@ -79,10 +79,7 @@
 								            ]]
 								        "></select>
 			</div>
-			<div>
-				<span class="r-edit-label">描述:</span>
-				<textarea class="easyui-validatebox textarea" name="teamDescription" ></textarea>
-			</div>
+			
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>
 			</div>

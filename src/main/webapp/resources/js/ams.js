@@ -47,32 +47,45 @@ function formatterDescription(val, row) {
 
 function openDetail(target){
 	$('#dlg').html(target.attr("title"));
-	$('#dlg').dialog();
+	$('#dlg').dialog({modal:true});
 	$('#dlg').dialog('open');
 	
 }
 function formatterAttendanceType(val, row) {
 
+	var time = "";
+	if(row.hours && row.hours > 0){
+		time = " (" + time + row.hours + "小时";
+	}
+	
+	if(row.minutes && row.minutes > 0){
+		time = time + row.minutes + "分钟";
+	}
+	
+	if(time.length > 0){
+		time = time + ")";
+	}
+	
 	if (val == 0) {
-		return "应勤出勤";
+		return "应勤出勤" + time;
 	} else if (val == 1) {
-		return "应休休息";
+		return "应休休息" + time;
 	} else if (val == 2) {
-		return "应勤请假";
+		return "应勤请假" + time;
 	} else if (val == 3) {
-		return "旷工";
+		return "旷工" + time;
 	} else if (val == 4) {
-		return "加班";
+		return "加班" + time;
 	} else if (val == 5) {
-		return "迟到";
+		return "迟到" + time;
 	} else if (val == 6) {
-		return "早退";
+		return "早退" + time;
 	} else if (val == 7) {
-		return "中途脱岗";
+		return "中途脱岗" + time;
 	} else if (val == 8) {
-		return "未到岗位";
+		return "未到岗位" + time;
 	} else if (val == 9) {
-		return "应出勤要求休息";
+		return "应出勤要求休息" + time;
 	}
 
 	return "其他出勤";
@@ -380,7 +393,7 @@ function onUserTreeClick(node) {
 		loadRemotePage("user/grouplist" + accor);
 	} else if (text == '图片管理') {
 		loadRemotePage("pic/list" + accor);
-	} else if (text == '团队管理') {
+	} else if (text == '施工队管理') {
 		loadRemotePage("team/list" + accor);
 	} else if (text == '工资管理') {
 		loadRemotePage("salary/list" + accor);
@@ -395,7 +408,7 @@ function onProjectClick(node) {
 		loadRemotePage("project/list" + accor);
 	} else if (text == '客户管理') {
 		loadRemotePage("customer/list" + accor);
-	} else if (text == '团队管理') {
+	} else if (text == '施工队管理') {
 		loadRemotePage("team/list" + accor);
 	}
 }

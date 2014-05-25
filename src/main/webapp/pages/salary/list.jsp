@@ -14,7 +14,32 @@
 	<input type="file" name="taskFile"/>
 	<input type="submit" value="上传"/>
 </form>
-<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
+<p></p>
+<hr>
+<script>
+
+	function search() {
+		$('#salaryList').datagrid('load', {
+			userName : $("#userName").val(),
+			years : $("#years").val(),
+			month : $("#month").val()
+			
+		});
+	}
+</script>
+<div>
+	<label>用户名:</label> <input type="text" name="userName" id="userName" /> 
+	<label>年份:</label> <input type="number" name="years" id="years" /> 
+	<label>月份:</label> <input type="number" name="month" id="month" />
+
+
+
+
+	<button onclick="search();">搜索</button>
+</div>
+<p></p>
+
+<table id="salaryList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

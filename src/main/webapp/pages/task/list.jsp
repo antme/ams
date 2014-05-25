@@ -8,6 +8,16 @@
 			loadRemotePage("task/list&a=2");
 		});
 	});
+	
+
+	function search() {
+		$('#taskList').datagrid('load', {
+			userName : $("#userName").val(),
+			projectId : $("#projectId").combobox('getValue'),
+			teamId : $("#teamId").combobox('getValue')
+			
+		});
+	}
 </script>
 <form id="task_import" action="/ams/sys/task/import.do" method="post" enctype="multipart/form-data">
 	<span>任务文件上传：</span><input type="file" name="taskFile"/>
@@ -19,11 +29,11 @@
 
 
 <div>
-	<label>关键字:</label>
-	<input type="text" name="keyword" id="keyword"/> 
+	<label>施工员:</label>
+	<input type="text" name="userName" id="userName"/> 
 	
 
-				<span class="r-edit-label">项目:</span> <input class="easyui-combobox textbox" type="text" name="projectId" data-options="url:'/ams/project/list.do?userId=',
+				<span class="r-edit-label">项目:</span> <input class="easyui-combobox textbox" type="text" id="projectId" name="projectId" data-options="url:'/ams/project/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,
@@ -50,7 +60,7 @@
 </div>
 
 <div style="margin-top:20px;"></div>
-<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/task/list.do" iconCls="icon-save"
+<table id="taskList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/task/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

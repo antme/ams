@@ -49,6 +49,17 @@
 	height: 92px;
 }
 
+.left ul li {
+	list-style: none;
+	margin-left: 8px;
+	line-height: 2;
+	font-size: 14px;
+}
+
+.left ul {
+	display: inline;
+}
+
 .head_logo {
 	font-size: 3em;
 }
@@ -70,6 +81,7 @@
 	margin-top: 40px;
 }
 
-.icon-sys{
-	background: url('/resources/images/advanced.png') no-repeat center center;
+.icon-sys {
+	background: url('/resources/images/advanced.png') no-repeat center
+		center;
 }
