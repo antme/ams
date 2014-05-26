@@ -231,8 +231,7 @@ function formatterUserOperation(val, row) {
 
 
 function formatterGroupOperation(val, row){
-	return '<a href="#" onclick=loadRemotePage("user/addgroup&a=5&id=' + row.id
-	+ '")> 编辑 </a>';
+	return '<a href="#" onclick=loadRemotePage("user/addgroup&a=5&id=' + row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteGroup("' + row.id + '")> 删除 </a>';
 }
 
 

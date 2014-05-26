@@ -6,16 +6,52 @@
 		$('#attList').datagrid('load', {
 			userName : $("#userName").val(),
 			operator : $("#operator").val(),
+			year : $("#year").val(),
+			month : $("#month").val(),
 			projectId : $("#projectId").combobox('getValue'),
 			teamId : $("#teamId").combobox('getValue')
 			
 		});
 	}
+	
+	function exportData(){
+		
+		var data =  {
+			userName : $("#userName").val(),
+			operator : $("#operator").val(),
+			year : $("#year").val(),
+			month : $("#month").val(),
+			projectId : $("#projectId").combobox('getValue'),
+			teamId : $("#teamId").combobox('getValue')
+			
+		};
+		
+		postAjaxRequest("/ams/attendance/export.do", data, function(data){
+			console.log(data);
+		});
+		
+		
+	}
+	
+	function checkExport(){
+		if($("#year").val() == ""){
+			alert("请输入年");
+			return false;
+		}
+		
+		if($("#month").val() == ""){
+			alert("请输入月");
+			return false;
+		}
+		
+		return true;
+	}
 </script>
 
 
 <div>
-	<label>员工:</label>
+   <form action="/ams/attendance/export.do" method="post">
+   <label>员工:</label>
 	<input type="text" name="userName" id="userName"/> 
 	
 	<label>考勤人:</label>
@@ -41,8 +77,14 @@
 					}"></input>
 			
 			
+	<label>年:</label>
+	<input type="number" name="year" id="year"/>
+	<label>月:</label>
+	<input type="number" name="month" id="month"/>
 	
-	<button onclick="search();">搜索</button><button>导出</button>
+	<button onclick="search(); return false;">搜索</button><button onclick="return checkExport();">导出</button>
+	</form>
+	
 </div>
 
 <table id="attList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/attendance/list.do" iconCls="icon-save"

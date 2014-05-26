@@ -114,7 +114,7 @@
 							<span></span><a href="?p=sys/userlevellist&a=5">员工级别管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=user/grouplist&a=5">权限组管理</a>
+							<span></span><a href="?p=user/grouplist&a=5">角色管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=department/list&a=5">部门管理</a>
