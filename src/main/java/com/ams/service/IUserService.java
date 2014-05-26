@@ -41,7 +41,7 @@ public interface IUserService {
 
 	public void addPic(Pic pic);
 
-	public EntityResults<Pic> listPics(SearchVo vo);
+	public EntityResults<Pic> listPics(Pic vo);
 
 	public EntityResults<Salary> listUserSalaries(Salary salary);
 

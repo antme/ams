@@ -280,13 +280,32 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		this.dao.insert(pic);
 	}
 
-	public EntityResults<Pic> listPics(SearchVo vo) {
+	public EntityResults<Pic> listPics(Pic pic) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
 
 		builder.join(Pic.TABLE_NAME, User.TABLE_NAME, Pic.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		builder.limitColumns(new Pic().getColumnList());
 
+		if (pic != null) {
+			if (EweblibUtil.isValid(pic.getProjectName())) {
+				builder.and(DataBaseQueryOpertion.LIKE, Pic.PROJECT_NAME, pic.getProjectName());
+
+			}
+
+			if (EweblibUtil.isValid(pic.getStartDate())) {
+				builder.and(DataBaseQueryOpertion.GREATER_THAN_EQUALS, Pic.CREATED_ON, pic.getStartDate());
+			}
+
+			if (EweblibUtil.isValid(pic.getEndDate())) {
+				builder.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, Pic.CREATED_ON, pic.getEndDate());
+			}
+
+			if (EweblibUtil.isValid(pic.getUserId())) {
+				builder.and(Pic.USER_ID, pic.getUserId());
+			}
+
+		}
 		builder.and(DataBaseQueryOpertion.NULL, Pic.DAILY_REPORT_ID);
 		return this.dao.listByQueryWithPagnation(builder, Pic.class);
 	}

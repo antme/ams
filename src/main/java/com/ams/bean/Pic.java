@@ -50,11 +50,30 @@ public class Pic extends BaseEntity {
 
 	@Column(name = UPLOAD_ADDRESS)
 	public String uploadAddress;
-	
-	
+
 	public String userName;
 
 	public Integer imagesCount;
+
+	public Date startDate;
+
+	public Date endDate;
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -128,7 +147,6 @@ public class Pic extends BaseEntity {
 		this.uploadAddress = uploadAddress;
 	}
 
-	
 	public String getUserName() {
 		return userName;
 	}

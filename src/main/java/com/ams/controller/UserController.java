@@ -301,7 +301,7 @@ public class UserController extends AmsController {
 	@RequestMapping("/pic/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listPics(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		Pic vo = (Pic) parserJsonParameters(request, false, Pic.class);
 		responseWithDataPagnation(userService.listPics(vo), request, response);
 	}
 	

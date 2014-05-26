@@ -6,8 +6,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
@@ -22,6 +24,8 @@ public class TestPOI {
 		BufferedImage bufferImg = null;
 
 		BufferedImage bufferImg1 = null;
+		String[] columnHeaders = new String[]{"NAME", "FILE"};
+		
 
 		try {
 
@@ -45,7 +49,13 @@ public class TestPOI {
 
 			HSSFSheet sheet1 = wb.createSheet("poi picT");
 
-			// HSSFRow row = sheet1.createRow(2);
+			HSSFRow row = sheet1.createRow(0);
+			int index = 0;
+			for (String header : columnHeaders) {
+				HSSFCell cell = row.createCell(index);
+				cell.setCellValue(header);
+				index++;
+			}
 
 			HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
 

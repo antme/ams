@@ -6,10 +6,9 @@ function search() {
 	$('#picList').datagrid('load', {
 		userId : $("#userId").combobox('getValue'),
 		startDate : $("#startDate").datebox('getValue'),
-		endDate : $("#startDate").datebox('getValue'),
-		projectId : $("#projectId").combobox('getValue')		
+		endDate : $("#endDate").datebox('getValue'),
+		projectName : $("#projectName").val()		
 	});
-	console.log("xxxxxxxx");
 	return false;
 }
 
@@ -17,12 +16,10 @@ function exportData(){
 
 	
 	var data =  {
-		userName : $("#userName").val(),
-		operator : $("#operator").val(),
-		year : $("#year").val(),
-		month : $("#month").val(),
-		projectId : $("#projectId").combobox('getValue'),
-		teamId : $("#teamId").combobox('getValue')
+			userId : $("#userId").combobox('getValue'),
+			startDate : $("#startDate").datebox('getValue'),
+			endDate : $("#startDate").datebox('getValue'),
+			projectName : $("#projectName").val()
 		
 	};
 	
@@ -45,14 +42,7 @@ function exportData(){
 						return data.rows;
 					}"></input>
 
-				<span class="r-edit-label">项目:</span> <input class="easyui-combobox textbox" type="text" id="projectId" name="projectId" data-options="url:'/ams/project/list.do?userId=',
-                    method:'get',
-                    valueField:'id',
-                    textField:'projectName',
-                    panelHeight:'auto',
-                    loadFilter:function(data){
-						return data.rows;
-					}"></input>
+				<span class="r-edit-label">项目:</span> <input class=" textbox" type="text" id="projectName" name="projectName" ></input>
 			
 				
 			

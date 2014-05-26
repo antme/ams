@@ -61,7 +61,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 		builder.and(dateQuery);
 
 		builder.orderBy(Notice.PRIORITY, false);
-		builder.or(Notice.CREATED_ON, false);
+		builder.orderBy(Notice.CREATED_ON, false);
 
 		return this.dao.listByQueryWithPagnation(builder, Notice.class);
 	}
