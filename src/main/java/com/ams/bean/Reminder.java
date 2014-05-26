@@ -5,8 +5,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.eweblib.bean.BaseEntity;
+
 @Table(name = Reminder.TABLE_NAME)
-public class Reminder extends AmsBaseEntity {
+public class Reminder extends BaseEntity {
 	public static final String USER_ID = "userId";
 
 	public static final String CONTENT = "content";
@@ -30,10 +32,19 @@ public class Reminder extends AmsBaseEntity {
 	public String userId;
 	
 	
-	
+	public String keyword;
 	
 	//查询今天的
 	public Boolean isQueryToday;
+
+	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 
 	public String getTitle() {
 		return title;

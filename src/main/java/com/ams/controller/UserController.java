@@ -292,7 +292,7 @@ public class UserController extends AmsController {
 		}
 		
 		for (int i = 0; i < images; i++) {
-			pic.setPicUrl(uploadFile(request, relativeFilePath, "picData" + i, 512, new String[]{"gif","jpg","jpeg","png"}));
+			pic.setPicUrl(uploadFile(request, relativeFilePath, "picData" + i, 512, null));
 			userService.addPic(pic);
 		}
 		responseWithData(null, request, response);
