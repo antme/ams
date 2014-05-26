@@ -217,6 +217,11 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		if (team.getAttendanceDate() != null) {
 			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
 		}
+		
+		
+		if (team.getAttendanceDayType() != null) {
+			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DAY_TYPE, team.getAttendanceDayType());
+		}
 
 		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, team.getTeamId());
 
@@ -583,6 +588,36 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		}
 
 		return reports;
+
+	}
+	
+	
+	public List<DailyReport> listDailyReportPlan(DailyReportVo report) {
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		query.and(DailyReport.USER_ID, report.getUserId());
+
+		Calendar c = Calendar.getInstance();
+
+		c.setTime(new Date());
+		c.add(Calendar.DAY_OF_YEAR, -1);
+
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+
+		Date startDate = c.getTime();
+
+		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
+		Date endDate = c.getTime();
+
+		query.and(DataBaseQueryOpertion.GREATER_THAN_EQUALS, DailyReport.REPORT_DAY, startDate);
+
+		query.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, DailyReport.REPORT_DAY, endDate);
+
+		query.limitColumns(new String[] { DailyReport.ID, DailyReport.PLAN });
+		return this.dao.listByQuery(query, DailyReport.class);
 
 	}
 

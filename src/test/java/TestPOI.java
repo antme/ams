@@ -1,4 +1,3 @@
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,9 +49,9 @@ public class TestPOI {
 
 			HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
 
-			HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 512, 255, (short) 1, 1, (short) 10, 20);
+			HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 450, 122, (short) 1, 1, (short) 2, 2);
 
-			HSSFClientAnchor anchor1 = new HSSFClientAnchor(0, 0, 512, 255, (short) 2, 30, (short) 10, 60);
+			HSSFClientAnchor anchor1 = new HSSFClientAnchor(0, 0, 450, 122, (short) 2, 30, (short) 3, 31);
 
 			anchor1.setAnchorType(2);
 

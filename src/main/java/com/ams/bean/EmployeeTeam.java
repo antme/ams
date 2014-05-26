@@ -20,15 +20,20 @@ public class EmployeeTeam extends BaseEntity {
 
 	@Column(name = TEAM_ID)
 	public String teamId;
-	
-	
+
 	public String teamName;
-	
-	
+
 	public Date attendanceDate;
-	
-	
-	
+
+	public Integer attendanceDayType;
+
+	public Integer getAttendanceDayType() {
+		return attendanceDayType;
+	}
+
+	public void setAttendanceDayType(Integer attendanceDayType) {
+		this.attendanceDayType = attendanceDayType;
+	}
 
 	public String getTeamName() {
 		return teamName;
@@ -61,6 +66,5 @@ public class EmployeeTeam extends BaseEntity {
 	public void setAttendanceDate(Date attendanceDate) {
 		this.attendanceDate = attendanceDate;
 	}
-	
 
 }

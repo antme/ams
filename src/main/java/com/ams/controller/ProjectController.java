@@ -134,6 +134,19 @@ public class ProjectController extends AmsController {
 		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
 	}
 	
+	
+	@RequestMapping("/dailyreport/plan/app/list.do")
+	public void listDailyReportPlan(HttpServletRequest request, HttpServletResponse response) {
+		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
+		
+		SearchVo vo = (SearchVo)parserJsonParameters(request, false, SearchVo.class);
+		if (EweblibUtil.isEmpty(vo.getUserId())) {			
+			throw new ResponseException("请先登录");
+		}
+		
+		responseWithListData(projectService.listDailyReportPlan(report), request, response);
+	}
+	
 	@RequestMapping("/dailyreport/list.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void listAllDailyReport(HttpServletRequest request, HttpServletResponse response) {

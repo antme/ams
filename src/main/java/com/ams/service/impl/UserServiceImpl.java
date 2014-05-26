@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
@@ -24,9 +23,7 @@ import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
-import com.ams.service.IProjectService;
 import com.ams.service.IUserService;
-import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
