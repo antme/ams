@@ -219,6 +219,10 @@ public class UserController extends AmsController {
 		if(EweblibUtil.isEmpty(team.getTeamId())){
 			throw new ResponseException("请先选择团队");
 		}
+		
+		if(EweblibUtil.isEmpty(team.getUserId())){
+			throw new ResponseException("请先登录");
+		}
 		responseWithListData(projectService.listTeamMemebersForApp(team), request, response);
 	}
 	

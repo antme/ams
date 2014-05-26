@@ -9,6 +9,8 @@ import com.google.gson.annotations.Expose;
 @Table(name = User.TABLE_NAME)
 public class User extends BaseEntity {
 
+	public static final String IS_ADMIN = "isAdmin";
+
 	public static final String GROUP_ID = "groupId";
 
 	public static final String USER_CATEGORY = "userCategory";
@@ -62,12 +64,15 @@ public class User extends BaseEntity {
 	
 	@Column(name = USER_CATEGORY)
 	public String userCategory;
-	
-	
+
 	@Column(name = GROUP_ID)
 	public String groupId;
 	
+	@Column(name = IS_ADMIN)
+	public Boolean isAdmin;
 
+	
+	
 	public String teams;
 
 	public String userType;
@@ -81,9 +86,14 @@ public class User extends BaseEntity {
 	
 	public String imgCode;
 	
-	
-	
-	
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
 	public String getGroupId() {
 		return groupId;

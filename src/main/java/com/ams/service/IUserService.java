@@ -1,6 +1,7 @@
 package com.ams.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Department;
@@ -59,7 +60,17 @@ public interface IUserService {
 
 	public EntityResults<User> listAllUsers(User vo);
 
-
+    public boolean isAdmin(String userId);
+    
+    
+    public Set<String> getOwnedDepartmentIds(String currentUserId);
+    
+    
+    public Set<String> getOwnerdProjectIds(String currentUserId, Set<String> depIds);
+    
+    
+    public Set<String> getOwnedTeamIds(String currentUserId, Set<String> projectIds);
+	public Set<String> getOwnedUserIds(String currentUserId);
 
 
 }

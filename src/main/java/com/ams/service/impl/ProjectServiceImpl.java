@@ -32,6 +32,7 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
+import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 
 @Service(value = "projectService")
@@ -199,6 +200,16 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
 
+		
+		Team t = (Team) this.dao.findById(team.getTeamId(), Team.TABLE_NAME, Team.class);
+		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		pquery.and(Project.PROJECT_ATTENDANCE_MANAGER_ID, team.getUserId());
+		pquery.and(Project.ID, t.getProjectId());
+		if (!this.dao.exists(pquery)) {
+			return new ArrayList<Attendance>();
+		}
+		
+		
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
 		query.and(EmployeeTeam.TEAM_ID, team.getTeamId());
 		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
@@ -505,7 +516,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	public int countDailyReport(DailyReportVo report) {
 
 		// FXIME: 性能问题
-		DataBaseQueryBuilder query = getDaliReportQueryBuilderForApp();
+		DataBaseQueryBuilder query = getDaliReportQueryBuilderForApp(report.getUserId());
 
 		List<DailyReport> reports = this.dao.listByQuery(query, DailyReport.class);
 
@@ -527,7 +538,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report) {
 
-		DataBaseQueryBuilder builder = getDaliReportQueryBuilderForApp();
+		DataBaseQueryBuilder builder = getDaliReportQueryBuilderForApp(report.getUserId());
 
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
 
@@ -632,11 +643,14 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	}
 
-	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp() {
+	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp(String currentUserId) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-
+			
+		Set<String> userIds = userService.getOwnedUserIds(currentUserId);
+		builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
+		
 		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
 		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
 		return builder;
@@ -662,6 +676,27 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
 
+		String currentUserId = EWeblibThreadLocal.getCurrentUserId();
+		if (!userService.isAdmin(currentUserId)) {
+			
+			Set<String> ids = userService.getOwnedDepartmentIds(currentUserId);
+
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
+			query.or(Project.PROJECT_MANAGER_ID, currentUserId);
+			query.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, currentUserId);
+			query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, ids);
+
+			List<Project> pList = this.dao.listByQuery(query, Project.class);
+
+			Set<String> customerIds = new HashSet<String>();
+
+			for (Project project : pList) {
+				customerIds.add(project.getCustomerId());
+			}
+
+			builder.and(DataBaseQueryOpertion.IN, Customer.ID, customerIds);
+
+		}
 		// FIXME: 上下级查询
 		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
 
