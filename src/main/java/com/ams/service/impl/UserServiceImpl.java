@@ -408,7 +408,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		for (Attendance attendance : attendanceList) {
 
-			Team team = (Team) this.dao.findById(attendance.getTeamId(), Attendance.TABLE_NAME, Attendance.class);
+			Team team = (Team) this.dao.findById(attendance.getTeamId(), Team.TABLE_NAME, Team.class);
 			attendance.setProjectId(team.getProjectId());
 			attendance.setDepartmentId(team.getDepartmentId());
 

@@ -12,23 +12,7 @@ function search() {
 	return false;
 }
 
-function exportData(){
 
-	
-	var data =  {
-			userId : $("#userId").combobox('getValue'),
-			startDate : $("#startDate").datebox('getValue'),
-			endDate : $("#startDate").datebox('getValue'),
-			projectName : $("#projectName").val()
-		
-	};
-	
-	postAjaxRequest("/ams/attendance/export.do", data, function(data){
-		console.log(data);
-	});
-	
-	
-}
 </script>
 
 <div>

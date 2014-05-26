@@ -98,7 +98,7 @@ public class BaseTestCase extends TestCase {
 				row = sheet1.createRow(rowIndex);
 
 				row.createCell(0).setCellValue(pic.getId());
-				;
+				
 
 				HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
 

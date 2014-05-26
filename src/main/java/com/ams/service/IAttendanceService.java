@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ams.bean.Attendance;
+import com.ams.bean.Pic;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 
@@ -15,7 +16,11 @@ public interface IAttendanceService {
 	
 
 
-	String exportAttendanceToExcle(Attendance attendance, HttpServletRequest request);  
+	String exportAttendanceToExcle(Attendance attendance, HttpServletRequest request);
+
+
+
+	String exportPicToExcle(Pic pic, HttpServletRequest request);  
     
 
 }

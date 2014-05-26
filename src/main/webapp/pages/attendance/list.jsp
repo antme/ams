@@ -14,24 +14,6 @@
 		});
 	}
 	
-	function exportData(){
-		
-		var data =  {
-			userName : $("#userName").val(),
-			operator : $("#operator").val(),
-			year : $("#year").val(),
-			month : $("#month").val(),
-			projectId : $("#projectId").combobox('getValue'),
-			teamId : $("#teamId").combobox('getValue')
-			
-		};
-		
-		postAjaxRequest("/ams/attendance/export.do", data, function(data){
-			console.log(data);
-		});
-		
-		
-	}
 	
 	function checkExport(){
 		if($("#year").val() == ""){
