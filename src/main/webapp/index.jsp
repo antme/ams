@@ -20,7 +20,7 @@
 <%
 	if (session.getValue("userName") == null) {
 		String url = request.getServerName();
-		response.sendRedirect("http://" + url + "/login.jsp");
+		response.sendRedirect("/login.jsp");
 	}
 %>
 
@@ -42,7 +42,7 @@
 		<div data-options="region:'west',split:true" style="width: 250px; height:800px">
 			<div class="easyui-accordion left-accordion" id="accordion" data-options="multiple:false,animate:false" style="width: 200px;">
 
-				<div title="公告管理" style="" data-options="iconCls:'icon-notice'">
+				<div title="公告管理" style="height:150px;" data-options="iconCls:'icon-notice'">
 	
 					<ul>
 						<li>
@@ -53,7 +53,7 @@
 						</li>
 					</ul>
 				</div>
-				<div title="考勤管理" data-options="iconCls:'icon-attendance'" style="overflow: auto;">
+				<div title="考勤管理" data-options="iconCls:'icon-attendance'" style="overflow: auto;height:150px;">
 				
 					<ul>
 						<li>
@@ -64,7 +64,7 @@
 						</li>
 					</ul>
 				</div>
-				<div title="任务,备忘录,日报管理"  data-options="iconCls:'icon-task'" style="">
+				<div title="任务,备忘录,日报管理"  data-options="iconCls:'icon-task'" style="height:150px;">
 				
 					<ul>
 						<li>
@@ -75,7 +75,7 @@
 						</li>
 					</ul>
 				</div>
-				<div title="项目管理" style="" data-options="iconCls:'icon-project'">
+				<div title="项目管理" style="height:150px;" data-options="iconCls:'icon-project'">
 				
 					<ul>
 						<li>
@@ -90,7 +90,7 @@
 					</ul>
 					
 				</div>
-				<div title="用户管理" style="" data-options="iconCls:'icon-user'">
+				<div title="用户管理" style="height:150px;" data-options="iconCls:'icon-user'">
 				
 					<ul>
 						<li>
@@ -104,7 +104,7 @@
 						</li>
 					</ul>
 				</div>
-				<div title="系统设置" style="" data-options="iconCls:'icon-sys'">
+				<div title="系统设置" style="height:150px;" data-options="iconCls:'icon-sys'">
 				
 					<ul>
 						<li>

@@ -7,6 +7,20 @@
 			keyword : $("#keyword").val()
 		});
 	}
+	
+
+	function deleteNotice(id) {
+		var data = {
+			id : id
+		};
+
+		if (confirm("确认删除此数据")) {
+			postAjaxRequest("/ams/notice/delete.do", data, function(data) {
+				alert("删除成功");
+				$("#noticeList").datagrid('reload');
+			});
+		}
+	}
 </script>
 <div>
 	<label>关键字搜索:</label><input type="text" name="keyword" id="keyword"/> <button onclick="search();">搜索</button>

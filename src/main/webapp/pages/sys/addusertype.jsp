@@ -6,7 +6,7 @@
 	$(document).ready(function() {
 		
 		initFormSubmit("add-usertype", "/ams/sys/usertype/add.do", "添加员工类型", function(){
-			   alert("添加成功");
+			   alert("提交成功");
                loadRemotePage('sys/usertypelist&a=5');
                
         });

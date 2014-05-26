@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		initFormSubmit("add-pic", "/ams/user/pic/app/add.do", "添加图片", function(){
-			alert("添加成功");
+			alert("提交成功");
 			loadRemotePage("pic/list");
 		});
 	});

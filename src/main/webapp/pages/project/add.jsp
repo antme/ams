@@ -6,7 +6,7 @@
 	var id = "<%=id%>";	
 	$(document).ready(function() {
 		initFormSubmit("add-project", "/ams/project/add.do", "添加项目", function(){
-			alert("添加成功");
+			alert("提交成功");
 			loadRemotePage("project/list&a=3");
 		});
 		

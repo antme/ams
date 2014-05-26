@@ -6,7 +6,7 @@
 
 	$(document).ready(function() {
 		initFormSubmit("add-customer", "/ams/user/customer/add.do", "添加客户", function(){
-			alert("添加成功");
+			alert("提交成功");
 			loadRemotePage("customer/list&a=3");
 		});
 		

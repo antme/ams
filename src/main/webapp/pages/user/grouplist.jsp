@@ -9,7 +9,7 @@
 		postAjaxRequest("/ams/sys/group/delete.do", data, function(data){
 			alert("删除成功");
 			$("#groupList").datagrid('reload');
-		})
+		});
 	}
 </script>
 <table id="groupList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/sys/group/list.do" iconCls="icon-save" sortOrder="asc"

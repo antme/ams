@@ -31,10 +31,10 @@ public class NoticeController extends AmsController {
 	@RequestMapping("/add.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void addNotice(HttpServletRequest request, HttpServletResponse response) {
-		// SiteMessage message = (SiteMessage) parserJsonParameters(request,
-		// false, SiteMessage.class);
 		Notice notice = (Notice) parserJsonParameters(request, false, Notice.class);
 
+		
+		System.out.println(notice);
 		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
 
 		if (notice.getDeleteAttachFile() != null) {
@@ -75,6 +75,13 @@ public class NoticeController extends AmsController {
 	public void getNoticeInfo(HttpServletRequest request, HttpServletResponse response) {
 		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
 		responseWithEntity(noticeService.getNoticeInfo(notice), request, response);
+	}
+	
+	@RequestMapping("/delete.do")
+	public void deleteNoticeInfo(HttpServletRequest request, HttpServletResponse response) {
+		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
+		noticeService.deleteNoticeInfo(notice);
+		responseWithEntity(null, request, response);
 	}
 
 	@RequestMapping("/remind/add.do")

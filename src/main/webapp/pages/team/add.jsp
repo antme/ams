@@ -7,7 +7,7 @@
 
 	$(document).ready(function() {
 		initFormSubmit("add-team", "/ams/user/team/add.do", "添加团队", function(){
-			alert("添加成功");
+			alert("提交成功");
 			loadRemotePage("team/list&a=4");
 		});
 		

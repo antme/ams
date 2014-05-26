@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		initFormSubmit("add-salary", "/ams/user/salary/add.do", "添加工资", function(){
-			alert("添加成功");
+			alert("提交成功");
 			loadRemotePage("project/list");
 		});
 	});

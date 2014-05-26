@@ -6,7 +6,7 @@
 	$(document).ready(function() {
 		
 		initFormSubmit("add-userlevel", "/ams/sys/userlevel/add.do", "添加员工级别", function(){
-			   alert("添加成功");
+			   alert("提交成功");
                loadRemotePage('sys/userlevellist&a=5');
                
         });

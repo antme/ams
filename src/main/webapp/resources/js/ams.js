@@ -194,7 +194,7 @@ function formatterProjectOperation(val, row) {
 
 function formatterNoticeOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("notice/add&a=0&id=' + row.id
-			+ '")> 编辑 </a>';
+			+ '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteNotice("' + row.id + '")> 删除 </a>';
 }
 
 function formatterDepartmentOperation(val, row) {
@@ -236,34 +236,15 @@ function formatterGroupOperation(val, row){
 
 
 function formatterCustomerOperation(val, row) {
-	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id
-			+ '")> 编辑 </a>';
+	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id + '")> 编辑 </a>';
 }
 
 function formatterTeamOperation(val, row) {
 
-	return '<a href="#" onclick=loadRemotePage("team/add&a=3&id=' + row.id
-			+ '")> 编辑 </a>';
+	return '<a href="#" onclick=loadRemotePage("team/add&a=3&id=' + row.id + '")> 编辑 </a>';
 }
 
-function formatterNewsDetail(val, row) {// 新闻列表：查看新闻详情
-	return '<a href="#" onclick=openNewsDetailPage("' + row.id + '")>' + val
-			+ '</a>';
-}
 
-function openSMDetailPage(id) {
-	idParam = id;
-	var config = {
-		width : 800,
-		height : 500,
-		modal : true,
-		minimizable : false,
-		maximizable : false,
-		collapsible : false,
-		title : "站内信息详情"
-	};
-	loadRemoteWindowPage("message/receiver/siteMessageDetail", config);
-}
 
 function createLogPage(data, tableName) {
 	$("#logDetail").html("");

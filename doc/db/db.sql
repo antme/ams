@@ -379,7 +379,10 @@ CREATE TABLE `RoleGroup` (
 alter table dailyReport add column taskId varchar(36) default null;
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('05c07bcc-833e-4b22-a8be-3c3a63609ac8','admin','96e79218965eb72c92a549dd5a330112',now(),now());
 update User set mobileNumber="11111111", userCode="A000001";
+INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('12c07bcc-833e-4b22-a8be-3c3a63609ac8','dylan','96e79218965eb72c92a549dd5a330112',now(),now());
 
+
+alter table dailyReport add column taskId varchar(36) default null;
 
 alter table Attendance add column hours int default 0;
 alter table Attendance add column minutes int default 0;
@@ -391,7 +394,6 @@ alter table notice add column publishEndDate datetime default null;
 
 alter table project add column customerId varchar(36) default null;
 
-INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('12c07bcc-833e-4b22-a8be-3c3a63609ac8','dylan','96e79218965eb72c92a549dd5a330112',now(),now());
 
 
 

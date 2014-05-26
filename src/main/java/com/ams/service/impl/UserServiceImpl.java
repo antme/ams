@@ -99,9 +99,14 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			throw new ResponseException("用户名或密码错误");
 		}
 
-		builder.limitColumns(new String[] { User.ID, User.USER_NAME });
+		builder.limitColumns(new String[] { User.ID, User.USER_NAME, User.STATUS, User.BSTATUS });
 		User u = (User) dao.findOneByQuery(builder, User.class);
 
+		if (fromApp && u.getStatus() == 0) {
+			throw new ResponseException("你没有登录手机端的权限，请联系管理员");
+		} else if (!fromApp && u.getBstatus() == 0) {
+			throw new ResponseException("你没有登录后端的权限，请联系管理员");
+		}
 		return u;
 	}
 

@@ -21,5 +21,7 @@ public interface INoticeService {
 	public EntityResults<Reminder> listAllUserReminders();
 
 	public BaseEntity getNoticeInfo(Notice notice);
+
+	public void deleteNoticeInfo(Notice notice);
 	
 }

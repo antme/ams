@@ -7,7 +7,7 @@
 
 	$(document).ready(function() {
 		initFormSubmit("add-department", "/ams/user/department/add.do", "添加部门", function(){
-			alert("添加成功");
+			alert("提交成功");
 			loadRemotePage("department/list&a=5");
 		});
 		
@@ -29,7 +29,7 @@
 			</div>
 			<div>
 			<span class="r-edit-label">部门主管:</span> <input class="easyui-combobox"  name="departmentManagerId" 
-					data-options="url:'/ams/user/app/list.do?userId=',
+					data-options="url:'/ams/user/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,

@@ -6,7 +6,7 @@
 	$(document).ready(function() {
 		
 		initFormSubmit("add-notice", "/ams/notice/add.do", "添加公告", function(){
-			   alert("添加成功");
+			   alert("提交成功");
                loadRemotePage('notice/list');
                
         });
