@@ -385,11 +385,23 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		// FIXME: 获取下属的工资
-		builder.and(Salary.USER_ID, salary.getUserId());
+	
+		
+		Set<String> userIds = getOwnedUserIds(salary.getUserId());
+		userIds.add(salary.getUserId());
 
 		if (EweblibUtil.isValid(salary.getUserName())) {
-			List<String> userIds = this.getUserIds(salary.getUserName());
+			List<String> queryUserIds = this.getUserIds(salary.getUserName());
+			List<String> finalQueryUserIds = new ArrayList<String>();
+			for(String userId: queryUserIds){
+				if(userIds.contains(userId)){
+					finalQueryUserIds.add(userId);
+				}
+			}
+			
+			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, finalQueryUserIds);
+		}else{
+			// FIXME: 获取下属的工资
 			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, userIds);
 		}
 

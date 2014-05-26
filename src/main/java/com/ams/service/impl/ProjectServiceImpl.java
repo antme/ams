@@ -649,6 +649,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 			
 		Set<String> userIds = userService.getOwnedUserIds(currentUserId);
+		userIds.add(currentUserId);
 		builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
 		
 		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
