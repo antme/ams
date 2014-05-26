@@ -294,11 +294,14 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	}
 
 	@Override
-	public List<Task> listProjectTasksForAppDailyReport() {
+	public List<Task> listProjectTasksForAppDailyReport(Task t) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
+		
+		builder.and(Task.USER_ID, t.getUserId());
+		
 		List<Task> projects = this.dao.listByQuery(builder, Task.class);
 
 		for (Task task : projects) {
@@ -318,9 +321,9 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			task.setProjectRemainingDays(endDay - currentDay);
 			task.setProjectUsedDays(currentDay - startDay);
 
+			//FIXME : from attendance
 			task.setUserWorkedDays(2d);
 
-			task.setTaskName("任务一号");
 
 		}
 

@@ -3,14 +3,14 @@
 <br>
 <script type="text/javascript">
 	$(document).ready(function() {
-		initFormSubmit("task_import", "/ams/sys/task/import.do", "任务导入", function(){
+		initFormSubmit("task_import", "/ams/sys/salary/import.do", "任务导入", function(){
 			alert("导入成功");
 			loadRemotePage("salary/list&a=4");
 		});
 	});
 </script>
-<form id="task_import" action="/ams/sys/task/import.do" method="post" enctype="multipart/form-data">
-	<input type="file" name="taskFile"/>
+<form id="task_import" action="/ams/sys/salary/import.do" method="post" enctype="multipart/form-data">
+	<input type="file" name="salaryFile"/>
 	<input type="submit" value="上传"/>
 </form>
 <p></p>

@@ -32,7 +32,7 @@ public interface IProjectService {
 
 	public void addDailyReportComment(DailyReportComment comment);
 
-	List<Task> listProjectTasksForAppDailyReport();
+	List<Task> listProjectTasksForAppDailyReport(Task t);
 
 	EntityResults<Customer> listCustomers(SearchVo vo);
 

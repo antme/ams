@@ -63,11 +63,11 @@ public class ProjectController extends AmsController {
 	
 	@RequestMapping("/app/task/select.do")
 	public void listProjectsForApp(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo)parserJsonParameters(request, false, SearchVo.class);
-		if (EweblibUtil.isEmpty(vo.getUserId())) {			
+		Task t = (Task)parserJsonParameters(request, false, Task.class);
+		if (EweblibUtil.isEmpty(t.getUserId())) {			
 			throw new ResponseException("请先登录");
 		}
-		responseWithListData(projectService.listProjectTasksForAppDailyReport(), request, response);
+		responseWithListData(projectService.listProjectTasksForAppDailyReport(t), request, response);
 	}
 	
 	@RequestMapping("/app/task/list.do")

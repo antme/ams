@@ -281,10 +281,17 @@ public class UserController extends AmsController {
 		if (images == null || images < 1) {
 			throw new ResponseException("请上传图片");
 		}
-		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
+		
+		
+		String currentUserId = EWeblibThreadLocal.getCurrentUserId();
+		
+		if(EweblibUtil.isEmpty(currentUserId)){
+			currentUserId = pic.getUserId();
+		}
+		String relativeFilePath = genRandomRelativePath(currentUserId);
 
 		if (EweblibUtil.isEmpty(pic.getUserId())) {
-			pic.setUserId(EWeblibThreadLocal.getCurrentUserId());
+			pic.setUserId(currentUserId);
 		}
 		
 		if (EweblibUtil.isEmpty(pic.getUserId())) {			
