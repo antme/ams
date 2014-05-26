@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,6 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
-import com.eweblib.util.DateUtil;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 import com.eweblib.util.ExcelTemplateUtil;
@@ -145,25 +146,67 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		etu.setCellDoubleValue(0, 2, attendance.getYear());
 		etu.setCellDoubleValue(0, 6, attendance.getMonth());
 
-		int start = 6;
+		Map<String, List<Attendance>> mapList = new HashMap<String, List<Attendance>>();
+
 		for (Attendance at : list) {
 
-			if (at.getAttendanceDayType() == 0) {
-				etu.setCellStrValue(start, 0, at.getUserName());
-				etu.setCellStrValue(start, 2, "●");
-				etu.setCellStrValue(start, 3, "●");
-				etu.setCellStrValue(start, 4, "●");
-				etu.setCellStrValue(start, 5, "●");
-				etu.setCellStrValue(start, 6, "△");
-			} else {
-				etu.setCellStrValue(start + 1, 0, at.getUserName());
-				etu.setCellStrValue(start + 1, 2, "●");
-				etu.setCellStrValue(start + 1, 3, "●");
-				etu.setCellStrValue(start + 1, 4, "●");
-				etu.setCellStrValue(start + 1, 5, "●");
-				etu.setCellStrValue(start + 1, 6, "△");
-			}
+			if (mapList.get(at.getUserName()) == null) {
+				List<Attendance> atList = new ArrayList<Attendance>();
+				atList.add(at);
 
+				mapList.put(at.getUserName(), atList);
+			} else {
+				List<Attendance> atList = mapList.get(at.getUserName());
+				atList.add(at);
+
+				mapList.put(at.getUserName(), atList);
+			}
+		}
+
+		int start = 6;
+		for (String userName : mapList.keySet()) {
+			etu.setCellStrValue(start, 0, userName);
+
+			for (Attendance at : mapList.get(userName)) {
+
+				String type = "";
+
+				if (at.getAttendanceType() == 0) {
+					type = "√";
+				} else if (at.getAttendanceType() == 0) {
+					type = "●";
+				} else if (at.getAttendanceType() == 1) {
+					type = "○";
+				} else if (at.getAttendanceType() == 2) {
+					type = "×";
+				} else if (at.getAttendanceType() == 3) {
+					type = "△";
+				} else if (at.getAttendanceType() == 4) {
+					type = "□";
+				} else if (at.getAttendanceType() == 5) {
+					type = "◇";
+				} else if (at.getAttendanceType() == 6) {
+					type = "◆";
+				} else if (at.getAttendanceType() == 7) {
+					type = "▼";
+				} else if (at.getAttendanceType() == 8) {
+					type = "▲";
+				} else if (at.getAttendanceType() == 9) {
+					type = "■";
+				}
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(at.getAttendanceDate());
+				int dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+
+				if (at.getAttendanceDayType() == 0) {
+					etu.setCellStrValue(start, dayOfMonth + 1, type);
+				} else {
+					etu.setCellStrValue(start + 1, dayOfMonth + 1, type);
+
+				}
+
+			}
 			start = start + 2;
 
 		}
