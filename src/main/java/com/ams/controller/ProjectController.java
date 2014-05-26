@@ -105,7 +105,7 @@ public class ProjectController extends AmsController {
 		if (images == null) {
 			images = 0;
 		}
-		String relativeFilePath = genRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
+		String relativeFilePath = genRandomRelativePath(report.getUserId());
 
 		List<String> pics = new ArrayList<String>();
 

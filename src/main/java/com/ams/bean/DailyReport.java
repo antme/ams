@@ -10,6 +10,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = DailyReport.TABLE_NAME)
 public class DailyReport extends BaseEntity {
 
+	public static final String TASK_ID = "taskId";
+
 	public static final String IS_COMMENTED = "isCommented";
 
 	public static final String PLAN = "plan";
@@ -33,7 +35,7 @@ public class DailyReport extends BaseEntity {
 	@Column(name = PROJECT_ID)
 	public String projectId;
 	
-	@Column(name = "taskId")
+	@Column(name = TASK_ID)
 	public String taskId;
 
 	@Column(name = USER_ID)

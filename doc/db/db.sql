@@ -302,7 +302,7 @@ CREATE TABLE `DailyReportComment` (
   `commentDate` datetime DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
-  `creatorId` varchar(36) DEFAULT NULL
+  `creatorId` varchar(36) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

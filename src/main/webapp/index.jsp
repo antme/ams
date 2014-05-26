@@ -104,7 +104,7 @@
 						</li>
 					</ul>
 				</div>
-				<div title="系统设置" style="height:150px;" data-options="iconCls:'icon-sys'">
+				<div title="系统设置" style="height:200px;" data-options="iconCls:'icon-sys'">
 				
 					<ul>
 						<li>
