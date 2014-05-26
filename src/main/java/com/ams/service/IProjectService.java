@@ -62,7 +62,7 @@ public interface IProjectService {
 
 	EntityResults<Task> listAllTasksFor(Task task);
 
-	List<DailyReport> listDailyReportPlan(DailyReportVo report);
+	List<DailyReportVo> listDailyReportPlan(DailyReportVo report);
 
 
 }

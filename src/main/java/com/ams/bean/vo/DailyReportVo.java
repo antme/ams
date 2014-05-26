@@ -8,27 +8,31 @@ import com.ams.bean.Task;
 
 public class DailyReportVo extends DailyReport {
 
-	
 	public String userName;
-	
+
 	public Boolean isViewed;
-	
+
 	public String dailyReportId;
-	
 
 	public List<String> pics;
-	
+
 	public List<String> removedPics;
 
 	public List<DailyReportComment> comments;
-	
+
 	public Integer imagesCount;
-	
-	
+
 	public Task taskInfo;
 
+	public String projectName;
 
-	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
 	public Task getTaskInfo() {
 		return taskInfo;
@@ -53,8 +57,7 @@ public class DailyReportVo extends DailyReport {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	
+
 	public List<String> getPics() {
 		return pics;
 	}
@@ -63,7 +66,6 @@ public class DailyReportVo extends DailyReport {
 		this.pics = pics;
 	}
 
-	
 	public List<String> getRemovedPics() {
 		return removedPics;
 	}
@@ -95,7 +97,5 @@ public class DailyReportVo extends DailyReport {
 	public void setDailyReportId(String dailyReportId) {
 		this.dailyReportId = dailyReportId;
 	}
-	
-	
-	
+
 }

@@ -596,8 +596,11 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	}
 	
 	
-	public List<DailyReport> listDailyReportPlan(DailyReportVo report) {
+	public List<DailyReportVo> listDailyReportPlan(DailyReportVo report) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		
+		query.join(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
+		query.joinColumns(Project.TABLE_NAME, new String[]{Project.PROJECT_NAME});
 		
 		query.and(DailyReport.USER_ID, report.getUserId());
 
@@ -611,7 +614,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		c.set(Calendar.SECOND, 0);
 
 		Date startDate = c.getTime();
-
+		c.add(Calendar.DAY_OF_YEAR, 1);
 		c.set(Calendar.HOUR_OF_DAY, 23);
 		c.set(Calendar.MINUTE, 59);
 		c.set(Calendar.SECOND, 59);
@@ -622,7 +625,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		query.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, DailyReport.REPORT_DAY, endDate);
 
 		query.limitColumns(new String[] { DailyReport.ID, DailyReport.PLAN });
-		return this.dao.listByQuery(query, DailyReport.class);
+		return this.dao.listByQuery(query, DailyReportVo.class);
 
 	}
 
