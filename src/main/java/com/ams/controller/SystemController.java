@@ -132,4 +132,13 @@ public class SystemController extends AmsController {
 	}
 	
 	
+	@RequestMapping("/group/delete.do")
+	public void deleteUserGroup(HttpServletRequest request, HttpServletResponse response) {
+
+		RoleGroup group = (RoleGroup)parserJsonParameters(request, false, RoleGroup.class);
+		sys.deleteUserGroup(group);
+		responseWithEntity(null, request, response);
+	}
+	
+	
 }

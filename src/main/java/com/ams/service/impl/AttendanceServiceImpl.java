@@ -1,8 +1,11 @@
 package com.ams.service.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,9 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
+import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
+import com.eweblib.util.ExcelTemplateUtil;
 
 @Service(value = "attendanceService")
 public class AttendanceServiceImpl extends AbstractService implements IAttendanceService {
@@ -61,7 +66,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 	}
 
 	public DataBaseQueryBuilder getAttendanceQuery(Attendance attendance) {
-	    DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
 		builder.join(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
@@ -101,16 +106,56 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		}
 
 		builder.limitColumns(new Attendance().getColumnList());
-	    return builder;
-    }
-	
-	public String exportAttendanceToExcle(Attendance attendance){
+		return builder;
+	}
+
+	public String exportAttendanceToExcle(Attendance attendance, HttpServletRequest request) {
 		DataBaseQueryBuilder builder = getAttendanceQuery(attendance);
 		List<Attendance> list = this.dao.listByQuery(builder, Attendance.class);
-		
-		
-		
-		return null;
+		String webPath = request.getSession().getServletContext().getRealPath("/");
+
+		ExcelTemplateUtil etu = new ExcelTemplateUtil();
+		etu.setSrcPath(webPath + File.separator + "template" + File.separator + "attendance.xls");
+
+		String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "考勤表" + attendance.getYear() + "-" + attendance.getMonth() + ".xls";
+		String desXlsPath = webPath + filePath;
+
+		if (new File(desXlsPath).exists()) {
+			new File(desXlsPath).delete();
+		}
+		new File(desXlsPath).getParentFile().mkdirs();
+		etu.setDesPath(desXlsPath);
+		etu.setSheetName("考勤表");
+
+		etu.getSheet();
+		etu.setCellDoubleValue(0, 2, attendance.getYear());
+		etu.setCellDoubleValue(0, 6, attendance.getMonth());
+
+		int start = 6;
+		for (Attendance at : list) {
+
+			if (at.getAttendanceDayType() == 0) {
+				etu.setCellStrValue(start, 0, at.getUserName());
+				etu.setCellStrValue(start, 2, "●");
+				etu.setCellStrValue(start, 3, "●");
+				etu.setCellStrValue(start, 4, "●");
+				etu.setCellStrValue(start, 5, "●");
+				etu.setCellStrValue(start, 6, "△");
+			} else {
+				etu.setCellStrValue(start + 1, 0, at.getUserName());
+				etu.setCellStrValue(start + 1, 2, "●");
+				etu.setCellStrValue(start + 1, 3, "●");
+				etu.setCellStrValue(start + 1, 4, "●");
+				etu.setCellStrValue(start + 1, 5, "●");
+				etu.setCellStrValue(start + 1, 6, "△");
+			}
+
+			start = start + 2;
+
+		}
+		etu.exportToNewFile();
+
+		return desXlsPath;
 	}
 
 }

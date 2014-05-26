@@ -22,7 +22,7 @@
 		<property name="url"
 			value="jdbc:mysql://localhost:3306/ams?useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="username" value="root" />
-		<property name="password" value="password" />
+		<property name="password" value="${db_password}" />
 	</bean>
 	
 	<bean

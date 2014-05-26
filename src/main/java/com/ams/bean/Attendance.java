@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.eweblib.annotation.column.IntegerColumn;
 import com.eweblib.bean.BaseEntity;
 
 @Table(name = Attendance.TABLE_NAME)
@@ -63,6 +64,13 @@ public class Attendance extends BaseEntity {
 
 	@Column(name = MINUTES)
 	public Integer minutes;
+	
+	
+	@IntegerColumn
+	public Integer year;
+	
+	@IntegerColumn
+	public Integer month;
 
 	public String userName;
 
@@ -73,6 +81,23 @@ public class Attendance extends BaseEntity {
 	public String departmentName;
 
 	public String projectName;
+
+	
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
 
 	public String getDepartmentId() {
 		return departmentId;

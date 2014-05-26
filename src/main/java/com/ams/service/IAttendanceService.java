@@ -15,7 +15,7 @@ public interface IAttendanceService {
 	
 
 
-	String exportAttendanceToExcle(Attendance attendance);  
+	String exportAttendanceToExcle(Attendance attendance, HttpServletRequest request);  
     
 
 }

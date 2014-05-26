@@ -336,6 +336,11 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 		return this.dao.findById(group.getId(), RoleGroup.TABLE_NAME, RoleGroup.class);
 	}
+	
+	public void deleteUserGroup(RoleGroup group) {
+
+		this.dao.deleteById(group);
+	}
 
 	private List<DeductedSalaryItem> getDeductedSalary(List<String[]> list) {
 		int payEndIndex = 0;

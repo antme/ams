@@ -34,6 +34,8 @@ public interface ISystemService {
 
 	BaseEntity getUserGroup(RoleGroup group);
 
+	void deleteUserGroup(RoleGroup group);
+
 
 	
 }

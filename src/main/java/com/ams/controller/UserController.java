@@ -192,7 +192,6 @@ public class UserController extends AmsController {
 	
 	
 	@RequestMapping("/team/list.do")
-	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeams(HttpServletRequest request, HttpServletResponse response) {
 		Team vo = (Team) parserJsonParameters(request, false, Team.class);
 		responseWithDataPagnation(projectService.listTeams(vo), request, response);
