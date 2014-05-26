@@ -461,6 +461,10 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 			this.dao.updateById(report);
 		} else {
+			Task task = (Task) this.dao.findById(report.getTaskId(), Task.TABLE_NAME, Task.class);
+			
+			report.setProjectId(task.getProjectId());
+			
 			this.dao.insert(report);
 		}
 
@@ -594,6 +598,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	
 	public List<DailyReport> listDailyReportPlan(DailyReportVo report) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		
 		query.and(DailyReport.USER_ID, report.getUserId());
 
 		Calendar c = Calendar.getInstance();
