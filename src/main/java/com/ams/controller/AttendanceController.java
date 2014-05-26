@@ -31,4 +31,13 @@ public class AttendanceController extends AmsController {
 		
 		responseWithDataPagnation(attendanceService.listAttendances(attendance), request, response);
 	}
+	
+    
+    @RequestMapping("/export")
+    //@RoleValidate(roleID=RoleValidConstants.SALES_CONTRACT_ADD, desc = RoleValidConstants.SALES_CONTRACT_ADD_DESC)
+    public void exportAttendanceToExcle(HttpServletRequest request, HttpServletResponse response){    
+    	Attendance attendance = (Attendance) parserJsonParameters(request, false, Attendance.class);
+    	responseWithKeyValue("file", attendanceService.exportAttendanceToExcle(attendance), request, response);
+    }  
+    
 }

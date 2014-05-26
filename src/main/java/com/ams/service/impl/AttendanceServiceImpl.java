@@ -1,6 +1,5 @@
 package com.ams.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,51 +24,13 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 	@Autowired
 	private IProjectService pservice;
-	
+
 	@Autowired
 	private IUserService userService;
-	
-	
+
 	public EntityResults<Attendance> listAttendances(Attendance attendance) {
 
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
-		builder.join(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
-		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-
-		builder.join(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
-		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
-
-		String userName = attendance.getUserName();
-		if (EweblibUtil.isValid(userName)) {
-
-			List<String> userIds = userService.getUserIds(userName);
-
-			builder.and(DataBaseQueryOpertion.IN, Attendance.USER_ID, userIds);
-
-		}
-
-		userName = attendance.getOperator();
-		if (EweblibUtil.isValid(userName)) {
-
-			List<String> userIds = userService.getUserIds(userName);
-
-			builder.and(DataBaseQueryOpertion.IN, Attendance.OPERATOR_ID, userIds);
-
-		}
-
-		if (EweblibUtil.isValid(attendance.getTeamId())) {
-			builder.and(Attendance.TEAM_ID, attendance.getTeamId());
-		}
-
-		if (EweblibUtil.isValid(attendance.getDepartmentId())) {
-			builder.and(Attendance.DEPARTMENT_ID, attendance.getDepartmentId());
-		}
-
-		if (EweblibUtil.isValid(attendance.getProjectId())) {
-			builder.and(Attendance.PROJECT_ID, attendance.getProjectId());
-		}
-
-		builder.limitColumns(new Attendance().getColumnList());
+		DataBaseQueryBuilder builder = getAttendanceQuery(attendance);
 
 		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
 		userQuery.limitColumns(new String[] { User.ID, User.USER_NAME });
@@ -99,5 +60,57 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		return list;
 	}
 
+	public DataBaseQueryBuilder getAttendanceQuery(Attendance attendance) {
+	    DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
+		builder.join(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.join(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
+		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+
+		if (attendance != null) {
+			String userName = attendance.getUserName();
+			if (EweblibUtil.isValid(userName)) {
+
+				List<String> userIds = userService.getUserIds(userName);
+
+				builder.and(DataBaseQueryOpertion.IN, Attendance.USER_ID, userIds);
+
+			}
+
+			userName = attendance.getOperator();
+			if (EweblibUtil.isValid(userName)) {
+
+				List<String> userIds = userService.getUserIds(userName);
+
+				builder.and(DataBaseQueryOpertion.IN, Attendance.OPERATOR_ID, userIds);
+
+			}
+
+			if (EweblibUtil.isValid(attendance.getTeamId())) {
+				builder.and(Attendance.TEAM_ID, attendance.getTeamId());
+			}
+
+			if (EweblibUtil.isValid(attendance.getDepartmentId())) {
+				builder.and(Attendance.DEPARTMENT_ID, attendance.getDepartmentId());
+			}
+
+			if (EweblibUtil.isValid(attendance.getProjectId())) {
+				builder.and(Attendance.PROJECT_ID, attendance.getProjectId());
+			}
+		}
+
+		builder.limitColumns(new Attendance().getColumnList());
+	    return builder;
+    }
+	
+	public String exportAttendanceToExcle(Attendance attendance){
+		DataBaseQueryBuilder builder = getAttendanceQuery(attendance);
+		List<Attendance> list = this.dao.listByQuery(builder, Attendance.class);
+		
+		
+		
+		return null;
+	}
 
 }
