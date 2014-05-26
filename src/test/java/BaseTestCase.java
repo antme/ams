@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -70,8 +71,8 @@ public class BaseTestCase extends TestCase {
 		FileOutputStream fileOut = null;
 
 		BufferedImage bufferImg = null;
-
-		String[] columnHeaders = new String[] { "NAME", "FILE" };
+		String desXlsPath = null;
+		String[] columnHeaders = new String[] { "上传者", "项目", "描述", "上传时间", "图片" };
 
 		try {
 
@@ -81,7 +82,7 @@ public class BaseTestCase extends TestCase {
 
 			HSSFWorkbook wb = new HSSFWorkbook();
 
-			HSSFSheet sheet1 = wb.createSheet("poi picT");
+			HSSFSheet sheet1 = wb.createSheet("图片");
 
 			HSSFRow row = sheet1.createRow(0);
 			int index = 0;
@@ -97,12 +98,14 @@ public class BaseTestCase extends TestCase {
 			for (Pic pic : pics) {
 				row = sheet1.createRow(rowIndex);
 
-				row.createCell(0).setCellValue(pic.getId());
-				
+//				row.createCell(0).setCellValue(pic.getUserName());
+//				row.createCell(1).setCellValue(pic.getProjectName());
+//				row.createCell(2).setCellValue(pic.getDescription());
+//				row.createCell(3).setCellValue(pic.getCreatedOn());
 
 				HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
 
-				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 450, 122, (short) rowIndex, 1, (short) (rowIndex + 1), 2);
+				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
 
 				// anchor1.setAnchorType(2);
 
@@ -119,7 +122,10 @@ public class BaseTestCase extends TestCase {
 
 			}
 
-			fileOut = new FileOutputStream("/Users/ymzhou/Documents/workbook.xls");
+
+			String filePath ="/Users/ymzhou/Documents/" +  new Date().getTime() + ".xls";
+
+			fileOut = new FileOutputStream(filePath);
 
 			// 写入excel文件
 
@@ -162,6 +168,7 @@ public class BaseTestCase extends TestCase {
 		}
 
 	}
+
 
 	public void testEmpty() throws IOException, InterruptedException {
 

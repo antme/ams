@@ -211,7 +211,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 				HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
 
-				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 450, 122, (short) rowIndex, 5, (short) (rowIndex + 1), 6);
+				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
 
 				// anchor1.setAnchorType(2);
 
