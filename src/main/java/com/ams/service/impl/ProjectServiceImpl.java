@@ -296,15 +296,15 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	@Override
 	public List<Task> listProjectTasksForAppDailyReport(Task t) {
 
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
-		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
+		builder.limitColumns(new String[] { Task.TASK_NAME, Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
 		
 		builder.and(Task.USER_ID, t.getUserId());
 		
-		List<Task> projects = this.dao.listByQuery(builder, Task.class);
+		List<Task> tasks = this.dao.listByQuery(builder, Task.class);
 
-		for (Task task : projects) {
+		for (Task task : tasks) {
 
 			Calendar c = Calendar.getInstance();
 			c.setTime(task.getProjectStartDate());
@@ -327,7 +327,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		}
 
-		return projects;
+		return tasks;
 
 	}
 

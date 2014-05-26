@@ -315,6 +315,9 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
 		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		
+		//FIXME: 获取下属的工资
+		builder.and(Salary.USER_ID, salary.getUserId());
 
 		if (EweblibUtil.isValid(salary.getUserName())) {
 			List<String> userIds = this.getUserIds(salary.getUserName());

@@ -336,6 +336,10 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listUserSalaries(HttpServletRequest request, HttpServletResponse response) {
 		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
+
+		if (EweblibUtil.isEmpty(salary.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
 		responseWithDataPagnation(userService.listUserSalaries(salary), request, response);
 	}
 	
