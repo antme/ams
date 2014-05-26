@@ -10,6 +10,7 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = SalaryItem.TABLE_NAME)
 public class SalaryItem extends BaseEntity {
 
+	public static final String PROJECT_NAME = "projectName";
 	public static final String PERFORMANCE_SALARY_UNIT = "performanceSalaryUnit";
 	public static final String COMMENT = "comment";
 	public static final String REMAINING_SALARAY = "remainingSalaray";
@@ -52,6 +53,8 @@ public class SalaryItem extends BaseEntity {
 	@Column(name = "month")
 	public Integer month;
 
+	//应该是因付款项，不完全是项目
+	@Column(name = PROJECT_NAME)
 	public String projectName;
 	
 	
