@@ -414,6 +414,6 @@ alter table Project modify column projectStatus varchar(255) default null;
 
 alter table SalaryItem add column projectName varchar(255) default null;
 
-alter table User add column isAdmin tinyint default 0;
+alter table User modify column isAdmin boolean DEFAULT false;
 
 

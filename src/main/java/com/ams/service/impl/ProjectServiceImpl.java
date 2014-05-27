@@ -677,7 +677,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
 
-		String currentUserId = EWeblibThreadLocal.getCurrentUserId();
+		String currentUserId = vo.getUserId();
 		if (!userService.isAdmin(currentUserId)) {
 			
 			Set<String> ids = userService.getOwnedDepartmentIds(currentUserId);

@@ -70,8 +70,6 @@ public class User extends BaseEntity {
 	
 	@Column(name = IS_ADMIN)
 	public Boolean isAdmin;
-
-	
 	
 	public String teams;
 

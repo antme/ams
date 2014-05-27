@@ -212,7 +212,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		// FIXME:根据上下级关系查询数据
 		
-		String currentUserId = EWeblibThreadLocal.getCurrentUserId();
+		String currentUserId = vo.getUserId();
+	
 		if (!isAdmin(currentUserId)) {
 			Set<String> userIds = getOwnedUserIds(currentUserId);
 
