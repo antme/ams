@@ -46,7 +46,19 @@ public class Team extends BaseEntity {
 	
 	public Integer membersNumber;
 	
+	public String teamMembers;
+	
 	public String[] teamMemberIds;
+
+	
+	
+	public String getTeamMembers() {
+		return teamMembers;
+	}
+
+	public void setTeamMembers(String teamMembers) {
+		this.teamMembers = teamMembers;
+	}
 
 	public String getTeamName() {
 		return teamName;

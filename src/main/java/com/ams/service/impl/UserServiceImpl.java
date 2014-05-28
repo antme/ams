@@ -1,6 +1,7 @@
 package com.ams.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -499,9 +500,15 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		for (Attendance attendance : attendanceList) {
 
+			Calendar c = Calendar.getInstance();
+			c.setTime(attendance.getAttendanceDate());
+
 			Team team = (Team) this.dao.findById(attendance.getTeamId(), Team.TABLE_NAME, Team.class);
 			attendance.setProjectId(team.getProjectId());
 			attendance.setDepartmentId(team.getDepartmentId());
+
+			attendance.setYear(c.get(Calendar.YEAR));
+			attendance.setMonth(c.get(Calendar.MONDAY));
 
 			this.dao.insert(attendance);
 		}

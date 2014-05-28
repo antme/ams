@@ -3,8 +3,10 @@ package com.ams.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,6 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
-import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 
 @Service(value = "projectService")
@@ -145,7 +146,31 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	public EntityResults<Team> listTeams(Team team) {
 		DataBaseQueryBuilder builder = getTeamQuery(team);
 
-		return this.dao.listByQueryWithPagnation(builder, Team.class);
+		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		etQuery.join(EmployeeTeam.TABLE_NAME, User.TABLE_NAME, EmployeeTeam.USER_ID, User.ID);
+		etQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		etQuery.limitColumns(new String[] { EmployeeTeam.TEAM_ID });
+
+		List<EmployeeTeam> etList = this.dao.listByQuery(etQuery, EmployeeTeam.class);
+
+		Map<String, String> etMap = new HashMap<String, String>();
+
+		for (EmployeeTeam et : etList) {
+
+			if (etMap.get(et.getTeamId()) == null) {
+				etMap.put(et.getTeamId(), et.getUserName());
+			} else {
+				etMap.put(et.getTeamId(), etMap.get(et.getTeamId()) + "," + et.getUserName());
+			}
+		}
+
+		EntityResults<Team> teamList = this.dao.listByQueryWithPagnation(builder, Team.class);
+
+		for (Team t : teamList.getEntityList()) {
+			t.setTeamMembers(etMap.get(t.getId()));
+		}
+
+		return teamList;
 	}
 
 	public DataBaseQueryBuilder getTeamQuery(Team team) {

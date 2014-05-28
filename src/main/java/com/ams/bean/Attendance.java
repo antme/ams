@@ -13,6 +13,10 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Attendance.TABLE_NAME)
 public class Attendance extends BaseEntity {
 
+	public static final String YEAR = "year";
+
+	public static final String MONTH = "month";
+
 	public static final String DEPARTMENT_ID = "departmentId";
 
 	public static final String PROJECT_ID = "projectId";
@@ -67,9 +71,11 @@ public class Attendance extends BaseEntity {
 	
 	
 	@IntegerColumn
+	@Column(name = YEAR)
 	public Integer year;
 	
 	@IntegerColumn
+	@Column(name = MONTH)
 	public Integer month;
 
 	public String userName;

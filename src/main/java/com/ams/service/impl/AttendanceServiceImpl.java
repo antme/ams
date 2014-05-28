@@ -118,6 +118,14 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			if (EweblibUtil.isValid(attendance.getProjectId())) {
 				builder.and(Attendance.PROJECT_ID, attendance.getProjectId());
 			}
+
+			if (EweblibUtil.isValid(attendance.getYear())) {
+				builder.and(Attendance.YEAR, attendance.getYear());
+			}
+
+			if (EweblibUtil.isValid(attendance.getMonth())) {
+				builder.and(Attendance.MONTH, attendance.getMonth());
+			}
 		}
 
 		builder.limitColumns(new Attendance().getColumnList());

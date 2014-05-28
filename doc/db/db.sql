@@ -417,3 +417,8 @@ alter table SalaryItem add column projectName varchar(255) default null;
 alter table User modify column isAdmin boolean DEFAULT false;
 
 
+
+alter table Attendance add column year int default 0;
+
+alter table Attendance add column month int default 0;
+
