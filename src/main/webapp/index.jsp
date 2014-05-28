@@ -119,6 +119,9 @@
 						<li>
 							<span></span><a href="?p=department/list&a=5">部门管理</a>
 						</li>
+						<li>
+							<span></span><a href="?p=log/list&a=5">日志查询</a>
+						</li>
 					</ul>
 				</div>
 			</div>
