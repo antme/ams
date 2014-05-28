@@ -55,7 +55,7 @@ public class UserController extends AmsController {
 	@LoginRequired(required = false)
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) parserJsonParameters(request, false, User.class);
-		user = userService.login(user, false);
+		user = userService.login(user, true);
 		responseWithEntity(user, request, response);
 
 	}
