@@ -113,3 +113,28 @@
 	background: url('/resources/images/user.png') no-repeat center
 		center;
 }
+
+.icon-img {
+	background: url('/resources/images/img.png') no-repeat center
+		center;
+}
+
+.icon-dailyreport{
+	background: url('/resources/images/dailyreport.png') no-repeat center
+		center;
+}
+
+.icon-reminder{
+	background: url('/resources/images/reminder.png') no-repeat center
+		center;
+}
+
+.icon-customer{
+	background: url('/resources/images/customer.png') no-repeat center
+		center;
+}
+
+.icon-salary{
+	background: url('/resources/images/salary.png') no-repeat center
+		center;
+}

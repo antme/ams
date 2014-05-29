@@ -52,7 +52,6 @@
 		<tr>
 			<th align="center" field="userName" width="100" sortable="false" resizable="true">用户名</th>
 			<th align="center" field="userCode" width="80" sortable="false" resizable="true">员工编号</th>
-			<th align="center" field="userCategory" width="80" sortable="false" resizable="true">员工类型</th>
 			<th align="center" field="typeName" width="80" sortable="false" resizable="true">工种</th>
 			<th align="center" field="levelName" width="80" sortable="false" resizable="true">级别</th>
 			<th align="center" field="status" width="80" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
