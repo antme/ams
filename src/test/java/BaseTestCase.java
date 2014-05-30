@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.ams.bean.Attendance;
+import com.ams.bean.Department;
 import com.ams.bean.Pic;
+import com.ams.bean.User;
 import com.ams.service.IAttendanceService;
 import com.ams.service.INoticeService;
 import com.ams.service.IUserService;
@@ -67,147 +70,24 @@ public class BaseTestCase extends TestCase {
 	}
 
 	public void testExcel() {
-
-		FileOutputStream fileOut = null;
-
-		BufferedImage bufferImg = null;
-		String desXlsPath = null;
-		String[] columnHeaders = new String[] { "上传者", "项目", "描述", "上传时间", "图片" };
-
-		try {
-
-			// 先把读进来的图片放到一个ByteArrayOutputStream中，以便产生ByteArray
-
-			// 创建一个工作薄
-
-			HSSFWorkbook wb = new HSSFWorkbook();
-
-			HSSFSheet sheet1 = wb.createSheet("图片");
-
-			HSSFRow row = sheet1.createRow(0);
-			int index = 0;
-			for (String header : columnHeaders) {
-				HSSFCell cell = row.createCell(index);
-				cell.setCellValue(header);
-				index++;
-			}
-
-			List<Pic> pics = userService.listPics(null).getEntityList();
-
-			int rowIndex = 1;
-			for (Pic pic : pics) {
-				row = sheet1.createRow(rowIndex);
-
-//				row.createCell(0).setCellValue(pic.getUserName());
-//				row.createCell(1).setCellValue(pic.getProjectName());
-//				row.createCell(2).setCellValue(pic.getDescription());
-//				row.createCell(3).setCellValue(pic.getCreatedOn());
-
-				HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
-
-				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
-
-				// anchor1.setAnchorType(2);
-
-				// 插入图片
-
-				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-
-				bufferImg = ImageIO.read(new File("/Users/ymzhou/Documents/workspace/ams/src/main/webapp/" + pic.getPicUrl()));
-
-				ImageIO.write(bufferImg, "png", byteArrayOut);
-
-				patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
-				rowIndex++;
-
-			}
-
-
-			String filePath ="/Users/ymzhou/Documents/" +  new Date().getTime() + ".xls";
-
-			fileOut = new FileOutputStream(filePath);
-
-			// 写入excel文件
-
-			wb.write(fileOut);
-
-			fileOut.close();
-
-		} catch (IOException io) {
-
-			io.printStackTrace();
-
-			System.out.println("io erorr : " + io.getMessage());
-
-		} finally
-
-		{
-
-			if (fileOut != null)
-
-			{
-
-				try {
-
-					fileOut.close();
-
-				}
-
-				catch (IOException e)
-
-				{
-
-					// TODO Auto-generated catch block
-
-					e.printStackTrace();
-
-				}
-
-			}
-
-		}
-
 	}
 
-
 	public void testEmpty() throws IOException, InterruptedException {
+		List<Department> list = new ArrayList<Department>();
 
-		System.out.println(DateUtil.getDate("2014年5月10日", "YYYY年MM月DD日"));
-		// InputStream inputStream = new FileInputStream(new
-		// File("/Users/ymzhou/Documents/task.xls"));
+		Department dep = new Department();
+		dep.setDepartmentName("dylan1");
+		list.add(dep);
 
-		ExcelTemplateUtil etu = new ExcelTemplateUtil();
-		etu.setSrcPath("/Users/ymzhou/Documents/a.xls");
-		etu.setDesPath("/Users/ymzhou/Documents/a1.xls");
-		etu.setSheetName("考勤表");
+		dep = new Department();
+		dep.setDepartmentName("dylan2");
 
-		etu.getSheet();
-		etu.setCellStrValue(0, 2, "2014");
-		etu.setCellStrValue(0, 6, "7");
-		List<Attendance> atss = ats.listAttendances(null).getEntityList();
-		int start = 6;
-		for (Attendance at : atss) {
+		list.add(dep);
 
-			if (at.getAttendanceDayType() == 0) {
-				etu.setCellStrValue(start, 0, at.getUserName());
-				etu.setCellStrValue(start, 2, "●");
-				etu.setCellStrValue(start, 3, "●");
-				etu.setCellStrValue(start, 4, "●");
-				etu.setCellStrValue(start, 5, "●");
-				etu.setCellStrValue(start, 6, "△");
-			} else {
-				etu.setCellStrValue(start + 1, 0, at.getUserName());
-				etu.setCellStrValue(start + 1, 2, "●");
-				etu.setCellStrValue(start + 1, 3, "●");
-				etu.setCellStrValue(start + 1, 4, "●");
-				etu.setCellStrValue(start + 1, 5, "●");
-				etu.setCellStrValue(start + 1, 6, "△");
-			}
+		dep = new Department();
+		dep.setDepartmentName("dylan3");
 
-			start = start + 2;
-
-		}
-		etu.exportToNewFile();
-
+		list.add(dep);
+		dao.batchInsert(list);
 	}
 }

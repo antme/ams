@@ -17,23 +17,23 @@
 	<select id="count" resultType="int">
 		select count(*) from ${table} as ${table}
 
-        <if test="onQuery!=null">
-            ${onQuery}
-        </if>
-        
-        <if test="queryStr!=null">
-            where ${queryStr}
-        </if>
+		<if test="onQuery!=null">
+			${onQuery}
+		</if>
 
-        
+		<if test="queryStr!=null">
+			where ${queryStr}
+		</if>
+
+
 	</select>
 
 	<select id="listByQuery" resultMap="map">
 		select
 		<if test="distinctColumn!=null">
-			distinct ${distinctColumn} 
+			distinct ${distinctColumn}
 		</if>
-		
+
 		<if test="limitColumns!=null and distinctColumn==null">
 			${limitColumns}
 		</if>
@@ -42,57 +42,57 @@
 		</if>
 		from ${table} as ${table}
 
-        <if test="onQuery!=null">
-            ${onQuery}
-        </if>
-        
+		<if test="onQuery!=null">
+			${onQuery}
+		</if>
+
 		<if test="queryStr!=null">
 			where ${queryStr}
 		</if>
-		
+
 		<if test="orderBy!=null">
 			order by ${orderBy}
 		</if>
 
 
 	</select>
-	
-	
-	
-    <select id="listByQueryWithPagination" resultMap="map">
-        select
+
+
+
+	<select id="listByQueryWithPagination" resultMap="map">
+		select
 		<if test="distinctColumn!=null">
-			distinct ${distinctColumn} 
+			distinct ${distinctColumn}
 		</if>
-		
+
 		<if test="limitColumns!=null and distinctColumn==null">
 			${limitColumns}
 		</if>
 		<if test="limitColumns==null and distinctColumn==null">
 			*
 		</if>
-        from ${table} as ${table}
+		from ${table} as ${table}
 
-        <if test="onQuery!=null">
-            ${onQuery}
-        </if>
-        
-        <if test="queryStr!=null">
-            where ${queryStr}
-        </if>
-        
-        <if test="orderBy!=null">
-            order by ${orderBy}
-        </if>
+		<if test="onQuery!=null">
+			${onQuery}
+		</if>
 
-        <if test="limitStart!=null">
-            limit ${limitStart},${limitRows}
-        </if>
+		<if test="queryStr!=null">
+			where ${queryStr}
+		</if>
 
-    </select>
-	
-	
-	
+		<if test="orderBy!=null">
+			order by ${orderBy}
+		</if>
+
+		<if test="limitStart!=null">
+			limit ${limitStart},${limitRows}
+		</if>
+
+	</select>
+
+
+
 	<select id="listBySql" resultMap="map" parameterMap="string">
 		${_parameter}
 	</select>
@@ -119,6 +119,14 @@
 		values(${insertColumnsExp})
 	</insert>
 
+	<insert id="batchInsert">
+		insert into ${table}(${insertColumns})
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(${batchInsertColumnsExp})
+		</foreach>
+	</insert>
+
 	<update id="updateById">
 		update ${table} set
 		${updateColumns}
@@ -128,7 +136,7 @@
 	<delete id="deleteById">
 		delete from ${table} where id=#{id}
 	</delete>
-	
+
 	<delete id="deleteByQuery">
 		delete from ${table} where ${queryStr}
 	</delete>
