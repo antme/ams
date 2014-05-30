@@ -204,10 +204,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 
 		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
-		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
+		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME + "," + "userType" });
 
 		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
-		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
+		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME + "," + "userLevel" });
 
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
 
