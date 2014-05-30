@@ -1,8 +1,14 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <br>
+<script>
+  function deleteUserLevel(id){	  
+	  deleteData("userlevelliST", id, "/ams/sys/userlevel/delete.do");	  
+  }
+</script>
+
 <button onclick="loadRemotePage('sys/adduserlevel&a=5');">新增</button>
-<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/sys/userlevel/list.do" iconCls="icon-save"
+<table id="userlevelliST" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/sys/userlevel/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

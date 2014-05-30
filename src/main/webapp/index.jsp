@@ -75,6 +75,10 @@
 				
 					<ul>
 						<li>
+							<span></span><a href="?p=task/import&a=3">任务导入</a>
+						</li>
+						
+						<li>
 							<span></span><a href="?p=task/list&a=3">任务管理</a>
 						</li>
 						

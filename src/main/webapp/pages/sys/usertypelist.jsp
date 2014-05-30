@@ -1,8 +1,13 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <br>
+<script>
+  function deleteUserType(id){	  
+	  deleteData("userTypeList", id, "/ams/sys/usertype/delete.do");	  
+  }
+</script>
 <button onclick="loadRemotePage('sys/addusertype&a=5');">新增</button>
-<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/sys/usertype/list.do" iconCls="icon-save"
+<table id="userTypeList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/sys/usertype/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

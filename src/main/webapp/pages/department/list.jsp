@@ -1,7 +1,13 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script>
+  function deleteDepartment(id){	  
+	  deleteData("departmentList", id, "/ams/user/department/delete.do");	  
+  }
+</script>
+
 <button onclick="loadRemotePage('department/add&a=5');">新增</button>
-<table id=noticeList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/department/list.do" iconCls="icon-save"
+<table id="departmentList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/department/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

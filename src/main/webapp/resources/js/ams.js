@@ -200,7 +200,7 @@ function formatterNoticeOperation(val, row) {
 function formatterDepartmentOperation(val, row) {
 
 	return '<a href="#" onclick=loadRemotePage("department/add&a=4&id='
-			+ row.id + '")> 编辑 </a>';
+			+ row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteDepartment("' + row.id + '")> 删除 </a>';
 }
 
 function formatteAttachFileLink(val, row) {
@@ -211,12 +211,12 @@ function formatteAttachFileLink(val, row) {
 
 function formatterUserTypeOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("sys/addusertype&a=5&id='
-			+ row.id + '")> 编辑 </a>';
+			+ row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteUserType("' + row.id + '")> 删除 </a>';
 }
 
 function formatteruserlevelOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("sys/adduserlevel&a=5&id='
-			+ row.id + '")> 编辑 </a>';
+			+ row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteUserLevel("' + row.id + '")> 删除 </a>';
 
 }
 function formatterPicOperation(val, row) {

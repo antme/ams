@@ -77,7 +77,17 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 				salary.setRemainingSalaray(totalSalary - deductedSalary);
 				salary.setSalaryPerDay((double) month.getSalaryPerDay());
 
+				DataBaseQueryBuilder exquery = new DataBaseQueryBuilder(Salary.TABLE_NAME);
+				exquery.and(Salary.USER_ID, user.getId());
+				exquery.and(Salary.YEAR, month.getYear());
+				exquery.and(Salary.MONTH, month.getMonth());
+
+				if (this.dao.exists(exquery)) {
+					throw new ResponseException("此员工的工资已经存在,不能重复导入,如果导入,请先删除后再导入");
+				}
+
 				this.dao.insert(salary);
+
 				for (SalaryItem item : items) {
 					item.setSalaryId(salary.getId());
 					this.dao.insert(item);
@@ -336,7 +346,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 		return this.dao.findById(group.getId(), RoleGroup.TABLE_NAME, RoleGroup.class);
 	}
-	
+
 	public void deleteUserGroup(RoleGroup group) {
 
 		this.dao.deleteById(group);

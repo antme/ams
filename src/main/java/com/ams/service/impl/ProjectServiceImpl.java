@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
@@ -486,6 +487,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	}
 
+	@Transactional
 	public DailyReport addDailyReport(DailyReportVo vo, List<String> pics) {
 
 		if (vo.getRemovedPics() != null) {

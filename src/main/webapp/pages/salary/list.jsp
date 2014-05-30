@@ -25,6 +25,10 @@
 			
 		});
 	}
+	
+	function deleteSalary(){
+		deleteMultipleData("salaryList", "/ams/user/salary/delete.do");
+	}
 </script>
 <div>
 	<label>用户名:</label> <input type="text" name="userName" id="userName" /> 
@@ -32,16 +36,16 @@
 	<label>月份:</label> <input type="number" name="month" id="month" />
 
 
-
-
 	<button onclick="search();">搜索</button>
 </div>
 <p></p>
 
-<table id="salaryList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
-	sortOrder="asc" pagination="true" singleSelect="true">
+<button onclick="deleteSalary();">删除</button>
+<table id="salaryList" class="easyui-datagrid" data-options="selectOnCheck:true, checkOnSelect:true, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
+	sortOrder="asc" pagination="true">
 	<thead>
 		<tr>
+			<th data-options="field:'ck',checkbox:true"></th>
 			<th align="center" field="userName" width="100" sortable="false" resizable="true">用户名</th>
 			<th align="center" field="year" width="100" sortable="false" resizable="true">年份</th>
 			<th align="center" field="month" width="50" sortable="false" resizable="true">月份</th>

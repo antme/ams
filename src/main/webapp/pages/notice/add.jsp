@@ -36,7 +36,7 @@
 			
 			<div>
 				<span class="r-edit-label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
-				<span>优先级越高的将现实在最顶上</span>
+				<span>优先级越高的将显示在最顶上</span>
 			</div>
 			
 			<div>

@@ -1,14 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<br>
+
 <script type="text/javascript">
-	$(document).ready(function() {
-		initFormSubmit("task_import", "/ams/sys/task/import.do", "任务导入", function(){
-			alert("导入成功");
-			loadRemotePage("task/list&a=2");
-		});
-	});
-	
 
 	function search() {
 		$('#taskList').datagrid('load', {
@@ -19,11 +12,9 @@
 		});
 	}
 </script>
-<form id="task_import" action="/ams/sys/task/import.do" method="post" enctype="multipart/form-data">
-	<span>任务文件上传：</span><input type="file" name="taskFile"/>
-	<br>
-	<input type="submit" value="上传"/>
-</form>
+
+
+<jsp:include page="/pages/task/import.jsp" />
 <p></p>
 <hr>
 
