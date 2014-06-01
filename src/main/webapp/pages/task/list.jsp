@@ -11,6 +11,10 @@
 			
 		});
 	}
+	
+	function deleteTasks(){
+		deleteMultipleData("taskList", "/ams/user/task/delete.do");
+	}
 </script>
 
 
@@ -49,12 +53,14 @@
 	
 	<button onclick="search();">搜索</button>
 </div>
-
 <div style="margin-top:20px;"></div>
-<table id="taskList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/task/list.do" iconCls="icon-save"
-	sortOrder="asc" pagination="true" singleSelect="true">
+<hr>
+<button onclick="deleteTasks();">删除</button>
+<table id="taskList" class="easyui-datagrid" data-options="checkOnSelect:true, remoteFilter:true, fitColumns: true" url="/ams/project/task/list.do" iconCls="icon-save"
+	sortOrder="asc" pagination="true" >
 	<thead>
 		<tr>
+			<th data-options="field:'ck',checkbox:true"></th>
 			<th  field="taskName" width="150" sortable="false" resizable="true">任务名字</th>
 			<th align="center" field="projectName" width="150" sortable="false" resizable="true">项目</th>
 			<th align="center" field="teamName" width="100" sortable="false" resizable="true">施工队</th>
