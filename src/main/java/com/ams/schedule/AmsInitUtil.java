@@ -1,13 +1,13 @@
-package com.ams.util;
+package com.ams.schedule;
 
 import com.ams.bean.Menu;
 import com.ams.bean.MenuItem;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 
-public class InitUtil {
+public class AmsInitUtil {
 
-	public static void initSystem(IQueryDao dao) {
+	public static void initMenu(IQueryDao dao) {
 		createNoticeMenu(dao);
 		createAttendanceMenu(dao);
 		createDailyReportMenu(dao);

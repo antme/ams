@@ -65,4 +65,16 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" /> 
 
+	 <bean
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="com.ams.schedule.AmsInitUtil" />
+        <property name="targetMethod" value="initMenu"></property>
+        <property name="arguments">
+            <list>
+				<ref bean="commonDao"/>
+            </list>
+        </property>
+    </bean>
+
+    
 </beans>

@@ -83,16 +83,6 @@
         </property>
     </bean>
     
-   <bean
-        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetClass" value="com.ams.util.InitUtil" />
-        <property name="targetMethod" value="initSystem"></property>
-        <property name="arguments">
-            <list>
-				<ref bean="dao" />
-            </list>
-        </property>
-    </bean>
-    
+  
 
 </beans>

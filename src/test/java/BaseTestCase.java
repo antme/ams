@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import com.ams.schedule.AmsInitUtil;
 import com.ams.service.INoticeService;
 import com.ams.service.impl.NoticeServiceImpl;
-import com.ams.util.InitUtil;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
 
@@ -42,7 +42,7 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 
-		InitUtil.initSystem(this.dao);
+		
 
 	}
 }
