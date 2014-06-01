@@ -270,7 +270,9 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
 
-				bufferImg = ImageIO.read(new File("/Users/ymzhou/Documents/workspace/ams/src/main/webapp/" + pic.getPicUrl()));
+				String webPath = request.getSession().getServletContext().getRealPath("/");
+
+				bufferImg = ImageIO.read(new File(webPath + pic.getPicUrl()));
 
 				ImageIO.write(bufferImg, "png", byteArrayOut);
 

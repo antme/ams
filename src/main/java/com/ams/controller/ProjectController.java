@@ -1,5 +1,6 @@
 package com.ams.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
@@ -206,6 +208,17 @@ public class ProjectController extends AmsController {
 	}
 	
 	
+
+	@RequestMapping("/dailyreport/export.do")
+	public void exportDailyReportToExcle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Attendance attendance = (Attendance) parserJsonParameters(request, false, Attendance.class);
+		// 以流的形式下载文件。
+
+		String path = projectService.exportDailyReportToExcle(attendance, request);
+
+		exportFile(response, path);
+
+	}
 	
 
 }

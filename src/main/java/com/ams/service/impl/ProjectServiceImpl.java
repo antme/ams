@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -789,6 +791,12 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	public BaseEntity getCustomerInfo(Customer customer) {
 
 		return this.dao.findById(customer.getId(), Customer.TABLE_NAME, Customer.class);
+	}
+	
+	
+	public String exportDailyReportToExcle(Attendance attendance, HttpServletRequest request){
+		
+		return "";
 	}
 
 }

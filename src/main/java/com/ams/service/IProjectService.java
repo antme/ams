@@ -2,6 +2,8 @@ package com.ams.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.DailyReport;
@@ -63,6 +65,8 @@ public interface IProjectService {
 	EntityResults<Task> listAllTasksFor(Task task);
 
 	List<DailyReportVo> listDailyReportPlan(DailyReportVo report);
+
+	String exportDailyReportToExcle(Attendance attendance, HttpServletRequest request);
 
 
 }
