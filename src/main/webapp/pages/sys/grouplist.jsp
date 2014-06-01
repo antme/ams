@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<button onclick="loadRemotePage('user/addgroup&a=5');">新增角色</button>
+<button onclick="loadRemotePage('sys/addgroup&a=5');">新增角色</button>
 
 <script>
 	function deleteGroup(id){

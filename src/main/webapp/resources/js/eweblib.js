@@ -672,8 +672,8 @@ function deleteData(gridId, nodeId, url, callBack) {
 function deleteMultipleData(gridId, url, callBack) {
 
 	var ids = getGridCheckedIds(gridId);
-	
-	if(ids.length == 0){
+
+	if (ids.length == 0) {
 		alert("请先选择需要删除的数据");
 		return false;
 	}
@@ -687,3 +687,13 @@ function deleteMultipleData(gridId, url, callBack) {
 		});
 	}
 }
+
+String.prototype.startWith = function(str) {
+	var reg = new RegExp("^" + str);
+	return reg.test(this);
+};
+
+String.prototype.endWith = function(str) {
+	var reg = new RegExp(str + "$");
+	return reg.test(this);
+};

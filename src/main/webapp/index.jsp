@@ -152,7 +152,7 @@
 							<span></span><a href="?p=sys/userlevellist&a=10">员工级别管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=user/grouplist&a=10">角色管理</a>
+							<span></span><a href="?p=sys/grouplist&a=10">角色管理</a>
 						</li>
 						<li>
 							<span></span><a href="?p=department/list&a=10">部门管理</a>
@@ -202,13 +202,37 @@
 	<script type="text/javascript">
         var roleName = "<%=userRoleName%>";
         var pagePath = "<%=pagePath%>";
-        var index = <%=accindex%>;
       
         $(document).ready(function(){
             //初始化页面最小宽度  
            // initDataGridEvent();
-            
-           	$('#accordion').accordion('select', index); 
+             var title ="";
+            if(pagePath.startWith("notice")){
+            	title = "公告管理";
+            }else if(pagePath.startWith("user")){
+            	title = "用户管理";
+            }else if(pagePath.startWith("log") || pagePath.startWith("sys") || pagePath.startWith("department")){
+            	title = "系统设置";
+            }else if(pagePath.startWith("attendance")){
+            	title = "考勤管理";
+            }else if(pagePath.startWith("task")){
+            	title = "任务管理";
+            }else if(pagePath.startWith("reminder")){
+            	title = "备忘录管理";
+            }else if(pagePath.startWith("project") || pagePath.startWith("team")){
+            	title = "项目管理";
+            }else if(pagePath.startWith("customer")){
+            	title = "客户管理";
+            }else if(pagePath.startWith("report")){
+            	title = "日报管理";
+            }else if(pagePath.startWith("pic")){
+            	title = "图片管理";
+            }else if(pagePath.startWith("salary")){
+            	title = "工资管理";
+            }
+        	$('#accordion').accordion('select', title); 
+
+           
             
         });
 
