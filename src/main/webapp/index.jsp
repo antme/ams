@@ -51,7 +51,7 @@
 							<a href="?p=notice/add">新增</a>
 						</li>
 						<li>
-							<span></span><a href="?p=notice/list">公告管理</a>
+							<a href="?p=notice/list">公告管理</a>
 						</li>
 					</ul>
 				</div>
@@ -59,7 +59,7 @@
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=attendance/list&a=1">考勤管理</a>
+							<a href="?p=attendance/list&a=1">考勤管理</a>
 						</li>						
 					</ul>
 				</div>
@@ -67,7 +67,7 @@
 				<div title="图片管理" data-options="iconCls:'icon-img'" style="overflow: auto;height:150px;">			
 					<ul>					
 						<li>
-							<span></span><a href="?p=pic/list&a=2">图片管理</a>
+							<a href="?p=pic/list&a=2">图片管理</a>
 						</li>
 					</ul>
 				</div>
@@ -75,11 +75,11 @@
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=task/import&a=3">任务导入</a>
+							<a href="?p=task/import&a=3">任务导入</a>
 						</li>
 						
 						<li>
-							<span></span><a href="?p=task/list&a=3">任务管理</a>
+							<a href="?p=task/list&a=3">任务管理</a>
 						</li>
 						
 					</ul>
@@ -89,7 +89,7 @@
 					<ul>
 					
 						<li>
-							<span></span><a href="?p=report/list&a=4"> 日报管理</a>
+							<a href="?p=report/list&a=4"> 日报管理</a>
 						</li>
 					</ul>
 				</div>
@@ -101,10 +101,10 @@
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=project/list&a=6">项目管理</a>
+							<a href="?p=project/list&a=6">项目管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=team/list&a=6">施工队管理</a>
+							<a href="?p=team/list&a=6">施工队管理</a>
 						</li>
 						
 					</ul>
@@ -115,7 +115,7 @@
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=customer/list&a=7">客户管理</a>
+							<a href="?p=customer/list&a=7">客户管理</a>
 						</li>
 					</ul>
 					
@@ -124,10 +124,10 @@
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=user/add&a=8">新增用户</a>
+							<a href="?p=user/add&a=8">新增用户</a>
 						</li>
 						<li>
-							<span></span><a href="?p=user/list&a=8">用户管理</a>
+							<a href="?p=user/list&a=8">用户管理</a>
 						</li>
 					
 					</ul>
@@ -138,27 +138,30 @@
 					<ul>
 
 						<li>
-							<span></span><a href="?p=salary/list&a=9">工资管理</a>
+							<a href="?p=salary/list&a=9">工资管理</a>
 						</li>
 					</ul>
 				</div>
-				<div title="系统设置" style="height:200px;" data-options="iconCls:'icon-sys'">
+				<div title="系统设置" style="height:300px;" data-options="iconCls:'icon-sys'">
 				
 					<ul>
 						<li>
-							<span></span><a href="?p=sys/usertypelist&a=10">员工类型管理</a>
+							<a href="?p=sys/usertypelist&a=10">员工类型管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=sys/userlevellist&a=10">员工级别管理</a>
+							<a href="?p=sys/userlevellist&a=10">员工级别管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=sys/grouplist&a=10">角色管理</a>
+							<a href="?p=sys/grouplist&a=10">角色管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=department/list&a=10">部门管理</a>
+							<a href="?p=department/list&a=10">部门管理</a>
 						</li>
 						<li>
-							<span></span><a href="?p=log/list&a=10">日志查询</a>
+							<a href="?p=log/list&a=10">日志查询</a>
+						</li>
+						<li>
+							<a href="?p=sys/menu&a=10">菜单顺序管理</a>
 						</li>
 					</ul>
 				</div>
