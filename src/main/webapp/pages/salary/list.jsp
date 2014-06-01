@@ -14,7 +14,7 @@
         $('#salaryList').datagrid({
             view: detailview,
             detailFormatter:function(index,row){
-                return '<div style="padding:2px;background-color: beige;"><div>应付款：</div><table class="ddv"></table><div style="margin-top:5px;">应扣款：</div><table class="ddv1"></table></div>';
+                return '<div style="padding:5px;background-color: beige;"><div><h2><strong>应付款：</strong></h2></div><table class="ddv"></table><div style="margin-top:5px;"><h2><strong>应扣款：</strong></h2></div><table class="ddv1"></table></div>';
             },
             onExpandRow: function(index,row){
                 var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
