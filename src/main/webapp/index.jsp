@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 		<script type="text/javascript" src="/resources/js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="/resources/js/datagrid-detailview.js"></script>
 		<script type="text/javascript" src="/resources/js/eweblib.js"></script>
 		<script type="text/javascript" src="/resources/js/json2.js"></script>
 		<script type="text/javascript" src="/resources/js/ams.js"></script>

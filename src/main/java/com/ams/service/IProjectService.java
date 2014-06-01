@@ -66,7 +66,7 @@ public interface IProjectService {
 
 	List<DailyReportVo> listDailyReportPlan(DailyReportVo report);
 
-	String exportDailyReportToExcle(Attendance attendance, HttpServletRequest request);
+	String exportDailyReportToExcle(DailyReportVo report, HttpServletRequest request);
 
 
 }

@@ -27,14 +27,14 @@ import com.eweblib.exception.ResponseException;
 import com.eweblib.service.AbstractService;
 import com.eweblib.util.DateUtil;
 import com.eweblib.util.EweblibUtil;
-import com.eweblib.util.ExcleUtil;
+import com.eweblib.util.ExcelUtil;
 
 @Service(value = "sys")
 public class SystemServiceImpl extends AbstractService implements ISystemService {
 
 	@Transactional
 	public void importSalary(InputStream inputStream) {
-		ExcleUtil excleUtil = new ExcleUtil(inputStream);
+		ExcelUtil excleUtil = new ExcelUtil(inputStream);
 		List<String[]> list = excleUtil.getAllData(0);
 
 		if (!list.isEmpty()) {
@@ -107,7 +107,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	}
 
 	public void importTask(InputStream inputStream) {
-		ExcleUtil excleUtil = new ExcleUtil(inputStream);
+		ExcelUtil excleUtil = new ExcelUtil(inputStream);
 		List<String[]> list = excleUtil.getAllData(0);
 
 		int index = 0;

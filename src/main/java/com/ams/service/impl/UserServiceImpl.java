@@ -455,14 +455,16 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		DataBaseQueryBuilder detailQuery = new DataBaseQueryBuilder(SalaryItem.TABLE_NAME);
 		detailQuery.and(SalaryItem.SALARY_ID, salary.getId());
 		detailQuery
-		        .limitColumns(new String[] { SalaryItem.PROJECT_NAME, SalaryItem.ATTENDANCE_DAYS, SalaryItem.PROJECT_ID, SalaryItem.TOTOL_SALARY, SalaryItem.PERFORMANCE_SALARY, SalaryItem.COMMENT });
+		        .limitColumns(new String[] { SalaryItem.PERFORMANCE_SALARY_UNIT, SalaryItem.PROJECT_NAME, SalaryItem.ATTENDANCE_DAYS, SalaryItem.PROJECT_ID, SalaryItem.TOTOL_SALARY, SalaryItem.PERFORMANCE_SALARY, SalaryItem.COMMENT });
 
 		List<SalaryItem> items = this.dao.listByQuery(detailQuery, SalaryItem.class);
 		double salaryTotal = 0;
 
 		for (SalaryItem item : items) {
-			// item.setProjectName(pMap.get(item.getProjectId()));
-			salaryTotal += item.getTotolSalary();
+
+			if (item.getTotolSalary() != null) {
+				salaryTotal += item.getTotolSalary();
+			}
 		}
 
 		salary.setTotalSalary(salaryTotal);

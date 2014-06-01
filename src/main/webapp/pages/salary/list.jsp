@@ -8,6 +8,75 @@
 			loadRemotePage("salary/list&a=4");
 		});
 	});
+	
+	
+	$(function(){
+        $('#salaryList').datagrid({
+            view: detailview,
+            detailFormatter:function(index,row){
+                return '<div style="padding:2px;background-color: beige;"><div>应付款：</div><table class="ddv"></table><div style="margin-top:5px;">应扣款：</div><table class="ddv1"></table></div>';
+            },
+            onExpandRow: function(index,row){
+                var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
+                var ddv1 = $(this).datagrid('getRowDetail',index).find('table.ddv1');
+                postAjaxRequest('/ams/user/salary/app/detail.do', {id:row.id}, function(data){
+                	
+                ddv.datagrid({
+                    fitColumns:true,
+                    singleSelect:true,
+                    rownumbers:true,
+                    loadMsg:'',
+                    height:'auto',
+                    data: data.data.salaryItems,
+                    columns:[[
+                        {field:'projectName',title:'项目',width:200},
+                        {field:'attendanceDays',title:'出勤数',width:50},
+                        {field:'totolSalary',title:'工资',width:80},
+                        {field:'performanceSalary',title:'绩效',width:80},
+                        {field:'performanceSalaryUnit',title:'绩效价',width:80,align:'right'},
+                        {field:'comment',title:'备注',width:150,align:'right'}
+                    ]],
+                    onResize:function(){
+                        $('#salaryList').datagrid('fixDetailRowHeight',index);
+                    },
+                    onLoadSuccess:function(){
+                        setTimeout(function(){
+                            $('#salaryList').datagrid('fixDetailRowHeight',index);
+                        },0);
+                    }
+                });
+                
+                
+                ddv1.datagrid({
+                    fitColumns:true,
+                    singleSelect:true,
+                    rownumbers:true,
+                    loadMsg:'',
+                    height:'auto',
+                    data: data.data.deductedSalaryItems,
+                    columns:[[
+                        {field:'name',title:'项目',width:200},
+                        {field:'totolSalary',title:'工资',width:80},
+                        {field:'comment',title:'备注',width:150,align:'right'}
+                    ]],
+                    onResize:function(){
+                        $('#salaryList').datagrid('fixDetailRowHeight',index);
+                    },
+                    onLoadSuccess:function(){
+                        setTimeout(function(){
+                            $('#salaryList').datagrid('fixDetailRowHeight',index);
+                        },0);
+                    }
+                });
+                
+                $('#salaryList').datagrid('fixDetailRowHeight',index);
+                
+                });
+                $('#salaryList').datagrid('fixDetailRowHeight',index);
+            }
+        });
+    });
+	
 </script>
 <form id="task_import" action="/ams/sys/salary/import.do" method="post" enctype="multipart/form-data">
 	<input type="file" name="salaryFile"/>
@@ -41,8 +110,8 @@
 <p></p>
 
 <button onclick="deleteSalary();">删除</button>
-<table id="salaryList" class="easyui-datagrid" data-options="selectOnCheck:true, checkOnSelect:true, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
-	sortOrder="asc" pagination="true">
+<table id="salaryList" class="easyui-datagrid" data-options="height:500, selectOnCheck:true, checkOnSelect:true, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
+	sortOrder="asc" pagination="true" ">
 	<thead>
 		<tr>
 			<th data-options="field:'ck',checkbox:true"></th>

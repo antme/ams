@@ -211,10 +211,11 @@ public class ProjectController extends AmsController {
 
 	@RequestMapping("/dailyreport/export.do")
 	public void exportDailyReportToExcle(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Attendance attendance = (Attendance) parserJsonParameters(request, false, Attendance.class);
 		// 以流的形式下载文件。
 
-		String path = projectService.exportDailyReportToExcle(attendance, request);
+		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
+
+		String path = projectService.exportDailyReportToExcle(report, request);
 
 		exportFile(response, path);
 

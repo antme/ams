@@ -38,6 +38,7 @@ import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
 import com.eweblib.util.EweblibUtil;
+import com.eweblib.util.ExcelUtil;
 
 @Service(value = "projectService")
 public class ProjectServiceImpl extends AbstractService implements IProjectService {
@@ -228,7 +229,6 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
 
-		
 		Team t = (Team) this.dao.findById(team.getTeamId(), Team.TABLE_NAME, Team.class);
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		pquery.and(Project.PROJECT_ATTENDANCE_MANAGER_ID, team.getUserId());
@@ -236,8 +236,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		if (!this.dao.exists(pquery)) {
 			return new ArrayList<Attendance>();
 		}
-		
-		
+
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
 		query.and(EmployeeTeam.TEAM_ID, team.getTeamId());
 		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
@@ -256,8 +255,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		if (team.getAttendanceDate() != null) {
 			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
 		}
-		
-		
+
 		if (team.getAttendanceDayType() != null) {
 			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DAY_TYPE, team.getAttendanceDayType());
 		}
@@ -288,10 +286,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
-		
 		builder.join(Project.TABLE_NAME, Customer.TABLE_NAME, Project.CUSTOMER_ID, Customer.ID);
 		builder.joinColumns(Customer.TABLE_NAME, new String[] { Customer.NAME + "," + "customerName" });
-
 
 		if (EweblibUtil.isValid(project.getProjectName())) {
 
@@ -338,9 +334,9 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
 		builder.limitColumns(new String[] { Task.TASK_NAME, Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
-		
+
 		builder.and(Task.USER_ID, t.getUserId());
-		
+
 		List<Task> tasks = this.dao.listByQuery(builder, Task.class);
 
 		for (Task task : tasks) {
@@ -360,9 +356,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			task.setProjectRemainingDays(endDay - currentDay);
 			task.setProjectUsedDays(currentDay - startDay);
 
-			//FIXME : from attendance
+			// FIXME : from attendance
 			task.setUserWorkedDays(2d);
-
 
 		}
 
@@ -505,9 +500,9 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			this.dao.updateById(report);
 		} else {
 			Task task = (Task) this.dao.findById(report.getTaskId(), Task.TABLE_NAME, Task.class);
-			
+
 			report.setProjectId(task.getProjectId());
-			
+
 			this.dao.insert(report);
 		}
 
@@ -567,36 +562,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report) {
 
-		
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
-		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
-		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-
-		if (report.getQueryUserId() == null) {
-			Set<String> userIds = userService.getOwnedUserIds(report.getUserId());
-			userIds.add(report.getUserId());
-			builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
-		} else {
-			builder.and(DailyReport.USER_ID, report.getQueryUserId());
-
-		}
-
-		if (report.getStartDate() != null) {
-			builder.and(DataBaseQueryOpertion.GREATER_THAN_EQUALS, DailyReport.REPORT_DAY, report.getStartDate());
-		}
-
-		if (report.getEndDate() != null) {
-			builder.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, DailyReport.REPORT_DAY, report.getEndDate());
-		}
-
-		if (EweblibUtil.isValid(report.getProjectId())) {
-			builder.and(DailyReport.PROJECT_ID, report.getProjectId());
-		}
-		
-		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
-		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
-		
-		
+		DataBaseQueryBuilder builder = getDailyReportQuery(report);
 
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
 
@@ -666,14 +632,44 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		return reports;
 
 	}
-	
-	
+
+	public DataBaseQueryBuilder getDailyReportQuery(DailyReportVo report) {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		if (report.getQueryUserId() == null) {
+			Set<String> userIds = userService.getOwnedUserIds(report.getUserId());
+			userIds.add(report.getUserId());
+			builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
+		} else {
+			builder.and(DailyReport.USER_ID, report.getQueryUserId());
+
+		}
+
+		if (report.getStartDate() != null) {
+			builder.and(DataBaseQueryOpertion.GREATER_THAN_EQUALS, DailyReport.REPORT_DAY, report.getStartDate());
+		}
+
+		if (report.getEndDate() != null) {
+			builder.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, DailyReport.REPORT_DAY, report.getEndDate());
+		}
+
+		if (EweblibUtil.isValid(report.getProjectId())) {
+			builder.and(DailyReport.PROJECT_ID, report.getProjectId());
+		}
+
+		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
+		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
+		return builder;
+	}
+
 	public List<DailyReportVo> listDailyReportPlan(DailyReportVo report) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
-		
+
 		query.join(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
-		query.joinColumns(Project.TABLE_NAME, new String[]{Project.PROJECT_NAME});
-		
+		query.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
 		query.and(DailyReport.USER_ID, report.getUserId());
 
 		Calendar c = Calendar.getInstance();
@@ -705,11 +701,11 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-			
+
 		Set<String> userIds = userService.getOwnedUserIds(currentUserId);
 		userIds.add(currentUserId);
 		builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
-		
+
 		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
 		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
 		return builder;
@@ -737,7 +733,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		String currentUserId = vo.getUserId();
 		if (!userService.isAdmin(currentUserId)) {
-			
+
 			Set<String> ids = userService.getOwnedDepartmentIds(currentUserId);
 
 			DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
@@ -792,9 +788,13 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		return this.dao.findById(customer.getId(), Customer.TABLE_NAME, Customer.class);
 	}
-	
-	
-	public String exportDailyReportToExcle(Attendance attendance, HttpServletRequest request){
+
+	public String exportDailyReportToExcle(DailyReportVo report, HttpServletRequest request) {
+		DataBaseQueryBuilder query = getDailyReportQuery(report);
+		List<DailyReport> reportList = this.dao.listByQuery(query, DailyReport.class);
+		
+		//ExcelUtil.createExcelListFile(listMapData, colunmTitleHeaders, colunmHeaders, null);
+		
 		
 		return "";
 	}
