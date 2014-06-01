@@ -5,7 +5,7 @@
 
 function search() {
 	$('#reportList').datagrid('load', {
-		userId : $("#userId").combobox('getValue'),
+		queryUserId : $("#userId").combobox('getValue'),
 		startDate : $("#startDate").datebox('getValue'),
 		endDate : $("#endDate").datebox('getValue'),
 		projectId : $("#projectId").combobox('getValue')		

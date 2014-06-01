@@ -565,7 +565,36 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report) {
 
-		DataBaseQueryBuilder builder = getDaliReportQueryBuilderForApp(report.getUserId());
+		
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		if (report.getQueryUserId() == null) {
+			Set<String> userIds = userService.getOwnedUserIds(report.getUserId());
+			userIds.add(report.getUserId());
+			builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
+		} else {
+			builder.and(DailyReport.USER_ID, report.getUserId());
+
+		}
+
+		if (report.getStartDate() != null) {
+			builder.and(DataBaseQueryOpertion.GREATER_THAN_EQUALS, DailyReport.REPORT_DAY, report.getStartDate());
+		}
+
+		if (report.getEndDate() != null) {
+			builder.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, DailyReport.REPORT_DAY, report.getEndDate());
+		}
+
+		if (EweblibUtil.isValid(report.getProjectId())) {
+			builder.and(DailyReport.PROJECT_ID, report.getProjectId());
+		}
+		
+		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
+		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
+		
+		
 
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
 
