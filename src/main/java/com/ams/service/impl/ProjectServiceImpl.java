@@ -575,7 +575,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			userIds.add(report.getUserId());
 			builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
 		} else {
-			builder.and(DailyReport.USER_ID, report.getUserId());
+			builder.and(DailyReport.USER_ID, report.getQueryUserId());
 
 		}
 
