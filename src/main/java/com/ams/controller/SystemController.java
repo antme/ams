@@ -174,7 +174,7 @@ public class SystemController extends AmsController {
 	@RequestMapping("/menu/create.do")
 	public void createMenu(HttpServletRequest request, HttpServletResponse response) {
 
-		Menu menu = (Menu)parserListJsonParameters(request, false, Menu.class);
+		Menu menu = (Menu)parserJsonParameters(request, false, Menu.class);
 		
 		sys.createMenu(menu.getItems());
 		responseWithData(null, request, response);

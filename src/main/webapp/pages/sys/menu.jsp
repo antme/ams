@@ -4,7 +4,7 @@
 <%@ page import="java.lang.*" %>
 <%@ page import="java.util.*" %>
 
-<div>拖动进行排序</div>
+<div>点击或者拖动进行排序</div>
 
 <ul style="margin: 0; padding: 0; margin-left: 10px; margin-top:10px;">
 
@@ -29,7 +29,7 @@
 			items.push(list[i].innerText)
 		}
 		
-		postAjaxRequest("/ams/sys/menu/create", {items:items}, function(data){
+		postAjaxRequest("/ams/sys/menu/create.do", {items:items}, function(data){
 			
 		});
 	}
