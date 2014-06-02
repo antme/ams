@@ -31,6 +31,7 @@
 		
 		postAjaxRequest("/ams/sys/menu/create.do", {items:items}, function(data){
 			
+			alert("保存成功，刷新页面");
 		});
 	}
 </script>
