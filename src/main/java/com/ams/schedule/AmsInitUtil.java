@@ -1,7 +1,10 @@
 package com.ams.schedule;
 
+import java.util.List;
+
 import com.ams.bean.Menu;
 import com.ams.bean.MenuItem;
+import com.eweblib.cfg.ConfigManager;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 
@@ -20,7 +23,29 @@ public class AmsInitUtil {
 		createPicMenu(dao);
 		createSysMenu(dao);
 
+		setMenu(dao);
+
 	}
+
+	public static void setMenu(IQueryDao dao) {
+	    DataBaseQueryBuilder menuQuery = new DataBaseQueryBuilder(Menu.TABLE_NAME);
+	    menuQuery.orderBy(Menu.DISPLAY_ORDER, true);
+
+		List<Menu> menulist = dao.listByQuery(menuQuery, Menu.class);
+		
+		for (Menu menu : menulist) {
+
+			DataBaseQueryBuilder itemQuery = new DataBaseQueryBuilder(MenuItem.TABLE_NAME);
+			itemQuery.and(MenuItem.MENU_ID, menu.getId());
+			itemQuery.orderBy(MenuItem.DISPLAY_ORDER, true);
+
+			List<MenuItem> itemList = dao.listByQuery(itemQuery, MenuItem.class);
+
+			menu.setList(itemList);
+		}
+		
+		ConfigManager.setProperties("menu", menulist);
+    }
 
 	public static void createNoticeMenu(IQueryDao dao) {
 		Menu menu = new Menu();
@@ -33,7 +58,7 @@ public class AmsInitUtil {
 		item.setHref("?p=notice/add");
 		item.setMenuId(menu.getId());
 		item.setTitle("新增");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -41,7 +66,7 @@ public class AmsInitUtil {
 		item.setHref("?p=notice/list");
 		item.setMenuId(menu.getId());
 		item.setTitle("公告管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(1);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -58,7 +83,7 @@ public class AmsInitUtil {
 		item.setHref("?p=attendance/list&a=1");
 		item.setMenuId(menu.getId());
 		item.setTitle("考勤管理");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -75,7 +100,7 @@ public class AmsInitUtil {
 		item.setHref("?p=pic/list&a=2");
 		item.setMenuId(menu.getId());
 		item.setTitle("图片管理");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -92,7 +117,7 @@ public class AmsInitUtil {
 		item.setHref("?p=task/import&a=3");
 		item.setMenuId(menu.getId());
 		item.setTitle("任务导入");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -100,7 +125,7 @@ public class AmsInitUtil {
 		item.setHref("?p=task/list&a=3");
 		item.setMenuId(menu.getId());
 		item.setTitle("任务管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(1);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -117,7 +142,7 @@ public class AmsInitUtil {
 		item.setHref("?p=report/list&a=4");
 		item.setMenuId(menu.getId());
 		item.setTitle("日报管理");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -140,6 +165,14 @@ public class AmsInitUtil {
 		createOrUpdateMenu(menu, dao);
 
 		MenuItem item = new MenuItem();
+		item.setHref("?p=project/add&a=6");
+		item.setMenuId(menu.getId());
+		item.setTitle("新增项目");
+		item.setDisplayOrder(0);
+
+		createOrUpdateMenuItem(item, dao);
+
+		item = new MenuItem();
 		item.setHref("?p=project/list&a=6");
 		item.setMenuId(menu.getId());
 		item.setTitle("项目管理");
@@ -151,7 +184,7 @@ public class AmsInitUtil {
 		item.setHref("?p=team/list&a=6");
 		item.setMenuId(menu.getId());
 		item.setTitle("施工队管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(2);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -165,6 +198,12 @@ public class AmsInitUtil {
 		createOrUpdateMenu(menu, dao);
 
 		MenuItem item = new MenuItem();
+		item.setHref("?p=customer/add&a=7");
+		item.setMenuId(menu.getId());
+		item.setTitle("新增客户");
+		item.setDisplayOrder(0);
+
+		item = new MenuItem();
 		item.setHref("?p=customer/list&a=7");
 		item.setMenuId(menu.getId());
 		item.setTitle("客户管理");
@@ -185,7 +224,7 @@ public class AmsInitUtil {
 		item.setHref("?p=user/add&a=8");
 		item.setMenuId(menu.getId());
 		item.setTitle("新增用户");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -193,7 +232,7 @@ public class AmsInitUtil {
 		item.setHref("?p=user/list&a=8");
 		item.setMenuId(menu.getId());
 		item.setTitle("用户管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(1);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -210,7 +249,7 @@ public class AmsInitUtil {
 		item.setHref("?p=salary/list&a=9");
 		item.setMenuId(menu.getId());
 		item.setTitle("工资管理");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -227,7 +266,7 @@ public class AmsInitUtil {
 		item.setHref("?p=sys/usertypelist&a=10");
 		item.setMenuId(menu.getId());
 		item.setTitle("员工类型管理");
-		item.setDisplayOrder(1);
+		item.setDisplayOrder(0);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -235,7 +274,7 @@ public class AmsInitUtil {
 		item.setHref("?p=sys/userlevellist&a=10");
 		item.setMenuId(menu.getId());
 		item.setTitle("员工级别管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(1);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -243,7 +282,7 @@ public class AmsInitUtil {
 		item.setHref("?p=sys/grouplist&a=10");
 		item.setMenuId(menu.getId());
 		item.setTitle("角色管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(2);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -251,7 +290,7 @@ public class AmsInitUtil {
 		item.setHref("?p=department/list&a=10");
 		item.setMenuId(menu.getId());
 		item.setTitle("部门管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(3);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -259,7 +298,7 @@ public class AmsInitUtil {
 		item.setHref("?p=log/list&a=10");
 		item.setMenuId(menu.getId());
 		item.setTitle("日志查询");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(4);
 
 		createOrUpdateMenuItem(item, dao);
 
@@ -267,7 +306,7 @@ public class AmsInitUtil {
 		item.setHref("?p=sys/menu&a=10");
 		item.setMenuId(menu.getId());
 		item.setTitle("菜单顺序管理");
-		item.setDisplayOrder(0);
+		item.setDisplayOrder(5);
 
 		createOrUpdateMenuItem(item, dao);
 

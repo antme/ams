@@ -106,6 +106,13 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				builder.and(DataBaseQueryOpertion.IN, Attendance.OPERATOR_ID, userIds);
 
 			}
+			
+			if(EweblibUtil.isCharNum(attendance.getUserId())){
+				builder.and(Attendance.USER_ID, attendance.getUserId());
+			}
+			if(EweblibUtil.isCharNum(attendance.getOperatorId())){
+				builder.and(Attendance.OPERATOR_ID, attendance.getOperatorId());
+			}
 
 			if (EweblibUtil.isValid(attendance.getTeamId())) {
 				builder.and(Attendance.TEAM_ID, attendance.getTeamId());

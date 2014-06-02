@@ -7,7 +7,7 @@
 	$(document).ready(function() {
 		initFormSubmit("addRoleGroupForm", "/ams/sys/group/add.do", "添加权限组", function(){
 			alert("提交成功");
-			loadRemotePage("user/grouplist&a=5");
+			loadRemotePage("sys/grouplist&a=5");
 		});
 		
 		

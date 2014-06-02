@@ -7,7 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ams.bean.Attendance;
 import com.ams.bean.DeductedSalaryItem;
+import com.ams.bean.Department;
+import com.ams.bean.Menu;
 import com.ams.bean.Project;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
@@ -18,6 +21,7 @@ import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SalaryMonth;
+import com.ams.schedule.AmsInitUtil;
 import com.ams.service.ISystemService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
@@ -349,7 +353,77 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 	public void deleteUserGroup(RoleGroup group) {
 
-		this.dao.deleteById(group);
+		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		userQuery.and(User.GROUP_ID, group.getId());
+
+		if (this.dao.exists(userQuery)) {
+			throw new ResponseException("请确保此角色下的用户角色已经更新");
+		} else {
+
+			this.dao.deleteById(group);
+		}
+	}
+
+	public void deleteDepartment(Department dep) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		query.and(Project.DEPARTMENT_ID, dep.getId());
+
+		if (this.dao.exists(query)) {
+			throw new ResponseException("请先确保项目下的部门信息已经修改再删除");
+		} else {
+			this.dao.deleteById(dep);
+		}
+	}
+
+	public void deleteUserType(UserType type) {
+
+		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		userQuery.and(User.USER_TYPE_ID, type.getId());
+
+		if (this.dao.exists(userQuery)) {
+			throw new ResponseException("请确保此工种下的用户已经更新成新的工种");
+		} else {
+			DataBaseQueryBuilder levelQuery = new DataBaseQueryBuilder(UserLevel.TABLE_NAME);
+			levelQuery.and(UserLevel.USER_TYPE_ID, type.getId());
+			if (this.dao.exists(levelQuery)) {
+				throw new ResponseException("请确保此工种下的工种级别全部先删除");
+			} else {
+
+				this.dao.deleteById(type);
+			}
+		}
+
+	}
+
+	public void deleteUserLevel(UserLevel level) {
+
+		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		userQuery.and(User.USER_LEVEL_ID, level.getId());
+
+		if (this.dao.exists(userQuery)) {
+			throw new ResponseException("请确保此级别下的用户已经更新成新的级别");
+		} else {
+
+			this.dao.deleteById(level);
+		}
+
+	}
+
+	public void createMenu(List<String> items) {
+
+		int i = 0;
+		for (String item : items) {
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(Menu.TABLE_NAME);
+			query.and(Menu.TITLE, item.trim());
+			Menu menu = (Menu) this.dao.findOneByQuery(query, Menu.class);
+			menu.setDisplayOrder(i);
+
+			i++;
+			this.dao.updateById(menu);
+		}
+
+		AmsInitUtil.setMenu(this.dao);
 	}
 
 	private List<DeductedSalaryItem> getDeductedSalary(List<String[]> list) {

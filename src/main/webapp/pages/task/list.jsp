@@ -5,7 +5,7 @@
 
 	function search() {
 		$('#taskList').datagrid('load', {
-			userName : $("#userName").val(),
+			userId : $("#userId").val(),
 			projectId : $("#projectId").combobox('getValue'),
 			teamId : $("#teamId").combobox('getValue')
 			
@@ -25,7 +25,14 @@
 
 <div>
 	<label>施工员:</label>
-	<input type="text" name="userName" id="userName"/> 
+	 <input class="easyui-combobox textbox" type="text" id="userId" name="userId" data-options="
+                    valueField:'id',
+                    url:'/ams/user/list.do?userId=',
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
 	
 
 				<span class="r-edit-label">项目:</span> <input class="easyui-combobox textbox" type="text" id="projectId" name="projectId" data-options="url:'/ams/project/list.do?userId=',

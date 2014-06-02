@@ -38,7 +38,6 @@ import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
 import com.eweblib.util.EweblibUtil;
-import com.eweblib.util.ExcelUtil;
 
 @Service(value = "projectService")
 public class ProjectServiceImpl extends AbstractService implements IProjectService {
@@ -52,6 +51,30 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		if (EweblibUtil.isValid(project.getId())) {
 
 			this.dao.updateById(project);
+
+			DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
+			teamQuery.and(Team.PROJECT_ID, project.getId());
+			List<Team> teams = this.dao.listByQuery(teamQuery, Team.class);
+
+			for (Team t : teams) {
+				if (!t.getDepartmentId().equalsIgnoreCase(project.getDepartmentId())) {
+					t.setDepartmentId(project.getDepartmentId());
+					this.dao.updateById(t);
+				}
+			}
+			
+			
+			DataBaseQueryBuilder attQuery = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
+			attQuery.and(Attendance.PROJECT_ID, project.getId());
+			List<Attendance> attlist = this.dao.listByQuery(attQuery, Attendance.class);
+
+			for (Attendance a : attlist) {
+				if (!a.getDepartmentId().equalsIgnoreCase(project.getDepartmentId())) {
+					a.setDepartmentId(project.getDepartmentId());
+					this.dao.updateById(a);
+				}
+			}
+
 		} else {
 			this.dao.insert(project);
 		}
@@ -376,6 +399,10 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		if (EweblibUtil.isValid(userName)) {
 			List<String> userIds = userService.getUserIds(userName);
 			builder.and(DataBaseQueryOpertion.IN, Task.USER_ID, userIds);
+		}
+
+		if (EweblibUtil.isValid(task.getUserId())) {
+			builder.and(Task.USER_ID, task.getUserId());
 		}
 
 		if (EweblibUtil.isValid(task.getProjectId())) {
@@ -792,10 +819,10 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	public String exportDailyReportToExcle(DailyReportVo report, HttpServletRequest request) {
 		DataBaseQueryBuilder query = getDailyReportQuery(report);
 		List<DailyReport> reportList = this.dao.listByQuery(query, DailyReport.class);
-		
-		//ExcelUtil.createExcelListFile(listMapData, colunmTitleHeaders, colunmHeaders, null);
-		
-		
+
+		// ExcelUtil.createExcelListFile(listMapData, colunmTitleHeaders,
+		// colunmHeaders, null);
+
 		return "";
 	}
 

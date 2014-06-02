@@ -1,7 +1,9 @@
 package com.ams.service;
 
 import java.io.InputStream;
+import java.util.List;
 
+import com.ams.bean.Department;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
@@ -35,6 +37,14 @@ public interface ISystemService {
 	BaseEntity getUserGroup(RoleGroup group);
 
 	void deleteUserGroup(RoleGroup group);
+
+	void deleteDepartment(Department dep);
+
+	void deleteUserType(UserType type);
+
+	void deleteUserLevel(UserLevel level);
+
+	void createMenu(List<String> items);
 
 
 	

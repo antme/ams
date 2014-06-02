@@ -38,6 +38,18 @@ public class Menu extends BaseEntity {
 	public String dataOptions;
 
 	public List<MenuItem> list;
+	
+	
+	public List<String> items;
+	
+
+	public List<String> getItems() {
+		return items;
+	}
+
+	public void setItems(List<String> items) {
+		this.items = items;
+	}
 
 	public String getTitle() {
 		return title;

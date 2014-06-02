@@ -1,16 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.eweblib.cfg.ConfigManager" %>
+<%@ page import="com.ams.bean.Menu" %>
+<%@ page import="java.lang.*" %>
+<%@ page import="java.util.*" %>
 
-<div>拖动进行拍训</div>
+<div>拖动进行排序</div>
 
 <ul style="margin: 0; padding: 0; margin-left: 10px; margin-top:10px;">
-	<li class="drag-item">公告管理</li>
-	<li class="drag-item">Drag 2</li>
-	<li class="drag-item">Drag 3</li>
-	<li class="drag-item">Drag 4</li>
-	<li class="drag-item">Drag 5</li>
-	<li class="drag-item">Drag 6</li>
+
+   <%
+   	List<Menu> menuList = (List<Menu>) ConfigManager.getPropertyObject("menu");
+   
+    for(Menu m: menuList){
+    	out.println("<li class=\"drag-item\">" + m.getTitle() +"</li>");
+    }
+   
+   %>
+	<button onclick="saveMenu();">保存</button>
 </ul>
 
+<script>
+	function saveMenu(){
+		
+		var list = $(".drag-item");
+		var i = 0;
+		var items = Array();
+		for(i=0; i<list.length; i++){			
+			items.push(list[i].innerText)
+		}
+		
+		postAjaxRequest("/ams/sys/menu/create", {items:items}, function(data){
+			
+		});
+	}
+</script>
 
 <style type="text/css">
 .drag-item {

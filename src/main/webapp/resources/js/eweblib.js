@@ -153,7 +153,6 @@ function dealMessage(data, title, redirectPage) {
 	var response = undefined;
 	if ((data && data.code != undefined) || (data.length != undefined)) {
 		response = data;
-		eval("response=" + data);
 	} else {
 		eval("response=" + data);
 	}

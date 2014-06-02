@@ -4,8 +4,8 @@
 
 	function search() {
 		$('#attList').datagrid('load', {
-			userName : $("#userName").val(),
-			operator : $("#operator").val(),
+			userId : $("#userId").val(),
+			operatorId : $("#operatorId").val(),
 			year : $("#year").val(),
 			month : $("#month").val(),
 			projectId : $("#projectId").combobox('getValue'),
@@ -34,10 +34,25 @@
 <div>
    <form action="/ams/attendance/export.do" method="post">
    <label>员工:</label>
-	<input type="text" name="userName" id="userName"/> 
+   <input class="easyui-combobox textbox" type="text" id="userId" name="userId" data-options="
+                    valueField:'id',
+                    url:'/ams/user/list.do?userId=',
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
 	
 	<label>考勤人:</label>
-	<input type="text" name="operator" id="operator"/> 
+	 <input class="easyui-combobox textbox" type="text" id="operatorId" name="operatorId" data-options="
+                    valueField:'id',
+                    url:'/ams/user/list.do?userId=',
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+					
 	
 				<span class="r-edit-label">项目:</span> <input class="easyui-combobox textbox" type="text" id="projectId" name="projectId" data-options="url:'/ams/project/list.do?userId=',
                     method:'get',

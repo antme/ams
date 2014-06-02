@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script>
   function deleteDepartment(id){	  
-	  deleteData("departmentList", id, "/ams/user/department/delete.do");	  
+	  deleteData("departmentList", id, "/ams/sys/department/delete.do");	  
   }
 </script>
 

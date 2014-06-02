@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.ams.bean.Department;
+import com.ams.bean.Menu;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
@@ -138,6 +140,44 @@ public class SystemController extends AmsController {
 		RoleGroup group = (RoleGroup)parserJsonParameters(request, false, RoleGroup.class);
 		sys.deleteUserGroup(group);
 		responseWithEntity(null, request, response);
+	}
+	
+	
+	@RequestMapping("/usertype/delete.do")
+	public void deleteUserType(HttpServletRequest request, HttpServletResponse response) {
+
+		UserType type = (UserType)parserJsonParameters(request, false, UserType.class);
+		sys.deleteUserType(type);
+		responseWithEntity(null, request, response);
+	}
+	
+	
+	@RequestMapping("/userlevel/delete.do")
+	public void deleteUserLevel(HttpServletRequest request, HttpServletResponse response) {
+
+		UserLevel level = (UserLevel)parserJsonParameters(request, false, UserLevel.class);
+		sys.deleteUserLevel(level);
+		responseWithEntity(null, request, response);
+	}
+	
+	
+	@RequestMapping("/department/delete.do")
+	public void deleteDepartment(HttpServletRequest request, HttpServletResponse response) {
+
+		Department dep = (Department)parserJsonParameters(request, false, Department.class);
+		
+		sys.deleteDepartment(dep);
+		responseWithData(null, request, response);
+	}
+	
+	
+	@RequestMapping("/menu/create.do")
+	public void createMenu(HttpServletRequest request, HttpServletResponse response) {
+
+		Menu menu = (Menu)parserListJsonParameters(request, false, Menu.class);
+		
+		sys.createMenu(menu.getItems());
+		responseWithData(null, request, response);
 	}
 	
 	

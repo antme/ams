@@ -99,6 +99,7 @@
 		deleteMultipleData("salaryList", "/ams/user/salary/delete.do");
 	}
 </script>
+
 <div>
 	<label>用户名:</label> <input type="text" name="userName" id="userName" /> 
 	<label>年份:</label> <input type="number" name="years" id="years" /> 
@@ -110,6 +111,8 @@
 <p></p>
 
 <button onclick="deleteSalary();">删除</button>
+<p></p>
+<div>点击<img src="/resources/images/add.png">可以查看工资细节</div>
 <table id="salaryList" class="easyui-datagrid" data-options="height:500, selectOnCheck:true, checkOnSelect:true, remoteFilter:true, fitColumns: true" url="/ams/user/salary/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" ">
 	<thead>
