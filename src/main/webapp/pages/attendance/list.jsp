@@ -4,8 +4,8 @@
 
 	function search() {
 		$('#attList').datagrid('load', {
-			userId : $("#userId").val(),
-			operatorId : $("#operatorId").val(),
+			userId : $("#userId").combobox('getValue'),
+			operatorId : $("#operatorId").combobox('getValue'),
 			year : $("#year").val(),
 			month : $("#month").val(),
 			projectId : $("#projectId").combobox('getValue'),

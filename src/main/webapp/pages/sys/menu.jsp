@@ -1,16 +1,24 @@
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="com.ams.service.impl.UserServiceImpl"%>
+<%@page import="com.ams.service.IUserService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.eweblib.cfg.ConfigManager" %>
 <%@ page import="com.ams.bean.Menu" %>
+<%@ page import="com.ams.bean.MenuItem" %>
+<%@ page import="com.ams.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="org.springframework.web.context.WebApplicationContext" %>
 
 <div>点击或者拖动进行排序</div>
 
 <ul style="margin: 0; padding: 0; margin-left: 10px; margin-top:10px;">
 
    <%
-   	List<Menu> menuList = (List<Menu>) ConfigManager.getPropertyObject("menu");
-   
+	WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletConfig().getServletContext());
+	IUserService us = (UserServiceImpl)ctx.getBean("userService");
+	List<Menu> menuList = (List<Menu>) us.getMenuList();
+
     for(Menu m: menuList){
     	out.println("<li class=\"drag-item\">" + m.getTitle() +"</li>");
     }
@@ -31,7 +39,8 @@
 		
 		postAjaxRequest("/ams/sys/menu/create.do", {items:items}, function(data){
 			
-			alert("保存成功，刷新页面");
+			alert("保存成功");
+			window.location.reload();
 		});
 	}
 </script>

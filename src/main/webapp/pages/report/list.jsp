@@ -52,7 +52,7 @@ function deleteTasks(){
 	
 </div>
 
-<button onclick="deleteTasks();">删除</button>
+
 <table id="reportList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/dailyreport/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
