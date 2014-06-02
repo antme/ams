@@ -10,6 +10,8 @@ import com.google.gson.annotations.Expose;
 
 @Table(name = Menu.TABLE_NAME)
 public class Menu extends BaseEntity {
+	public static final String MENU_GROUP_ID = "menuGroupId";
+
 	public static final String STYLE = "style";
 
 	public static final String DATA_OPTIONS = "dataOptions";
@@ -36,6 +38,22 @@ public class Menu extends BaseEntity {
 
 	@Column(name = DATA_OPTIONS)
 	public String dataOptions;
+
+	
+	@Column(name = MENU_GROUP_ID)
+	public String menuGroupId;
+	
+	
+	
+	
+	
+	public String getMenuGroupId() {
+		return menuGroupId;
+	}
+
+	public void setMenuGroupId(String menuGroupId) {
+		this.menuGroupId = menuGroupId;
+	}
 
 	public List<MenuItem> list;
 	

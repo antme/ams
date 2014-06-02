@@ -10,6 +10,10 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Task.TABLE_NAME)
 public class Task extends BaseEntity {
 
+	public static final String REMARK = "remark";
+
+	public static final String PROJECT_TASK_ID = "projectTaskId";
+
 	public static final String USER_ID = "userId";
 
 	public static final String TEAM_NAME = "teamName";
@@ -75,6 +79,10 @@ public class Task extends BaseEntity {
 
 	@Column(name = DESCRIPTION)
 	public String description;
+	
+	
+	@Column(name = REMARK)
+	public String remark;
 
 	@Column(name = AMOUNT_DESCRIPTION)
 	public String amountDescription;
@@ -102,6 +110,10 @@ public class Task extends BaseEntity {
 
 	@Column(name = USER_ID)
 	public String userId;
+	
+	
+	@Column(name = PROJECT_TASK_ID)
+	public String projectTaskId;
 
 	public Integer projectTotalDays;
 
@@ -114,6 +126,34 @@ public class Task extends BaseEntity {
 	public Double userWorkedDays;
 
 	public String userName;
+	
+	public String overrideexists;
+	
+	
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getProjectTaskId() {
+		return projectTaskId;
+	}
+
+	public void setProjectTaskId(String projectTaskId) {
+		this.projectTaskId = projectTaskId;
+	}
+
+	public String getOverrideexists() {
+		return overrideexists;
+	}
+
+	public void setOverrideexists(String overrideexists) {
+		this.overrideexists = overrideexists;
+	}
 
 	public String getUserName() {
 		return userName;

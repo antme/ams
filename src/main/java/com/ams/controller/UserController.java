@@ -28,6 +28,7 @@ import com.ams.service.IUserService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.bean.IDS;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
@@ -322,6 +323,15 @@ public class UserController extends AmsController {
 	public void addSalary(HttpServletRequest request, HttpServletResponse response) {
 		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
 		userService.addSalart(salary);
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/salary/delete.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void deleteSalary(HttpServletRequest request, HttpServletResponse response) {
+		
+		IDS ids = (IDS) parserJsonParameters(request, false, IDS.class);
+		userService.deleteSalary(ids);
 		responseWithData(null, request, response);
 	}
 	

@@ -14,18 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
+import com.ams.bean.CustomerContact;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Project;
+import com.ams.bean.ProjectTask;
 import com.ams.bean.Task;
+import com.ams.bean.vo.CustomerContactVo;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IProjectService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.bean.IDS;
 import com.eweblib.constants.EWebLibConstants;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
@@ -77,6 +80,28 @@ public class ProjectController extends AmsController {
 		Task task = (Task) parserJsonParameters(request, false, Task.class);
 		responseWithDataPagnation(projectService.listProjectTasks(task), request, response);
 	}
+	
+	@RequestMapping("/projecttask/list.do")
+	public void listAllProjectTasks(HttpServletRequest request, HttpServletResponse response) {
+		ProjectTask task = (ProjectTask) parserJsonParameters(request, true, ProjectTask.class);
+		responseWithDataPagnation(projectService.listAllProjectTasks(task), request, response);
+	}
+	
+	@RequestMapping("/projecttask/task/list.do")
+	public void listAllTasksFromProjectTasks(HttpServletRequest request, HttpServletResponse response) {
+		Task task = (Task) parserJsonParameters(request, true, Task.class);
+		responseWithListData(projectService.listAllTasksFromProjectTasks(task), request, response);
+	}
+	
+	@RequestMapping("/projecttask/delete.do")
+	public void deleteProjectTasks(HttpServletRequest request, HttpServletResponse response) {
+		IDS ids = (IDS) parserJsonParameters(request, true, IDS.class);
+		projectService.deleteProjectTasks(ids);
+		responseWithData(null, request, response);
+	}
+	
+	
+	
 	
 	@RequestMapping("/task/list.do")
 	public void listAllTasksFor(HttpServletRequest request, HttpServletResponse response) {
@@ -220,6 +245,31 @@ public class ProjectController extends AmsController {
 		exportFile(response, path);
 
 	}
+	
+	
+
+	@RequestMapping("/customer/contact/add.do")
+	public void addCustomerContact(HttpServletRequest request, HttpServletResponse response)  {
+		// 以流的形式下载文件。
+
+		CustomerContactVo vo = (CustomerContactVo) parserJsonParameters(request, false, CustomerContactVo.class);
+		List<CustomerContact> concats = parserListJsonParameters(request, false, CustomerContact.class);
+
+		projectService.addCustomerContact(vo, concats);
+
+		responseWithData(null, request, response);
+	}
+	
+	@RequestMapping("/customer/contact/list.do")
+	public void listCustomerContact(HttpServletRequest request, HttpServletResponse response)  {
+		// 以流的形式下载文件。
+
+		CustomerContactVo vo = (CustomerContactVo) parserJsonParameters(request, false, CustomerContactVo.class);
+		
+
+		responseWithListData(projectService.listCustomerContact(vo), request, response);
+	}
+	
 	
 
 }

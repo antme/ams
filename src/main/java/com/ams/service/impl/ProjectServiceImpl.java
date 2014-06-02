@@ -1,5 +1,6 @@
 package com.ams.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
+import com.ams.bean.CustomerContact;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.DailyReportView;
@@ -25,19 +27,24 @@ import com.ams.bean.EmployeeProject;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
+import com.ams.bean.ProjectTask;
 import com.ams.bean.Task;
 import com.ams.bean.Team;
 import com.ams.bean.User;
+import com.ams.bean.vo.CustomerContactVo;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IProjectService;
 import com.ams.service.IUserService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.bean.IDS;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
+import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
+import com.eweblib.util.ExcelUtil;
 
 @Service(value = "projectService")
 public class ProjectServiceImpl extends AbstractService implements IProjectService {
@@ -62,8 +69,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 					this.dao.updateById(t);
 				}
 			}
-			
-			
+
 			DataBaseQueryBuilder attQuery = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
 			attQuery.and(Attendance.PROJECT_ID, project.getId());
 			List<Attendance> attlist = this.dao.listByQuery(attQuery, Attendance.class);
@@ -665,6 +671,9 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
+		builder.join(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
 		if (report.getQueryUserId() == null) {
 			Set<String> userIds = userService.getOwnedUserIds(report.getUserId());
 			userIds.add(report.getUserId());
@@ -817,13 +826,123 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 	}
 
 	public String exportDailyReportToExcle(DailyReportVo report, HttpServletRequest request) {
+
+		if (EweblibUtil.isEmpty(report.getUserId())) {
+			report.setUserId(EWeblibThreadLocal.getCurrentUserId());
+		}
+
 		DataBaseQueryBuilder query = getDailyReportQuery(report);
 		List<DailyReport> reportList = this.dao.listByQuery(query, DailyReport.class);
+		String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
+		String[] colunmHeaders = new String[] { "userName", "reportDay", "projectName", "materialRecord", "workingRecord", "summary", "plan", "weather" };
 
-		// ExcelUtil.createExcelListFile(listMapData, colunmTitleHeaders,
-		// colunmHeaders, null);
+		String webPath = request.getSession().getServletContext().getRealPath("/");
 
-		return "";
+		String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "日报" + new Date().getTime() + ".xls";
+		String desXlsPath = webPath + filePath;
+
+		ExcelUtil.createExcelListFileByEntity(reportList, colunmTitleHeaders, colunmHeaders, new File(desXlsPath));
+
+		return desXlsPath;
+	}
+
+	public void addCustomerContact(CustomerContactVo vo, List<CustomerContact> concats) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(CustomerContact.TABLE_NAME);
+		query.and(CustomerContact.CUSTOMER_ID, vo.getCustomerId());
+
+		this.dao.deleteByQuery(query);
+
+		for (CustomerContact contact : concats) {
+			contact.setCustomerId(vo.getCustomerId());
+			this.dao.insert(contact);
+		}
+
+	}
+
+	public List<CustomerContact> listCustomerContact(CustomerContactVo vo) {
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(CustomerContact.TABLE_NAME);
+		query.and(CustomerContact.CUSTOMER_ID, vo.getCustomerId());
+
+		return this.dao.listByQuery(query, CustomerContact.class);
+	}
+
+	public EntityResults<ProjectTask> listAllProjectTasks(ProjectTask task) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+
+		builder.join(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.join(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
+		builder.join(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
+		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+
+		if (EweblibUtil.isValid(task.getUserId())) {
+			builder.and(ProjectTask.USER_ID, task.getUserId());
+		}
+
+		if (EweblibUtil.isValid(task.getProjectId())) {
+			builder.and(ProjectTask.PROJECT_ID, task.getProjectId());
+		}
+
+		if (EweblibUtil.isValid(task.getTeamId())) {
+
+			builder.and(ProjectTask.TEAM_ID, task.getTeamId());
+		}
+
+		builder.limitColumns(new String[] { ProjectTask.TASK_PERIOD, ProjectTask.TASK_CONTACT_PHONE, ProjectTask.DESCRIPTION, ProjectTask.ID, ProjectTask.PROJECT_START_DATE,
+		        ProjectTask.PROJECT_END_DATE });
+		return this.dao.listByQueryWithPagnation(builder, ProjectTask.class);
+
+	}
+
+	public List<Task> listAllTasksFromProjectTasks(Task task) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
+
+		builder.join(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.join(Task.TABLE_NAME, Project.TABLE_NAME, Task.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
+		builder.join(Task.TABLE_NAME, Team.TABLE_NAME, Task.TEAM_ID, Team.ID);
+		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+
+		builder.and(Task.PROJECT_TASK_ID, task.getProjectTaskId());
+
+		if (EweblibUtil.isValid(task.getUserId())) {
+			builder.and(Task.USER_ID, task.getUserId());
+		}
+
+		if (EweblibUtil.isValid(task.getProjectId())) {
+			builder.and(Task.PROJECT_ID, task.getProjectId());
+		}
+
+		if (EweblibUtil.isValid(task.getTeamId())) {
+
+			builder.and(Task.TEAM_ID, task.getTeamId());
+		}
+
+		builder.limitColumns(new String[] { Task.UNIT, Task.REMARK, Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.ID });
+
+		return this.dao.listByQuery(builder, Task.class);
+
+	}
+
+	public void deleteProjectTasks(IDS ids) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+		query.and(DataBaseQueryOpertion.IN, ProjectTask.ID, ids.getIds());
+		this.dao.deleteByQuery(query);
+
+		query = new DataBaseQueryBuilder(Task.TABLE_NAME);
+		query.and(DataBaseQueryOpertion.IN, Task.PROJECT_TASK_ID, ids.getIds());
+		this.dao.deleteByQuery(query);
+
 	}
 
 }

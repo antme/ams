@@ -80,6 +80,9 @@
 </script>
 <form id="task_import" action="/ams/sys/salary/import.do" method="post" enctype="multipart/form-data">
 	<input type="file" name="salaryFile"/>
+	<br>
+	<span ></span> <input type="checkbox" name="overrideexists" id="overrideexists" value="true"/> <label for="overrideexists">是否覆盖现有任务</label> 
+	<br>
 	<input type="submit" value="上传"/>
 </form>
 <p></p>

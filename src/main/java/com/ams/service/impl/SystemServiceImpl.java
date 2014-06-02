@@ -4,14 +4,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ams.bean.Attendance;
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
 import com.ams.bean.Menu;
 import com.ams.bean.Project;
+import com.ams.bean.ProjectTask;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
 import com.ams.bean.SalaryItem;
@@ -23,8 +24,10 @@ import com.ams.bean.UserType;
 import com.ams.bean.vo.SalaryMonth;
 import com.ams.schedule.AmsInitUtil;
 import com.ams.service.ISystemService;
+import com.ams.service.IUserService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.bean.IDS;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.ResponseException;
@@ -36,8 +39,11 @@ import com.eweblib.util.ExcelUtil;
 @Service(value = "sys")
 public class SystemServiceImpl extends AbstractService implements ISystemService {
 
+	@Autowired
+	private IUserService userService;
+
 	@Transactional
-	public void importSalary(InputStream inputStream) {
+	public void importSalary(InputStream inputStream, Salary temp) {
 		ExcelUtil excleUtil = new ExcelUtil(inputStream);
 		List<String[]> list = excleUtil.getAllData(0);
 
@@ -85,11 +91,24 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 				exquery.and(Salary.USER_ID, user.getId());
 				exquery.and(Salary.YEAR, month.getYear());
 				exquery.and(Salary.MONTH, month.getMonth());
+				Salary old = (Salary) this.dao.findOneByQuery(exquery, Salary.class);
 
-				if (this.dao.exists(exquery)) {
-					throw new ResponseException("此员工的工资已经存在,不能重复导入,如果导入,请先删除后再导入");
+				if (temp.getOverrideexists() == null) {
+					if (old != null) {
+						throw new ResponseException("此员工的工资已经存在,不能重复导入,如果导入,请先删除后再导入或者勾选覆盖选项");
+					}
+
+				} else {
+
+					if (old != null) {
+						IDS ids = new IDS();
+						List<String> l = new ArrayList<String>();
+						l.add(old.getId());
+						ids.setIds(l);
+						userService.deleteSalary(ids);
+					}
+
 				}
-
 				this.dao.insert(salary);
 
 				for (SalaryItem item : items) {
@@ -110,7 +129,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 	}
 
-	public void importTask(InputStream inputStream) {
+	public void importTask(InputStream inputStream, Task temp) {
 		ExcelUtil excleUtil = new ExcelUtil(inputStream);
 		List<String[]> list = excleUtil.getAllData(0);
 
@@ -170,9 +189,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 						task.setTaskName(rows[1]);
 						task.setDisplayOrder(EweblibUtil.getInteger(rows[0], 0));
 						task.setDescription(taskDescrpition);
-						task.setPrice(EweblibUtil.getDouble(rows[4], 0d));
+						task.setPrice(EweblibUtil.getDouble(rows[5], 0d));
 						task.setAmountDescription(EweblibUtil.getDouble(rows[3], 0d) + rows[2]);
-						task.setPriceDescription(EweblibUtil.getDouble(rows[4], 0d) + "元");
+						task.setPriceDescription(EweblibUtil.getDouble(rows[5], 0d) + "元");
+						task.setRemark(rows[6]);
 						taskList.add(task);
 					}
 
@@ -211,6 +231,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		if (user == null) {
 			throw new ResponseException("用户不存在，请先创建施工队");
 		}
+		
 
 		for (Task task : taskList) {
 			task.setTeamId(team.getId());
@@ -223,6 +244,39 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			task.setTaskContactPhone(teamLeaderContactPhone);
 			task.setTaskPeriod(projectPeriod);
 			task.setUserId(user.getId());
+		}
+		
+		ProjectTask pt = null;
+		for (Task task : taskList) {
+			pt = (ProjectTask) EweblibUtil.toEntity(task.toString(), ProjectTask.class);
+			break;
+		}
+
+		DataBaseQueryBuilder ptquery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+		ptquery.and(ProjectTask.USER_ID, user.getId());
+		ptquery.and(ProjectTask.TEAM_ID, team.getId());
+		ptquery.and(ProjectTask.PROJECT_ID, project.getId());
+		ptquery.and(ProjectTask.PROJECT_START_DATE, pt.getProjectStartDate());
+		ptquery.and(ProjectTask.PROJECT_END_DATE, pt.getProjectEndDate());
+
+		ProjectTask prot = (ProjectTask) this.dao.findOneByQuery(ptquery, ProjectTask.class);
+		if (prot != null) {
+
+			if (temp.getOverrideexists() == null) {
+				throw new ResponseException("此任务已经存在，不能导入, 你可以删除任务后导入或者勾选覆盖现有数据再导入");
+			} else {
+				this.dao.deleteById(prot);
+				DataBaseQueryBuilder taskQuery = new DataBaseQueryBuilder(Task.TABLE_NAME);
+				taskQuery.and(Task.PROJECT_TASK_ID, prot.getId());
+				this.dao.deleteByQuery(taskQuery);
+
+			}
+		}
+		
+		this.dao.insert(pt);
+
+		for (Task task : taskList) {
+			task.setProjectTaskId(pt.getId());			
 			this.dao.insert(task);
 		}
 	}
@@ -423,7 +477,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			this.dao.updateById(menu);
 		}
 
-		AmsInitUtil.setMenu(this.dao);
+		
 	}
 
 	private List<DeductedSalaryItem> getDeductedSalary(List<String[]> list) {

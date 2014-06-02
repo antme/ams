@@ -6,16 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
+import com.ams.bean.CustomerContact;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Project;
+import com.ams.bean.ProjectTask;
 import com.ams.bean.Task;
 import com.ams.bean.Team;
+import com.ams.bean.vo.CustomerContactVo;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.bean.IDS;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 
 public interface IProjectService {
@@ -67,6 +71,16 @@ public interface IProjectService {
 	List<DailyReportVo> listDailyReportPlan(DailyReportVo report);
 
 	String exportDailyReportToExcle(DailyReportVo report, HttpServletRequest request);
+
+	void addCustomerContact(CustomerContactVo vo, List<CustomerContact> concats);
+
+	List<CustomerContact> listCustomerContact(CustomerContactVo vo);
+
+	EntityResults<ProjectTask> listAllProjectTasks(ProjectTask task);
+
+	List<Task> listAllTasksFromProjectTasks(Task task);
+
+	void deleteProjectTasks(IDS ids);
 
 
 }

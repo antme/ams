@@ -11,13 +11,15 @@ import java.util.Set;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ams.bean.Attendance;
-import com.ams.bean.Customer;
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
 import com.ams.bean.EmployeeProject;
 import com.ams.bean.EmployeeTeam;
+import com.ams.bean.Menu;
+import com.ams.bean.MenuItem;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
 import com.ams.bean.RoleGroup;
@@ -30,6 +32,7 @@ import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.IUserService;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.bean.IDS;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.LoginException;
@@ -212,16 +215,16 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
 
 		// FIXME:根据上下级关系查询数据
-		
+
 		String currentUserId = vo.getUserId();
-	
+
 		if (!isAdmin(currentUserId)) {
 			Set<String> userIds = getOwnedUserIds(currentUserId);
 
 			builder.and(DataBaseQueryOpertion.IN, User.ID, userIds);
 
 		}
-		
+
 		mergeKeywordQuery(builder, vo.getKeyword(), User.TABLE_NAME, new String[] { User.USER_NAME, User.MOBILE_NUMBER });
 
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
@@ -250,70 +253,69 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	}
 
 	public Set<String> getOwnedUserIds(String currentUserId) {
-	    Set<String> ids = getOwnedDepartmentIds(currentUserId);
-	    Set<String> projectIds = getOwnerdProjectIds(currentUserId, ids);
+		Set<String> ids = getOwnedDepartmentIds(currentUserId);
+		Set<String> projectIds = getOwnerdProjectIds(currentUserId, ids);
 
-	    Set<String> teamIds = getOwnedTeamIds(currentUserId, projectIds);
+		Set<String> teamIds = getOwnedTeamIds(currentUserId, projectIds);
 
-	    Set<String> userIds = new HashSet<String>();
+		Set<String> userIds = new HashSet<String>();
 
-	    DataBaseQueryBuilder epQuery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
-	    epQuery.and(DataBaseQueryOpertion.IN, EmployeeProject.PROJECT_ID, projectIds);
-	    List<EmployeeProject> epList = this.dao.listByQuery(epQuery, EmployeeProject.class);
-	    for (EmployeeProject ep : epList) {
-	    	userIds.add(ep.getUserId());
-	    }
+		DataBaseQueryBuilder epQuery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		epQuery.and(DataBaseQueryOpertion.IN, EmployeeProject.PROJECT_ID, projectIds);
+		List<EmployeeProject> epList = this.dao.listByQuery(epQuery, EmployeeProject.class);
+		for (EmployeeProject ep : epList) {
+			userIds.add(ep.getUserId());
+		}
 
-	    DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-	    etQuery.and(DataBaseQueryOpertion.IN, EmployeeTeam.TEAM_ID, teamIds);
-	    List<EmployeeTeam> etList = this.dao.listByQuery(etQuery, EmployeeTeam.class);
-	    for (EmployeeTeam ep : etList) {
-	    	userIds.add(ep.getUserId());
-	    }
-	    return userIds;
-    }
+		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		etQuery.and(DataBaseQueryOpertion.IN, EmployeeTeam.TEAM_ID, teamIds);
+		List<EmployeeTeam> etList = this.dao.listByQuery(etQuery, EmployeeTeam.class);
+		for (EmployeeTeam ep : etList) {
+			userIds.add(ep.getUserId());
+		}
+		return userIds;
+	}
 
 	public Set<String> getOwnedTeamIds(String currentUserId, Set<String> projectIds) {
-	    DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
-	    teamQuery.or(Team.TEAM_LEADER_ID, currentUserId);
-	    teamQuery.or(DataBaseQueryOpertion.IN, Team.PROJECT_ID, projectIds);
-	    List<Team> teamList = this.dao.listByQuery(teamQuery, Team.class);
-	    Set<String> teamIds = new HashSet<String>();
-	    for (Team team : teamList) {
-	    	teamIds.add(team.getId());
-	    }
-	    
-	    return teamIds;
-    }
+		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
+		teamQuery.or(Team.TEAM_LEADER_ID, currentUserId);
+		teamQuery.or(DataBaseQueryOpertion.IN, Team.PROJECT_ID, projectIds);
+		List<Team> teamList = this.dao.listByQuery(teamQuery, Team.class);
+		Set<String> teamIds = new HashSet<String>();
+		for (Team team : teamList) {
+			teamIds.add(team.getId());
+		}
+
+		return teamIds;
+	}
 
 	public Set<String> getOwnerdProjectIds(String currentUserId, Set<String> depIds) {
-	    Set<String> projectIds = new HashSet<String>() ;
-	    DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
-	    query.or(Project.PROJECT_MANAGER_ID, currentUserId);
-	    query.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, currentUserId);
-	    query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, depIds);
+		Set<String> projectIds = new HashSet<String>();
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		query.or(Project.PROJECT_MANAGER_ID, currentUserId);
+		query.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, currentUserId);
+		query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, depIds);
 
-	    List<Project> pList = this.dao.listByQuery(query, Project.class);
+		List<Project> pList = this.dao.listByQuery(query, Project.class);
 
+		for (Project project : pList) {
+			projectIds.add(project.getId());
+		}
 
-	    for (Project project : pList) {
-	    	projectIds.add(project.getId());
-	    }
-	    
-	    return projectIds;
-    }
+		return projectIds;
+	}
 
 	public Set<String> getOwnedDepartmentIds(String currentUserId) {
-	    DataBaseQueryBuilder depQuery = new DataBaseQueryBuilder(Department.TABLE_NAME);
-	    depQuery.and(Department.DEPARTMENT_MANAGER_ID, currentUserId);
-	    List<Department> deplist = this.dao.listByQuery(depQuery, Department.class);
-	    Set<String> ids = new HashSet<String>();
+		DataBaseQueryBuilder depQuery = new DataBaseQueryBuilder(Department.TABLE_NAME);
+		depQuery.and(Department.DEPARTMENT_MANAGER_ID, currentUserId);
+		List<Department> deplist = this.dao.listByQuery(depQuery, Department.class);
+		Set<String> ids = new HashSet<String>();
 
-	    for (Department dep : deplist) {
-	    	ids.add(dep.getId());
-	    }
-	    return ids;
-    }
+		for (Department dep : deplist) {
+			ids.add(dep.getId());
+		}
+		return ids;
+	}
 
 	public void addDepartment(Department dep) {
 
@@ -387,22 +389,20 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-	
-		
 		Set<String> userIds = getOwnedUserIds(salary.getUserId());
 		userIds.add(salary.getUserId());
 
 		if (EweblibUtil.isValid(salary.getUserName())) {
 			List<String> queryUserIds = this.getUserIds(salary.getUserName());
 			List<String> finalQueryUserIds = new ArrayList<String>();
-			for(String userId: queryUserIds){
-				if(userIds.contains(userId)){
+			for (String userId : queryUserIds) {
+				if (userIds.contains(userId)) {
 					finalQueryUserIds.add(userId);
 				}
 			}
-			
+
 			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, finalQueryUserIds);
-		}else{
+		} else {
 			// FIXME: 获取下属的工资
 			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, userIds);
 		}
@@ -454,8 +454,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		DataBaseQueryBuilder detailQuery = new DataBaseQueryBuilder(SalaryItem.TABLE_NAME);
 		detailQuery.and(SalaryItem.SALARY_ID, salary.getId());
-		detailQuery
-		        .limitColumns(new String[] { SalaryItem.PERFORMANCE_SALARY_UNIT, SalaryItem.PROJECT_NAME, SalaryItem.ATTENDANCE_DAYS, SalaryItem.PROJECT_ID, SalaryItem.TOTOL_SALARY, SalaryItem.PERFORMANCE_SALARY, SalaryItem.COMMENT });
+		detailQuery.limitColumns(new String[] { SalaryItem.PERFORMANCE_SALARY_UNIT, SalaryItem.PROJECT_NAME, SalaryItem.ATTENDANCE_DAYS, SalaryItem.PROJECT_ID, SalaryItem.TOTOL_SALARY,
+		        SalaryItem.PERFORMANCE_SALARY, SalaryItem.COMMENT });
 
 		List<SalaryItem> items = this.dao.listByQuery(detailQuery, SalaryItem.class);
 		double salaryTotal = 0;
@@ -485,14 +485,14 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public EntityResults<Department> listDepartmentsForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
 
-//		if (!isAdmin(vo.getUserId())) {
-//
-//			Set<String> depIds = getOwnedDepartmentIds(vo.getUserId());
-//			
-//			DataBaseQueryBuilder query = new DataBaseQueryBuilder(Team.)
-//			builder.and(DataBaseQueryOpertion.IN, Department.ID, depIds);
-//
-//		}
+		// if (!isAdmin(vo.getUserId())) {
+		//
+		// Set<String> depIds = getOwnedDepartmentIds(vo.getUserId());
+		//
+		// DataBaseQueryBuilder query = new DataBaseQueryBuilder(Team.)
+		// builder.and(DataBaseQueryOpertion.IN, Department.ID, depIds);
+		//
+		// }
 		builder.limitColumns(new String[] { Department.ID, Department.DEPARTMENT_NAME });
 
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
@@ -555,6 +555,67 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			return true;
 		}
 		return false;
+	}
+
+	@Transactional
+	public void deleteSalary(IDS ids) {
+
+		for (String id : ids.getIds()) {
+
+			Salary salary = new Salary();
+			salary.setId(id);
+			this.dao.deleteById(salary);
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(SalaryItem.TABLE_NAME);
+			query.and(SalaryItem.SALARY_ID, salary.getId());
+			this.dao.deleteByQuery(query);
+
+			query = new DataBaseQueryBuilder(DeductedSalaryItem.TABLE_NAME);
+			query.and(DeductedSalaryItem.SALARY_ID, salary.getId());
+			this.dao.deleteByQuery(query);
+
+		}
+	}
+
+	public List<Menu> getMenuList() {
+		DataBaseQueryBuilder menuQuery = new DataBaseQueryBuilder(Menu.TABLE_NAME);
+
+		if (!isAdmin(EWeblibThreadLocal.getCurrentUserId())) {
+
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(User.TABLE_NAME);
+			query.and(User.ID, EWeblibThreadLocal.getCurrentUserId());
+			query.limitColumns(new String[] { User.GROUP_ID });
+			User user = (User) dao.findOneByQuery(query, User.class);
+
+			String groupId = user.getGroupId();
+
+			DataBaseQueryBuilder groupQuery = new DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
+			groupQuery.and(RoleGroup.ID, groupId);
+			RoleGroup rg = (RoleGroup) dao.findOneByQuery(groupQuery, RoleGroup.class);
+
+			if (rg != null) {
+				menuQuery.and(DataBaseQueryOpertion.IN, Menu.MENU_GROUP_ID, rg.getPermissions().split(","));
+
+			} else {
+				menuQuery.and(DataBaseQueryOpertion.IN, Menu.MENU_GROUP_ID, new String[] {});
+			}
+		}
+
+		menuQuery.orderBy(Menu.DISPLAY_ORDER, true);
+
+		List<Menu> menulist = dao.listByQuery(menuQuery, Menu.class);
+
+		for (Menu menu : menulist) {
+
+			DataBaseQueryBuilder itemQuery = new DataBaseQueryBuilder(MenuItem.TABLE_NAME);
+			itemQuery.and(MenuItem.MENU_ID, menu.getId());
+			itemQuery.orderBy(MenuItem.DISPLAY_ORDER, true);
+
+			List<MenuItem> itemList = dao.listByQuery(itemQuery, MenuItem.class);
+
+			menu.setList(itemList);
+		}
+
+		return menulist;
 	}
 
 }

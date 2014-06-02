@@ -50,6 +50,18 @@ public class Salary extends BaseEntity {
 	public List<SalaryItem> salaryItems;
 
 	public List<DeductedSalaryItem> deductedSalaryItems;
+	
+	public String overrideexists;
+	
+	
+
+	public String getOverrideexists() {
+		return overrideexists;
+	}
+
+	public void setOverrideexists(String overrideexists) {
+		this.overrideexists = overrideexists;
+	}
 
 	public String getUserId() {
 		return userId;

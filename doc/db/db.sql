@@ -397,6 +397,7 @@ CREATE TABLE `Menu` (
   `id` varchar(36) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `style` varchar(255) DEFAULT NULL,  
+  `menuGroupId` varchar(255)  DEFAULT NULL,  
   `dataOptions` varchar(255) DEFAULT NULL,
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
@@ -407,8 +408,42 @@ CREATE TABLE `Menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `CustomerContact` (
+  `id` varchar(36) NOT NULL,
+  `customerId` varchar(36) DEFAULT NULL,
+  `contactPerson` varchar(255) DEFAULT NULL,  
+  `position` varchar(255) DEFAULT NULL,
+  `contactMobileNumber` varchar(255) DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
+CREATE TABLE `ProjectTask` (
+  `id` varchar(36) NOT NULL,
+  `projectId` varchar(36) DEFAULT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `teamId` varchar(36) default null,
+  `teamName` varchar(255) default NULL,
+  `taskContactPhone` varchar(255) default NULL,
+  `taskPeriod` varchar(255) default NULL,
+  `description` TEXT DEFAULT NULL,
+  `projectName` varchar(255) DEFAULT NULL,
+  `projectStartDate` date DEFAULT NULL,
+  `projectEndDate` date DEFAULT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table Task add column projectTaskId varchar(36) default null;
+alter table Task add column remark varchar(255) default null;
 
 
 

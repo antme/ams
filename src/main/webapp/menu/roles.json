@@ -1,7 +1,10 @@
 [ {
 	"text" : "公告管理",
 	"id" : "adm_notice_management"
-}, {
+},{
+	"text" : "备忘录管理",
+	"id" : "adm_reminder_management"
+},{
 	"text" : "用户管理",
 	"id" : "adm_user_manage"
 }, {
@@ -22,9 +25,6 @@
 }, {
 	"text" : "项目管理",
 	"id" : "adm_project_manage"
-}, {
-	"text" : "施工队管理",
-	"id" : "adm_team_manage"
 }, {
 	"text" : "客户管理",
 	"id" : "adm_customer_manage"

@@ -5,11 +5,13 @@ import java.util.Set;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Department;
+import com.ams.bean.Menu;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
 import com.ams.bean.User;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.bean.IDS;
 
 public interface IUserService {
 
@@ -71,6 +73,11 @@ public interface IUserService {
     
     public Set<String> getOwnedTeamIds(String currentUserId, Set<String> projectIds);
 	public Set<String> getOwnedUserIds(String currentUserId);
+	
+	public void deleteSalary(IDS ids);
+	
+	
+	public List<Menu> getMenuList();
 
 
 }

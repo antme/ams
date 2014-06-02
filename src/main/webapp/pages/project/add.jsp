@@ -27,7 +27,7 @@
 		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="r-edit-label">项目名称:</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectName" ></input>
+				<span class="r-edit-label">项目名称:</span> <input class="easyui-validatebox textbox input-title" required type="text" name="projectName" ></input>
 			</div>
 			<div>
 				<span class="r-edit-label">所属部门:</span> <input class="easyui-combobox "  name="departmentId" 
@@ -81,7 +81,7 @@
 			</div>
 			<div>
 				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId" 
-					data-options="url:'/ams/user/customer/app/list.do?userId=',
+					data-options="url:'/ams/project/customer/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,

@@ -4,9 +4,13 @@ import java.util.List;
 
 import com.ams.bean.Menu;
 import com.ams.bean.MenuItem;
+import com.ams.bean.RoleGroup;
+import com.ams.bean.User;
 import com.eweblib.cfg.ConfigManager;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
+import com.eweblib.dbhelper.DataBaseQueryOpertion;
+import com.eweblib.util.EWeblibThreadLocal;
 
 public class AmsInitUtil {
 
@@ -23,34 +27,13 @@ public class AmsInitUtil {
 		createPicMenu(dao);
 		createSysMenu(dao);
 
-		setMenu(dao);
-
 	}
-
-	public static void setMenu(IQueryDao dao) {
-	    DataBaseQueryBuilder menuQuery = new DataBaseQueryBuilder(Menu.TABLE_NAME);
-	    menuQuery.orderBy(Menu.DISPLAY_ORDER, true);
-
-		List<Menu> menulist = dao.listByQuery(menuQuery, Menu.class);
-		
-		for (Menu menu : menulist) {
-
-			DataBaseQueryBuilder itemQuery = new DataBaseQueryBuilder(MenuItem.TABLE_NAME);
-			itemQuery.and(MenuItem.MENU_ID, menu.getId());
-			itemQuery.orderBy(MenuItem.DISPLAY_ORDER, true);
-
-			List<MenuItem> itemList = dao.listByQuery(itemQuery, MenuItem.class);
-
-			menu.setList(itemList);
-		}
-		
-		ConfigManager.setProperties("menu", menulist);
-    }
 
 	public static void createNoticeMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("公告管理");
 		menu.setStyle("height:150px;");
+		menu.setMenuGroupId("adm_notice_management");
 		menu.setDataOptions("iconCls:'icon-notice'");
 		createOrUpdateMenu(menu, dao);
 
@@ -76,6 +59,7 @@ public class AmsInitUtil {
 		Menu menu = new Menu();
 		menu.setTitle("考勤管理");
 		menu.setStyle("height:150px;");
+		menu.setMenuGroupId("adm_attendance_manage");
 		menu.setDataOptions("iconCls:'icon-attendance'");
 		createOrUpdateMenu(menu, dao);
 
@@ -92,6 +76,7 @@ public class AmsInitUtil {
 	public static void createPicMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("图片管理");
+		menu.setMenuGroupId("adm_pic_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-img'");
 		createOrUpdateMenu(menu, dao);
@@ -109,6 +94,7 @@ public class AmsInitUtil {
 	public static void createTaskMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("任务管理");
+		menu.setMenuGroupId("adm_task_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-task'");
 		createOrUpdateMenu(menu, dao);
@@ -134,6 +120,7 @@ public class AmsInitUtil {
 	public static void createDailyReportMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("日报管理");
+		menu.setMenuGroupId("adm_dailyreport_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-dailyreport'");
 		createOrUpdateMenu(menu, dao);
@@ -151,6 +138,7 @@ public class AmsInitUtil {
 	public static void createReminderMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("备忘录管理");
+		menu.setMenuGroupId("adm_reminder_management");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-reminder'");
 		createOrUpdateMenu(menu, dao);
@@ -160,6 +148,7 @@ public class AmsInitUtil {
 	public static void createProjectMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("项目管理");
+		menu.setMenuGroupId("adm_project_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-project'");
 		createOrUpdateMenu(menu, dao);
@@ -193,6 +182,7 @@ public class AmsInitUtil {
 	public static void createCustomerMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("客户管理");
+		menu.setMenuGroupId("adm_customer_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-customer'");
 		createOrUpdateMenu(menu, dao);
@@ -216,6 +206,7 @@ public class AmsInitUtil {
 	public static void createUserMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("用户管理");
+		menu.setMenuGroupId("adm_user_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-user'");
 		createOrUpdateMenu(menu, dao);
@@ -241,6 +232,7 @@ public class AmsInitUtil {
 	public static void createSalaryMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("工资管理");
+		menu.setMenuGroupId("adm_salary_manage");
 		menu.setStyle("height:150px;");
 		menu.setDataOptions("iconCls:'icon-salary'");
 		createOrUpdateMenu(menu, dao);
@@ -258,6 +250,7 @@ public class AmsInitUtil {
 	public static void createSysMenu(IQueryDao dao) {
 		Menu menu = new Menu();
 		menu.setTitle("系统设置");
+		menu.setMenuGroupId("adm_sys_manage");
 		menu.setStyle("height:300px;");
 		menu.setDataOptions("iconCls:'icon-sys'");
 		createOrUpdateMenu(menu, dao);
@@ -333,7 +326,7 @@ public class AmsInitUtil {
 	public static void createOrUpdateMenu(Menu menu, IQueryDao dao) {
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Menu.TABLE_NAME);
-		query.and(Menu.TITLE, menu.getTitle());
+		query.and(Menu.MENU_GROUP_ID, menu.getMenuGroupId());
 
 		Menu temp = (Menu) dao.findOneByQuery(query, Menu.class);
 

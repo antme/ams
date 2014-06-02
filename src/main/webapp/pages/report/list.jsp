@@ -20,7 +20,7 @@ function deleteTasks(){
 
 
 <div>
-   <form action="/ams/attendance/pic/export.do" method="post">
+   <form action="/ams/project/dailyreport/export.do" method="post">
 	<span class="r-edit-label">用户:</span> <input class="easyui-combobox textbox" type="text" id="userId" name="userId" data-options="
                     valueField:'id',
                     url:'/ams/user/list.do?userId=',

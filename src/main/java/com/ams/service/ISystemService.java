@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.ams.bean.Department;
 import com.ams.bean.RoleGroup;
+import com.ams.bean.Salary;
+import com.ams.bean.Task;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.eweblib.bean.BaseEntity;
@@ -13,9 +15,9 @@ import com.eweblib.bean.EntityResults;
 
 public interface ISystemService {
 
-	void importSalary(InputStream inputStream);
+	void importSalary(InputStream inputStream, Salary temp);
 
-	void importTask(InputStream inputStream);
+	void importTask(InputStream inputStream, Task temp);
 
 	void addUserType(UserType type);
 	

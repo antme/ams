@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ams.bean.Department;
 import com.ams.bean.Menu;
 import com.ams.bean.RoleGroup;
+import com.ams.bean.Salary;
+import com.ams.bean.Task;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.service.ISystemService;
@@ -34,9 +37,15 @@ public class SystemController extends AmsController {
 	public void importSalary(HttpServletRequest request, HttpServletResponse response) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile uploadFile = multipartRequest.getFile("salaryFile");
+		
+		Salary temp = (Salary)parserJsonParameters(request, true, Salary.class);
+
+		if (uploadFile == null) {
+			throw new ResourceAccessException("请选择上传的文件");
+		}
 		try {
 			InputStream inputStream = uploadFile.getInputStream();
-			sys.importSalary(inputStream);
+			sys.importSalary(inputStream, temp);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,9 +58,11 @@ public class SystemController extends AmsController {
 	public void importTask(HttpServletRequest request, HttpServletResponse response) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile uploadFile = multipartRequest.getFile("taskFile");
+		Task temp = (Task)parserJsonParameters(request, true, Task.class);
+
 		try {
 			InputStream inputStream = uploadFile.getInputStream();
-			sys.importTask(inputStream);
+			sys.importTask(inputStream, temp);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

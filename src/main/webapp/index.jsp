@@ -1,9 +1,16 @@
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="com.ams.service.impl.UserServiceImpl"%>
+<%@page import="org.springframework.beans.factory.annotation.Autowired"%>
+<%@page import="com.ams.service.IUserService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.eweblib.cfg.ConfigManager" %>
 <%@ page import="com.ams.bean.Menu" %>
 <%@ page import="com.ams.bean.MenuItem" %>
+<%@ page import="com.ams.*" %>
 <%@ page import="java.lang.*" %>
 <%@ page import="java.util.*" %>
+
+<%@ page import="org.springframework.web.context.WebApplicationContext" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -39,6 +46,8 @@
 		userRoleName = session.getAttribute("roleName").toString();
 	}
 	
+	WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletConfig().getServletContext());
+	IUserService us = (UserServiceImpl)ctx.getBean("userService");
 
 %>
 
@@ -53,7 +62,7 @@
 			
 			
 			   <%
-			   	List<Menu> menuList = (List<Menu>) ConfigManager.getPropertyObject("menu");
+			   	List<Menu> menuList = (List<Menu>) us.getMenuList();
 			   
 			    for(Menu m: menuList){
 			    	out.println("<div title=\"" + m.getTitle() + "\" style=\"" + m.getStyle() + "\" data-options=\"" +m.getDataOptions() + "\">");
