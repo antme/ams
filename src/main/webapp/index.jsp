@@ -70,7 +70,7 @@
 			    	List<MenuItem> itemList = m.getList();
 			    	
 			    	for(MenuItem item: itemList){
-			    		out.println("<li>");
+			    		out.println("<li class='accordion_li'>");
 			    		out.println("<a href=\"" + item.getHref() + "\">" + item.getTitle() + "</a>");
 			    		out.println("</li>");
 			    	}
@@ -160,6 +160,7 @@
         		$('#accordion').accordion('select', title); 
             }
 
+            $(".accordion_li").show();
            
             
         });
