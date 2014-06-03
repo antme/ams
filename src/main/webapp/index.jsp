@@ -152,7 +152,13 @@
             }else if(pagePath.startWith("salary")){
             	title = "工资管理";
             }
-        	$('#accordion').accordion('select', title); 
+            var acc = $('#accordion').accordion('getPanel', title); 
+            
+            if(acc == null && pagePath!="main"){
+            	window.location.href="index.jsp";
+            }else{
+        		$('#accordion').accordion('select', title); 
+            }
 
            
             

@@ -82,7 +82,6 @@
 				<span class="r-edit-label">项目:</span> <input class="easyui-combobox textbox" type="text" id="projectId" name="projectId" data-options="url:'/ams/project/list.do?userId=',
                     method:'get',
                     valueField:'id',
-                    required:true,
                     textField:'projectName',
                     panelHeight:'auto',
                     loadFilter:function(data){
@@ -93,7 +92,6 @@
 				data-options="
                     valueField:'id',
                     url:'/ams/user/team/list.do?userId=',
-                    required:true,
                     textField:'teamName',
                     panelHeight:'auto',
                     loadFilter:function(data){
