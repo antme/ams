@@ -25,7 +25,7 @@
 		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="r-edit-label">客户名称:</span> <input class="easyui-validatebox textbox" type="text" name="name" data-options="required:true"></input>
+				<span class="r-edit-label">客户名称:</span> <input class="easyui-validatebox textbox" type="text" name="name" data-options="required:true" ></input>
 			</div>
 			<div>
 				<span class="r-edit-label">联系人:</span> <input class="easyui-validatebox textbox" type="text" name="contactPerson" data-options="required:true"></input>

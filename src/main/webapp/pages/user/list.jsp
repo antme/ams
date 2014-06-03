@@ -5,15 +5,43 @@
 		$('#userList').datagrid('load', {
 			userName : $("#userName").val(),
 			userTypeId : $("#userTypeId").combobox('getValue'),
-			userLevelId : $("#userLevelId").combobox('getValue')
+			userLevelId : $("#userLevelId").combobox('getValue'),
+			groupId : $("#groupId").combobox('getValue'),
+			userCode : $("#userCode").val(),
+			teamGroup : $("#teamGroup").val(),
+			idCard : $("#idCard").val()
 			
 		});
 	}
-</script>
-<div>
-	<label>用户名:</label>
-	<input type="text" name="userName" id="userName"/> 
 	
+	function loadFilter(data){
+		$("#count").html(data.total);
+		return data;
+	}
+</script>
+<div >
+	<span class="r-edit-label">用户名:</span>
+	<input type="text" name="userName" id="userName"/> 
+	<span class="r-edit-label">工号:</span>
+	<input type="text" name="userCode" id="userCode"/> 
+
+	<span class="r-edit-label">所属队伍:</span>
+	<input type="text" name="teamGroup" id="teamGroup"/> 
+	<span class="r-edit-label">身份证号:</span>
+	<input type="text" name="idCard" id="idCard"/> 
+	<p></p>
+	<span class="r-edit-label"> 角色:</span>
+	 <input class="easyui-combobox textbox" type="text" id="groupId" name="groupId" data-options="url:'/ams/sys/group/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'groupName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+					
+					
 
 				<span class="r-edit-label">工种:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" id="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
                     method:'get',
@@ -46,7 +74,9 @@
 <p></p>
 
 <button onclick="loadRemotePage('user/add&a=4');">新增</button>
-<table id=userList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/list.do" iconCls="icon-save"
+<p></p>
+<span>员工总数:</span><span id="count" style="color:red; margin-left:5px;"></span>
+<table id=userList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true, loadFilter: loadFilter" url="/ams/user/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>

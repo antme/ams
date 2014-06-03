@@ -1,6 +1,14 @@
 .accordion_li{
 	
 }
+
+.r-edit-label{
+	
+	display:inline-block;
+	width:70px;
+	text-align: right;
+	
+}
 .view-login {
 	margin: 0 auto;
 	width: 1000px;

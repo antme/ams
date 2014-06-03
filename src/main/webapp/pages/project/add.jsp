@@ -80,7 +80,7 @@
 				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectEndDate"></input></td>
 			</div>
 			<div>
-				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId" 
+				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId"  style="width:250px;"
 					data-options="url:'/ams/project/customer/list.do?userId=',
                     method:'get',
                     valueField:'id',

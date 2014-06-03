@@ -66,7 +66,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.and(User.USER_NAME, user.getUserName());
-		
+
 		if (user.getId() != null) {
 			builder.and(DataBaseQueryOpertion.NOT_EQUALS, User.ID, user.getId());
 		}
@@ -74,11 +74,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		if (dao.exists(builder)) {
 			throw new ResponseException("此用户名已经被录入");
 		}
-		
-		
+
 		builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.and(User.USER_CODE, user.getUserCode());
-		
+
 		if (user.getId() != null) {
 			builder.and(DataBaseQueryOpertion.NOT_EQUALS, User.ID, user.getId());
 		}
@@ -554,6 +553,22 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
 		}
 
+		if (EweblibUtil.isValid(vo.getGroupId())) {
+			builder.and(User.GROUP_ID, vo.getGroupId());
+		}
+
+		if (EweblibUtil.isValid(vo.getIdCard())) {
+			builder.and(DataBaseQueryOpertion.LIKE, User.ID_CARD, vo.getIdCard());
+		}
+
+		if (EweblibUtil.isValid(vo.getTeamGroup())) {
+			builder.and(DataBaseQueryOpertion.LIKE, User.TEAM_GROUP, vo.getTeamGroup());
+		}
+
+		if (EweblibUtil.isValid(vo.getUserCode())) {
+			builder.and(DataBaseQueryOpertion.LIKE, User.USER_CODE, vo.getUserCode());
+		}
+
 		if (EweblibUtil.isValid(vo.getUserTypeId())) {
 			builder.and(User.USER_TYPE_ID, vo.getUserTypeId());
 		}
@@ -645,8 +660,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	}
 
 	public String getUserNameById(String id) {
-		
-		if(id == null){
+
+		if (id == null) {
 			id = EWeblibThreadLocal.getCurrentUserId();
 		}
 
