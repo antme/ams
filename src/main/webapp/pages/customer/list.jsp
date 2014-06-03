@@ -103,9 +103,10 @@
                         onClickRow: onClickRow,
                         data: data.rows,
                         columns:[[
-                            {field:'contactPerson',title:'联系人',width:200, editor:'text'},
-                            {field:'position',title:'职位',width:250, editor:'text'},
-                            {field:'contactMobileNumber',title:'联系电话',width:200, editor:'text'}
+                            {field:'contactPerson',title:'联系人',width:100, editor:'text'},
+                            {field:'position',title:'职位',width:150, editor:'text'},
+                            {field:'contactMobileNumber',title:'联系电话',width:120, editor:'text'},
+                            {field:'remark',title:'备注',width:200, editor:'text'}
                         ]],
                         onResize:function(){
                             $('#customerList').datagrid('fixDetailRowHeight',index);

@@ -28,7 +28,7 @@
 				<span class="r-edit-label">用户名:</span> <input class="easyui-validatebox textbox" type="text" id="userName" name="userName" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text" name="userCode"></input>
+				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text" name="userCode"  data-options="required:true"></input>
 			</div>
 	
 			<div>
@@ -82,6 +82,13 @@
 
 			<div>
 				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" validType="mobile" name="mobileNumber"></input>
+			</div>
+			
+			<div>
+				<span class="r-edit-label">所属队伍:</span> <input class="easyui-validatebox textbox" type="text" name="teamGroup"></input>
+			</div>
+			<div>
+				<span class="r-edit-label">生份证:</span> <input class="easyui-validatebox textbox" type="text" validType="idcard" name="idCard"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">住址:</span> <input class="easyui-validatebox textbox-long" type="text" name="address"></input>

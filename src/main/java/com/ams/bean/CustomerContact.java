@@ -8,6 +8,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = CustomerContact.TABLE_NAME)
 public class CustomerContact extends BaseEntity {
 
+	private static final String REMARK = "remark";
+
 	public static final String TABLE_NAME = "CustomerContact";
 
 	private static final String CONTACT_MOBILE_NUMBER = "contactMobileNumber";
@@ -29,6 +31,17 @@ public class CustomerContact extends BaseEntity {
 
 	@Column(name = CONTACT_MOBILE_NUMBER)
 	public String contactMobileNumber;
+
+	@Column(name = REMARK)
+	public String remark;
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public String getCustomerId() {
 		return customerId;

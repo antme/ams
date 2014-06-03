@@ -447,6 +447,43 @@ alter table Task add column remark varchar(255) default null;
 
 
 
+
+CREATE TABLE `Log` (
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) NOT NULL,
+  `dataId` varchar(36) NOT NULL,
+  `tableName` varchar(36) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `logType` varchar(255) NOT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `LogItem` (
+  `id` varchar(36) NOT NULL,
+  `logId` varchar(36) NOT NULL,
+  `field` varchar(36) DEFAULT NULL,
+  `oldValue` varchar(255) DEFAULT NULL,
+  `newValue` varchar(255) NOT NULL,
+  `createdOn` datetime DEFAULT NULL,
+  `updatedOn` datetime DEFAULT NULL,
+  `creatorId` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+alter table User add column teamGroup varchar(255) default null;
+alter table User add column idCard varchar(255) default null;
+alter table CustomerContact add column remark varchar(255) default null;
+
+
+
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('05c07bcc-833e-4b22-a8be-3c3a63609ac8','admin','96e79218965eb72c92a549dd5a330112',now(),now());
 update User set mobileNumber="11111111", userCode="A000001";
 INSERT INTO `User`(`id`,`userName`,`password`,`createdOn`,`updatedOn`) VALUES ('12c07bcc-833e-4b22-a8be-3c3a63609ac8','dylan','96e79218965eb72c92a549dd5a330112',now(),now());

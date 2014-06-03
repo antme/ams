@@ -9,6 +9,10 @@ import com.google.gson.annotations.Expose;
 @Table(name = User.TABLE_NAME)
 public class User extends BaseEntity {
 
+	public static final String ID_CARD = "idCard";
+
+	public static final String TEAM_GROUP = "teamGroup";
+
 	public static final String IS_ADMIN = "isAdmin";
 
 	public static final String GROUP_ID = "groupId";
@@ -61,16 +65,22 @@ public class User extends BaseEntity {
 	@Column(name = BSTATUS)
 	@Expose
 	public Integer bstatus;
-	
+
 	@Column(name = USER_CATEGORY)
 	public String userCategory;
 
 	@Column(name = GROUP_ID)
 	public String groupId;
-	
+
+	@Column(name = TEAM_GROUP)
+	public String teamGroup;
+
+	@Column(name = ID_CARD)
+	public String idCard;
+
 	@Column(name = IS_ADMIN)
 	public Boolean isAdmin;
-	
+
 	public String teams;
 
 	public String userType;
@@ -81,9 +91,8 @@ public class User extends BaseEntity {
 	public String typeName;
 
 	public String userPassword;
-	
+
 	public String imgCode;
-	
 
 	public Boolean getIsAdmin() {
 		return isAdmin;
@@ -107,6 +116,14 @@ public class User extends BaseEntity {
 
 	public void setUserCategory(String userCategory) {
 		this.userCategory = userCategory;
+	}
+
+	public String getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
 	}
 
 	public String getImgCode() {
@@ -227,6 +244,14 @@ public class User extends BaseEntity {
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public String getTeamGroup() {
+		return teamGroup;
+	}
+
+	public void setTeamGroup(String teamGroup) {
+		this.teamGroup = teamGroup;
 	}
 
 }

@@ -66,12 +66,25 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.and(User.USER_NAME, user.getUserName());
+		
 		if (user.getId() != null) {
 			builder.and(DataBaseQueryOpertion.NOT_EQUALS, User.ID, user.getId());
 		}
 
 		if (dao.exists(builder)) {
-			throw new ResponseException("此用户名已经被注册");
+			throw new ResponseException("此用户名已经被录入");
+		}
+		
+		
+		builder = new DataBaseQueryBuilder(User.TABLE_NAME);
+		builder.and(User.USER_CODE, user.getUserCode());
+		
+		if (user.getId() != null) {
+			builder.and(DataBaseQueryOpertion.NOT_EQUALS, User.ID, user.getId());
+		}
+
+		if (dao.exists(builder)) {
+			throw new ResponseException("员工编号不能重复");
 		}
 
 		if (user.getUserPassword() != null) {
@@ -541,7 +554,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
 		}
 
-
 		if (EweblibUtil.isValid(vo.getUserTypeId())) {
 			builder.and(User.USER_TYPE_ID, vo.getUserTypeId());
 		}
@@ -630,6 +642,21 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		}
 
 		return menulist;
+	}
+
+	public String getUserNameById(String id) {
+		
+		if(id == null){
+			id = EWeblibThreadLocal.getCurrentUserId();
+		}
+
+		User user = (User) this.dao.findById(id, User.TABLE_NAME, User.class);
+
+		if (user != null) {
+			return user.getUserName();
+		}
+
+		return "";
 	}
 
 }

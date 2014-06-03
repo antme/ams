@@ -48,6 +48,10 @@ public interface ISystemService {
 
 	void createMenu(List<String> items);
 
-
+	void createUpdateLog(String userId, String message, BaseEntity entity, BaseEntity old);
 	
+	void createAddLog(String userId, String message, BaseEntity entity);
+	
+	void createMsgLog(String userId, String message);
+
 }

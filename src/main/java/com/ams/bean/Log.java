@@ -9,86 +9,63 @@ import com.google.gson.annotations.Expose;
 @Table(name = Log.TABLE_NAME)
 public class Log extends BaseEntity {
 
-	public static final String DISPLAY_VALUE = "displayValue";
-
-	public static final String SEARCH_VALUE = "searchValue";
-
-	public static final String THREAD = "thread";
-
 	public static final String DATA_ID = "dataId";
 
-	public static final String LOG_TABLE_NAME = "tableName";
+	public static final String _TABLE_NAME = "tableName";
 
-	public static final String DATA = "data";
+	public static final String USER_ID = "userId";
+
+	public static final String LOG_TYPE = "logType";
+
+	public static final String USER_NAME = "userName";
 
 	public static final String MESSAGE = "message";
 
-	public static final String URL_PATH = "urlPath";
-
-	public static final String OPERATOR_ID = "operatorId";
-
-	public static final String OPERATOR = "operator";
-
 	public static final String TABLE_NAME = "Log";
 
-	@Column(name = OPERATOR_ID)
+	@Column(name = USER_ID)
 	@Expose
-	public String operatorId;
+	public String userId;
 
-	@Column(name = URL_PATH)
 	@Expose
-	public String urlPath;
+	public String userName;
+
+	@Column(name = _TABLE_NAME)
+	@Expose
+	public String tableName;
 
 	@Column(name = MESSAGE)
 	@Expose
 	public String message;
 
-	@Column(name = THREAD)
-	@Expose
-	public String thread;
-	
-	@Column(name = DATA)
-	@Expose
-	public String data;
-	
-	@Column(name = LOG_TABLE_NAME)
-	@Expose
-	public String tableName;
+	@Column(name = LOG_TYPE)
+	public String logType;
 
 	@Column(name = DATA_ID)
-	@Expose
 	public String dataId;
-	
-	@Column(name = SEARCH_VALUE)
-	@Expose
-	public String searchValue;
 
-	
-	
-	@Column(name = DISPLAY_VALUE)
-	@Expose
-	public String displayValue;
-	
-	
-	@Expose
-	public String userName;
-	
-
-
-	public String getOperatorId() {
-		return operatorId;
+	public String getDataId() {
+		return dataId;
 	}
 
-	public void setOperatorId(String operatorId) {
-		this.operatorId = operatorId;
+	public void setDataId(String dataId) {
+		this.dataId = dataId;
 	}
 
-	public String getUrlPath() {
-		return urlPath;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUrlPath(String urlPath) {
-		this.urlPath = urlPath;
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getLogType() {
+		return logType;
+	}
+
+	public void setLogType(String logType) {
+		this.logType = logType;
 	}
 
 	public String getMessage() {
@@ -99,14 +76,6 @@ public class Log extends BaseEntity {
 		this.message = message;
 	}
 
-	public String getThread() {
-		return thread;
-	}
-
-	public void setThread(String thread) {
-		this.thread = thread;
-	}
-
 	public String getUserName() {
 		return userName;
 	}
@@ -115,47 +84,12 @@ public class Log extends BaseEntity {
 		this.userName = userName;
 	}
 
-	public String getData() {
-    	return data;
-    }
-
-	public void setData(String data) {
-    	this.data = data;
-    }
-
 	public String getTableName() {
-    	return tableName;
-    }
+		return tableName;
+	}
 
 	public void setTableName(String tableName) {
-    	this.tableName = tableName;
-    }
-
-	public String getDataId() {
-    	return dataId;
-    }
-
-	public void setDataId(String dataId) {
-    	this.dataId = dataId;
-    }
-
-	public String getSearchValue() {
-    	return searchValue;
-    }
-
-	public void setSearchValue(String searchValue) {
-    	this.searchValue = searchValue;
-    }
-
-	public String getDisplayValue() {
-    	return displayValue;
-    }
-
-	public void setDisplayValue(String displayValue) {
-    	this.displayValue = displayValue;
-    }
-	
-	
-	
+		this.tableName = tableName;
+	}
 
 }
