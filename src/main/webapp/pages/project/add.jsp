@@ -93,7 +93,7 @@
 			</div>
 			
 			<div>
-				<span class="r-edit-label">项目成员：</span> <select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:300px;"
+				<span class="r-edit-label">项目成员：</span> <select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:500px; height:40px;"
 								        data-options="
 								            panelWidth:450,
 								            idField:'id',

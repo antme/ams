@@ -1,16 +1,9 @@
 package com.ams.schedule;
 
-import java.util.List;
-
 import com.ams.bean.Menu;
 import com.ams.bean.MenuItem;
-import com.ams.bean.RoleGroup;
-import com.ams.bean.User;
-import com.eweblib.cfg.ConfigManager;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
-import com.eweblib.dbhelper.DataBaseQueryOpertion;
-import com.eweblib.util.EWeblibThreadLocal;
 
 public class AmsInitUtil {
 
@@ -157,7 +150,7 @@ public class AmsInitUtil {
 		Menu menu = new Menu();
 		menu.setTitle("项目管理");
 		menu.setMenuGroupId("adm_project_manage");
-		menu.setStyle("height:150px;");
+		menu.setStyle("height:200px;");
 		menu.setDataOptions("iconCls:'icon-project'");
 		createOrUpdateMenu(menu, dao);
 

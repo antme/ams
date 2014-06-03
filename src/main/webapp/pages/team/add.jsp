@@ -64,7 +64,7 @@
 				<input class=""  disabled id="departmentName" name="departmentName"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">团队成员：</span> <select id="teamMemberIds" class="easyui-combogrid" name="teamMemberIds[]" style="width:250px;"
+				<span class="r-edit-label">团队成员：</span> <select id="teamMemberIds" class="easyui-combogrid" name="teamMemberIds[]" style="width:500px; height:40px;"
 								        data-options="
 								            panelWidth:450,
 								            idField:'id',
