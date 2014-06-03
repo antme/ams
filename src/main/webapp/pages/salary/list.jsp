@@ -91,7 +91,7 @@
 
 	function search() {
 		$('#salaryList').datagrid('load', {
-			userName : $("#userName").val(),
+			userId : $("#userId").combobox('getValue'),
 			years : $("#years").val(),
 			month : $("#month").val()
 			
@@ -104,7 +104,15 @@
 </script>
 
 <div>
-	<label>用户名:</label> <input type="text" name="userName" id="userName" /> 
+	<label>员工:</label>
+   <input class="easyui-combobox textbox" type="text" id="userId" name="userId" data-options="
+                    valueField:'id',
+                    url:'/ams/user/list.do?userId=',
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
 	<label>年份:</label> <input type="number" name="years" id="years" /> 
 	<label>月份:</label> <input type="number" name="month" id="month" />
 

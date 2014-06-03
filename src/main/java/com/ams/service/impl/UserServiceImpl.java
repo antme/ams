@@ -420,11 +420,24 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return this.dao.listByQueryWithPagnation(builder, Salary.class);
 	}
 
-	public EntityResults<Salary> listAllUserSalaries(SearchVo vo) {
+	public EntityResults<Salary> listAllUserSalaries(Salary salary) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
 		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		if (EweblibUtil.isValid(salary.getUserId())) {
+
+			builder.and(Salary.USER_ID, salary.getUserId());
+		}
+
+		if (EweblibUtil.isValid(salary.getYear())) {
+			builder.and(Salary.YEAR, salary.getYear());
+		}
+
+		if (EweblibUtil.isValid(salary.getMonth())) {
+			builder.and(Salary.MONTH, salary.getMonth());
+		}
 
 		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
 
@@ -527,6 +540,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		if (EweblibUtil.isValid(vo.getUserName())) {
 			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
 		}
+
 
 		if (EweblibUtil.isValid(vo.getUserTypeId())) {
 			builder.and(User.USER_TYPE_ID, vo.getUserTypeId());

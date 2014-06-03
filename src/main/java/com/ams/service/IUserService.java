@@ -58,7 +58,7 @@ public interface IUserService {
 
 	public void addAttendance(List<Attendance> attendanceList);
 
-	public EntityResults<Salary> listAllUserSalaries(SearchVo vo);
+	public EntityResults<Salary> listAllUserSalaries(Salary salary);
 
 	public EntityResults<User> listAllUsers(User vo);
 

@@ -361,8 +361,8 @@ public class UserController extends AmsController {
 	@RequestMapping("/salary/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listAllUserSalaries(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
-		responseWithDataPagnation(userService.listAllUserSalaries(vo), request, response);
+		Salary salary = (Salary) parserJsonParameters(request, false, Salary.class);
+		responseWithDataPagnation(userService.listAllUserSalaries(salary), request, response);
 	}
 	
 }

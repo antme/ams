@@ -23,7 +23,7 @@
                     panelHeight:'auto',
                     onSelect: function(rec){
 			            var url = '/ams/sys/userlevel/list.do?userTypeId='+rec.id;
-			            $('#userTypeId').combobox('reload', url);
+			            $('#userLevelId').combobox('reload', url);
 			        },
                     loadFilter:function(data){
 						return data.rows;
