@@ -3,7 +3,11 @@
 
 
 	<div class="head">
-		<div class="head-left"> <h1><a class="head_logo" href="index.jsp">新鹰考勤管理系统</a></h1></div>
+		<div class="head-left"><img style="padding-left:5px;" src="/resources/images/logo_new.png" height="91px;" width="91px;" align="top"/>
+		
+			<span style="margin-top: 15px; display: inline-block"><a class="head_logo" href="index.jsp">新鹰考勤管理系统</a></span>
+		
+		</div>
 		
 		<div class="nav">
             <div class="user" style="float:left;margin-left:10px">	
