@@ -675,8 +675,14 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
 		if (report.getQueryUserId() == null) {
-			Set<String> userIds = userService.getOwnedUserIds(report.getUserId());
-			userIds.add(report.getUserId());
+
+			String userId = report.getUserId();
+
+			if (EweblibUtil.isEmpty(userId)) {
+				userId = EWeblibThreadLocal.getCurrentUserId();
+			}
+			Set<String> userIds = userService.getOwnedUserIds(userId);
+			userIds.add(userId);
 			builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
 		} else {
 			builder.and(DailyReport.USER_ID, report.getQueryUserId());

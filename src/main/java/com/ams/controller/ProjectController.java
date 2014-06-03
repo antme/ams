@@ -178,10 +178,7 @@ public class ProjectController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void listAllDailyReport(HttpServletRequest request, HttpServletResponse response) {
 		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
-
-		if (EweblibUtil.isEmpty(report.getUserId())) {
-			report.setUserId(EWeblibThreadLocal.getCurrentUserId());
-		}
+		
 		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
 	}
 

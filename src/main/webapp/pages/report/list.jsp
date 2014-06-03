@@ -16,6 +16,45 @@ function search() {
 function deleteTasks(){
 	deleteMultipleData("reportList", "/ams/user/report/delete.do");
 }
+
+$(function(){
+    $('#reportList').datagrid({
+        view: detailview,
+        detailFormatter:function(index,row){
+            return '<div style="padding:5px;background-color: beige;"><div><h2><strong>评论详情：</strong></h2></div><table class="ddv"></table>';
+        },
+        onExpandRow: function(index,row){
+            var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
+           
+            	
+            ddv.datagrid({
+                fitColumns:true,
+                singleSelect:true,
+                rownumbers:true,
+                loadMsg:'',
+                height:'auto',
+                data: row.comments,
+                columns:[[
+                    {field:'userName',title:'评论人',width:100},
+                    {field:'comment',title:'内容',width:350},
+                    {field:'commentDate',title:'评论日期',width:80}
+                ]],
+                onResize:function(){
+                    $('#reportList').datagrid('fixDetailRowHeight',index);
+                },
+                onLoadSuccess:function(){
+                    setTimeout(function(){
+                        $('#reportList').datagrid('fixDetailRowHeight',index);
+                    },0);
+                }
+            });
+            
+
+            $('#reportList').datagrid('fixDetailRowHeight',index);
+         
+        }
+    });
+});
 </script>
 
 
@@ -52,8 +91,8 @@ function deleteTasks(){
 	
 </div>
 
-
-<table id="reportList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/dailyreport/list.do" iconCls="icon-save"
+<div>点击<img src="/resources/images/add.png">可以查看日报评论</div>
+<table id="reportList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true, height:400" url="/ams/project/dailyreport/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
