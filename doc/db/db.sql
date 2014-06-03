@@ -484,8 +484,8 @@ alter table User add column idCard varchar(255) default null;
 alter table CustomerContact add column remark varchar(255) default null;
 alter table Log add column urlPath varchar(255) default null;
 alter table LogItem add column tableName varchar(255) default null;
-
-
+alter table Log modify column dataId varchar(255) default null;
+alter table LogItem modify column newValue varchar(255) default null;
 
 
 

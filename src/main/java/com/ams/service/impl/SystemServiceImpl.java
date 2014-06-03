@@ -115,7 +115,6 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 				}
 
-
 				this.dao.insert(salary);
 
 				for (SalaryItem item : items) {
@@ -483,7 +482,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		} else {
 
 			level = (UserLevel) this.dao.findById(level.getId(), UserLevel.TABLE_NAME, UserLevel.class);
-			createMsgLog(null, String.format("删除工种级别【" + level.getLevelName()  + " 】"));
+			createMsgLog(null, String.format("删除工种级别【" + level.getLevelName() + " 】"));
 			this.dao.deleteById(level);
 		}
 
@@ -676,26 +675,28 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 	}
 
-	
-
 	public void createMsgLog(String userId, String message) {
-		if (EweblibUtil.isEmpty(userId)) {
-			userId = EWeblibThreadLocal.getCurrentUserId();
-		}
 
-		Log log = new Log();
-		log.setUserId(userId);
-		log.setMessage(message);
-		log.setLogType("msg");
-		this.dao.insert(log);
+		try {
+			if (EweblibUtil.isEmpty(userId)) {
+				userId = EWeblibThreadLocal.getCurrentUserId();
+			}
+
+			Log log = new Log();
+			log.setUserId(userId);
+			log.setMessage(message);
+			log.setLogType("msg");
+			this.dao.insert(log);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public EntityResults<Log> listLogs(SearchVo vo) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Log.TABLE_NAME);
 		query.join(Log.TABLE_NAME, User.TABLE_NAME, Log.USER_ID, User.ID);
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-		
-		
+
 		query.limitColumns(new Log().getColumnList());
 		return this.dao.listByQueryWithPagnation(query, Log.class);
 	}

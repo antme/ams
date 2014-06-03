@@ -16,9 +16,14 @@
 				var team = data.data;
 				$("#add-team").form('load',team);
 				$('#teamMemberIds').combogrid('setValues', team.teamMemberIds);
+				onHidePanel();
 			});
 		}
 	});
+	
+	function onHidePanel(){		
+		$("#count").html("已选择团队成员:" + $("#teamMemberIds").combogrid('getValues').length + "人");
+	}
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
@@ -71,6 +76,7 @@
 								            multiple: true,
 								            textField:'userName',
 								            fitColumns: true,
+								            onHidePanel:onHidePanel,
 								            url:'/ams/user/list.do?userId=',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
@@ -80,7 +86,7 @@
 								                {field:'levelName',title:'员工级别',width:60},
 								                {field:'id',title:'Id',width:100, hidden:true}
 								            ]]
-								        "></select>
+								        "></select><span id="count"></span>
 			</div>
 			
 			<div style="margin-left: 100px;">

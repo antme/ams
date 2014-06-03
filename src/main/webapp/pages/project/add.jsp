@@ -17,9 +17,21 @@
 				
 				$('#projectMemberIds').combogrid('setValues', project.projectMemberIds);
 				
+				onHidePanel();
+				
 			});
 		}
+		
+		
 	});
+	
+	function onHidePanel(){		
+		$("#count").html("已选择项目成员:" + $("#projectMemberIds").combogrid('getValues').length + "人");
+	}
+	
+	
+	
+	 
 </script>
 
 <div style="padding: 10px 60px 20px 60px">
@@ -100,6 +112,7 @@
 								            multiple: true,
 								            textField:'userName',
 								            fitColumns: true,
+								            onHidePanel:onHidePanel,
 								            url:'/ams/user/list.do?userId=',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
@@ -109,7 +122,7 @@
 								                {field:'levelName',title:'员工级别',width:60},
 								                {field:'id',title:'Id',width:100, hidden:true}
 								            ]]
-								        "></select>
+								        "></select><span id="count"></span>
 			</div>
 			<div>
 				<span class="r-edit-label">项目作息时间:</span>
