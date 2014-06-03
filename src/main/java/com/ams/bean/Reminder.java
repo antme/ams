@@ -30,14 +30,42 @@ public class Reminder extends BaseEntity {
 
 	@Column(name = USER_ID)
 	public String userId;
-	
-	
+
 	public String keyword;
-	
-	//查询今天的
+
+	// 查询今天的
 	public Boolean isQueryToday;
 
-	
+	public Date startDate;
+
+	public Date endDate;
+
+	public String userName;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 	public String getKeyword() {
 		return keyword;
 	}
@@ -85,7 +113,5 @@ public class Reminder extends BaseEntity {
 	public void setIsQueryToday(Boolean isQueryTotay) {
 		this.isQueryToday = isQueryTotay;
 	}
-	
-	
 
 }

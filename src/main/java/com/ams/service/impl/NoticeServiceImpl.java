@@ -110,18 +110,41 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 
 		mergeKeywordQuery(builder, reminder.getKeyword(), Reminder.TABLE_NAME, new String[] { Reminder.TITLE, Reminder.CONTENT });
 
-		builder.limitColumns(new String[] { Reminder.TITLE, Reminder.CONTENT, Reminder.REMIND_DATE, Notice.ID });
+		builder.limitColumns(new String[] { Reminder.TITLE, Reminder.CONTENT, Reminder.REMIND_DATE, Reminder.ID });
 
 		return this.dao.listByQueryWithPagnation(builder, Reminder.class);
 
 	}
-
-	public EntityResults<Reminder> listAllUserReminders() {
+	
+	
+	public EntityResults<Reminder> listAllUserReminder(Reminder reminder){
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Reminder.TABLE_NAME);
+		builder.join(Reminder.TABLE_NAME, User.TABLE_NAME, Reminder.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[]{User.USER_NAME});
+
+		mergeKeywordQuery(builder, reminder.getKeyword(), Reminder.TABLE_NAME, new String[] { Reminder.TITLE, Reminder.CONTENT });
+		
+		if(EweblibUtil.isValid(reminder.getUserId())){
+			builder.and(Reminder.USER_ID, reminder.getUserId());
+		}
+		
+		if(reminder.getStartDate()!=null){
+			builder.and(DataBaseQueryOpertion.GREATER_THAN_EQUALS, Reminder.REMIND_DATE, reminder.getStartDate());
+		}
+		
+		if(reminder.getEndDate()!=null){
+			builder.and(DataBaseQueryOpertion.LESS_THAN_EQUAILS, Reminder.REMIND_DATE, reminder.getEndDate());
+		}
+
+		builder.limitColumns(new String[] { Reminder.TITLE, Reminder.CONTENT, Reminder.REMIND_DATE, Reminder.ID });
+
 		return this.dao.listByQueryWithPagnation(builder, Reminder.class);
 
+	
 	}
+
+	
 
 	public BaseEntity getNoticeInfo(Notice notice) {
 

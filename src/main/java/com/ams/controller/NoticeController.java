@@ -104,11 +104,14 @@ public class NoticeController extends AmsController {
 		}
 		responseWithDataPagnation(noticeService.listUserReminderForApp(reminder), request, response);
 	}
+	
 
 	@RequestMapping("/remind/all/list.do")
-	public void listAllUserReminders(HttpServletRequest request, HttpServletResponse response) {
+	public void listAllUserReminder(HttpServletRequest request, HttpServletResponse response) {
+		Reminder reminder = (Reminder) parserJsonParameters(request, false, Reminder.class);
 
-		responseWithDataPagnation(noticeService.listAllUserReminders(), request, response);
+		responseWithDataPagnation(noticeService.listAllUserReminder(reminder), request, response);
 	}
+
 
 }

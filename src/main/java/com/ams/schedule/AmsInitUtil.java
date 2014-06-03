@@ -143,6 +143,14 @@ public class AmsInitUtil {
 		menu.setDataOptions("iconCls:'icon-reminder'");
 		createOrUpdateMenu(menu, dao);
 
+		MenuItem item = new MenuItem();
+		item.setHref("?p=reminder/list&a=6");
+		item.setMenuId(menu.getId());
+		item.setTitle("备忘录查询");
+		item.setDisplayOrder(0);
+
+		createOrUpdateMenuItem(item, dao);
+
 	}
 
 	public static void createProjectMenu(IQueryDao dao) {

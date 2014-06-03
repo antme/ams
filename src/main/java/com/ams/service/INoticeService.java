@@ -18,10 +18,11 @@ public interface INoticeService {
 
 	public EntityResults<Reminder> listUserReminderForApp(Reminder reminder);
 
-	public EntityResults<Reminder> listAllUserReminders();
 
 	public BaseEntity getNoticeInfo(Notice notice);
 
 	public void deleteNoticeInfo(Notice notice);
+
+	public EntityResults<Reminder> listAllUserReminder(Reminder reminder);
 	
 }

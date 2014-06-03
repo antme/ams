@@ -290,8 +290,10 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 			String webPath = request.getSession().getServletContext().getRealPath("/");
 
-			String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "图片" + new Date().getTime() + ".xls";
+			String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + new Date().getTime() + ".xls";
 			desXlsPath = webPath + filePath;
+			
+			new File(desXlsPath).getParentFile().mkdirs();
 
 			fileOut = new FileOutputStream(desXlsPath);
 
