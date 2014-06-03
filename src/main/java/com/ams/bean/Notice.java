@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.eweblib.annotation.column.IntegerColumn;
+
 @Table(name = Notice.TABLE_NAME)
 public class Notice extends AmsBaseEntity {
 	public static final String PUBLISH_END_DATE = "publishEndDate";
@@ -42,6 +44,7 @@ public class Notice extends AmsBaseEntity {
 	public String attachFileUrl;
 
 	@Column(name = PRIORITY)
+	@IntegerColumn
 	public Integer priority;
 	
 	

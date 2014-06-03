@@ -47,7 +47,6 @@
 				<span class="r-edit-label">工种:</span> <input class="easyui-combobox textbox" type="text" name="userTypeId" data-options="url:'/ams/sys/usertype/list.do?userId=',
                     method:'get',
                     valueField:'id',
-                    required:true,
                     textField:'typeName',
                     panelHeight:'auto',
                     onSelect: function(rec){
@@ -62,7 +61,6 @@
 				<span class="r-edit-label">级别:</span> <input class="easyui-combobox textbox"  id ="userTypeId" type="text" name="userLevelId"
 				data-options="
                     valueField:'id',
-                    required:true,
                     textField:'levelName',
                     panelHeight:'auto',
                     loadFilter:function(data){

@@ -59,7 +59,7 @@
 			<th align="center" field="mobileNumber" width="100" sortable="false" resizable="true">手机号</th>
 			<th align="center" field="address" width="250" sortable="false" resizable="true">住址</th>
 			<th align="center" field="createdOn" width="140" sortable="false" resizable="true">创建时期</th>
-			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="120">操作</th>
+			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="60">操作</th>
 
 		</tr>
 	</thead>

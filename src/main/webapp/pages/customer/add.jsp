@@ -31,13 +31,13 @@
 				<span class="r-edit-label">联系人:</span> <input class="easyui-validatebox textbox" type="text" name="contactPerson" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="r-edit-label"> 职位:</span> <input class="easyui-validatebox textbox" type="text" name="position" data-options="required:true"></input>
+				<span class="r-edit-label"> 职位:</span> <input class="easyui-validatebox textbox" type="text" name="position" ></input>
 			</div>
 			<div>
 				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" name="contactMobileNumber" data-options="required:true"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">联系地址:</span> <input class="easyui-validatebox textbox-long" type="text" name="address" data-options="required:true"></input>
+				<span class="r-edit-label">联系地址:</span> <input class="easyui-validatebox textbox-long" type="text" name="address"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">备注:</span>

@@ -43,11 +43,10 @@ function search() {
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
-			<th data-options="field:'ck',checkbox:true"></th>
-			<th align="center" field="userName" width="100" sortable="false" resizable="true">用户名</th>
+			<th align="center" field="userName" width="80" sortable="false" resizable="true">用户名</th>
 			<th align="center" field="remindDate" width="80" sortable="false" resizable="true">备忘录日期</th>
-			<th align="center" field="title" width="100" sortable="false" resizable="true">标题</th>
-			<th align="center" field="content" width="100" sortable="false" resizable="true">内容</th>
+			<th align="center" field="title" width="150" sortable="false" resizable="true">标题</th>
+			<th align="center" field="content" width="250" sortable="false" resizable="true">内容</th>
 		</tr>
 	</thead>
 </table>

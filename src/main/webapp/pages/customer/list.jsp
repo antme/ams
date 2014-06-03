@@ -137,12 +137,12 @@
 	<thead>
 		<tr>
 			<th align="center" field="name" width="200" sortable="false" resizable="true">客户名称</th>
-			<th align="center" field="address" width="200" sortable="false" resizable="true">地址</th>
-			<th align="center" field="contactPerson" width="100" sortable="false" resizable="true">客户联系人</th>
+			<th align="center" field="address" width="220" sortable="false" resizable="true">地址</th>
+			<th align="center" field="contactPerson" width="80" sortable="false" resizable="true">客户联系人</th>
 			<th align="center" field="position" width="100" sortable="false" resizable="true">联系人职位</th>
-			<th align="center" field="contactMobileNumber" width="100" sortable="false" resizable="true">手机</th>
+			<th align="center" field="contactMobileNumber" width="90" sortable="false" resizable="true">手机</th>
 			<th align="center" field="remark" width="100" data-options="formatter:formatterDescription"  sortable="false" resizable="true">备注</th>
-			<th align="center" data-options="field:'id',formatter:formatterCustomerOperation"  width="120">操作</th>
+			<th align="center" data-options="field:'id',formatter:formatterCustomerOperation"  width="70">操作</th>
 		</tr>
 	</thead>
 </table>

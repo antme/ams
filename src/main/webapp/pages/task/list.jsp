@@ -5,7 +5,7 @@
 
 	function search() {
 		$('#taskList').datagrid('load', {
-			userId : $("#userId").val(),
+			userId : $("#userId").combobox('getValue'),
 			projectId : $("#projectId").combobox('getValue'),
 			teamId : $("#teamId").combobox('getValue')
 			

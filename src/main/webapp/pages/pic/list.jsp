@@ -43,11 +43,11 @@ function search() {
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
-			<th align="center" field="userName" width="200" sortable="false" resizable="true">上传者</th>
-			<th align="center" field="projectName" width="200" sortable="false" resizable="true">项目</th>
-			<th align="center" field="description" width="200" sortable="false" resizable="true">描述</th>
-			<th align="center" field="createdOn" width="200" sortable="false" resizable="true">上传时间</th>
-			<th align="center" field="picUrl" data-options="formatter:formatterPicOperation"  width="200" sortable="false" resizable="true">图片</th>			
+			<th align="center" field="userName" width="80" sortable="false" resizable="true">上传者</th>
+			<th align="center" field="projectName" width="120" sortable="false" resizable="true">项目</th>
+			<th align="center" field="description" width="250" sortable="false" resizable="true">描述</th>
+			<th align="center" field="createdOn" width="100" sortable="false" resizable="true">上传时间</th>
+			<th align="center" field="picUrl" data-options="formatter:formatterPicOperation"  width="100" sortable="false" resizable="true">图片</th>			
 		</tr>
 	</thead>
 </table>

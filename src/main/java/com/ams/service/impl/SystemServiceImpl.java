@@ -129,6 +129,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 	}
 
+	@Transactional
 	public void importTask(InputStream inputStream, Task temp) {
 		ExcelUtil excleUtil = new ExcelUtil(inputStream);
 		List<String[]> list = excleUtil.getAllData(0);
@@ -218,7 +219,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
 		teamQuery.and(Team.TEAM_NAME, teamName);
-		Team team = (Team) this.dao.findOneByQuery(query, Team.class);
+		Team team = (Team) this.dao.findOneByQuery(teamQuery, Team.class);
 
 		if (team == null) {
 			throw new ResponseException("施工队不存在，请先创建施工队");
@@ -229,7 +230,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		User user = (User) this.dao.findOneByQuery(userQuery, User.class);
 
 		if (user == null) {
-			throw new ResponseException("用户不存在，请先创建施工队");
+			throw new ResponseException("用户不存在，请先创建用户");
 		}
 		
 

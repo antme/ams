@@ -35,7 +35,7 @@
 			</div>
 			
 			<div>
-				<span class="r-edit-label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" ></input>
+				<span class="r-edit-label">优先级:</span> <input class="easyui-validatebox textbox input-title" type="number" name="priority" value="0" ></input>
 				<span>优先级越高的将显示在最顶上</span>
 			</div>
 			
@@ -57,7 +57,7 @@
 
 			<div>
 				<span class="r-edit-label">公告内容:</span>
-				<textarea class="easyui-validatebox textarea" name="content" ></textarea>
+				<textarea class="easyui-validatebox textarea" name="content"  data-options="required:true"></textarea>
 			</div>
 			<div style="margin-left: 100px;">
 				<input type="submit" value="提交"></a>

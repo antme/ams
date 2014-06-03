@@ -90,12 +90,20 @@
 <script>
 
 	function search() {
-		$('#salaryList').datagrid('load', {
-			userId : $("#userId").combobox('getValue'),
-			years : $("#years").val(),
-			month : $("#month").val()
-			
-		});
+		
+		var data = {};
+		
+		data.userId = $("#userId").combobox('getValue');
+		
+		if($("#years").val() !=""){
+			data.year = $("#years").val();
+		}
+		
+		if($("#month").val() !=""){
+			data.month = $("#month").val();
+		}
+		
+		$('#salaryList').datagrid('load', data);
 	}
 	
 	function deleteSalary(){
