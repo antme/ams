@@ -28,6 +28,9 @@ function formatterAttendanceDayType(val, row){
 
 function formatterDescription(val, row) {
 
+	if(!val){
+		return "";
+	}
 	if (val.length > 10) {
 		var display = val.substr(0, 10) + "...";
 

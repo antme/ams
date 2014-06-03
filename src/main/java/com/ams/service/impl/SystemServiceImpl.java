@@ -25,6 +25,7 @@ import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SalaryMonth;
+import com.ams.bean.vo.SearchVo;
 import com.ams.service.ISystemService;
 import com.ams.service.IUserService;
 import com.eweblib.bean.BaseEntity;
@@ -703,7 +704,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			if (entity.containsDbColumn(key)) {
 
 				Object ovalue = oldMap.get(key);
-				if(ovalue == null){
+				if (ovalue == null) {
 					ovalue = "";
 				}
 				if (ovalue == null || !ovalue.toString().equalsIgnoreCase(map.get(key).toString())) {
@@ -766,6 +767,25 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		log.setMessage(message);
 		log.setLogType("msg");
 		this.dao.insert(log);
+	}
+
+	public EntityResults<Log> listLogs(SearchVo vo) {
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Log.TABLE_NAME);
+		query.join(Log.TABLE_NAME, User.TABLE_NAME, Log.USER_ID, User.ID);
+		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		
+		
+		query.limitColumns(new Log().getColumnList());
+		return this.dao.listByQueryWithPagnation(query, Log.class);
+	}
+
+	public List<LogItem> listLogItemss(Log log) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(LogItem.TABLE_NAME);
+		query.and(LogItem.ID, log.getId());
+
+		return this.dao.listByQuery(query, LogItem.class);
+
 	}
 
 }

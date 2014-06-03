@@ -80,16 +80,18 @@
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
-			<th align="center" field="userName" width="100" sortable="false" resizable="true">用户名</th>
-			<th align="center" field="userCode" width="80" sortable="false" resizable="true">员工编号</th>
-			<th align="center" field="typeName" width="80" sortable="false" resizable="true">工种</th>
-			<th align="center" field="levelName" width="80" sortable="false" resizable="true">级别</th>
-			<th align="center" field="status" width="80" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
-			<th align="center" field="bstatus" width="80" sortable="false" resizable="true" formatter="formatterUserWebLoginOperation">后台登录</th>
-			<th align="center" field="mobileNumber" width="100" sortable="false" resizable="true">手机号</th>
-			<th align="center" field="address" width="250" sortable="false" resizable="true">住址</th>
-			<th align="center" field="createdOn" width="140" sortable="false" resizable="true">创建时期</th>
-			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="60">操作</th>
+			<th align="center" field="userName" width="45" sortable="false" resizable="true">用户名</th>
+			<th align="center" field="userCode" width="45" sortable="false" resizable="true">员工编号</th>
+			<th align="center" field="typeName" width="55" sortable="false" resizable="true">工种</th>
+			<th align="center" field="levelName" width="70" sortable="false" resizable="true">级别</th>
+			<th align="center" field="status" width="30" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
+			<th align="center" field="bstatus" width="30" sortable="false" resizable="true" formatter="formatterUserWebLoginOperation">后台登录</th>
+			<th align="center" field="mobileNumber" width="70" sortable="false" resizable="true">手机号</th>
+			<th align="center" field="teamGroup" width="80" sortable="false" resizable="true">所属队伍</th>
+			<th align="center" field="idCard" width="90" sortable="false" resizable="true">身份证</th>
+			<th align="center" field="address" width="100"  data-options="formatter:formatterDescription"  sortable="false" resizable="true">住址</th>
+			<th align="center" field="createdOn" width="90" sortable="false" resizable="true">创建时期</th>
+			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="40">操作</th>
 
 		</tr>
 	</thead>
