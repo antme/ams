@@ -454,6 +454,7 @@ CREATE TABLE `Log` (
   `dataId` varchar(36) NOT NULL,
   `tableName` varchar(36) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
+  `urlPath` varchar(255) DEFAULT NULL,
   `logType` varchar(255) NOT NULL,
   `createdOn` datetime DEFAULT NULL,
   `updatedOn` datetime DEFAULT NULL,
@@ -481,6 +482,10 @@ CREATE TABLE `LogItem` (
 alter table User add column teamGroup varchar(255) default null;
 alter table User add column idCard varchar(255) default null;
 alter table CustomerContact add column remark varchar(255) default null;
+alter table Log add column urlPath varchar(255) default null;
+alter table LogItem add column tableName varchar(255) default null;
+
+
 
 
 

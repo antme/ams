@@ -78,6 +78,7 @@ public interface IUserService {
 	
 	
 	public List<Menu> getMenuList();
+	public void logout();
 	
 	
 //	public String getUserNameById(String id);

@@ -2,13 +2,11 @@ function forceLogin() {
 	window.location.href = "/login.jsp";
 }
 
-
 function searchData(divId, inputId) {
 	$('#' + divId).datagrid('load', {
 		keyword : $("#" + inputId).val()
 	});
 }
-
 
 function logout() {
 	postAjaxRequest("/ecs/user/logout.do", {}, function(data) {
@@ -17,18 +15,18 @@ function logout() {
 	}, false);
 }
 
-function formatterAttendanceDayType(val, row){
-	if(val == 1){
+function formatterAttendanceDayType(val, row) {
+	if (val == 1) {
 		return "下午";
 	}
-	
+
 	return "上午";
-	
+
 }
 
 function formatterDescription(val, row) {
 
-	if(!val){
+	if (!val) {
 		return "";
 	}
 	if (val.length > 10) {
@@ -47,28 +45,29 @@ function formatterDescription(val, row) {
 	}
 }
 
-
-function openDetail(target){
+function openDetail(target) {
 	$('#dlg').html(target.attr("title"));
-	$('#dlg').dialog({modal:true});
+	$('#dlg').dialog({
+		modal : true
+	});
 	$('#dlg').dialog('open');
-	
+
 }
 function formatterAttendanceType(val, row) {
 
 	var time = "";
-	if(row.hours && row.hours > 0){
+	if (row.hours && row.hours > 0) {
 		time = " (" + time + row.hours + "小时";
 	}
-	
-	if(row.minutes && row.minutes > 0){
+
+	if (row.minutes && row.minutes > 0) {
 		time = time + row.minutes + "分钟";
 	}
-	
-	if(time.length > 0){
+
+	if (time.length > 0) {
 		time = time + ")";
 	}
-	
+
 	if (val == 0) {
 		return "应勤出勤" + time;
 	} else if (val == 1) {
@@ -190,14 +189,87 @@ function disableUserLogin(userId, isMobile, isDisabled) {
 
 }
 
+function formatterLogOperation(val, row) {
+
+	if (row.logType != "msg") {
+		return '<a href="#" onclick=openLogDetails("' + row.id
+				+ '")> 数据库修改详情 </a>';
+	}
+}
+
+function formatterLogMsg(val, row) {
+
+	if (row.message) {
+		return row.message;
+	}
+
+	var logType = "更新";
+	if (row.logType == "add") {
+		logType = "新增";
+	}
+
+	if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/userlevel/add.do") {
+
+		return logType + "工种级别";
+	} else if (row.urlPath == "/ams/sys/group/add.do") {
+
+		return logType + "角色";
+	} else if (row.urlPath == "/ams/user/add.do") {
+
+		return logType + "用户";
+	} else if (row.urlPath == "/ams/user/department/add.do") {
+
+		return logType + "部门";
+	} else if (row.urlPath == "/ams/user/team/add.do") {
+
+		return logType + "团队";
+	} else if (row.urlPath == "/ams/user/attendance/app/add.do") {
+
+		return logType + "考勤";
+	} else if (row.urlPath == "/ams/user/customer/add.do") {
+
+		return logType + "客户";
+	} else if (row.urlPath == "/ams/user/pic/app/add.do") {
+
+		return "上传图片";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	} else if (row.urlPath == "/ams/sys/usertype/add.do") {
+
+		return logType + "工种";
+	}
+
+}
+
 function formatterProjectOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("project/add&a=3&id=' + row.id
 			+ '")> 编辑 </a>';
 }
 
 function formatterNoticeOperation(val, row) {
-	return '<a href="#" onclick=loadRemotePage("notice/add&a=0&id=' + row.id
-			+ '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteNotice("' + row.id + '")> 删除 </a>';
+	return '<a href="#" onclick=loadRemotePage("notice/add&a=0&id='
+			+ row.id
+			+ '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteNotice("'
+			+ row.id + '")> 删除 </a>';
 }
 
 function formatterDepartmentOperation(val, row) {
@@ -214,12 +286,16 @@ function formatteAttachFileLink(val, row) {
 
 function formatterUserTypeOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("sys/addusertype&a=5&id='
-			+ row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteUserType("' + row.id + '")> 删除 </a>';
+			+ row.id
+			+ '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteUserType("'
+			+ row.id + '")> 删除 </a>';
 }
 
 function formatteruserlevelOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("sys/adduserlevel&a=5&id='
-			+ row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteUserLevel("' + row.id + '")> 删除 </a>';
+			+ row.id
+			+ '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteUserLevel("'
+			+ row.id + '")> 删除 </a>';
 
 }
 function formatterPicOperation(val, row) {
@@ -232,22 +308,23 @@ function formatterUserOperation(val, row) {
 			+ '")> 编辑 </a>';
 }
 
-
-function formatterGroupOperation(val, row){
-	return '<a href="#" onclick=loadRemotePage("sys/addgroup&a=5&id=' + row.id + '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteGroup("' + row.id + '")> 删除 </a>';
+function formatterGroupOperation(val, row) {
+	return '<a href="#" onclick=loadRemotePage("sys/addgroup&a=5&id='
+			+ row.id
+			+ '")> 编辑 </a><a style="margin-left:5px" href="#" onclick=deleteGroup("'
+			+ row.id + '")> 删除 </a>';
 }
 
-
 function formatterCustomerOperation(val, row) {
-	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id + '")> 编辑 </a>';
+	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id
+			+ '")> 编辑 </a>';
 }
 
 function formatterTeamOperation(val, row) {
 
-	return '<a href="#" onclick=loadRemotePage("team/add&a=3&id=' + row.id + '")> 编辑 </a>';
+	return '<a href="#" onclick=loadRemotePage("team/add&a=3&id=' + row.id
+			+ '")> 编辑 </a>';
 }
-
-
 
 function createLogPage(data, tableName) {
 	$("#logDetail").html("");
@@ -347,7 +424,7 @@ function onSysTreeClick(node) {
 		loadRemotePage("sys/userlevellist" + accor);
 	} else if (text == '部门管理') {
 		loadRemotePage("department/list" + accor);
-	}else if (text == '权限组管理') {
+	} else if (text == '权限组管理') {
 		loadRemotePage("user/grouplist" + accor);
 	}
 }

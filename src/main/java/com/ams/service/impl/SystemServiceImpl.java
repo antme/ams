@@ -1,6 +1,7 @@
 package com.ams.service.impl;
 
 import java.io.InputStream;
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
-import com.ams.bean.Log;
-import com.ams.bean.LogItem;
 import com.ams.bean.Menu;
 import com.ams.bean.Project;
 import com.ams.bean.ProjectTask;
@@ -31,6 +30,8 @@ import com.ams.service.IUserService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
+import com.eweblib.bean.Log;
+import com.eweblib.bean.LogItem;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.ResponseException;
@@ -114,20 +115,17 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 				}
 
-				createAddLog(null, "导入工资", salary);
 
 				this.dao.insert(salary);
 
 				for (SalaryItem item : items) {
 					item.setSalaryId(salary.getId());
 					this.dao.insert(item);
-					createAddLog(null, "导入工资", item);
 				}
 
 				for (DeductedSalaryItem item : ditems) {
 					item.setSalaryId(salary.getId());
 					this.dao.insert(item);
-					createAddLog(null, "导入工资", item);
 
 				}
 
@@ -284,12 +282,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		}
 
 		this.dao.insert(pt);
-		createAddLog(null, String.format("导入任务单"), pt);
 
 		for (Task task : taskList) {
 			task.setProjectTaskId(pt.getId());
 			this.dao.insert(task);
-			createAddLog(null, String.format("导入任务单"), task);
 		}
 	}
 
@@ -309,11 +305,9 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 			UserType old = (UserType) this.dao.findById(type.getId(), UserType.TABLE_NAME, UserType.class);
 			this.dao.updateById(type);
-			createUpdateLog(null, "修改工种类型", type, old);
 
 		} else {
 
-			createAddLog(null, String.format("新建工种类型"), type);
 			this.dao.insert(type);
 		}
 	}
@@ -340,12 +334,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			UserLevel old = (UserLevel) this.dao.findById(level.getId(), UserLevel.TABLE_NAME, UserLevel.class);
 
 			this.dao.updateById(level);
-			createUpdateLog(null, String.format("修改工种级别"), level, old);
 
 		} else {
 
 			this.dao.insert(level);
-			createAddLog(null, String.format("新建工种级别"), level);
 
 		}
 	}
@@ -441,7 +433,9 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			throw new ResponseException("请确保此角色下的用户角色已经更新");
 		} else {
 
+			RoleGroup rg = (RoleGroup) this.dao.findById(group.getId(), RoleGroup.TABLE_NAME, RoleGroup.class);
 			this.dao.deleteById(group);
+			createMsgLog(null, "删除角色【" + rg.getGroupName() + "】");
 		}
 	}
 
@@ -471,7 +465,8 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 				throw new ResponseException("请确保此工种下的工种级别全部先删除");
 			} else {
 
-				createMsgLog(null, String.format("删除工种类型"));
+				type = (UserType) this.dao.findById(type.getId(), UserType.TABLE_NAME, UserType.class);
+				createMsgLog(null, String.format("删除工种类型【" + type.getTypeName() + "】"));
 				this.dao.deleteById(type);
 			}
 		}
@@ -487,7 +482,8 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			throw new ResponseException("请确保此级别下的用户已经更新成新的级别");
 		} else {
 
-			createMsgLog(null, String.format("删除工种级别"));
+			level = (UserLevel) this.dao.findById(level.getId(), UserLevel.TABLE_NAME, UserLevel.class);
+			createMsgLog(null, String.format("删除工种级别【" + level.getLevelName()  + " 】"));
 			this.dao.deleteById(level);
 		}
 
@@ -680,82 +676,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 	}
 
-	public void createUpdateLog(String userId, String message, BaseEntity entity, BaseEntity old) {
-
-		if (EweblibUtil.isEmpty(userId)) {
-			userId = EWeblibThreadLocal.getCurrentUserId();
-		}
-
-		Log log = new Log();
-		log.setUserId(userId);
-		log.setMessage(message);
-		log.setLogType("update");
-		log.setTableName(entity.getTable());
-		log.setDataId(old.getId());
-
-		List<LogItem> list = new ArrayList<LogItem>();
-
-		Map<String, Object> map = entity.toMap();
-
-		Map<String, Object> oldMap = old.toMap();
-
-		for (String key : map.keySet()) {
-
-			if (entity.containsDbColumn(key)) {
-
-				Object ovalue = oldMap.get(key);
-				if (ovalue == null) {
-					ovalue = "";
-				}
-				if (ovalue == null || !ovalue.toString().equalsIgnoreCase(map.get(key).toString())) {
-					LogItem item = new LogItem();
-					item.setField(key);
-					item.setOldValue(ovalue.toString());
-					item.setNewValue(map.get(key).toString());
-					list.add(item);
-				}
-
-			}
-		}
-
-		if (list.size() > 0) {
-			this.dao.insert(log);
-			for (LogItem item : list) {
-				item.setLogId(log.getId());
-				this.dao.insert(item);
-			}
-		}
-
-	}
-
-	public void createAddLog(String userId, String message, BaseEntity entity) {
-
-		if (EweblibUtil.isEmpty(userId)) {
-			userId = EWeblibThreadLocal.getCurrentUserId();
-		}
-
-		Log log = new Log();
-		log.setUserId(userId);
-		log.setMessage(message);
-		log.setLogType("add");
-		log.setTableName(entity.getTable());
-		log.setDataId(entity.getId());
-		this.dao.insert(log);
-
-		Map<String, Object> map = entity.toMap();
-		for (String key : map.keySet()) {
-
-			if (entity.containsDbColumn(key)) {
-				LogItem item = new LogItem();
-				item.setLogId(log.getId());
-				item.setField(key);
-				item.setOldValue(null);
-				item.setNewValue(map.get(key).toString());
-				this.dao.insert(item);
-			}
-		}
-
-	}
+	
 
 	public void createMsgLog(String userId, String message) {
 		if (EweblibUtil.isEmpty(userId)) {
@@ -782,7 +703,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 	public List<LogItem> listLogItemss(Log log) {
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(LogItem.TABLE_NAME);
-		query.and(LogItem.ID, log.getId());
+		query.and(LogItem.LOG_ID, log.getId());
 
 		return this.dao.listByQuery(query, LogItem.class);
 

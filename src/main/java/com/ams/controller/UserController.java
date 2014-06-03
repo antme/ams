@@ -69,6 +69,8 @@ public class UserController extends AmsController {
 		response.setContentType("text/html;charset=UTF-8");
 		response.addHeader("Accept-Encoding", "gzip, deflate");
 		response.addHeader("Location","index.jsp");
+		
+		userService.logout();
 		try {
 	        response.sendRedirect("/index.jsp");
         } catch (IOException e) {

@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ams.bean.Department;
-import com.ams.bean.Log;
 import com.ams.bean.Menu;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
@@ -25,6 +24,7 @@ import com.ams.bean.vo.SearchVo;
 import com.ams.service.ISystemService;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.bean.Log;
 
 @Controller
 @RequestMapping("/ams/sys")

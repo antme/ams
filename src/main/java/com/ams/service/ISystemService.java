@@ -4,8 +4,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.ams.bean.Department;
-import com.ams.bean.Log;
-import com.ams.bean.LogItem;
 import com.ams.bean.RoleGroup;
 import com.ams.bean.Salary;
 import com.ams.bean.Task;
@@ -14,6 +12,8 @@ import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
+import com.eweblib.bean.Log;
+import com.eweblib.bean.LogItem;
 
 
 public interface ISystemService {
@@ -51,9 +51,6 @@ public interface ISystemService {
 
 	void createMenu(List<String> items);
 
-	void createUpdateLog(String userId, String message, BaseEntity entity, BaseEntity old);
-	
-	void createAddLog(String userId, String message, BaseEntity entity);
 	
 	void createMsgLog(String userId, String message);
 

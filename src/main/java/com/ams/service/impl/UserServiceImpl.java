@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
+import com.ams.service.ISystemService;
 import com.ams.service.IUserService;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
@@ -45,6 +47,9 @@ import com.eweblib.util.EweblibUtil;
 @Service(value = "userService")
 public class UserServiceImpl extends AbstractService implements IUserService {
 	public static final String ADM_ORDER_MANAGE = "adm_order_manage";
+	
+	@Autowired
+	private ISystemService sys;
 
 	private static Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
@@ -115,12 +120,20 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		builder.limitColumns(new String[] { User.ID, User.USER_NAME, User.STATUS, User.BSTATUS });
 		User u = (User) dao.findOneByQuery(builder, User.class);
+		
 
 		if (fromApp && u.getStatus() == 0) {
 			throw new ResponseException("你没有登录手机端的权限，请联系管理员");
 		} else if (!fromApp && u.getBstatus() == 0) {
 			throw new ResponseException("你没有登录后端的权限，请联系管理员");
 		}
+		
+		if(fromApp){
+			sys.createMsgLog(u.getId(), "从手机端登录");
+		}else{
+			sys.createMsgLog(u.getId(), "从后台登录");
+		}
+
 		return u;
 	}
 
@@ -137,6 +150,8 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 	public void resetPwd(User user) {
 		user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
+		sys.createMsgLog(null, "修改密码");
+		
 		this.dao.updateById(user);
 	}
 
@@ -602,7 +617,10 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public void deleteSalary(IDS ids) {
 
 		for (String id : ids.getIds()) {
-
+			
+			Salary old = (Salary) this.dao.findById(id, Salary.TABLE_NAME, Salary.class);
+			
+			
 			Salary salary = new Salary();
 			salary.setId(id);
 			this.dao.deleteById(salary);
@@ -657,6 +675,12 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		}
 
 		return menulist;
+	}
+	
+	
+	public void logout(){
+		
+		sys.createMsgLog(EWeblibThreadLocal.getCurrentUserId(), "登出后台系统");
 	}
 
 	public String getUserNameById(String id) {
