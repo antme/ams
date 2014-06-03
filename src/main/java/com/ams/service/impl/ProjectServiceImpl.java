@@ -820,6 +820,14 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			} else {
 				customer.setProjects("");
 			}
+
+			DataBaseQueryBuilder query = new DataBaseQueryBuilder(CustomerContact.TABLE_NAME);
+			query.and(CustomerContact.CUSTOMER_ID, customer.getId());
+			query.limitColumns(new String[] { CustomerContact.CONTACT_PERSON, CustomerContact.CONTACT_MOBILE_NUMBER, CustomerContact.POSITION, CustomerContact.REMARK });
+			List<CustomerContact> contacts = this.dao.listByQuery(query, CustomerContact.class);
+
+			customer.setContacts(contacts);
+
 		}
 
 		return customerList;

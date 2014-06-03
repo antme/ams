@@ -1,5 +1,7 @@
 package com.ams.bean;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -38,6 +40,16 @@ public class Customer extends BaseEntity {
 
 	@Column(name = CONTACT_MOBILE_NUMBER)
 	public String contactMobileNumber;
+
+	public List<CustomerContact> contacts;
+
+	public List<CustomerContact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<CustomerContact> contacts) {
+		this.contacts = contacts;
+	}
 
 	public String projects;
 
@@ -107,8 +119,8 @@ public class Customer extends BaseEntity {
 		customer.setContactMobileNumber("");
 		customer.setPosition("");
 		customer.setProjects("");
-		
+
 		System.out.println(customer.toString());
-		
+
 	}
 }
