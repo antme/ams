@@ -386,12 +386,32 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			task.setProjectUsedDays(currentDay - startDay);
 
 			// FIXME : from attendance
-			task.setUserWorkedDays(2d);
+			task.setUserWorkedDays(getUserWorkedDaysFromTask(task));
 
 		}
 
 		return tasks;
 
+	}
+	
+	
+	private double getUserWorkedDaysFromTask(Task task) {
+		Task temp = (Task) this.dao.findById(task.getId(), Task.TABLE_NAME, Task.class);
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
+		query.and(Attendance.USER_ID, temp.getUserId());
+		query.and(Attendance.PROJECT_ID, temp.getProjectId());
+		query.limitColumns(new String[] { Attendance.HOURS, Attendance.MINUTES, Attendance.ATTENDANCE_DATE });
+
+		Set<String> set = new HashSet<String>();
+
+		List<Attendance> list = this.dao.listByQuery(query, Attendance.class);
+		for (Attendance attendance : list) {
+
+			set.add(String.valueOf(attendance.getAttendanceDate().getTime()));
+		}
+
+		return set.size();
 	}
 
 	public EntityResults<Task> listAllTasksFor(Task task) {
@@ -643,7 +663,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 				task.setProjectUsedDays(currentDay - startDay);
 
 				// FIXME
-				task.setUserWorkedDays(2d);
+				task.setUserWorkedDays(getUserWorkedDaysFromTask(task));
 
 				vo.setTaskInfo(task);
 			}
