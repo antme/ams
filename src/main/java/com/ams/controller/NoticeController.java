@@ -45,7 +45,7 @@ public class NoticeController extends AmsController {
 		String upFile = uploadFile(request, relativeFilePath, "attachFileUpload", 0, null);
 
 		if (upFile != null) {
-			notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUpload", 0, null));
+			notice.setAttachFileUrl(uploadFile(request, relativeFilePath, "attachFileUpload", 0, new String[] { "doc", "docx" }));
 		}
 
 		notice.setPublishDate(new Date());

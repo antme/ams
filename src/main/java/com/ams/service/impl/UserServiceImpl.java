@@ -240,7 +240,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
 
-		// FIXME:根据上下级关系查询数据
 
 		String currentUserId = vo.getUserId();
 
@@ -429,7 +428,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, finalQueryUserIds);
 		} else {
-			// FIXME: 获取下属的工资
 			builder.and(DataBaseQueryOpertion.IN, Salary.USER_ID, userIds);
 		}
 

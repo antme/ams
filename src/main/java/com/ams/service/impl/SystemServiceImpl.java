@@ -169,6 +169,8 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 					String[] teamInfo = row.split(getKey(row, "联系电话"));
 					if (teamInfo.length > 1) {
 						teamLeaderContactPhone = teamInfo[1].trim();
+					}else{
+						throw new ResponseException("请检查模板");
 					}
 
 					teamInfo = teamInfo[0].split(getKey(row, "班组名称"));

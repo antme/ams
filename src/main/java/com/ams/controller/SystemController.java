@@ -45,6 +45,13 @@ public class SystemController extends AmsController {
 		if (uploadFile == null) {
 			throw new ResourceAccessException("请选择上传的文件");
 		}
+
+		String fileName = uploadFile.getOriginalFilename();
+
+		if (!fileName.endsWith("xls") || !fileName.endsWith("xlsx")) {
+
+			throw new ResourceAccessException("请上传excel");
+		}
 		try {
 			InputStream inputStream = uploadFile.getInputStream();
 			sys.importSalary(inputStream, temp);
@@ -60,6 +67,17 @@ public class SystemController extends AmsController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile uploadFile = multipartRequest.getFile("taskFile");
 		Task temp = (Task) parserJsonParameters(request, true, Task.class);
+
+		if (uploadFile == null) {
+			throw new ResourceAccessException("请选择上传的文件");
+		}
+
+		String fileName = uploadFile.getOriginalFilename();
+
+		if (!fileName.endsWith("xls") || !fileName.endsWith("xlsx")) {
+
+			throw new ResourceAccessException("请上传excel");
+		}
 
 		try {
 			InputStream inputStream = uploadFile.getInputStream();

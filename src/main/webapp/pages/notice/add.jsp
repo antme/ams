@@ -51,6 +51,7 @@
 			</div>
 			<div>
 				<span class="r-edit-label">附件上传:</span> <input class="easyui-validatebox textbox" type="file" name="attachFileUpload" style="width:250px; border: 0px;"></input>
+				<label for="deleteAttachFile">目前只支持word文件上传</label>
 			</div>
 			
 			
