@@ -47,7 +47,7 @@ import com.eweblib.util.EweblibUtil;
 @Service(value = "userService")
 public class UserServiceImpl extends AbstractService implements IUserService {
 	public static final String ADM_ORDER_MANAGE = "adm_order_manage";
-	
+
 	@Autowired
 	private ISystemService sys;
 
@@ -120,17 +120,16 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		builder.limitColumns(new String[] { User.ID, User.USER_NAME, User.STATUS, User.BSTATUS });
 		User u = (User) dao.findOneByQuery(builder, User.class);
-		
 
 		if (fromApp && u.getStatus() == 0) {
 			throw new ResponseException("你没有登录手机端的权限，请联系管理员");
 		} else if (!fromApp && u.getBstatus() == 0) {
 			throw new ResponseException("你没有登录后端的权限，请联系管理员");
 		}
-		
-		if(fromApp){
+
+		if (fromApp) {
 			sys.createMsgLog(u.getId(), "从手机端登录");
-		}else{
+		} else {
 			sys.createMsgLog(u.getId(), "从后台登录");
 		}
 
@@ -151,7 +150,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public void resetPwd(User user) {
 		user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
 		sys.createMsgLog(null, "修改密码");
-		
+
 		this.dao.updateById(user);
 	}
 
@@ -617,10 +616,9 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 	public void deleteSalary(IDS ids) {
 
 		for (String id : ids.getIds()) {
-			
+
 			Salary old = (Salary) this.dao.findById(id, Salary.TABLE_NAME, Salary.class);
-			
-			
+
 			Salary salary = new Salary();
 			salary.setId(id);
 			this.dao.deleteById(salary);
@@ -645,15 +643,19 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 			query.limitColumns(new String[] { User.GROUP_ID });
 			User user = (User) dao.findOneByQuery(query, User.class);
 
-			String groupId = user.getGroupId();
+			if (user != null) {
+				String groupId = user.getGroupId();
 
-			DataBaseQueryBuilder groupQuery = new DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
-			groupQuery.and(RoleGroup.ID, groupId);
-			RoleGroup rg = (RoleGroup) dao.findOneByQuery(groupQuery, RoleGroup.class);
+				DataBaseQueryBuilder groupQuery = new DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
+				groupQuery.and(RoleGroup.ID, groupId);
+				RoleGroup rg = (RoleGroup) dao.findOneByQuery(groupQuery, RoleGroup.class);
 
-			if (rg != null) {
-				menuQuery.and(DataBaseQueryOpertion.IN, Menu.MENU_GROUP_ID, rg.getPermissions().split(","));
+				if (rg != null) {
+					menuQuery.and(DataBaseQueryOpertion.IN, Menu.MENU_GROUP_ID, rg.getPermissions().split(","));
 
+				} else {
+					menuQuery.and(DataBaseQueryOpertion.IN, Menu.MENU_GROUP_ID, new String[] {});
+				}
 			} else {
 				menuQuery.and(DataBaseQueryOpertion.IN, Menu.MENU_GROUP_ID, new String[] {});
 			}
@@ -676,10 +678,9 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return menulist;
 	}
-	
-	
-	public void logout(){
-		
+
+	public void logout() {
+
 		sys.createMsgLog(EWeblibThreadLocal.getCurrentUserId(), "登出后台系统");
 	}
 

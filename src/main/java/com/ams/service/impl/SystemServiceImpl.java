@@ -686,7 +686,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			log.setUserId(userId);
 			log.setMessage(message);
 			log.setLogType("msg");
+			System.out.println(log.toString());
 			this.dao.insert(log);
+			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
