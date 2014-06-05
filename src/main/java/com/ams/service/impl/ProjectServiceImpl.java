@@ -342,7 +342,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 				if (p.getProjectAttendanceManagerId() != null) {
 					if (p.getProjectAttendanceManagerId().equalsIgnoreCase(user.getId())) {
-						p.setProjectManagerName(user.getUserName());
+						p.setProjectAttendanceManagerName(user.getUserName());
 					}
 				}
 
