@@ -98,6 +98,10 @@ public class NoticeController extends AmsController {
 	@RequestMapping("/remind/list.do")
 	public void listUserReminder(HttpServletRequest request, HttpServletResponse response) {
 		Reminder reminder = (Reminder) parserJsonParameters(request, false, Reminder.class);
+		
+		if(reminder.getUserId() == null){
+			reminder.setUserId(EWeblibThreadLocal.getCurrentUserId());
+		}
 
 		if (EweblibUtil.isEmpty(reminder.getUserId())) {
 			throw new ResponseException("请先登录");

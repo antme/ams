@@ -3,8 +3,8 @@
 
 <div class="easyui-layout" style="width: 1050px; height: 300px;">
 	<div data-options="region:'east',split:true,collapsible:false" title="最新日报" style="width: 550px;">
-		<table id="reportList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/dailyreport/list.do?test=" iconCls="icon-save"
-			sortOrder="asc" pagination="false" singleSelect="true">
+		<table id="reportList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/dailyreport/list.do?test="
+			iconCls="icon-save" sortOrder="asc" pagination="false" singleSelect="true">
 			<thead>
 				<tr>
 					<th align="center" field="userName" width="100" sortable="false" resizable="true">用户名</th>
@@ -29,17 +29,45 @@
 </div>
 <div class="easyui-layout" style="width: 1050px; height: 500px;">
 	<div data-options="region:'east',split:true, collapsible:false" title="最新图片" style="width: 550px;">
-	<table id="picList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/pic/list.do?test=" iconCls="icon-save"
-	sortOrder="asc" pagination="false" singleSelect="true">
-	<thead>
-		<tr>
-			<th align="center" field="userName" width="200" sortable="false" resizable="true">上传者</th>
-			<th align="center" field="projectName" width="200" sortable="false" resizable="true">项目</th>
-			<th align="center" field="picUrl" data-options="formatter:formatterPicOperation"  width="200" sortable="false" resizable="true">图片</th>			
-		</tr>
-	</thead>
-</table>
+		<table id="picList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/user/pic/list.do?test=" iconCls="icon-save"
+			sortOrder="asc" pagination="false" singleSelect="true">
+			<thead>
+				<tr>
+					<th align="center" field="userName" width="200" sortable="false" resizable="true">上传者</th>
+					<th align="center" field="projectName" width="200" sortable="false" resizable="true">项目</th>
+					<th align="center" field="picUrl" data-options="formatter:formatterPicOperation" width="200" sortable="false" resizable="true">图片</th>
+				</tr>
+			</thead>
+		</table>
 	</div>
-	<div data-options="region:'west',split:true, collapsible:false" title="今日事宜" style="width: 500px;"></div>
 
+	<div data-options="region:'west',split:true, collapsible:false"  style="width: 500px;">
+
+		<div class="easyui-layout" style="height: 500px;" data-options="fit:true">
+			<div data-options="region:'north',split:true, collapsible:false" title="今日事宜" style="width: 500px; height:300px;">
+				<table id="reminderList" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/notice/remind/list.do?isQueryToday=true"
+					iconCls="icon-save" sortOrder="asc" pagination="false" singleSelect="true">
+					<thead>
+						<tr>
+							<th align="center" field="title" width="100" sortable="false" resizable="true">标题</th>
+							<th align="center" field="content" width="200" sortable="false" resizable="true">内容</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+
+			<div data-options="region:'south',split:true, collapsible:false" title="今日计划" style="width: 500px; height:200px;" >
+
+				<table id="planlist" class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true" url="/ams/project/dailyreport/plan/app/list.do"
+					iconCls="icon-save" sortOrder="asc" pagination="false" singleSelect="true">
+					<thead>
+						<tr>
+							<th align="center" field="plan" width="400" sortable="false" resizable="true">计划</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+
+	</div>
 </div>

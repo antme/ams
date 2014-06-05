@@ -167,6 +167,12 @@ public class ProjectController extends AmsController {
 		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
 		
 		SearchVo vo = (SearchVo)parserJsonParameters(request, false, SearchVo.class);
+		
+		if(vo.getUserId() == null){
+			vo.setUserId(EWeblibThreadLocal.getCurrentUserId());
+		}
+
+		
 		if (EweblibUtil.isEmpty(vo.getUserId())) {			
 			throw new ResponseException("请先登录");
 		}
