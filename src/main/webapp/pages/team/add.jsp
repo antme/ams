@@ -15,8 +15,20 @@
 			postAjaxRequest("/ams/user/team/get.do", {id: id}, function(data){
 				var team = data.data;
 				$("#add-team").form('load',team);
-				$('#teamMemberIds').combogrid('setValues', team.teamMemberIds);
-				onHidePanel();
+				var url = '/ams/user/team/user/select.do?id=' + team.id;
+				
+				$('#teamMemberIds').combogrid(
+						{
+							url: url, 
+							onLoadSuccess: function(){
+								$('#teamMemberIds').combogrid('setValues', team.teamMemberIds);
+								onHidePanel();
+							}
+						}
+					);
+				
+				
+				
 			});
 		}
 	});
@@ -77,7 +89,7 @@
 								            textField:'userName',
 								            fitColumns: true,
 								            onHidePanel:onHidePanel,
-								            url:'/ams/user/list.do?userId=',
+								            url:'/ams/user/team/user/select.do',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
 								                {field:'userName',title:'用户名',width:60},

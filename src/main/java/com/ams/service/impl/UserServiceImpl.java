@@ -593,6 +593,98 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		return this.dao.listByQueryWithPagnation(builder, User.class);
 	}
+	
+	
+	public List<User> selectAllUsersForProject(EmployeeProject vo) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
+		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
+
+		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
+
+		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		
+		if (vo.getId() != null) {
+			pquery.and(DataBaseQueryOpertion.NOT_EQUALS, EmployeeProject.PROJECT_ID, vo.getId());
+		}
+		List<EmployeeProject> epList = this.dao.listByQuery(pquery, EmployeeProject.class);
+		Set<String> userIds = new HashSet<String>();
+		for (EmployeeProject ep : epList) {
+
+			userIds.add(ep.getUserId());
+		}
+		
+		
+		pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		
+		if (vo.getId() != null) {
+			pquery.and(EmployeeProject.PROJECT_ID, vo.getId());
+			epList = this.dao.listByQuery(pquery, EmployeeProject.class);
+			userIds = new HashSet<String>();
+			for (EmployeeProject ep : epList) {
+
+				userIds.add(ep.getUserId());
+			}
+			builder.or(DataBaseQueryOpertion.IN, User.ID, userIds);
+		}
+	
+
+
+		builder.or(DataBaseQueryOpertion.IS_TRUE, User.IS_MULTIPLE_PROJECT);
+		builder.or(DataBaseQueryOpertion.NOT_IN, User.ID, userIds);
+
+		builder.limitColumns(new User().getColumnList());
+
+		return this.dao.listByQuery(builder, User.class);
+
+	}
+	
+	public List<User> selectAllUsersForTeam(EmployeeTeam vo) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
+		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
+
+		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
+
+		DataBaseQueryBuilder tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		if (vo.getId() != null) {
+			tquery.and(DataBaseQueryOpertion.NOT_EQUALS, EmployeeTeam.TEAM_ID, vo.getId());
+		}
+		
+		List<EmployeeTeam> epList = this.dao.listByQuery(tquery, EmployeeTeam.class);
+		Set<String> userIds = new HashSet<String>();
+		for (EmployeeTeam ep : epList) {
+
+			userIds.add(ep.getUserId());
+		}
+		
+		
+		tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		if (vo.getId() != null) {
+			tquery.and(EmployeeTeam.TEAM_ID, vo.getId());
+			this.dao.listByQuery(tquery, EmployeeTeam.class);
+			userIds = new HashSet<String>();
+			for (EmployeeTeam ep : epList) {
+
+				userIds.add(ep.getUserId());
+			}
+			builder.or(DataBaseQueryOpertion.IN, User.ID, userIds);
+		}
+		
+	
+
+		builder.or(DataBaseQueryOpertion.IS_TRUE, User.IS_MULTIPLE_TEAM);
+		builder.or(DataBaseQueryOpertion.NOT_IN, User.ID, userIds);
+
+		builder.limitColumns(new User().getColumnList());
+
+		return this.dao.listByQuery(builder, User.class);
+
+	}
 
 	public boolean isAdmin(String userId) {
 

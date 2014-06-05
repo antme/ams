@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeProject;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Menu;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
@@ -61,6 +63,10 @@ public interface IUserService {
 	public EntityResults<Salary> listAllUserSalaries(Salary salary);
 
 	public EntityResults<User> listAllUsers(User vo);
+	
+	public List<User> selectAllUsersForProject(EmployeeProject vo);
+	
+	public List<User> selectAllUsersForTeam(EmployeeTeam vo);
 
     public boolean isAdmin(String userId);
     
@@ -79,6 +85,7 @@ public interface IUserService {
 	
 	public List<Menu> getMenuList();
 	public void logout();
+
 	
 	
 //	public String getUserNameById(String id);

@@ -14,10 +14,20 @@
 			postAjaxRequest("/ams/project/get.do", {id: id}, function(data){
 				var project = data.data;
 				$("#add-project").form('load',project);
+				var url = '/ams/user/project/user/select.do?id=' + project.id;
+			
+				$('#projectMemberIds').combogrid(
+						{
+							url: url, 
+							onLoadSuccess: function(){
+								$('#projectMemberIds').combogrid('setValues', project.projectMemberIds);
+								onHidePanel();
+							}
+						}
+					);
 				
-				$('#projectMemberIds').combogrid('setValues', project.projectMemberIds);
 				
-				onHidePanel();
+				
 				
 			});
 		}
@@ -113,7 +123,7 @@
 								            textField:'userName',
 								            fitColumns: true,
 								            onHidePanel:onHidePanel,
-								            url:'/ams/user/list.do?userId=',
+								            url:'/ams/user/project/select.do',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
 								                {field:'userName',title:'用户名',width:60},

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeProject;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
@@ -277,6 +278,21 @@ public class UserController extends AmsController {
 	public void listAllUsers(HttpServletRequest request, HttpServletResponse response) {
 		User vo = (User) parserJsonParameters(request, false, User.class);
 		responseWithDataPagnation(userService.listAllUsers(vo), request, response);
+	}
+	
+	@RequestMapping("/project/user/select.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void selectAllUsersForProject(HttpServletRequest request, HttpServletResponse response) {
+		EmployeeProject vo = (EmployeeProject) parserJsonParameters(request, true, EmployeeProject.class);
+		responseWithListData(userService.selectAllUsersForProject(vo), request, response);
+	}
+	
+	
+	@RequestMapping("/team/user/select.do")
+	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
+	public void selectAllUsersForTeam(HttpServletRequest request, HttpServletResponse response) {
+		EmployeeTeam vo = (EmployeeTeam) parserJsonParameters(request, true, EmployeeTeam.class);
+		responseWithListData(userService.selectAllUsersForTeam(vo), request, response);
 	}
 	
 	@RequestMapping("/pic/app/add.do")
