@@ -1,10 +1,8 @@
 package com.ams.service.impl;
 
 import java.io.InputStream;
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +23,7 @@ import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SalaryMonth;
 import com.ams.bean.vo.SearchVo;
+import com.ams.service.IProjectService;
 import com.ams.service.ISystemService;
 import com.ams.service.IUserService;
 import com.eweblib.bean.BaseEntity;
@@ -46,6 +45,10 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IProjectService projectService;
+	
 
 	@Transactional
 	public void importSalary(InputStream inputStream, Salary temp) {
@@ -267,6 +270,7 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		ptquery.and(ProjectTask.PROJECT_ID, project.getId());
 		ptquery.and(ProjectTask.PROJECT_START_DATE, pt.getProjectStartDate());
 		ptquery.and(ProjectTask.PROJECT_END_DATE, pt.getProjectEndDate());
+		ptquery.and(DataBaseQueryOpertion.IS_FALSE, ProjectTask.IS_DELETED);
 
 		ProjectTask prot = (ProjectTask) this.dao.findOneByQuery(ptquery, ProjectTask.class);
 		if (prot != null) {
@@ -274,10 +278,13 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 			if (temp.getOverrideexists() == null) {
 				throw new ResponseException("此任务已经存在，不能导入, 你可以删除任务后导入或者勾选覆盖现有数据再导入");
 			} else {
-				this.dao.deleteById(prot);
-				DataBaseQueryBuilder taskQuery = new DataBaseQueryBuilder(Task.TABLE_NAME);
-				taskQuery.and(Task.PROJECT_TASK_ID, prot.getId());
-				this.dao.deleteByQuery(taskQuery);
+		
+				IDS ids = new IDS();
+				List<String> idlist = new ArrayList<String>();
+				idlist.add(prot.getId());
+				ids.setIds(idlist);
+				projectService.deleteProjectTasks(ids);
+				
 
 			}
 		}
