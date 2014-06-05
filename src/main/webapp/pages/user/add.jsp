@@ -12,6 +12,12 @@
 		
 		if(id!="null"){
 			postAjaxRequest("/ams/user/load.do", {id:id}, function(data){
+				
+			if(data.data.userTypeId){
+				var url = '/ams/sys/userlevel/list.do?userTypeId='+data.data.userTypeId;
+		    	$('#userLevelId').combobox('reload', url);
+			}
+   
 				$("#add-user").form('load',data.data);
 				
 			});
@@ -51,14 +57,15 @@
                     panelHeight:'auto',
                     onSelect: function(rec){
 			            var url = '/ams/sys/userlevel/list.do?userTypeId='+rec.id;
-			            $('#userTypeId').combobox('reload', url);
+			            $('#userLevelId').combobox('reload', url);
+			            $('#userLevelId').combobox('setValue', '');
 			        },
                     loadFilter:function(data){
 						return data.rows;
 					}"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">级别:</span> <input class="easyui-combobox textbox"  id ="userTypeId" type="text" name="userLevelId"
+				<span class="r-edit-label">级别:</span> <input class="easyui-combobox textbox"  id ="userLevelId" type="text" name="userLevelId"
 				data-options="
                     valueField:'id',
                     textField:'levelName',
@@ -77,6 +84,18 @@
 				<span class="r-edit-label">后台登录状态:</span> <select class="easyui-combobox" name="bstatus" style="width: 200px;" >
 					<option value="1">启用</option>
 					<option value="0">禁用</option>
+				</select>
+			</div>
+			<div>
+				<span class="r-edit-label">参与多项目:</span> <select class="easyui-combobox" name="isMultipleProject" style="width: 200px;" >
+					<option value="0">否</option>				
+					<option value="1">是</option>
+				</select>
+			</div>
+			<div>
+				<span class="r-edit-label">参与多施工队:</span> <select class="easyui-combobox" name="isMultipleTeam" style="width: 200px;" >
+					<option value="0">否</option>				
+					<option value="1">是</option>
 				</select>
 			</div>
 

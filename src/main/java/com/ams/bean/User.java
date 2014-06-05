@@ -9,6 +9,10 @@ import com.google.gson.annotations.Expose;
 @Table(name = User.TABLE_NAME)
 public class User extends BaseEntity {
 
+	public static final String IS_MULTIPLE_TEAM = "isMultipleTeam";
+
+	public static final String IS_MULTIPLE_PROJECT = "isMultipleProject";
+
 	public static final String ID_CARD = "idCard";
 
 	public static final String TEAM_GROUP = "teamGroup";
@@ -81,6 +85,12 @@ public class User extends BaseEntity {
 	@Column(name = IS_ADMIN)
 	public Boolean isAdmin;
 
+	@Column(name = IS_MULTIPLE_PROJECT)
+	public Boolean isMultipleProject;
+
+	@Column(name = IS_MULTIPLE_TEAM)
+	public Boolean isMultipleTeam;
+
 	public String teams;
 
 	public String userType;
@@ -93,6 +103,22 @@ public class User extends BaseEntity {
 	public String userPassword;
 
 	public String imgCode;
+
+	public Boolean getIsMultipleProject() {
+		return isMultipleProject;
+	}
+
+	public void setIsMultipleProject(Boolean isMultipleProject) {
+		this.isMultipleProject = isMultipleProject;
+	}
+
+	public Boolean getIsMultipleTeam() {
+		return isMultipleTeam;
+	}
+
+	public void setIsMultipleTeam(Boolean isMultipleTeam) {
+		this.isMultipleTeam = isMultipleTeam;
+	}
 
 	public Boolean getIsAdmin() {
 		return isAdmin;

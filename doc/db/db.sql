@@ -485,7 +485,8 @@ CREATE TABLE `LogItem` (
 alter table Task add column isDeleted boolean DEFAULT false;
 alter table ProjectTask add column isDeleted boolean DEFAULT false;
 
-
+alter table User add column isMultipleProject boolean DEFAULT false;
+alter table User add column isMultipleTeam boolean DEFAULT false;
 
 
 
