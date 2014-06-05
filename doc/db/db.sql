@@ -479,6 +479,28 @@ CREATE TABLE `LogItem` (
 
 
 
+
+
+
+alter table Task add column isDeleted boolean DEFAULT false;
+alter table ProjectTask add column isDeleted boolean DEFAULT false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 alter table User add column teamGroup varchar(255) default null;
 alter table User add column idCard varchar(255) default null;
 alter table CustomerContact add column remark varchar(255) default null;

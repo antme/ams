@@ -10,6 +10,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Task.TABLE_NAME)
 public class Task extends BaseEntity {
 
+	public static final String IS_DELETED = "isDeleted";
+
 	public static final String REMARK = "remark";
 
 	public static final String PROJECT_TASK_ID = "projectTaskId";
@@ -114,6 +116,10 @@ public class Task extends BaseEntity {
 	
 	@Column(name = PROJECT_TASK_ID)
 	public String projectTaskId;
+	
+	@Column(name = IS_DELETED)
+	public Boolean isDeleted;
+	
 
 	public Integer projectTotalDays;
 
@@ -130,6 +136,14 @@ public class Task extends BaseEntity {
 	public String overrideexists;
 	
 	
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public String getRemark() {
 		return remark;

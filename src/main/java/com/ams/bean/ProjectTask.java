@@ -82,10 +82,24 @@ public class ProjectTask extends BaseEntity{
 	@Column(name = USER_ID)
 	public String userId;
 	
+	public static final String IS_DELETED = "isDeleted";
+
+	@Column(name = IS_DELETED)
+	public Boolean isDeleted;
+	
+	
 	
 	public String userName;
 	
 	
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public String getUserName() {
 		return userName;

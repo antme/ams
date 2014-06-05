@@ -366,6 +366,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		builder.and(Task.USER_ID, t.getUserId());
 
+		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
+
 		List<Task> tasks = this.dao.listByQuery(builder, Task.class);
 
 		for (Task task : tasks) {
@@ -393,8 +395,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		return tasks;
 
 	}
-	
-	
+
 	private double getUserWorkedDaysFromTask(Task task) {
 		Task temp = (Task) this.dao.findById(task.getId(), Task.TABLE_NAME, Task.class);
 
@@ -439,6 +440,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 			builder.and(Task.TEAM_ID, task.getTeamId());
 		}
+
+		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
 
 		builder.limitColumns(new String[] { Task.UNIT, Task.TASK_PERIOD, Task.TASK_CONTACT_PHONE, Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.DESCRIPTION, Task.AMOUNT_DESCRIPTION,
 		        Task.PRICE_DESCRIPTION, Task.TEAM_NAME, Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
@@ -508,6 +511,9 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.and(Task.USER_ID, t.getUserId());
 		builder.limitColumns(new String[] { Task.TASK_NAME, Task.DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.PRICE_DESCRIPTION, Task.TEAM_NAME, Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE,
 		        Task.PROJECT_END_DATE });
+
+		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
+
 		EntityResults<Task> tasks = this.dao.listByQueryWithPagnation(builder, Task.class);
 
 		User user = (User) this.dao.findById(t.getUserId(), User.TABLE_NAME, User.class);
@@ -925,6 +931,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			builder.and(ProjectTask.TEAM_ID, task.getTeamId());
 		}
 
+		builder.and(DataBaseQueryOpertion.IS_FALSE, ProjectTask.IS_DELETED);
+
 		builder.limitColumns(new String[] { ProjectTask.TASK_PERIOD, ProjectTask.TASK_CONTACT_PHONE, ProjectTask.DESCRIPTION, ProjectTask.ID, ProjectTask.PROJECT_START_DATE,
 		        ProjectTask.PROJECT_END_DATE });
 		return this.dao.listByQueryWithPagnation(builder, ProjectTask.class);
@@ -959,6 +967,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 			builder.and(Task.TEAM_ID, task.getTeamId());
 		}
 
+		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
+
 		builder.limitColumns(new String[] { Task.UNIT, Task.REMARK, Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.ID });
 
 		return this.dao.listByQuery(builder, Task.class);
@@ -967,13 +977,21 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 	public void deleteProjectTasks(IDS ids) {
 
-		DataBaseQueryBuilder query = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
-		query.and(DataBaseQueryOpertion.IN, ProjectTask.ID, ids.getIds());
-		this.dao.deleteByQuery(query);
+		for (String id : ids.getIds()) {
+			ProjectTask pt = new ProjectTask();
+			pt.setId(id);
+			pt.setIsDeleted(true);
+			this.dao.updateById(pt);
+		}
 
-		query = new DataBaseQueryBuilder(Task.TABLE_NAME);
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Task.TABLE_NAME);
 		query.and(DataBaseQueryOpertion.IN, Task.PROJECT_TASK_ID, ids.getIds());
-		this.dao.deleteByQuery(query);
+		query.limitColumns(new String[] { Task.ID });
+		List<Task> list = this.dao.listByQuery(query, Task.class);
+		for (Task task : list) {
+			task.setIsDeleted(true);
+			this.dao.updateById(task);
+		}
 
 	}
 
