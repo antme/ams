@@ -344,10 +344,12 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		for (EmployeeProject et : etList) {
 
-			if (etMap.get(et.getProjectId()) == null) {
-				etMap.put(et.getProjectId(), et.getUserName());
-			} else {
-				etMap.put(et.getProjectId(), etMap.get(et.getUserName()) + "," + et.getUserName());
+			if (EweblibUtil.isValid(et.getUserName())) {
+				if (etMap.get(et.getProjectId()) == null) {
+					etMap.put(et.getProjectId(), et.getUserName());
+				} else {
+					etMap.put(et.getProjectId(), etMap.get(et.getProjectId()) + "," + et.getUserName());
+				}
 			}
 		}
 

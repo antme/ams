@@ -48,17 +48,18 @@
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
-			<th align="center" field="projectName" width="100" sortable="false" resizable="true">项目名称</th>
-			<th align="center" field="departmentName" width="100" sortable="false" resizable="true">部门</th>
-			<th align="center" field="projectAttendanceManagerName" width="100" sortable="false" resizable="true">考勤负责人</th>
-			<th align="center" field="projectManagerName" width="100" sortable="false" resizable="true">项目负责人</th>
-			<th align="center" field="projectStatus" width="100" sortable="false" resizable="true">项目状态</th>
+			<th align="center" field="projectName" width="120" sortable="false" resizable="true">项目名称</th>
+			<th align="center" field="departmentName" width="80" sortable="false" resizable="true">部门</th>
+			<th align="center" field="projectAttendanceManagerName" width="80" sortable="false" resizable="true">考勤人</th>
+			<th align="center" field="projectManagerName" width="80" sortable="false" resizable="true">负责人</th>
+			<th align="center" field="projectStatus" width="80" sortable="false" resizable="true">状态</th>
 			<th align="center" field="customerName" width="100" sortable="false" resizable="true">客户</th>
-			<th align="center" field="projectStartDate" width="100" sortable="false" resizable="true">项目开始日期</th>
-			<th align="center" field="projectEndDate" width="100" sortable="false" resizable="true">项目结束日期</th>
-			<th align="center" field="workTimePeriod" width="100" sortable="false" resizable="true">项目作息时间</th>
+			<th align="center" field="projectStartDate" width="80" sortable="false" resizable="true">开始日期</th>
+			<th align="center" field="projectEndDate" width="80" sortable="false" resizable="true">结束日期</th>
+			<th align="center" field="workTimePeriod" width="100" sortable="false" resizable="true">作息时间</th>
+			<th align="center" field="prjectMembers" width="80" data-options="formatter:formatterDescription" sortable="false" resizable="true">成员</th>
 			<th align="center" field="projectDescription" width="100"  data-options="formatter:formatterDescription"  sortable="false" resizable="true">项目描述</th>
-			<th align="center" data-options="field:'id',formatter:formatterProjectOperation"  width="120">操作</th>
+			<th align="center" data-options="field:'id',formatter:formatterProjectOperation"  width="40">操作</th>
 			
 		</tr>
 	</thead>
