@@ -18,6 +18,19 @@ public class EmployeeProject extends BaseEntity {
 
 	@Column(name = PROJECT_ID)
 	public String projectId;
+	
+	
+	public String userName;
+	
+	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public String getUserId() {
 		return userId;

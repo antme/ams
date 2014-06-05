@@ -94,9 +94,19 @@ public class Project extends BaseEntity {
 	public String customerName;
 	
 	
+	public String prjectMembers;
+	
 	
 
 	
+	public String getPrjectMembers() {
+		return prjectMembers;
+	}
+
+	public void setPrjectMembers(String prjectMembers) {
+		this.prjectMembers = prjectMembers;
+	}
+
 	public String getCustomerName() {
 		return customerName;
 	}

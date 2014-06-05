@@ -333,6 +333,24 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		}
 		builder.limitColumns(new Project().getColumnList());
 
+		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		etQuery.join(EmployeeProject.TABLE_NAME, User.TABLE_NAME, EmployeeProject.USER_ID, User.ID);
+		etQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		etQuery.limitColumns(new String[] { EmployeeProject.PROJECT_ID });
+
+		List<EmployeeProject> etList = this.dao.listByQuery(etQuery, EmployeeProject.class);
+
+		Map<String, String> etMap = new HashMap<String, String>();
+
+		for (EmployeeProject et : etList) {
+
+			if (etMap.get(et.getProjectId()) == null) {
+				etMap.put(et.getProjectId(), et.getUserName());
+			} else {
+				etMap.put(et.getProjectId(), etMap.get(et.getUserName()) + "," + et.getUserName());
+			}
+		}
+
 		EntityResults<Project> projects = this.dao.listByQueryWithPagnation(builder, Project.class);
 
 		List<User> users = this.dao.listByQuery(new DataBaseQueryBuilder(User.TABLE_NAME), User.class);
@@ -352,6 +370,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 					}
 				}
 			}
+
+			p.setPrjectMembers(etMap.get(p.getId()));
 		}
 
 		return projects;
