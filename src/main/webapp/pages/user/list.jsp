@@ -89,9 +89,9 @@
 			<th align="center" field="mobileNumber" width="70" sortable="false" resizable="true">手机号</th>
 			<th align="center" field="teamGroup" width="80" sortable="false" resizable="true">所属队伍</th>
 			<th align="center" field="idCard" width="90" sortable="false" resizable="true">身份证</th>
-			<th align="center" field="address" width="100"  data-options="formatter:formatterDescription"  sortable="false" resizable="true">住址</th>
+			<th align="center" field="address" width="50"  data-options="formatter:formatterDescription"  sortable="false" resizable="true">住址</th>
 			<th align="center" field="createdOn" width="90" sortable="false" resizable="true">创建时期</th>
-			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="40">操作</th>
+			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="30">操作</th>
 
 		</tr>
 	</thead>
