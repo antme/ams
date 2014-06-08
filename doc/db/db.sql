@@ -448,7 +448,7 @@ alter table Task add column remark varchar(255) default null;
 
 
 
-CREATE TABLE `Log` (
+CREATE TABLE `AmsLog` (
   `id` varchar(36) NOT NULL,
   `userId` varchar(36) NOT NULL,
   `dataId` varchar(36) NOT NULL,
@@ -478,6 +478,10 @@ CREATE TABLE `LogItem` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+alter table AmsLog add column urlPath varchar(255) default null;
+alter table LogItem add column tableName varchar(255) default null;
+alter table AmsLog modify column dataId varchar(255) default null;
+alter table LogItem modify column newValue varchar(255) default null;
 
 
 
@@ -505,10 +509,6 @@ alter table User add column isMultipleTeam boolean DEFAULT false;
 alter table User add column teamGroup varchar(255) default null;
 alter table User add column idCard varchar(255) default null;
 alter table CustomerContact add column remark varchar(255) default null;
-alter table Log add column urlPath varchar(255) default null;
-alter table LogItem add column tableName varchar(255) default null;
-alter table Log modify column dataId varchar(255) default null;
-alter table LogItem modify column newValue varchar(255) default null;
 
 
 
