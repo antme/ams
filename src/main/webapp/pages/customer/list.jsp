@@ -3,6 +3,22 @@
 
 <script type="text/javascript">
  
+ 
+ 		function deleteCustomer(id){
+ 			var data = {
+ 					id : id
+ 				};
+
+ 				if (confirm("确认删除此数据")) {
+ 					postAjaxRequest("/ams/project/customer/delete.do", data, function(data) {
+ 						alert("删除成功");
+ 						$("#customerList").datagrid('reload');
+ 					});
+ 				}
+ 			
+ 		}
+ 		
+ 		
         var editIndex = undefined;
         function endEditing(){           
         	return true;

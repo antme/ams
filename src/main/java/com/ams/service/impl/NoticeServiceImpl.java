@@ -41,7 +41,11 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });
 		builder.limitColumns(new String[] { Notice.PUBLISH_END_DATE, Notice.CREATED_ON, Notice.TITLE, Notice.PRIORITY, Notice.CONTENT, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
+		
 		mergeKeywordQuery(builder, notice.getKeyword(), Notice.TABLE_NAME, new String[] { Notice.TITLE, Notice.CONTENT });
+		builder.orderBy(Notice.PRIORITY, false);
+		builder.orderBy(Notice.CREATED_ON, false);
+
 		return this.dao.listByQueryWithPagnation(builder, Notice.class);
 	}
 

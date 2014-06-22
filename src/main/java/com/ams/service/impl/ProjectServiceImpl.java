@@ -241,15 +241,27 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
+		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.WORK_TIME_PERIOD });
+
 		builder.limitColumns(new String[] { Team.ID, Team.TEAM_DESCRIPTION, Team.TEAM_NAME });
 
-		builder.and(Team.DEPARTMENT_ID, team.getDepartmentId());
+		if (team.getDepartmentId() != null) {
+			builder.and(Team.DEPARTMENT_ID, team.getDepartmentId());
+		}
+
+		if (team.getProjectId() != null) {
+			builder.and(Team.PROJECT_ID, team.getProjectId());
+		}
 
 		List<Team> teams = this.dao.listByQuery(builder, Team.class);
 
 		for (Team t : teams) {
-			t.setMembersNumber((int) (Math.random() * 100));
-			t.setWorkTimePeriod("早上9:00-12:00,下午15:00-20:00");
+
+			DataBaseQueryBuilder teamquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+			teamquery.and(EmployeeTeam.TEAM_ID, t.getId());
+			t.setMembersNumber(this.dao.count(teamquery));
+
 		}
 
 		return teams;
@@ -377,6 +389,32 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		}
 
 		return projects;
+	}
+	
+	
+	public List<Project> listProjectsForApp(SearchVo vo) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
+
+		if (EweblibUtil.isValid(vo.getKeyword())) {
+
+			builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_NAME, vo.getKeyword());
+
+		}
+		
+		DataBaseQueryBuilder uquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		uquery.or(Project.PROJECT_MANAGER_ID, vo.getUserId());
+		uquery.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, vo.getUserId());
+		
+		builder.and(uquery);
+
+		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID });
+
+		return this.dao.listByQuery(builder, Project.class);
+
 	}
 
 	@Override

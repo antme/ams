@@ -318,6 +318,8 @@ function formatterGroupOperation(val, row) {
 function formatterCustomerOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("customer/add&a=3&id=' + row.id
 			+ '")> 编辑 </a>';
+	
+	//<a style="margin-left:5px" href="#" onclick=deleteCustomer("'+ row.id + '")> 删除 </a>
 }
 
 function formatterTeamOperation(val, row) {

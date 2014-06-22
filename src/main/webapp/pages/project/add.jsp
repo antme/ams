@@ -123,11 +123,11 @@
 								            textField:'userName',
 								            fitColumns: true,
 								            onHidePanel:onHidePanel,
-								            url:'/ams/user/project/select.do',
+								            url:'/ams/user/project/user/select.do',
 								            columns:[[
 								            	{field:'ck',checkbox:true},
 								                {field:'userName',title:'用户名',width:60},
-								                {field:'levelCode',title:'员工编号',width:60},
+								                {field:'userCode',title:'员工编号',width:60},
 								                {field:'typeName',title:'员工类型',width:60},
 								                {field:'levelName',title:'员工级别',width:60},
 								                {field:'id',title:'Id',width:100, hidden:true}

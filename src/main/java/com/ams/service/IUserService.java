@@ -25,7 +25,6 @@ public interface IUserService {
 	public User login(User user, boolean fromApp);
 
 
-	public String getRoleNameByUserId(String id);
 
 	public void resetPwd(User user);
 

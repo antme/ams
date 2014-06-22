@@ -39,13 +39,12 @@ import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.LoginException;
 import com.eweblib.exception.ResponseException;
-import com.eweblib.service.AbstractService;
 import com.eweblib.util.DataEncrypt;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 
 @Service(value = "userService")
-public class UserServiceImpl extends AbstractService implements IUserService {
+public class UserServiceImpl extends AbstractAmsService implements IUserService {
 	public static final String ADM_ORDER_MANAGE = "adm_order_manage";
 
 	@Autowired
@@ -136,16 +135,6 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		return u;
 	}
 
-	@Override
-	public String getRoleNameByUserId(String id) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.and(User.ID, id);
-
-		User user = (User) dao.findOneByQuery(builder, User.class);
-
-		// return user.getRoleName();
-		return null;
-	}
 
 	public void resetPwd(User user) {
 		user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
@@ -251,7 +240,9 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 		}
 
 		mergeKeywordQuery(builder, vo.getKeyword(), User.TABLE_NAME, new String[] { User.USER_NAME, User.MOBILE_NUMBER });
-
+		
+		
+		mergeCommonQueryForApp(builder);
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
@@ -591,6 +582,7 @@ public class UserServiceImpl extends AbstractService implements IUserService {
 
 		builder.limitColumns(new User().getColumnList());
 
+		mergeCommonQuery(builder);
 		return this.dao.listByQueryWithPagnation(builder, User.class);
 	}
 	

@@ -52,6 +52,16 @@ public class ProjectController extends AmsController {
 		responseWithData(null, request, response);
 	}
 	
+	
+	
+	@RequestMapping("/customer/delete.do")
+	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
+	public void deleteCustomer(HttpServletRequest request, HttpServletResponse response) {
+		Customer customer = (Customer)  parserJsonParameters(request, false, Customer.class);
+//		projectService.deleteCustomer(customer);
+		responseWithData(null, request, response);
+	}
+	
 	@RequestMapping("/get.do")
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void getProject(HttpServletRequest request, HttpServletResponse response) {
@@ -66,8 +76,21 @@ public class ProjectController extends AmsController {
 		responseWithDataPagnation(projectService.listProjects(project), request, response);
 	}
 	
-	@RequestMapping("/app/task/select.do")
+	
+	
+	@RequestMapping("/app/list.do")
 	public void listProjectsForApp(HttpServletRequest request, HttpServletResponse response) {
+
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		
+		if(vo.getUserId() == null){
+			throw new ResponseException("请先登录");
+		}
+		responseWithListData(projectService.listProjectsForApp(vo), request, response);
+	}
+	
+	@RequestMapping("/app/task/select.do")
+	public void listProjectTasksForApp(HttpServletRequest request, HttpServletResponse response) {
 		Task t = (Task)parserJsonParameters(request, false, Task.class);
 		if (EweblibUtil.isEmpty(t.getUserId())) {			
 			throw new ResponseException("请先登录");

@@ -29,6 +29,8 @@ public interface IProjectService {
 	public Project getProjectInfo(Project project);
 
 	EntityResults<Project> listProjects(Project project);
+	
+	
 
 	EntityResults<Task> listProjectTasks(Task task);
 
@@ -81,6 +83,8 @@ public interface IProjectService {
 	List<Task> listAllTasksFromProjectTasks(Task task);
 
 	void deleteProjectTasks(IDS ids);
+
+	List<Project> listProjectsForApp(SearchVo vo);
 
 
 }

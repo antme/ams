@@ -7,7 +7,11 @@ import com.eweblib.bean.BaseEntity;
 import com.google.gson.annotations.Expose;
 
 @Table(name = User.TABLE_NAME)
-public class User extends BaseEntity {
+public class User extends AmsBaseEntity {
+
+	public static final String REPORT_MANAGER_ID = "reportManagerId";
+
+	public static final String REMARK = "remark";
 
 	public static final String IS_MULTIPLE_TEAM = "isMultipleTeam";
 
@@ -90,6 +94,14 @@ public class User extends BaseEntity {
 
 	@Column(name = IS_MULTIPLE_TEAM)
 	public Boolean isMultipleTeam;
+	
+	
+	@Column(name = REMARK)
+	public String remark;
+	
+	@Column(name = REPORT_MANAGER_ID)
+	public String reportManagerId;
+
 
 	public String teams;
 
@@ -103,6 +115,25 @@ public class User extends BaseEntity {
 	public String userPassword;
 
 	public String imgCode;
+	
+	
+	
+
+	public String getReportManagerId() {
+		return reportManagerId;
+	}
+
+	public void setReportManagerId(String reportManagerId) {
+		this.reportManagerId = reportManagerId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	public Boolean getIsMultipleProject() {
 		return isMultipleProject;

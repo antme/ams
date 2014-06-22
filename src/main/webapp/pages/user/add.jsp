@@ -36,6 +36,19 @@
 			<div>
 				<span class="r-edit-label">员工编号:</span> <input class="easyui-validatebox textbox" type="text" name="userCode"  data-options="required:true"></input>
 			</div>
+			
+			<div>
+				<span class="r-edit-label">上级领导:</span> <input class="easyui-combobox"  name="reportManagerId" 
+					data-options="url:'/ams/user/list.do?userId=',
+                    method:'get',
+                    valueField:'id',
+                    required:true,
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+			</div>
 	
 			<div>
 				<span class="r-edit-label">角色:</span> <input class="easyui-combobox textbox" type="text" name="groupId" data-options="url:'/ams/sys/group/list.do?userId=',
@@ -98,7 +111,18 @@
 					<option value="1">是</option>
 				</select>
 			</div>
-
+			
+			<div>
+				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>
+				<span>数值高的将显示在前面</span>
+			</div>
+			<div>
+				<span class="r-edit-label">是否手机显示:</span> <select class="easyui-combobox" name="displayForApp" style="width: 200px;" >
+					<option value="1">是</option>
+					<option value="0">否</option>									
+				</select>
+			</div>
+			
 			<div>
 				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" validType="mobile" name="mobileNumber"></input>
 			</div>
@@ -120,6 +144,12 @@
 			<div>
 				<span class="r-edit-label">确认密码：</span> <input name="userpasswordConfirm" autocomplete="off" onfocus="this.type='password'" class="r-textbox at easyui-validatebox"
 					type="password" validType="pwdEquals['#userpassword']" /> <span class="get_span"></span>
+			</div>
+			
+			
+			<div>
+				<span class="r-edit-label">备注:</span>
+				<textarea class="easyui-validatebox textarea" name="remark"  data-options="required:true"></textarea>
 			</div>
 			
 			<div style="margin-left: 100px;">

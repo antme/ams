@@ -208,9 +208,14 @@ public class UserController extends AmsController {
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
 		Team team  = (Team) parserJsonParameters(request, false, Team.class);
 		
-		if(EweblibUtil.isEmpty(team.getDepartmentId())){
-			throw new ResponseException("请先选择部门");
+//		if(EweblibUtil.isEmpty(team.getProjectId())){
+//			throw new ResponseException("请先选择项目");
+//		}
+//		
+		if(vo.getUserId() == null){
+			throw new ResponseException("请先登录");
 		}
+		
 		responseWithListData(projectService.listTeamsForApp(team), request, response);
 	}
 	

@@ -557,3 +557,16 @@ alter table Attendance add column year int default 0;
 
 alter table Attendance add column month int default 0;
 
+
+
+alter table User add column remark TEXT default null;
+alter table User add column reportManagerId varchar(36) default null;
+
+alter table User add column displayForApp tinyint(1) default 1;
+alter table User add column displayOrder int default 0;
+
+
+
+
+
+
