@@ -131,7 +131,7 @@
 				<span class="r-edit-label">所属队伍:</span> <input class="easyui-validatebox textbox" type="text" name="teamGroup"></input>
 			</div>
 			<div>
-				<span class="r-edit-label">生份证:</span> <input class="easyui-validatebox textbox" type="text" validType="idcard" name="idCard"></input>
+				<span class="r-edit-label">身份证:</span> <input class="easyui-validatebox textbox" type="text" validType="idcard" name="idCard"></input>
 			</div>
 			<div>
 				<span class="r-edit-label">住址:</span> <input class="easyui-validatebox textbox-long" type="text" name="address"></input>
