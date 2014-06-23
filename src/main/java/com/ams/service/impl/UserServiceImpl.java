@@ -31,6 +31,7 @@ import com.ams.bean.User;
 import com.ams.bean.UserLevel;
 import com.ams.bean.UserType;
 import com.ams.bean.vo.SearchVo;
+import com.ams.bean.vo.UserSearchVo;
 import com.ams.service.ISystemService;
 import com.ams.service.IUserService;
 import com.eweblib.bean.EntityResults;
@@ -589,7 +590,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	}
 	
 	
-	public List<User> selectAllUsersForProject(EmployeeProject vo) {
+	public List<User> selectAllUsersForProject(UserSearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
@@ -599,39 +600,91 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
 
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
-		
-		if (vo.getId() != null) {
-			pquery.and(DataBaseQueryOpertion.NOT_EQUALS, EmployeeProject.PROJECT_ID, vo.getId());
-		}
-		List<EmployeeProject> epList = this.dao.listByQuery(pquery, EmployeeProject.class);
-		Set<String> userIds = new HashSet<String>();
-		for (EmployeeProject ep : epList) {
+		pquery.distinct(EmployeeProject.USER_ID);
+		List<EmployeeProject> epList = this.dao.distinctQuery(pquery, EmployeeProject.class);
 
-			userIds.add(ep.getUserId());
+		// DataBaseQueryBuilder pquery = new
+		// DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		//
+		// if (vo.getId() != null) {
+		// pquery.and(DataBaseQueryOpertion.NOT_EQUALS,
+		// EmployeeProject.PROJECT_ID, vo.getId());
+		// }
+		// List<EmployeeProject> epList = this.dao.listByQuery(pquery,
+		// EmployeeProject.class);
+		// Set<String> userIds = new HashSet<String>();
+		// for (EmployeeProject ep : epList) {
+		//
+		// userIds.add(ep.getUserId());
+		// }
+		//
+		// pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		//
+		// if (vo.getId() != null) {
+		// pquery.and(EmployeeProject.PROJECT_ID, vo.getId());
+		// epList = this.dao.listByQuery(pquery, EmployeeProject.class);
+		// userIds = new HashSet<String>();
+		// for (EmployeeProject ep : epList) {
+		//
+		// userIds.add(ep.getUserId());
+		// }
+		// builder.or(DataBaseQueryOpertion.IN, User.ID, userIds);
+		// }
+		//
+		// builder.or(DataBaseQueryOpertion.IS_TRUE, User.IS_MULTIPLE_PROJECT);
+		// builder.or(DataBaseQueryOpertion.NOT_IN, User.ID, userIds);
+		//
+
+		if (EweblibUtil.isValid(vo.getUserName())) {
+
+			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
 		}
 		
-		
-		pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
-		
-		if (vo.getId() != null) {
-			pquery.and(EmployeeProject.PROJECT_ID, vo.getId());
-			epList = this.dao.listByQuery(pquery, EmployeeProject.class);
-			userIds = new HashSet<String>();
-			for (EmployeeProject ep : epList) {
+		Set<String> ids = new HashSet<String>();
 
-				userIds.add(ep.getUserId());
+		if (EweblibUtil.isValid(vo.getTeamId())) {
+
+			DataBaseQueryBuilder tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+			tquery.and(EmployeeTeam.TEAM_ID, vo.getTeamId());
+
+			List<EmployeeTeam> etList = this.dao.listByQuery(tquery, EmployeeTeam.class);
+			for (EmployeeTeam et : etList) {
+				ids.add(et.getUserId());
 			}
-			builder.or(DataBaseQueryOpertion.IN, User.ID, userIds);
+
+			builder.and(DataBaseQueryOpertion.IN, User.ID, ids);
+
 		}
-	
-
-
-		builder.or(DataBaseQueryOpertion.IS_TRUE, User.IS_MULTIPLE_PROJECT);
-		builder.or(DataBaseQueryOpertion.NOT_IN, User.ID, userIds);
 
 		builder.limitColumns(new User().getColumnList());
+		List<User> ulist = this.dao.listByQuery(builder, User.class);
+		
+		List<User> finalList = new ArrayList<User>();
 
-		return this.dao.listByQuery(builder, User.class);
+		List<User> excludeList = new ArrayList<User>();
+
+		for (User user : ulist) {
+			boolean find = false;
+			for (EmployeeProject ep : epList) {
+				if (ep.getUserId().equalsIgnoreCase(user.getId())) {
+					user.setProjectId("xxxxxxxxxx");
+
+					if (!user.getIsMultipleProject()) {
+						find = true;
+					}
+
+					break;
+				}
+			}
+
+			if (find) {
+				excludeList.add(user);
+			} else {
+				finalList.add(user);
+			}
+		}
+		finalList.addAll(excludeList);
+		return finalList;
 
 	}
 	

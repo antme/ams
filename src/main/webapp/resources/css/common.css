@@ -26,6 +26,14 @@ body {
 	margin-left: 20px;
 }
 
+.row_disable{
+	
+	background-color:#777A7C;
+	color:#fff;
+	
+	
+}
+
 .form-container .textbox{
 	width: 150px;
 	border: 2px inset;

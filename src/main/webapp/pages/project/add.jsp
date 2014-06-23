@@ -41,6 +41,121 @@
 	
 	
 	
+	function searchUser(){
+		
+		var teamId = $("#teamId").combobox('getValue');
+
+
+		if($("#username").val() == "" && teamId == ""){			
+			alert("请输入搜索条件");
+			return false;
+		}
+		var url = '/ams/user/project/user/select.do?userName=' + $("#username").val() + '&teamId=' + teamId;
+		
+		$('#userdlg').dialog({
+			modal : true
+		});
+		$('#userdlg').dialog('open');
+		
+		$("#projectMemberSearchIds").combogrid({url: url});
+		$("#projectMemberSearchIds").combogrid("showPanel");
+		
+		hasChange = true;
+		
+	
+		
+	}
+	
+	
+	function onClickRow(rowIndex, rowData){
+		
+		if(rowData.projectId && !rowData.isMultipleProject){
+			var g = $('#projectMemberIds').combogrid('grid');
+			g.datagrid('unselectRow', rowIndex);			
+		}
+	}
+	
+	function onLoadSuccess(){
+		disableCheckBox("projectMemberIds");
+	}
+	function onLoadSuccess2(){
+		
+		var g = $("#projectMemberSearchIds").combogrid('grid');	
+		var rows = g.datagrid('getRows');
+		$(".datagrid-header-check").html("");
+		
+		for(var j=0;j<rows.length;j++){	
+			  if(rows[j].projectId && !rows[j].isMultipleProject){
+			  	$(".row_disable2[datagrid-row-index="+j+"] input[type='checkbox']")[0].disabled=true;
+			  }
+
+		}
+	}
+	
+	
+	function onChange(){
+	
+		var values = $("#projectMemberSearchIds").combogrid('getValues');
+		var ovalues = $("#projectMemberIds").combogrid('getValues');
+		
+		var length = ovalues.length;
+		for(var j=0; j< values.length; j++){			
+			var find = false;
+			for(var i = 0; i<ovalues.length; i++){			
+					if(ovalues[i] == values[j]){
+						console.log(values[j]);
+						find = true;
+						break;
+					}
+				
+			}			
+			
+			if(!find){			
+				ovalues[length + j] = values[j];
+			}
+		}
+		$("#projectMemberIds").combogrid('setValues', ovalues);
+		
+		$('#userdlg').dialog('close');
+	}
+	
+	function disableCheckBox(id){
+		
+		var g = $("#"+id).combogrid('grid');	
+		var rows = g.datagrid('getRows');
+		$(".datagrid-header-check").html("");
+		
+		for(var j=0;j<rows.length;j++){	
+			  if(rows[j].projectId && !rows[j].isMultipleProject){
+			  	$(".datagrid-row[datagrid-row-index="+j+"] input[type='checkbox']")[0].disabled=true;
+			  }
+
+		}
+	}
+	
+	
+	function rowStyler(index,rowData){
+		if(rowData.projectId && !rowData.isMultipleProject){
+			//return 'background-color:#777A7C;color:#fff;'; // return inline style
+			return {	
+				class:'row_disable'
+			
+			};
+			//return {class:'row_disable', style:{'background-color:#777A7C;color:#fff;'}};
+		}
+	}
+	
+	
+	
+	function rowStyler2(index,rowData){
+		if(rowData.projectId && !rowData.isMultipleProject){
+			return {	
+				class:'row_disable  row_disable2'
+			
+			};
+		}
+	}
+	
 	 
 </script>
 
@@ -87,9 +202,31 @@
 						return data.rows;
 					}"></input>
 			</div>
-			
 			<div>
-				<span class="r-edit-label">项目成员：</span> <select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:700px; height:40px;"
+				<span class="r-edit-label"></span> 
+				<span> 
+				
+					<div style="display:inline-block; margin-left:25px;">
+			            用户名: <input class="easyui-validatebox textbox" type="text" name="username" id="username" style="width:80px">
+			            施工队: <input class="easyui-combobox textbox"  id ="teamId" type="text" name="teamId"
+								data-options="
+			                    valueField:'id',
+			                    url:'/ams/user/team/list.do?userId=',
+			                    textField:'teamName',
+			                    panelHeight:'auto',
+			                    loadFilter:function(data){
+									return data.rows;
+								}"></input>
+			            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser();">Search</a>
+			        </div>
+			        
+			       
+				</span>
+						
+			</div>
+			<div>
+				<span class="r-edit-label">项目成员：</span> 
+						<select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:700px; height:40px;"
 								        data-options="
 								            panelWidth:700,
 								            panelHeight:450,
@@ -97,6 +234,9 @@
 								            multiple: true,
 								            textField:'userName',
 								            fitColumns: true,
+								            rowStyler: rowStyler,
+								            onLoadSuccess: onLoadSuccess,
+								            onClickRow: onClickRow,
 								            onHidePanel:onHidePanel,
 								            url:'/ams/user/project/user/select.do',
 								            columns:[[
@@ -109,6 +249,7 @@
 								            ]]
 								        "></select><span id="count"></span>
 			</div>
+			
 			
 			<div>
 				<span class="r-edit-label">项目状态</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectStatus" style="width: 200px;"/>			
@@ -162,4 +303,32 @@
 			</div>
 		</div>
 	</form>
+</div>
+
+
+<div id="userdlg"  title="员工搜索" data-options="iconCls:'icon-save'" style="width:800px;height:550px;padding:10px;">
+
+			
+			<select id="projectMemberSearchIds" style="width:700px; height:40px;display:none;" 
+								        data-options="
+								            panelWidth:700,
+								            panelHeight:450,
+								            idField:'id',
+								            multiple: true,
+								            textField:'userName',
+								            fitColumns: true,
+								            rowStyler: rowStyler2,
+								            onLoadSuccess: onLoadSuccess2,
+								            onClickRow: onClickRow,
+								            onHidePanel:onHidePanel,
+								            columns:[[
+								            	{field:'ck',checkbox:true},
+								                {field:'userName',title:'用户名',width:60},
+								                {field:'userCode',title:'员工编号',width:60},
+								                {field:'typeName',title:'员工类型',width:60},
+								                {field:'levelName',title:'员工级别',width:60},
+								                {field:'id',title:'Id',width:100, hidden:true}
+								            ]]
+								        "></select><button onclick="onChange();">添加</button>
+			
 </div>

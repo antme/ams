@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ams.bean.Attendance;
 import com.ams.bean.Customer;
 import com.ams.bean.Department;
-import com.ams.bean.EmployeeProject;
 import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Salary;
 import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.bean.vo.SearchVo;
+import com.ams.bean.vo.UserSearchVo;
 import com.ams.service.IProjectService;
 import com.ams.service.IUserService;
 import com.ams.util.PermissionConstants;
@@ -288,7 +288,7 @@ public class UserController extends AmsController {
 	@RequestMapping("/project/user/select.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void selectAllUsersForProject(HttpServletRequest request, HttpServletResponse response) {
-		EmployeeProject vo = (EmployeeProject) parserJsonParameters(request, true, EmployeeProject.class);
+		UserSearchVo vo = (UserSearchVo) parserJsonParameters(request, true, UserSearchVo.class);
 		responseWithListData(userService.selectAllUsersForProject(vo), request, response);
 	}
 	

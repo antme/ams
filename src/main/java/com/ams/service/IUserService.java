@@ -12,6 +12,7 @@ import com.ams.bean.Pic;
 import com.ams.bean.Salary;
 import com.ams.bean.User;
 import com.ams.bean.vo.SearchVo;
+import com.ams.bean.vo.UserSearchVo;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
 
@@ -63,7 +64,7 @@ public interface IUserService {
 
 	public EntityResults<User> listAllUsers(User vo);
 	
-	public List<User> selectAllUsersForProject(EmployeeProject vo);
+	public List<User> selectAllUsersForProject(UserSearchVo vo);
 	
 	public List<User> selectAllUsersForTeam(EmployeeTeam vo);
 
