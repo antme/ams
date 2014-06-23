@@ -16,10 +16,6 @@ public class AmsBaseEntity extends BaseEntity {
 	@Column(name = DISPLAY_FOR_APP)
 	public Boolean displayForApp;
 
-	public String keyword;
-
-	public String userId;
-
 	public Boolean getDisplayForApp() {
 		return displayForApp;
 	}
@@ -34,22 +30,6 @@ public class AmsBaseEntity extends BaseEntity {
 
 	public void setDisplayOrder(Integer displayOrder) {
 		this.displayOrder = displayOrder;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
 	}
 
 }

@@ -90,7 +90,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 			throw new ResponseException("员工编号不能重复");
 		}
 
-		if (user.getUserPassword() != null) {
+		if (EweblibUtil.isValid(user.getUserPassword())) {
 			user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
 		}
 
@@ -361,6 +361,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		builder.join(Department.TABLE_NAME, User.TABLE_NAME, Department.DEPARTMENT_MANAGER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		builder.limitColumns(new Department().getColumnList());
+		mergeCommonQuery(builder);
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
 
@@ -523,6 +524,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		// }
 		builder.limitColumns(new String[] { Department.ID, Department.DEPARTMENT_NAME });
 
+		mergeCommonQueryForApp(builder);
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
 

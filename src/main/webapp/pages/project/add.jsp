@@ -101,6 +101,18 @@
 				<span class="r-edit-label">项目结束时间:</span>
 				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectEndDate"></input></td>
 			</div>
+				
+			<div>
+				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>
+				<span>数值高的将显示在后面</span>
+			</div>
+			<div>
+				<span class="r-edit-label">是否手机显示:</span> <select class="easyui-combobox" name="displayForApp" style="width: 200px;" >
+					<option value="1">是</option>
+					<option value="0">否</option>									
+				</select>
+			</div>
+			
 			<div>
 				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId"  style="width:250px;"
 					data-options="url:'/ams/project/customer/list.do?userId=',

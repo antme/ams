@@ -5,10 +5,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
-
 @Table(name = Customer.TABLE_NAME)
-public class Customer extends BaseEntity {
+public class Customer extends AmsBaseEntity {
 	public static final String CONTACT_MOBILE_NUMBER = "contactMobileNumber";
 
 	public static final String POSITION = "position";

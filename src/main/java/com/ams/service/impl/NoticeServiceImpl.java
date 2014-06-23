@@ -8,16 +8,14 @@ import org.springframework.stereotype.Service;
 import com.ams.bean.Notice;
 import com.ams.bean.Reminder;
 import com.ams.bean.User;
+import com.ams.bean.vo.SearchVo;
 import com.ams.service.INoticeService;
 import com.eweblib.bean.BaseEntity;
 import com.eweblib.bean.EntityResults;
-import com.eweblib.constants.EWebLibConstants;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.service.AbstractService;
-import com.eweblib.util.DateUtil;
-import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 
 @Service(value = "noticeService")
@@ -35,7 +33,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	}
 
 	@Override
-	public EntityResults<Notice> listNotices(Notice notice) {
+	public EntityResults<Notice> listNotices(SearchVo notice) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Notice.TABLE_NAME);
 		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
@@ -50,7 +48,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	}
 
 	@Override
-	public EntityResults<Notice> listNoticesForApp(Notice notice) {
+	public EntityResults<Notice> listNoticesForApp(SearchVo notice) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Notice.TABLE_NAME);
 		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });

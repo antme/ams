@@ -114,7 +114,7 @@
 			
 			<div>
 				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>
-				<span>数值高的将显示在前面</span>
+				<span>数值高的将显示在后面</span>
 			</div>
 			<div>
 				<span class="r-edit-label">是否手机显示:</span> <select class="easyui-combobox" name="displayForApp" style="width: 200px;" >
@@ -149,7 +149,7 @@
 			
 			<div>
 				<span class="r-edit-label">备注:</span>
-				<textarea class="easyui-validatebox textarea" name="remark"  data-options="required:true"></textarea>
+				<textarea class="easyui-validatebox textarea" name="remark" ></textarea>
 			</div>
 			
 			<div style="margin-left: 100px;">

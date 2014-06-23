@@ -41,7 +41,7 @@ import com.eweblib.util.EweblibUtil;
 import com.eweblib.util.ExcelUtil;
 
 @Service(value = "sys")
-public class SystemServiceImpl extends AbstractService implements ISystemService {
+public class SystemServiceImpl extends AbstractAmsService implements ISystemService {
 
 	@Autowired
 	private IUserService userService;
@@ -356,6 +356,8 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		query.limitColumns(new UserType().getColumnList());
+		
+		mergeCommonQuery(query);
 
 		return this.dao.listByQueryWithPagnation(query, UserType.class);
 
@@ -375,6 +377,8 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 		if (level.getUserTypeId() != null) {
 			query.and(UserLevel.USER_TYPE_ID, level.getUserTypeId());
 		}
+		
+		mergeCommonQuery(query);
 
 		return this.dao.listByQueryWithPagnation(query, UserLevel.class);
 	}
@@ -398,6 +402,8 @@ public class SystemServiceImpl extends AbstractService implements ISystemService
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
 
+		
+		mergeCommonQuery(query);
 		return this.dao.listByQueryWithPagnation(query, RoleGroup.class);
 
 	}

@@ -41,13 +41,12 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
-import com.eweblib.service.AbstractService;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 import com.eweblib.util.ExcelUtil;
 
 @Service(value = "projectService")
-public class ProjectServiceImpl extends AbstractService implements IProjectService {
+public class ProjectServiceImpl extends AbstractAmsService implements IProjectService {
 
 	@Autowired
 	private IUserService userService;
@@ -413,6 +412,7 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID });
 
+		mergeCommonQueryForApp(builder);
 		return this.dao.listByQuery(builder, Project.class);
 
 	}
@@ -882,6 +882,8 @@ public class ProjectServiceImpl extends AbstractService implements IProjectServi
 		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
 
 		mergeKeywordQuery(builder, vo.getKeyword(), Customer.TABLE_NAME, new String[] { Customer.ID, Customer.NAME, Customer.ADDRESS, Customer.CONTACT_PERSON, Customer.CONTACT_MOBILE_NUMBER });
+		
+		mergeCommonQueryForApp(builder);
 		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
 
 		for (Customer customer : customerList.getEntityList()) {

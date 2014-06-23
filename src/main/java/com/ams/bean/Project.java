@@ -5,10 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
-
 @Table(name = Project.TABLE_NAME)
-public class Project extends BaseEntity {
+public class Project extends AmsBaseEntity {
 
 	public static final String PROJECT_ATTENDANCE_MANAGER_ID = "projectAttendanceManagerId";
 

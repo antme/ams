@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.eweblib.bean.BaseEntity;
 
 @Table(name = UserLevel.TABLE_NAME)
-public class UserLevel extends BaseEntity {
+public class UserLevel extends AmsBaseEntity {
 
 	public static final String USER_TYPE_ID = "userTypeId";
 

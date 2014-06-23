@@ -39,6 +39,12 @@
 						return data.rows;
 					}"></input>
 			</div>
+			
+			<div>
+				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>
+				<span>数值高的将显示在后面</span>
+			</div>
+			
 			<div>
 				<span class="r-edit-label">描述:</span>
 				<textarea class="easyui-validatebox textarea" name="departmentDescription" ></textarea>

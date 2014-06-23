@@ -3,11 +3,10 @@ package com.ams.bean;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
 import com.google.gson.annotations.Expose;
 
 @Table(name = RoleGroup.TABLE_NAME)
-public class RoleGroup extends BaseEntity {
+public class RoleGroup extends AmsBaseEntity {
 	public static final String PERMISSIONS = "permissions";
 
 	public static final String TABLE_NAME = "RoleGroup";

@@ -39,7 +39,10 @@
 				data-options="url:'/menu/roles.json',method:'post',valueField:'id', textField:'text',width:194,height:32" multiple style="width: 128px;"></select>
 
 		</div>
-
+			<div>
+				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>
+				<span>数值高的将显示在后面</span>
+			</div>
 		<div>
 			<span class="r-edit-label"><label for="description"> 描述 </label>:</span>
 			<textarea rows="15" cols="60" id="description" name="description"></textarea>

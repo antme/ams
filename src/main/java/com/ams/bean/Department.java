@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import com.eweblib.bean.BaseEntity;
 
 @Table(name = Department.TABLE_NAME)
-public class Department extends BaseEntity {
+public class Department extends AmsBaseEntity {
 
 	
 	public static final String DEPARTMENT_MANAGER_ID = "departmentManagerId";

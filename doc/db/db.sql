@@ -565,6 +565,30 @@ alter table User add column reportManagerId varchar(36) default null;
 alter table User add column displayForApp tinyint(1) default 1;
 alter table User add column displayOrder int default 0;
 
+alter table Customer add column displayForApp tinyint(1) default 1;
+alter table Customer add column displayOrder int default 0;
+
+alter table Project add column displayForApp tinyint(1) default 1;
+alter table Project add column displayOrder int default 0;
+
+
+alter table UserType add column displayForApp tinyint(1) default 1;
+alter table UserType add column displayOrder int default 0;
+
+alter table UserLevel add column displayForApp tinyint(1) default 1;
+alter table UserLevel add column displayOrder int default 0;
+
+
+alter table Department add column displayForApp tinyint(1) default 1;
+alter table Department add column displayOrder int default 0;
+
+alter table RoleGroup add column displayForApp tinyint(1) default 1;
+alter table RoleGroup add column displayOrder int default 0;
+
+
+
+
+
 
 
 

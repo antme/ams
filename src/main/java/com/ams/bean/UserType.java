@@ -3,10 +3,8 @@ package com.ams.bean;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
-
 @Table(name = UserType.TABLE_NAME)
-public class UserType extends BaseEntity {
+public class UserType extends AmsBaseEntity {
 
 	public static final String TABLE_NAME = "UserType";
 

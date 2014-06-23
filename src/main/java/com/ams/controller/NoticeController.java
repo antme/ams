@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ams.bean.Notice;
 import com.ams.bean.Reminder;
+import com.ams.bean.vo.SearchVo;
 import com.ams.service.INoticeService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
@@ -56,13 +57,13 @@ public class NoticeController extends AmsController {
 
 	@RequestMapping("/list.do")
 	public void listNotices(HttpServletRequest request, HttpServletResponse response) {
-		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
+		SearchVo notice = (SearchVo) parserJsonParameters(request, true, SearchVo.class);
 		responseWithDataPagnation(noticeService.listNotices(notice), request, response);
 	}
 
 	@RequestMapping("/app/list.do")
 	public void listNoticesForApp(HttpServletRequest request, HttpServletResponse response) {
-		Notice notice = (Notice) parserJsonParameters(request, true, Notice.class);
+		SearchVo notice = (SearchVo) parserJsonParameters(request, true, SearchVo.class);
 
 		if (EweblibUtil.isEmpty(notice.getUserId())) {
 			throw new ResponseException("请先登录");
