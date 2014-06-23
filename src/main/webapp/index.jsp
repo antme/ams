@@ -117,7 +117,7 @@
 		</div>
 	</div>
 	
-	 <div id="dlg"  title="详情" data-options="iconCls:'icon-save'" style="width:500px;padding:10px;">
+	 <div id="dlg"  title="详情" data-options="iconCls:'icon-save'" style="width:500px;height:250px;padding:10px;">
 	 
      </div>
 

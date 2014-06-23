@@ -89,6 +89,28 @@
 			</div>
 			
 			<div>
+				<span class="r-edit-label">项目成员：</span> <select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:700px; height:40px;"
+								        data-options="
+								            panelWidth:700,
+								            panelHeight:450,
+								            idField:'id',
+								            multiple: true,
+								            textField:'userName',
+								            fitColumns: true,
+								            onHidePanel:onHidePanel,
+								            url:'/ams/user/project/user/select.do',
+								            columns:[[
+								            	{field:'ck',checkbox:true},
+								                {field:'userName',title:'用户名',width:60},
+								                {field:'userCode',title:'员工编号',width:60},
+								                {field:'typeName',title:'员工类型',width:60},
+								                {field:'levelName',title:'员工级别',width:60},
+								                {field:'id',title:'Id',width:100, hidden:true}
+								            ]]
+								        "></select><span id="count"></span>
+			</div>
+			
+			<div>
 				<span class="r-edit-label">项目状态</span> <input class="easyui-validatebox textbox input-title" type="text" name="projectStatus" style="width: 200px;"/>			
 			</div>
 
@@ -126,26 +148,7 @@
 					}"></input>
 			</div>
 			
-			<div>
-				<span class="r-edit-label">项目成员：</span> <select id="projectMemberIds" class="easyui-combogrid" name="projectMemberIds[]" style="width:500px; height:40px;"
-								        data-options="
-								            panelWidth:450,
-								            idField:'id',
-								            multiple: true,
-								            textField:'userName',
-								            fitColumns: true,
-								            onHidePanel:onHidePanel,
-								            url:'/ams/user/project/user/select.do',
-								            columns:[[
-								            	{field:'ck',checkbox:true},
-								                {field:'userName',title:'用户名',width:60},
-								                {field:'userCode',title:'员工编号',width:60},
-								                {field:'typeName',title:'员工类型',width:60},
-								                {field:'levelName',title:'员工级别',width:60},
-								                {field:'id',title:'Id',width:100, hidden:true}
-								            ]]
-								        "></select><span id="count"></span>
-			</div>
+			
 			<div>
 				<span class="r-edit-label">项目作息时间:</span>
 				<textarea class="easyui-validatebox textarea" name="workTimePeriod"></textarea>
