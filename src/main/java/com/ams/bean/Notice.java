@@ -7,9 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Table;
 
 import com.eweblib.annotation.column.IntegerColumn;
+import com.eweblib.bean.BaseEntity;
 
 @Table(name = Notice.TABLE_NAME)
-public class Notice extends AmsBaseEntity {
+public class Notice extends BaseEntity {
 	public static final String PUBLISH_END_DATE = "publishEndDate";
 
 
