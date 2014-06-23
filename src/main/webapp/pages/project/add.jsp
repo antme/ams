@@ -103,7 +103,6 @@
 			var find = false;
 			for(var i = 0; i<ovalues.length; i++){			
 					if(ovalues[i] == values[j]){
-						console.log(values[j]);
 						find = true;
 						break;
 					}
@@ -217,7 +216,7 @@
 			                    loadFilter:function(data){
 									return data.rows;
 								}"></input>
-			            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser();">Search</a>
+			            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser();">搜索</a>
 			        </div>
 			        
 			       

@@ -66,7 +66,7 @@ public interface IUserService {
 	
 	public List<User> selectAllUsersForProject(UserSearchVo vo);
 	
-	public List<User> selectAllUsersForTeam(EmployeeTeam vo);
+	public List<User> selectAllUsersForTeam(UserSearchVo vo);
 
     public boolean isAdmin(String userId);
     

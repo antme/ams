@@ -296,7 +296,7 @@ public class UserController extends AmsController {
 	@RequestMapping("/team/user/select.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void selectAllUsersForTeam(HttpServletRequest request, HttpServletResponse response) {
-		EmployeeTeam vo = (EmployeeTeam) parserJsonParameters(request, true, EmployeeTeam.class);
+		UserSearchVo vo = (UserSearchVo) parserJsonParameters(request, true, UserSearchVo.class);
 		responseWithListData(userService.selectAllUsersForTeam(vo), request, response);
 	}
 	

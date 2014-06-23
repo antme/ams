@@ -119,7 +119,17 @@ public class User extends AmsBaseEntity {
 	
 	public String projectId;
 	
+	public String teamId;
 	
+	
+
+	public String getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(String teamId) {
+		this.teamId = teamId;
+	}
 
 	public String getProjectId() {
 		return projectId;
