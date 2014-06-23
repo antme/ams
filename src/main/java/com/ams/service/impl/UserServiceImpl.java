@@ -780,9 +780,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		}
 		finalList.addAll(excludeList);
 		
-		builder.limitColumns(new User().getColumnList());
-
-		return this.dao.listByQuery(builder, User.class);
+		return finalList;
 
 	}
 

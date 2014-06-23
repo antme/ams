@@ -45,8 +45,11 @@
 		
 		var teamId = $("#teamId").combobox('getValue');
 
+		if(teamId==undefined){
+			teamId = "";
+		}
 
-		if($("#username").val() == "" && teamId == ""){			
+		if($("#username").val() == "" && (teamId == ""  ||  teamId==undefined)){			
 			alert("请输入搜索条件");
 			return false;
 		}
@@ -116,6 +119,7 @@
 		$("#projectMemberIds").combogrid('setValues', ovalues);
 		
 		$('#userdlg').dialog('close');
+		onHidePanel();
 	}
 	
 	function disableCheckBox(id){

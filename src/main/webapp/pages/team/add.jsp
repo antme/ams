@@ -42,13 +42,15 @@
 	function searchUser(){
 		
 		var projectId = $("#projectId").combobox('getValue');
+		if(projectId==undefined){
+			projectId = "";
+		}
 
-
-		if($("#username").val() == "" && projectId == ""){			
+		if($("#username").val() == "" && (projectId == "" || projectId==undefined)){			
 			alert("请输入搜索条件");
 			return false;
 		}
-		var url = '/ams/user/project/user/select.do?userName=' + $("#username").val() + '&projectId=' + projectId;
+		var url = '/ams/user/team/user/select.do?userName=' + $("#username").val() + '&projectId=' + projectId;
 		
 		$('#userdlg').dialog({
 			modal : true
@@ -72,6 +74,15 @@
 			g.datagrid('unselectRow', rowIndex);			
 		}
 	}
+	function onClickRow2(rowIndex, rowData){
+		
+		if(rowData.teamId && !rowData.isMultipleTeam){
+			var g = $('#projectMemberSearchIds').combogrid('grid');
+			g.datagrid('unselectRow', rowIndex);			
+		}
+	}
+	
+	
 	
 	function onLoadSuccess(){
 		disableCheckBox("teamMemberIds");
@@ -114,6 +125,8 @@
 		$("#teamMemberIds").combogrid('setValues', ovalues);
 		
 		$('#userdlg').dialog('close');
+		
+		onHidePanel();
 	}
 	
 	function disableCheckBox(id){
@@ -271,7 +284,7 @@
 								            fitColumns: true,
 								            rowStyler: rowStyler2,
 								            onLoadSuccess: onLoadSuccess2,
-								            onClickRow: onClickRow,
+								            onClickRow: onClickRow2,
 								            onHidePanel:onHidePanel,
 								            columns:[[
 								            	{field:'ck',checkbox:true},
