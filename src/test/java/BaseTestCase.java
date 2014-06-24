@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import com.ams.bean.Salary;
 import com.ams.service.INoticeService;
 import com.ams.service.ISystemService;
 import com.ams.service.impl.NoticeServiceImpl;
@@ -55,9 +56,9 @@ public class BaseTestCase extends TestCase {
 	public void testEmpty() throws IOException, InterruptedException {
 
 		
-		InputStream is = new FileInputStream("/Users/ymzhou/Downloads/task.xls");
+		InputStream is = new FileInputStream("/Users/ymzhou/Downloads/salary.xls");
 		
-//		sys.importTask(is, new Task());
+		sys.importSalary(is, new Salary());
 		
 		System.out.println(getDate("2014年6月15日"));
 		
