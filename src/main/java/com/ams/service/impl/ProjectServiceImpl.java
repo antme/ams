@@ -455,7 +455,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			task.setProjectRemainingDays(endDay - currentDay);
 			task.setProjectUsedDays(currentDay - startDay);
 
-			// FIXME : from attendance
 			task.setUserWorkedDays(getUserWorkedDaysFromTask(task));
 
 		}
@@ -736,7 +735,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 				task.setProjectRemainingDays(endDay - currentDay);
 				task.setProjectUsedDays(currentDay - startDay);
 
-				// FIXME
 				task.setUserWorkedDays(getUserWorkedDaysFromTask(task));
 
 				vo.setTaskInfo(task);
@@ -1045,7 +1043,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 				{
 
-					// TODO Auto-generated catch block
 
 					e.printStackTrace();
 

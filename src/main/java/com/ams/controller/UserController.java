@@ -124,7 +124,6 @@ public class UserController extends AmsController {
 		try {
 			ImageIO.write(image, "png", response.getOutputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

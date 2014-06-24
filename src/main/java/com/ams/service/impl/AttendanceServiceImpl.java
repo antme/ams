@@ -326,7 +326,6 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 				{
 
-					// TODO Auto-generated catch block
 
 					e.printStackTrace();
 
