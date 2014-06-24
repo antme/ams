@@ -256,7 +256,8 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				index++;
 			}
 
-			List<Pic> pics = userService.listPics(null).getEntityList();
+			DataBaseQueryBuilder query = userService.getPicQuery(p);
+			List<Pic> pics = this.dao.listByQuery(query, Pic.class);
 
 			int rowIndex = 1;
 			for (Pic pic : pics) {

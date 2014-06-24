@@ -1,6 +1,10 @@
 package com.ams.service.impl;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,8 +14,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -933,17 +944,115 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder query = getDailyReportQuery(report);
 		List<DailyReport> reportList = this.dao.listByQuery(query, DailyReport.class);
-		String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
-		String[] colunmHeaders = new String[] { "userName", "reportDay", "projectName", "materialRecord", "workingRecord", "summary", "plan", "weather" };
+//		String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
+//		String[] colunmHeaders = new String[] { "userName", "reportDay", "projectName", "materialRecord", "workingRecord", "summary", "plan", "weather" };
 
-		String webPath = request.getSession().getServletContext().getRealPath("/");
 
 		String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "日报" + new Date().getTime() + ".xls";
-		String desXlsPath = webPath + filePath;
 
-		ExcelUtil.createExcelListFileByEntity(reportList, colunmTitleHeaders, colunmHeaders, new File(desXlsPath));
+//		ExcelUtil.createExcelListFileByEntity(reportList, colunmTitleHeaders, colunmHeaders, new File(desXlsPath));
+		
+		
+		FileOutputStream fileOut = null;
 
+		BufferedImage bufferImg = null;
+		String desXlsPath = null;
+		String[] columnHeaders =  new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
+
+		try {
+			// 先把读进来的图片放到一个ByteArrayOutputStream中，以便产生ByteArray
+			// 创建一个工作薄
+			HSSFWorkbook wb = new HSSFWorkbook();
+
+			HSSFSheet sheet1 = wb.createSheet("日报");
+
+			HSSFRow row = sheet1.createRow(0);
+			int index = 0;
+			for (String header : columnHeaders) {
+				HSSFCell cell = row.createCell(index);
+				cell.setCellValue(header);
+				index++;
+			}
+
+			int rowIndex = 1;
+			for (DailyReport rep : reportList) {
+				row = sheet1.createRow(rowIndex);
+
+				row.createCell(0).setCellValue(rep.getUserName());
+				row.createCell(1).setCellValue(rep.getReportDay());
+				row.createCell(2).setCellValue(rep.getProjectName());
+				row.createCell(3).setCellValue(rep.getMaterialRecord());
+				row.createCell(4).setCellValue(rep.getWorkingRecord());
+				row.createCell(5).setCellValue(rep.getSummary());
+				row.createCell(6).setCellValue(rep.getPlan());
+				row.createCell(7).setCellValue(rep.getWeather());
+
+				DataBaseQueryBuilder picquery = new DataBaseQueryBuilder(Pic.TABLE_NAME);
+				picquery.and(Pic.DAILY_REPORT_ID, rep.getId());
+				List<Pic> picList = this.dao.listByQuery(picquery, Pic.class);
+				for (Pic pic : picList) {
+					HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
+					HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
+					ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+					String webPath = request.getSession().getServletContext().getRealPath("/");
+					bufferImg = ImageIO.read(new File(webPath + pic.getPicUrl()));
+					ImageIO.write(bufferImg, "png", byteArrayOut);
+					patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
+					rowIndex++;
+
+				}
+
+			}
+
+			String webPath = request.getSession().getServletContext().getRealPath("/");
+
+			desXlsPath = webPath + filePath;
+			
+			new File(desXlsPath).getParentFile().mkdirs();
+
+			fileOut = new FileOutputStream(desXlsPath);
+
+			// 写入excel文件
+
+			wb.write(fileOut);
+
+			fileOut.close();
+
+		} catch (IOException io) {
+
+			io.printStackTrace();
+
+			System.out.println("io erorr : " + io.getMessage());
+
+		} finally
+
+		{
+
+			if (fileOut != null)
+
+			{
+
+				try {
+
+					fileOut.close();
+
+				}
+
+				catch (IOException e)
+
+				{
+
+					// TODO Auto-generated catch block
+
+					e.printStackTrace();
+
+				}
+
+			}
+
+		}
 		return desXlsPath;
+
 	}
 
 	public void addCustomerContact(CustomerContactVo vo, List<CustomerContact> concats) {

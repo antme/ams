@@ -15,6 +15,7 @@ import com.ams.bean.vo.SearchVo;
 import com.ams.bean.vo.UserSearchVo;
 import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
+import com.eweblib.dbhelper.DataBaseQueryBuilder;
 
 public interface IUserService {
 
@@ -47,6 +48,9 @@ public interface IUserService {
 	public void addPic(Pic pic);
 
 	public EntityResults<Pic> listPics(Pic vo);
+	
+	
+	public DataBaseQueryBuilder getPicQuery(Pic pic);
 
 	public EntityResults<Salary> listUserSalaries(Salary salary);
 

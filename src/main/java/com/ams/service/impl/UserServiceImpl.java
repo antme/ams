@@ -372,7 +372,12 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	}
 
 	public EntityResults<Pic> listPics(Pic pic) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
+		DataBaseQueryBuilder builder = getPicQuery(pic);
+		return this.dao.listByQueryWithPagnation(builder, Pic.class);
+	}
+
+	public DataBaseQueryBuilder getPicQuery(Pic pic) {
+	    DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
 
 		builder.join(Pic.TABLE_NAME, User.TABLE_NAME, Pic.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
@@ -398,8 +403,9 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		}
 		builder.and(DataBaseQueryOpertion.NULL, Pic.DAILY_REPORT_ID);
-		return this.dao.listByQueryWithPagnation(builder, Pic.class);
-	}
+
+	    return builder;
+    }
 
 	public EntityResults<Salary> listUserSalaries(Salary salary) {
 
