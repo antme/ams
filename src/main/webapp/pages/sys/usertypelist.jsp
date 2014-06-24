@@ -11,12 +11,12 @@
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
 		<tr>
-			<th align="center" field="typeName" width="100" sortable="false" resizable="true">类型</th>
-			<th align="center" field="createdOn" width="100" sortable="false" resizable="true">创建日期</th>
-			<th align="center" field="updatedOn" width="100" sortable="false" resizable="true">更新日期</th>
+			<th align="center" field="typeName" width="60" sortable="false" resizable="true">类型</th>
+			<th align="center" field="createdOn" width="80" sortable="false" resizable="true">创建日期</th>
+			<th align="center" field="updatedOn" width="80" sortable="false" resizable="true">更新日期</th>
 			<th align="center" field="userName" width="50" sortable="false" resizable="true">创建人</th>
-			<th align="center" field="typeDescription" width="100" sortable="false" resizable="true">描述</th>
-			<th align="center" data-options="field:'id',formatter:formatterUserTypeOperation" width="120">操作</th>
+			<th align="center" field="typeDescription" width="250" sortable="false" resizable="true">描述</th>
+			<th align="center" data-options="field:'id',formatter:formatterUserTypeOperation" width="80">操作</th>
 		</tr>
 	</thead>
 </table>

@@ -29,6 +29,8 @@ body {
 	width: 200px;
 }
 
+
+
 .form-container label {
 	width: 150px;
 }
@@ -48,6 +50,13 @@ body {
 
 .form-container .textbox {
 	width: 150px;
+	border: 2px inset;
+	margin-top: 2px;
+}
+
+
+.form-container .textbox-long {
+	width: 250px;
 	border: 2px inset;
 	margin-top: 2px;
 }

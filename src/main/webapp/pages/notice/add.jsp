@@ -31,7 +31,7 @@
 		<div class="form-container" >
 			<input class="" type="hidden" name="id" />
 			<div>
-				<span class="r-edit-label">标题:</span> <input class="easyui-validatebox textbox input-title" type="text" name="title" data-options="required:true"></input>
+				<span class="r-edit-label">标题:</span> <input class="easyui-validatebox textbox-long input-title" type="text" name="title" data-options="required:true"></input>
 			</div>
 			
 			<div>

@@ -86,7 +86,7 @@
 			<th align="center" field="typeName" width="55" sortable="false" resizable="true">工种</th>
 			<th align="center" field="levelName" width="40" sortable="false" resizable="true">级别</th>
 			<th align="center" field="mobileNumber" width="70" sortable="false" resizable="true">手机号</th>
-			
+			<th align="center" field="reportManagerName" width="50" sortable="false" resizable="true">领导</th>
 			<th align="center" field="status" width="40" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
 			<th align="center" field="bstatus" width="40" sortable="false" resizable="true" formatter="formatterUserWebLoginOperation">后台登录</th>
 			<th align="center" field="projects" width="100" sortable="false" resizable="true" >项目</th>
