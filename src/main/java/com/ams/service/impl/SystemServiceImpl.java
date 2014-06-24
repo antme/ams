@@ -330,7 +330,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.YEAR, EweblibUtil.getInteger(year, 0));
 
-		c.set(Calendar.MONTH, EweblibUtil.getInteger(month, 0));
+		c.set(Calendar.MONTH, EweblibUtil.getInteger(month, 0) - 1);
 
 		c.set(Calendar.DAY_OF_MONTH, EweblibUtil.getInteger(day, 0));
 
