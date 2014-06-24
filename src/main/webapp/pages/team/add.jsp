@@ -271,8 +271,15 @@
 	
 	
 	
-<div id="userdlg"  title="员工搜索" data-options="iconCls:'icon-save'" style="width:800px;height:550px;padding:10px;">
 
+<div id="userdlg"  title="员工搜索" data-options=
+				"iconCls:'icon-save',
+				toolbar: [{
+				                    text:'保存',
+				                    iconCls:'icon-save',
+				                    handler:function(){
+				                        onChange();
+				   			}}]" style="width:800px;height:550px;padding:10px;">
 			
 			<select id="projectMemberSearchIds" style="width:700px; height:40px;display:none;" 
 								        data-options="
@@ -294,6 +301,6 @@
 								                {field:'levelName',title:'员工级别',width:60},
 								                {field:'id',title:'Id',width:100, hidden:true}
 								            ]]
-								        "></select><button onclick="onChange();">添加</button>
+								        "></select>
 			
 </div>
