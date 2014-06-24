@@ -76,6 +76,7 @@
 <button onclick="loadRemotePage('user/add&a=4');">新增</button>
 <p></p>
 <span>员工总数:</span><span id="count" style="color:red; margin-left:5px;"></span>
+<div>点击<img src="/resources/images/add.png">可以查看员工详情</div>
 <table id=userList class="easyui-datagrid" data-options="checkOnSelect:false, remoteFilter:true, fitColumns: true, loadFilter: loadFilter" url="/ams/user/list.do" iconCls="icon-save"
 	sortOrder="asc" pagination="true" singleSelect="true">
 	<thead>
@@ -83,16 +84,65 @@
 			<th align="center" field="userName" width="45" sortable="false" resizable="true">用户名</th>
 			<th align="center" field="userCode" width="45" sortable="false" resizable="true">员工编号</th>
 			<th align="center" field="typeName" width="55" sortable="false" resizable="true">工种</th>
-			<th align="center" field="levelName" width="70" sortable="false" resizable="true">级别</th>
-			<th align="center" field="status" width="30" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
-			<th align="center" field="bstatus" width="30" sortable="false" resizable="true" formatter="formatterUserWebLoginOperation">后台登录</th>
+			<th align="center" field="levelName" width="40" sortable="false" resizable="true">级别</th>
 			<th align="center" field="mobileNumber" width="70" sortable="false" resizable="true">手机号</th>
-			<th align="center" field="teamGroup" width="80" sortable="false" resizable="true">所属队伍</th>
-			<th align="center" field="idCard" width="90" sortable="false" resizable="true">身份证</th>
-			<th align="center" field="address" width="50"  data-options="formatter:formatterDescription"  sortable="false" resizable="true">住址</th>
+			
+			<th align="center" field="status" width="40" sortable="false" resizable="true" formatter="formatterUserMobileLoginOperation">手机登录</th>
+			<th align="center" field="bstatus" width="40" sortable="false" resizable="true" formatter="formatterUserWebLoginOperation">后台登录</th>
+			<th align="center" field="projects" width="100" sortable="false" resizable="true" >项目</th>
+			<th align="center" field="teams" width="100" sortable="false" resizable="true" >施工队</th>
 			<th align="center" field="createdOn" width="90" sortable="false" resizable="true">创建时期</th>
 			<th align="center" data-options="field:'id',formatter:formatterUserOperation"  width="30">操作</th>
 
 		</tr>
 	</thead>
+	
+	 <script type="text/javascript">
+        $(function(){
+            $('#userList').datagrid({
+                view: detailview,
+                detailFormatter:function(index,row){
+                    return '<div class="ddv" style="padding:5px 0; border: solid 1px; "></div>';
+                },
+                onExpandRow: function(index,row){
+             	
+                	if(row.isMultipleProject){
+                		row.isMultipleProject_str = "是";
+                	}else{
+                		row.isMultipleProject_str = "否";
+                	}
+                	
+                	if(row.isMultipleTeam){
+                		row.isMultipleTeam_str = "是";
+                	}else{
+                		row.isMultipleTeam_str = "否";
+                	}
+                	
+                	
+                	if(row.displayForApp){
+                		row.displayForApp_str = "是";
+                	}else{
+                		row.displayForApp_str = "否";
+                	}
+                	
+                	
+                    var ddv = $(this).datagrid('getRowDetail',index).find('div.ddv');
+                    ddv.panel({
+                        height:120,
+                        border:false,
+                        cache:false,
+                        href:'/pages/user/template.html',
+                        onLoad:function(){
+                            $('#userList').datagrid('fixDetailRowHeight',index);
+                            
+                            ddv.form('load',row);
+                        }
+                    });
+                    $('#userList').datagrid('fixDetailRowHeight',index);
+                }
+            });
+        });
+    </script>
+    
+    
 </table>

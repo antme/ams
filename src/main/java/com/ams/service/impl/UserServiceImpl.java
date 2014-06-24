@@ -554,6 +554,9 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
+		
+		builder.join(User.TABLE_NAME, RoleGroup.TABLE_NAME, User.GROUP_ID, RoleGroup.ID);
+		builder.joinColumns(RoleGroup.TABLE_NAME, new String[] { RoleGroup.GROUP_NAME });
 
 		if (EweblibUtil.isValid(vo.getUserName())) {
 			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
@@ -586,7 +589,75 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		builder.limitColumns(new User().getColumnList());
 
 		mergeCommonQuery(builder);
-		return this.dao.listByQueryWithPagnation(builder, User.class);
+
+		EntityResults<User> results = this.dao.listByQueryWithPagnation(builder, User.class);
+
+		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		etQuery.join(EmployeeProject.TABLE_NAME, Project.TABLE_NAME, EmployeeProject.PROJECT_ID, Project.ID);
+		etQuery.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+		etQuery.limitColumns(new String[] { EmployeeProject.USER_ID });
+
+		List<EmployeeProject> etList = this.dao.listByQuery(etQuery, EmployeeProject.class);
+
+		Map<String, String> projectMap = new HashMap<String, String>();
+
+		for (EmployeeProject et : etList) {
+
+			if (projectMap.get(et.getUserId()) == null) {
+				projectMap.put(et.getUserId(), et.getProjectName());
+			} else {
+				projectMap.put(et.getUserId(), projectMap.get(et.getUserId()) + "," + et.getProjectName());
+			}
+
+		}
+
+		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		teamQuery.join(EmployeeTeam.TABLE_NAME, Team.TABLE_NAME, EmployeeTeam.TEAM_ID, Team.ID);
+		teamQuery.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+		teamQuery.limitColumns(new String[] { EmployeeTeam.USER_ID });
+
+		List<EmployeeTeam> teamList = this.dao.listByQuery(teamQuery, EmployeeTeam.class);
+
+		Map<String, String> teamMap = new HashMap<String, String>();
+
+		for (EmployeeTeam et : teamList) {
+
+			if (teamMap.get(et.getUserId()) == null) {
+				teamMap.put(et.getUserId(), et.getTeamName());
+			} else {
+				teamMap.put(et.getUserId(), teamMap.get(et.getUserId()) + "," + et.getTeamName());
+			}
+
+		}
+
+		List<User> userList = results.getEntityList();
+		
+		Set<String> managerIds = new HashSet<String>();
+
+		for (User user : userList) {
+
+			user.setProjects(projectMap.get(user.getId()));
+			user.setTeams(teamMap.get(user.getId()));
+			
+			managerIds.add(user.getReportManagerId());
+		}
+		
+		DataBaseQueryBuilder managerQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		managerQuery.and(DataBaseQueryOpertion.IN, User.ID, managerIds);
+		managerQuery.limitColumns(new String[] { User.ID, User.USER_NAME });
+
+		List<User> managers = this.dao.listByQuery(managerQuery, User.class);
+		Map<String, String> managerMap = new HashMap<String, String>();
+		for (User manager : managers) {
+			managerMap.put(manager.getId(), manager.getUserName());
+		}
+
+		for (User user : userList) {
+
+			user.setReportManagerName(managerMap.get(user.getReportManagerId()));
+		}
+
+		return results;
 	}
 	
 	
@@ -598,10 +669,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
-
-		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
-		pquery.distinct(EmployeeProject.USER_ID);
-		List<EmployeeProject> epList = this.dao.distinctQuery(pquery, EmployeeProject.class);
 
 		// DataBaseQueryBuilder pquery = new
 		// DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
@@ -663,6 +730,12 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		List<User> excludeList = new ArrayList<User>();
 
+
+		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		pquery.distinct(EmployeeProject.USER_ID);
+		List<EmployeeProject> epList = this.dao.distinctQuery(pquery, EmployeeProject.class);
+
+		
 		for (User user : ulist) {
 			boolean find = false;
 			for (EmployeeProject ep : epList) {

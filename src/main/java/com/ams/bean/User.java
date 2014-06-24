@@ -104,6 +104,8 @@ public class User extends AmsBaseEntity {
 
 
 	public String teams;
+	
+	public String projects;
 
 	public String userType;
 
@@ -122,6 +124,38 @@ public class User extends AmsBaseEntity {
 	public String teamId;
 	
 	
+	public String groupName;
+	
+	
+	public String reportManagerName;
+	
+	
+	
+	
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public String getReportManagerName() {
+		return reportManagerName;
+	}
+
+	public void setReportManagerName(String reportManagerName) {
+		this.reportManagerName = reportManagerName;
+	}
+
+	public String getProjects() {
+		return projects;
+	}
+
+	public void setProjects(String projects) {
+		this.projects = projects;
+	}
 
 	public String getTeamId() {
 		return teamId;

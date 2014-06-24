@@ -22,7 +22,17 @@ public class EmployeeProject extends BaseEntity {
 	
 	public String userName;
 	
+	public String projectName;
 	
+	
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
 	public String getUserName() {
 		return userName;

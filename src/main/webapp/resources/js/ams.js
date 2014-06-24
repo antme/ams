@@ -115,6 +115,29 @@ function formatterUserWebLoginOperation(val, row) {
 	}
 }
 
+
+function formatterUserProjectOperation(val, row) {
+	if (val == 1) {
+		return '<img src="/resources/images/check.png" style="cursor: pointer;" onclick="disableUserLogin(\''
+				+ row.id + '\', false, true);"/>';
+	} else {
+		return '<img src="/resources/images/cross.png" style="cursor: pointer;"  onclick="disableUserLogin(\''
+				+ row.id + '\', false, false);"/>';
+	}
+}
+
+
+function formatterUserTeamOperation(val, row) {
+	if (val == 1) {
+		return '<img src="/resources/images/check.png" style="cursor: pointer;" onclick="disableUserLogin(\''
+				+ row.id + '\', false, true);"/>';
+	} else {
+		return '<img src="/resources/images/cross.png" style="cursor: pointer;"  onclick="disableUserLogin(\''
+				+ row.id + '\', false, false);"/>';
+	}
+}
+
+
 function disableUserLogin(userId, isMobile, isDisabled) {
 
 	var submit = false;

@@ -3,11 +3,26 @@
 }
 
 html {
-	background: #e2e2e2 url("/resources/images/flowers-left.png") no-repeat fixed 0 400px;
+	background: #e2e2e2 url("/resources/images/flowers-left.png") no-repeat
+		fixed 0 400px;
 }
 
 body {
 	padding: 0px;
+}
+
+.dv-label {
+	font-weight: bold;
+	color: #15428B;
+	width: 100px;
+}
+
+.dv-table input {
+	border: 0;
+}
+
+#dlg {
+	padding: 10px;
 }
 
 .input-title {
@@ -18,41 +33,39 @@ body {
 	width: 150px;
 }
 
-.form-container .datebox{
+.form-container .datebox {
 	margin-left: 20px;
 }
 
-.form-container .combo{
+.form-container .combo {
 	margin-left: 20px;
 }
 
-.row_disable{
-	
-	background-color:#777A7C;
-	color:#fff;
-	
-	
+.row_disable {
+	background-color: #777A7C;
+	color: #fff;
 }
 
-.form-container .textbox{
+.form-container .textbox {
 	width: 150px;
 	border: 2px inset;
-	margin-top:2px;
+	margin-top: 2px;
 }
 
-.form-container div{
-	margin-top:5px;
+.form-container div {
+	margin-top: 5px;
 }
 
-.form-container .textbox-long{
+.form-container .textbox-long {
 	width: 250px;
 	border: 2px inset;
 }
 
-.form-container  .r-edit-label{
+.form-container  .r-edit-label {
 	display: inline-block;
-	width : 100px;
+	width: 100px;
 }
+
 .form-container input {
 	margin-left: 20px;
 }
@@ -64,5 +77,5 @@ body {
 .form-container textarea {
 	margin-left: 20px;
 	height: 120px;
-	width:400px;
+	width: 400px;
 }

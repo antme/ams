@@ -7,11 +7,13 @@ import com.google.gson.annotations.Expose;
 
 @Table(name = RoleGroup.TABLE_NAME)
 public class RoleGroup extends AmsBaseEntity {
+	public static final String GROUP_NAME = "groupName";
+
 	public static final String PERMISSIONS = "permissions";
 
 	public static final String TABLE_NAME = "RoleGroup";
 
-	@Column(name = "groupName")
+	@Column(name = GROUP_NAME)
 	@Expose
 	public String groupName;
 
