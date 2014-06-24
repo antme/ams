@@ -79,7 +79,8 @@
 	
 </script>
 <form id="task_import" action="/ams/sys/salary/import.do" method="post" enctype="multipart/form-data">
-	<input type="file" name="salaryFile"/>
+	<span>上传文件只支持excel文件，<a href="/template/月工资表.xls" target="_blank">模板下载</a></span><br>
+	<input type="file" name="salaryFile" class="easyui-validatebox" missingmessage="请选择上传文件"  required />
 	<br>
 	<span ></span> <input type="checkbox" name="overrideexists" id="overrideexists" value="true"/> <label for="overrideexists">是否覆盖现有任务</label> 
 	<br>

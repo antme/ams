@@ -11,7 +11,7 @@
 	
 </script>
 <form id="task_import" action="/ams/sys/task/import.do" method="post" enctype="multipart/form-data" novalidate>
-	<span>任务上传文件只支持excel文件，<a href="/template/施工工程任务分配单.xls" target="_blank">模板下载</a></span>
+	<span>任务上传文件只支持excel文件，<a href="/template/施工任务单.xls" target="_blank">模板下载</a></span>
 	<p></p>
 	<hr>
 	<span>任务文件上传：</span><input type="file" class="easyui-validatebox" missingmessage="请选择上传文件"  required  name="taskFile"/>
