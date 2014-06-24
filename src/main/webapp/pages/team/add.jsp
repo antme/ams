@@ -23,6 +23,7 @@
 							onLoadSuccess: function(){
 								$('#teamMemberIds').combogrid('setValues', team.teamMemberIds);
 								onHidePanel();
+								disableCheckBox("teamMemberIds");
 							}
 						}
 					);

@@ -732,7 +732,20 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		List<User> finalList = new ArrayList<User>();
 
 		List<User> excludeList = new ArrayList<User>();
+		
+		Set<String> userIds = new HashSet<String>();
 
+		DataBaseQueryBuilder epquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+
+		if (vo.getId() != null) {
+			epquery.and(EmployeeProject.PROJECT_ID, vo.getId());
+
+			List<EmployeeProject> epList = this.dao.listByQuery(epquery, EmployeeProject.class);
+			for (EmployeeProject ep : epList) {
+
+				userIds.add(ep.getUserId());
+			}
+		}
 
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
 		pquery.distinct(EmployeeProject.USER_ID);
@@ -742,7 +755,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		for (User user : ulist) {
 			boolean find = false;
 			for (EmployeeProject ep : epList) {
-				if (ep.getUserId().equalsIgnoreCase(user.getId())) {
+				if (ep.getUserId().equalsIgnoreCase(user.getId()) && !userIds.contains(ep.getUserId())) {
 					user.setProjectId("xxxxxxxxxx");
 
 					if (!user.getIsMultipleProject()) {
@@ -827,6 +840,20 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		builder.limitColumns(new User().getColumnList());
 		List<User> ulist = this.dao.listByQuery(builder, User.class);
 		
+		Set<String> userIds = new HashSet<String>();
+
+		DataBaseQueryBuilder tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		if (vo.getId() != null) {
+			tquery.and(EmployeeTeam.TEAM_ID, vo.getId());
+			List<EmployeeTeam> epList = this.dao.listByQuery(tquery, EmployeeTeam.class);
+			for (EmployeeTeam ep : epList) {
+
+				userIds.add(ep.getUserId());
+			}
+		}
+		
+		
+		
 		List<User> finalList = new ArrayList<User>();
 
 		List<User> excludeList = new ArrayList<User>();
@@ -837,7 +864,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		for (User user : ulist) {
 			boolean find = false;
 			for (EmployeeTeam ep : epList) {
-				if (ep.getUserId().equalsIgnoreCase(user.getId())) {
+				if (ep.getUserId().equalsIgnoreCase(user.getId()) && !userIds.contains(ep.getUserId())) {
 					user.setTeamId("xxxxxxxxxx");
 
 					if (!user.getIsMultipleTeam()) {

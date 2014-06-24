@@ -22,6 +22,7 @@
 							onLoadSuccess: function(){
 								$('#projectMemberIds').combogrid('setValues', project.projectMemberIds);
 								onHidePanel();
+								disableCheckBox("projectMemberIds");
 							}
 						}
 					);
