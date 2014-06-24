@@ -181,7 +181,7 @@ public class ProjectController extends AmsController {
 			throw new ResponseException("请先登录");
 		}
 		
-		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
+		responseWithDataPagnation(projectService.listDailyReport(report, true), request, response);
 	}
 	
 	
@@ -208,7 +208,7 @@ public class ProjectController extends AmsController {
 	public void listAllDailyReport(HttpServletRequest request, HttpServletResponse response) {
 		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
 		
-		responseWithDataPagnation(projectService.listDailyReport(report), request, response);
+		responseWithDataPagnation(projectService.listDailyReport(report, false), request, response);
 	}
 
 	@RequestMapping("/dailyreport/app/view.do")

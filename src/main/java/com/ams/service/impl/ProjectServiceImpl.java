@@ -685,9 +685,9 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	}
 
-	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report) {
+	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report, boolean fromApp) {
 
-		DataBaseQueryBuilder builder = getDailyReportQuery(report);
+		DataBaseQueryBuilder builder = getDailyReportQuery(report, fromApp);
 
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
 
@@ -757,7 +757,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	}
 
-	public DataBaseQueryBuilder getDailyReportQuery(DailyReportVo report) {
+	public DataBaseQueryBuilder getDailyReportQuery(DailyReportVo report, boolean fromApp) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
@@ -772,9 +772,12 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			if (EweblibUtil.isEmpty(userId)) {
 				userId = EWeblibThreadLocal.getCurrentUserId();
 			}
-			Set<String> userIds = userService.getOwnedUserIds(userId);
-			userIds.add(userId);
-			builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
+			
+			if(fromApp){
+				Set<String> userIds = userService.getOwnedUserIds(userId);
+				userIds.add(userId);
+				builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
+			}
 		} else {
 			builder.and(DailyReport.USER_ID, report.getQueryUserId());
 
@@ -937,7 +940,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			report.setUserId(EWeblibThreadLocal.getCurrentUserId());
 		}
 
-		DataBaseQueryBuilder query = getDailyReportQuery(report);
+		DataBaseQueryBuilder query = getDailyReportQuery(report, false);
 		List<DailyReportVo> reportList = this.dao.listByQuery(query, DailyReportVo.class);
 		// String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目",
 		// "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };

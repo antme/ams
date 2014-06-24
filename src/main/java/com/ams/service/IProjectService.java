@@ -36,7 +36,7 @@ public interface IProjectService {
 
 	public DailyReport addDailyReport(DailyReportVo report, List<String> pics);
 
-	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report);
+	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report, boolean fromApp);
 
 	public void addDailyReportComment(DailyReportComment comment);
 
