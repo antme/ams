@@ -46,10 +46,9 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 	@Autowired
 	private IUserService userService;
-	
+
 	@Autowired
 	private IProjectService projectService;
-	
 
 	@Transactional
 	public void importSalary(InputStream inputStream, Salary temp) {
@@ -191,11 +190,11 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 				} else if (index == 2) {
 					projectPeriod = row.split(getKey(row, "总工期"))[1];
 					projectPeriod = projectPeriod.split(getKey(row, "竣工日期"))[0];
-					projectStartDate = row.split(getKey(row, "总工期"))[0].split("开工日期")[1].replace(" ", "").replace("：", "").trim();				
+					projectStartDate = row.split(getKey(row, "总工期"))[0].split("开工日期")[1].replace(" ", "").replace("：", "").trim();
 					projectEndDate = row.split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
 
 				} else if (index == 3) {
-					
+
 					projectName = row.split(getKey(row, "地址"))[0].trim();
 					projectName = projectName.split(getKey(row, "项目名称"))[1].trim();
 				} else if (!row.startsWith("施工细节") && !row.startsWith("序号") && taskStart) {
@@ -219,9 +218,11 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 					taskStart = false;
 				}
-//				} else if (row.startsWith("竣工日期")) {
-//					projectEndDate = row.split(getKey(row, "绩效单价"))[0].trim().split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
-//				}
+				// } else if (row.startsWith("竣工日期")) {
+				// projectEndDate = row.split(getKey(row,
+				// "绩效单价"))[0].trim().split(getKey(row,
+				// "竣工日期"))[1].trim().replace(" ", "");
+				// }
 
 				index++;
 			}
@@ -250,7 +251,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		if (user == null) {
 			throw new ResponseException("用户不存在，请先创建用户");
 		}
-		
+
 		if (EweblibUtil.isEmpty(projectStartDate) || projectEndDate.indexOf("年") == -1) {
 
 			throw new ResponseException("开工日期无法获取，请检查模板");
@@ -260,7 +261,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 			throw new ResponseException("竣工日期无法获取，请检查模板");
 		}
-		
+
 		Date sdate = getDate(projectStartDate);
 		Date edate = getDate(projectEndDate);
 
@@ -282,9 +283,6 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			pt = (ProjectTask) EweblibUtil.toEntity(task.toString(), ProjectTask.class);
 			break;
 		}
-		
-	
-		
 
 		DataBaseQueryBuilder ptquery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
 		ptquery.and(ProjectTask.USER_ID, user.getId());
@@ -300,13 +298,12 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			if (temp.getOverrideexists() == null) {
 				throw new ResponseException("此任务已经存在，不能导入, 你可以删除任务后导入或者勾选覆盖现有数据再导入");
 			} else {
-		
+
 				IDS ids = new IDS();
 				List<String> idlist = new ArrayList<String>();
 				idlist.add(prot.getId());
 				ids.setIds(idlist);
 				projectService.deleteProjectTasks(ids);
-				
 
 			}
 		}
@@ -320,7 +317,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			this.dao.insert(task);
 		}
 	}
-	
+
 	private Date getDate(String date) {
 
 		String year = date.substring(0, 4);
@@ -397,7 +394,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		query.limitColumns(new UserType().getColumnList());
-		
+
 		mergeCommonQuery(query);
 
 		return this.dao.listByQueryWithPagnation(query, UserType.class);
@@ -418,7 +415,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		if (level.getUserTypeId() != null) {
 			query.and(UserLevel.USER_TYPE_ID, level.getUserTypeId());
 		}
-		
+
 		mergeCommonQuery(query);
 
 		return this.dao.listByQueryWithPagnation(query, UserLevel.class);
@@ -443,7 +440,6 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(RoleGroup.TABLE_NAME);
 
-		
 		mergeCommonQuery(query);
 		return this.dao.listByQueryWithPagnation(query, RoleGroup.class);
 
@@ -590,12 +586,16 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 					item.setName(rows[3]);
 
-					if (EweblibUtil.isValid(rows[6])) {
-						item.setTotolSalary(Double.parseDouble(rows[6]));
+					if (EweblibUtil.isValid(item.getName())) {
+						if (EweblibUtil.isValid(rows[6])) {
+							item.setTotolSalary(Double.parseDouble(rows[6]));
+						} else {
+							item.setTotolSalary(0d);
+						}
+						item.setDispayOrder(j);
+						item.setComment(rows[9]);
+						items.add(item);
 					}
-
-					item.setComment(rows[9]);
-					items.add(item);
 				}
 
 			}
@@ -637,22 +637,27 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			if (!rows[3].contains("小计")) {
 				SalaryItem item = new SalaryItem();
 				item.setProjectName(rows[3]);
-				if (EweblibUtil.isValid(rows[5])) {
-					item.setAttendanceDays(Double.parseDouble(rows[5]));
-				}
 
-				if (EweblibUtil.isValid(rows[6])) {
-					item.setTotolSalary(Double.parseDouble(rows[6]));
-				}
-				if (EweblibUtil.isValid(rows[7])) {
-					item.setPerformanceSalary(Double.parseDouble(rows[7]));
-				}
-				if (EweblibUtil.isValid(rows[8])) {
-					item.setPerformanceSalaryUnit(Double.parseDouble(rows[8]));
-				}
+				if (EweblibUtil.isValid(item.getProjectName())) {
+					if (EweblibUtil.isValid(rows[5])) {
+						item.setAttendanceDays(Double.parseDouble(rows[5]));
+					}
 
-				item.setComment(rows[9]);
-				items.add(item);
+					if (EweblibUtil.isValid(rows[6])) {
+						item.setTotolSalary(Double.parseDouble(rows[6]));
+					} else {
+						item.setTotolSalary(0d);
+					}
+					if (EweblibUtil.isValid(rows[7])) {
+						item.setPerformanceSalary(Double.parseDouble(rows[7]));
+					}
+					if (EweblibUtil.isValid(rows[8])) {
+						item.setPerformanceSalaryUnit(Double.parseDouble(rows[8]));
+					}
+					item.setDispayOrder(j);
+					item.setComment(rows[9]);
+					items.add(item);
+				}
 
 			}
 

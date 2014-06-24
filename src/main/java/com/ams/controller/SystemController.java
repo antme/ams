@@ -25,6 +25,7 @@ import com.ams.service.ISystemService;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
 import com.eweblib.bean.Log;
+import com.eweblib.exception.ResponseException;
 
 @Controller
 @RequestMapping("/ams/sys")
@@ -76,7 +77,7 @@ public class SystemController extends AmsController {
 
 		if (!(fileName.endsWith("xls")  || fileName.endsWith("xlsx"))) {
 
-			throw new ResourceAccessException("请上传excel");
+			throw new ResponseException("请上传excel");
 		}
 
 		try {

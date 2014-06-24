@@ -487,6 +487,8 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		detailQuery.limitColumns(new String[] { SalaryItem.PERFORMANCE_SALARY_UNIT, SalaryItem.PROJECT_NAME, SalaryItem.ATTENDANCE_DAYS, SalaryItem.PROJECT_ID, SalaryItem.TOTOL_SALARY,
 		        SalaryItem.PERFORMANCE_SALARY, SalaryItem.COMMENT });
 
+		detailQuery.orderBy(SalaryItem.DISPAY_ORDER, true);
+
 		List<SalaryItem> items = this.dao.listByQuery(detailQuery, SalaryItem.class);
 		double salaryTotal = 0;
 
@@ -502,6 +504,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		DataBaseQueryBuilder deductedQuery = new DataBaseQueryBuilder(DeductedSalaryItem.TABLE_NAME);
 		deductedQuery.and(SalaryItem.SALARY_ID, salary.getId());
 		deductedQuery.limitColumns(new String[] { DeductedSalaryItem.TOTOL_SALARY, DeductedSalaryItem.NAME, DeductedSalaryItem.COMMENT });
+		deductedQuery.orderBy(DeductedSalaryItem.DISPAY_ORDER, true);
 		List<DeductedSalaryItem> ditems = this.dao.listByQuery(deductedQuery, DeductedSalaryItem.class);
 		salaryTotal = 0;
 		for (DeductedSalaryItem item : ditems) {
