@@ -149,7 +149,7 @@
 		if(rowData.teamId && !rowData.isMultipleTeam){
 			//return 'background-color:#777A7C;color:#fff;'; // return inline style
 			return {	
-				class:'row_disable'
+				"class":"row_disable"
 			
 			};
 			//return {class:'row_disable', style:{'background-color:#777A7C;color:#fff;'}};
@@ -161,7 +161,7 @@
 	function rowStyler2(index,rowData){
 		if(rowData.teamId && !rowData.isMultipleTeam){
 			return {	
-				class:'row_disable  row_disable2'
+				"class":"row_disable  row_disable2"
 			
 			};
 		}
@@ -216,7 +216,7 @@
 			
 			<div>
 				<span class="r-edit-label"></span> 
-				<span> 
+				<span style="display:inlie-block;"> 
 				
 					<div style="display:inline-block; margin-left:25px;">
 			            用户名: <input class="easyui-validatebox textbox" type="text" name="username" id="username" style="width:80px">
