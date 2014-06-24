@@ -580,6 +580,12 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		        Task.PROJECT_END_DATE });
 
 		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
+		
+		
+		if(EweblibUtil.isValid(t.getKeyword())){
+			
+			builder.and(DataBaseQueryOpertion.LIKE, Task.TASK_NAME, t.getKeyword());
+		}
 
 		EntityResults<Task> tasks = this.dao.listByQueryWithPagnation(builder, Task.class);
 

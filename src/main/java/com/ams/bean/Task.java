@@ -136,6 +136,17 @@ public class Task extends BaseEntity {
 	public String overrideexists;
 	
 	
+	public String keyword;
+	
+	
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 
 	public Boolean getIsDeleted() {
 		return isDeleted;
