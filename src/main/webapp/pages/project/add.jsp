@@ -208,7 +208,7 @@
 			</div>
 			<div>
 				<span class="r-edit-label"></span> 
-				<span style="display:inlie-block;"> 
+				<span style="display:inline-block;"> 
 				
 					<div style="display:inline-block; margin-left:25px;">
 			            用户名: <input class="easyui-validatebox textbox" type="text" name="username" id="username" style="width:80px">
