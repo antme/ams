@@ -400,25 +400,23 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		return projects;
 	}
-	
-	
+
 	public List<Project> listProjectsForApp(SearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
-
 		if (EweblibUtil.isValid(vo.getKeyword())) {
 
 			builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_NAME, vo.getKeyword());
 
 		}
-		
+
 		DataBaseQueryBuilder uquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		uquery.or(Project.PROJECT_MANAGER_ID, vo.getUserId());
 		uquery.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, vo.getUserId());
-		
+
 		builder.and(uquery);
 
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID });
@@ -893,7 +891,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
 
 		mergeKeywordQuery(builder, vo.getKeyword(), Customer.TABLE_NAME, new String[] { Customer.ID, Customer.NAME, Customer.ADDRESS, Customer.CONTACT_PERSON, Customer.CONTACT_MOBILE_NUMBER });
-		
+
 		mergeCommonQueryForApp(builder);
 		EntityResults<Customer> customerList = this.dao.listByQueryWithPagnation(builder, Customer.class);
 
@@ -944,20 +942,22 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder query = getDailyReportQuery(report);
 		List<DailyReport> reportList = this.dao.listByQuery(query, DailyReport.class);
-//		String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
-//		String[] colunmHeaders = new String[] { "userName", "reportDay", "projectName", "materialRecord", "workingRecord", "summary", "plan", "weather" };
-
+		// String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目",
+		// "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
+		// String[] colunmHeaders = new String[] { "userName", "reportDay",
+		// "projectName", "materialRecord", "workingRecord", "summary", "plan",
+		// "weather" };
 
 		String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "日报" + new Date().getTime() + ".xls";
 
-//		ExcelUtil.createExcelListFileByEntity(reportList, colunmTitleHeaders, colunmHeaders, new File(desXlsPath));
-		
-		
+		// ExcelUtil.createExcelListFileByEntity(reportList, colunmTitleHeaders,
+		// colunmHeaders, new File(desXlsPath));
+
 		FileOutputStream fileOut = null;
 
 		BufferedImage bufferImg = null;
 		String desXlsPath = null;
-		String[] columnHeaders =  new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
+		String[] columnHeaders = new String[] { "用户", "日期", "项目", "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
 
 		try {
 			// 先把读进来的图片放到一个ByteArrayOutputStream中，以便产生ByteArray
@@ -973,6 +973,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 				cell.setCellValue(header);
 				index++;
 			}
+			String webPath = request.getSession().getServletContext().getRealPath("/");
 
 			int rowIndex = 1;
 			for (DailyReport rep : reportList) {
@@ -990,24 +991,27 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 				DataBaseQueryBuilder picquery = new DataBaseQueryBuilder(Pic.TABLE_NAME);
 				picquery.and(Pic.DAILY_REPORT_ID, rep.getId());
 				List<Pic> picList = this.dao.listByQuery(picquery, Pic.class);
+				int col = 0;
 				for (Pic pic : picList) {
-					HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
-					HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
-					ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-					String webPath = request.getSession().getServletContext().getRealPath("/");
-					bufferImg = ImageIO.read(new File(webPath + pic.getPicUrl()));
-					ImageIO.write(bufferImg, "png", byteArrayOut);
-					patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
-					rowIndex++;
+					File picFile = new File(webPath + pic.getPicUrl());
+
+					if (picFile.exists()) {
+						HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
+						HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) (8 + col), rowIndex, (short) (9 + col), (rowIndex + 1));
+						ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+						bufferImg = ImageIO.read(picFile);
+						ImageIO.write(bufferImg, "png", byteArrayOut);
+						patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
+						col++;
+					}
 
 				}
+				rowIndex++;
 
 			}
 
-			String webPath = request.getSession().getServletContext().getRealPath("/");
-
 			desXlsPath = webPath + filePath;
-			
+
 			new File(desXlsPath).getParentFile().mkdirs();
 
 			fileOut = new FileOutputStream(desXlsPath);

@@ -106,11 +106,11 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				builder.and(DataBaseQueryOpertion.IN, Attendance.OPERATOR_ID, userIds);
 
 			}
-			
-			if(EweblibUtil.isValid(attendance.getUserId())){
+
+			if (EweblibUtil.isValid(attendance.getUserId())) {
 				builder.and(Attendance.USER_ID, attendance.getUserId());
 			}
-			if(EweblibUtil.isValid(attendance.getOperatorId())){
+			if (EweblibUtil.isValid(attendance.getOperatorId())) {
 				builder.and(Attendance.OPERATOR_ID, attendance.getOperatorId());
 			}
 
@@ -260,40 +260,38 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			List<Pic> pics = this.dao.listByQuery(query, Pic.class);
 
 			int rowIndex = 1;
+			String webPath = request.getSession().getServletContext().getRealPath("/");
+
 			for (Pic pic : pics) {
+				File picFile = new File(webPath + pic.getPicUrl());
+
 				row = sheet1.createRow(rowIndex);
 
 				row.createCell(0).setCellValue(pic.getUserName());
 				row.createCell(1).setCellValue(pic.getProjectName());
 				row.createCell(2).setCellValue(pic.getDescription());
 				row.createCell(3).setCellValue(pic.getCreatedOn());
+				if (picFile.exists()) {
+					HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
+					HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
+					// anchor1.setAnchorType(2);
 
-				HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
+					// 插入图片
 
-				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
+					ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+					bufferImg = ImageIO.read(picFile);
 
-				// anchor1.setAnchorType(2);
+					ImageIO.write(bufferImg, "png", byteArrayOut);
 
-				// 插入图片
-
-				ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-
-				String webPath = request.getSession().getServletContext().getRealPath("/");
-
-				bufferImg = ImageIO.read(new File(webPath + pic.getPicUrl()));
-
-				ImageIO.write(bufferImg, "png", byteArrayOut);
-
-				patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
+					patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));
+				}
 				rowIndex++;
 
 			}
 
-			String webPath = request.getSession().getServletContext().getRealPath("/");
-
 			String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + new Date().getTime() + ".xls";
 			desXlsPath = webPath + filePath;
-			
+
 			new File(desXlsPath).getParentFile().mkdirs();
 
 			fileOut = new FileOutputStream(desXlsPath);
