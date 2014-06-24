@@ -65,6 +65,7 @@
 			   
 			    for(Menu m: menuList){
 			    	out.println("<div title=\"" + m.getTitle() + "\" style=\"" + m.getStyle() + "\" data-options=\"" +m.getDataOptions() + "\">");
+			    	out.println("<div class=\"menu_li\">");
 			    	out.println("<ul>");
 			    	 
 			    	List<MenuItem> itemList = m.getList();
@@ -75,7 +76,7 @@
 			    		out.println("</li>");
 			    	}
 		
-			    	
+			    	out.println("</div>");
 			    	out.println("</ul>");
 			    	out.println("</div>");
 			    }
@@ -160,7 +161,7 @@
         		$('#accordion').accordion('select', title); 
             }
 
-            $(".accordion_li").show();
+            $(".menu_li").show();
            
             
         });
