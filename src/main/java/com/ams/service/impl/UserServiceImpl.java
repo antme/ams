@@ -101,12 +101,43 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 			dao.insert(user);
 
 		}
+
+		List<String> teamIds = user.getTeamIds();
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		query.and(EmployeeTeam.USER_ID, user.getId());
+		this.dao.deleteByQuery(query);
+
+		if (teamIds != null) {
+			for (String id : teamIds) {
+				EmployeeTeam et = new EmployeeTeam();
+				et.setUserId(user.getId());
+				et.setTeamId(id);
+				this.dao.insert(et);
+			}
+		}
+
 		return user;
 	}
 
 	public User loadUser(User user) {
 
-		return (User) this.dao.findById(user.getId(), User.TABLE_NAME, User.class);
+		user = (User) this.dao.findById(user.getId(), User.TABLE_NAME, User.class);
+
+		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		teamQuery.and(EmployeeTeam.USER_ID, user.getId());
+		teamQuery.limitColumns(new String[] { EmployeeTeam.TEAM_ID });
+
+		List<EmployeeTeam> teamList = this.dao.listByQuery(teamQuery, EmployeeTeam.class);
+		List<String> teamIds = new ArrayList<String>();
+
+		for (EmployeeTeam et : teamList) {
+			teamIds.add(et.getTeamId());
+		}
+
+		user.setTeamIds(teamIds);
+
+		return user;
+
 	}
 
 	public User login(User user, boolean fromApp) {
@@ -135,7 +166,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		return u;
 	}
-
 
 	public void resetPwd(User user) {
 		user.setPassword(DataEncrypt.generatePassword(user.getUserPassword()));
@@ -230,7 +260,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
 
-
 		String currentUserId = vo.getUserId();
 
 		if (!isAdmin(currentUserId)) {
@@ -241,8 +270,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		}
 
 		mergeKeywordQuery(builder, vo.getKeyword(), User.TABLE_NAME, new String[] { User.USER_NAME, User.MOBILE_NUMBER });
-		
-		
+
 		mergeCommonQueryForApp(builder);
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
@@ -270,9 +298,9 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	}
 
 	public Set<String> getOwnedUserIds(String currentUserId) {
-		
+
 		Set<String> mockedUserIds = getOwnedUserIdsByReportManager(currentUserId);
-		
+
 		Set<String> ids = getOwnedDepartmentIds(mockedUserIds);
 		Set<String> projectIds = getOwnerdProjectIds(mockedUserIds, ids);
 		Set<String> teamIds = getOwnedTeamIds(mockedUserIds, projectIds);
@@ -292,7 +320,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		for (EmployeeTeam ep : etList) {
 			userIds.add(ep.getUserId());
 		}
-		
+
 		userIds.addAll(mockedUserIds);
 		return userIds;
 	}
@@ -381,7 +409,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	}
 
 	public DataBaseQueryBuilder getPicQuery(Pic pic) {
-	    DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
 
 		builder.join(Pic.TABLE_NAME, User.TABLE_NAME, Pic.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
@@ -408,8 +436,8 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		}
 		builder.and(DataBaseQueryOpertion.NULL, Pic.DAILY_REPORT_ID);
 
-	    return builder;
-    }
+		return builder;
+	}
 
 	public EntityResults<Salary> listUserSalaries(Salary salary) {
 
@@ -567,7 +595,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
-		
+
 		builder.join(User.TABLE_NAME, RoleGroup.TABLE_NAME, User.GROUP_ID, RoleGroup.ID);
 		builder.joinColumns(RoleGroup.TABLE_NAME, new String[] { RoleGroup.GROUP_NAME });
 
@@ -644,17 +672,17 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		}
 
 		List<User> userList = results.getEntityList();
-		
+
 		Set<String> managerIds = new HashSet<String>();
 
 		for (User user : userList) {
 
 			user.setProjects(projectMap.get(user.getId()));
 			user.setTeams(teamMap.get(user.getId()));
-			
+
 			managerIds.add(user.getReportManagerId());
 		}
-		
+
 		DataBaseQueryBuilder managerQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
 		managerQuery.and(DataBaseQueryOpertion.IN, User.ID, managerIds);
 		managerQuery.limitColumns(new String[] { User.ID, User.USER_NAME });
@@ -672,8 +700,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		return results;
 	}
-	
-	
+
 	public List<User> selectAllUsersForProject(UserSearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
@@ -719,7 +746,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
 		}
-		
+
 		Set<String> ids = new HashSet<String>();
 
 		if (EweblibUtil.isValid(vo.getTeamId())) {
@@ -738,11 +765,11 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		builder.limitColumns(new User().getColumnList());
 		List<User> ulist = this.dao.listByQuery(builder, User.class);
-		
+
 		List<User> finalList = new ArrayList<User>();
 
 		List<User> excludeList = new ArrayList<User>();
-		
+
 		Set<String> userIds = new HashSet<String>();
 
 		DataBaseQueryBuilder epquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
@@ -761,7 +788,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		pquery.distinct(EmployeeProject.USER_ID);
 		List<EmployeeProject> epList = this.dao.distinctQuery(pquery, EmployeeProject.class);
 
-		
 		for (User user : ulist) {
 			boolean find = false;
 			for (EmployeeProject ep : epList) {
@@ -786,7 +812,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		return finalList;
 
 	}
-	
+
 	public List<User> selectAllUsersForTeam(UserSearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
@@ -796,41 +822,44 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
 
-//		DataBaseQueryBuilder tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-//		if (vo.getId() != null) {
-//			tquery.and(DataBaseQueryOpertion.NOT_EQUALS, EmployeeTeam.TEAM_ID, vo.getId());
-//		}
-//		
-//		List<EmployeeTeam> epList = this.dao.listByQuery(tquery, EmployeeTeam.class);
-//		Set<String> userIds = new HashSet<String>();
-//		for (EmployeeTeam ep : epList) {
-//
-//			userIds.add(ep.getUserId());
-//		}
-//		
-//		
-//		tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-//		if (vo.getId() != null) {
-//			tquery.and(EmployeeTeam.TEAM_ID, vo.getId());
-//			this.dao.listByQuery(tquery, EmployeeTeam.class);
-//			userIds = new HashSet<String>();
-//			for (EmployeeTeam ep : epList) {
-//
-//				userIds.add(ep.getUserId());
-//			}
-//			builder.or(DataBaseQueryOpertion.IN, User.ID, userIds);
-//		}
-//		
-//	
-//
-//		builder.or(DataBaseQueryOpertion.IS_TRUE, User.IS_MULTIPLE_TEAM);
-//		builder.or(DataBaseQueryOpertion.NOT_IN, User.ID, userIds);
+		// DataBaseQueryBuilder tquery = new
+		// DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		// if (vo.getId() != null) {
+		// tquery.and(DataBaseQueryOpertion.NOT_EQUALS, EmployeeTeam.TEAM_ID,
+		// vo.getId());
+		// }
+		//
+		// List<EmployeeTeam> epList = this.dao.listByQuery(tquery,
+		// EmployeeTeam.class);
+		// Set<String> userIds = new HashSet<String>();
+		// for (EmployeeTeam ep : epList) {
+		//
+		// userIds.add(ep.getUserId());
+		// }
+		//
+		//
+		// tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
+		// if (vo.getId() != null) {
+		// tquery.and(EmployeeTeam.TEAM_ID, vo.getId());
+		// this.dao.listByQuery(tquery, EmployeeTeam.class);
+		// userIds = new HashSet<String>();
+		// for (EmployeeTeam ep : epList) {
+		//
+		// userIds.add(ep.getUserId());
+		// }
+		// builder.or(DataBaseQueryOpertion.IN, User.ID, userIds);
+		// }
+		//
+		//
+		//
+		// builder.or(DataBaseQueryOpertion.IS_TRUE, User.IS_MULTIPLE_TEAM);
+		// builder.or(DataBaseQueryOpertion.NOT_IN, User.ID, userIds);
 
 		if (EweblibUtil.isValid(vo.getUserName())) {
 
 			builder.and(DataBaseQueryOpertion.LIKE, User.USER_NAME, vo.getUserName());
 		}
-		
+
 		Set<String> ids = new HashSet<String>();
 
 		if (EweblibUtil.isValid(vo.getProjectId())) {
@@ -849,7 +878,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		builder.limitColumns(new User().getColumnList());
 		List<User> ulist = this.dao.listByQuery(builder, User.class);
-		
+
 		Set<String> userIds = new HashSet<String>();
 
 		DataBaseQueryBuilder tquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
@@ -861,13 +890,11 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 				userIds.add(ep.getUserId());
 			}
 		}
-		
-		
-		
+
 		List<User> finalList = new ArrayList<User>();
 
 		List<User> excludeList = new ArrayList<User>();
-		
+
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
 		pquery.distinct(EmployeeTeam.USER_ID);
 		List<EmployeeTeam> epList = this.dao.distinctQuery(pquery, EmployeeTeam.class);
@@ -892,7 +919,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 			}
 		}
 		finalList.addAll(excludeList);
-		
+
 		return finalList;
 
 	}
@@ -984,9 +1011,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		sys.createMsgLog(EWeblibThreadLocal.getCurrentUserId(), "登出后台系统");
 	}
-	
-	
-	
+
 	public Set<String> getOwnedUserIdsByReportManager(String userId) {
 		Set<String> ids = new HashSet<String>();
 		ids.add(userId);
@@ -998,8 +1023,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		return finalIds;
 
 	}
-	
-
 
 	public void getIdByReportManager(Set<String> ids, Set<String> finalIds) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(User.TABLE_NAME);

@@ -19,6 +19,7 @@
 			}
    
 				$("#add-user").form('load',data.data);
+				$('#teamIds').combobox('setValues', data.data.teamIds);
 				
 			});
 			
@@ -88,6 +89,18 @@
 					}"></input>
 			</div>
 			<div>
+				<span class="r-edit-label">所属队伍:</span> <input class="easyui-combobox textbox" style="width:300px;"  id ="teamIds" type="text" name="teamIds[]"
+				data-options="
+                    valueField:'id',
+                    url:'/ams/user/team/list.do?userId=',
+                    textField:'teamName',
+                    multiple:true,
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+			</div>
+			<div>
 				<span class="r-edit-label">手机登录状态:</span> <select class="easyui-combobox" name="status" style="width: 200px;">
 					<option value="1">启用</option>
 					<option value="0">禁用</option>
@@ -127,9 +140,7 @@
 				<span class="r-edit-label">手机:</span> <input class="easyui-validatebox textbox" type="text" validType="mobile" name="mobileNumber"></input>
 			</div>
 			
-			<div>
-				<span class="r-edit-label">所属队伍:</span> <input class="easyui-validatebox textbox" type="text" name="teamGroup"></input>
-			</div>
+			
 			<div>
 				<span class="r-edit-label">身份证:</span> <input class="easyui-validatebox textbox" type="text" validType="idcard" name="idCard"></input>
 			</div>

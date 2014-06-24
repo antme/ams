@@ -1,9 +1,10 @@
 package com.ams.bean;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
 import com.google.gson.annotations.Expose;
 
 @Table(name = User.TABLE_NAME)
@@ -94,17 +95,15 @@ public class User extends AmsBaseEntity {
 
 	@Column(name = IS_MULTIPLE_TEAM)
 	public Boolean isMultipleTeam;
-	
-	
+
 	@Column(name = REMARK)
 	public String remark;
-	
+
 	@Column(name = REPORT_MANAGER_ID)
 	public String reportManagerId;
 
-
 	public String teams;
-	
+
 	public String projects;
 
 	public String userType;
@@ -117,21 +116,24 @@ public class User extends AmsBaseEntity {
 	public String userPassword;
 
 	public String imgCode;
-	
-	
+
 	public String projectId;
-	
+
 	public String teamId;
-	
-	
+
+	public List<String> teamIds;
+
 	public String groupName;
-	
-	
+
 	public String reportManagerName;
-	
-	
-	
-	
+
+	public List<String> getTeamIds() {
+		return teamIds;
+	}
+
+	public void setTeamIds(List<String> teamIds) {
+		this.teamIds = teamIds;
+	}
 
 	public String getGroupName() {
 		return groupName;
