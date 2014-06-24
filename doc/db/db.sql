@@ -588,8 +588,12 @@ alter table RoleGroup add column displayOrder int default 0;
 
 
 
+alter table LogItem modify column newValue text default null;
+alter table LogItem modify column oldValue text default null;
 
 
+alter table Task modify column isDeleted tinyint(1) DEFAULT 0;
+alter table ProjectTask modify column isDeleted tinyint(1) DEFAULT 0;
 
 
 

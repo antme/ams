@@ -74,7 +74,7 @@ public class SystemController extends AmsController {
 
 		String fileName = uploadFile.getOriginalFilename();
 
-		if (!fileName.endsWith("xls") || !fileName.endsWith("xlsx")) {
+		if (!(fileName.endsWith("xls")  || fileName.endsWith("xlsx"))) {
 
 			throw new ResourceAccessException("请上传excel");
 		}

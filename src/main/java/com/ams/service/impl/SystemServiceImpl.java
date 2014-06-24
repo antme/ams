@@ -2,6 +2,8 @@ package com.ams.service.impl;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,6 @@ import com.eweblib.bean.LogItem;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.exception.ResponseException;
-import com.eweblib.service.AbstractService;
 import com.eweblib.util.DateUtil;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
@@ -182,30 +183,34 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 								teamName = teamInfo[0].trim();
 								teamLeaderName = teamInfo[1].trim();
 							} else {
-								throw new ResponseException("请检查模板");
+								throw new ResponseException("请检查模板中的班组名称");
 							}
 						}
 					}
 
 				} else if (index == 2) {
-					projectPeriod = row.split(getKey(row, "工期"))[1];
-					projectStartDate = row.split(getKey(row, "工期"))[0].split("开工日期")[1].replace(" ", "").trim();
+					projectPeriod = row.split(getKey(row, "总工期"))[1];
+					projectPeriod = projectPeriod.split(getKey(row, "竣工日期"))[0];
+					projectStartDate = row.split(getKey(row, "总工期"))[0].split("开工日期")[1].replace(" ", "").replace("：", "").trim();				
+					projectEndDate = row.split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
 
 				} else if (index == 3) {
-					projectName = row.split(getKey(row, "项目名称"))[1].trim();
+					
+					projectName = row.split(getKey(row, "地址"))[0].trim();
+					projectName = projectName.split(getKey(row, "项目名称"))[1].trim();
 				} else if (!row.startsWith("施工细节") && !row.startsWith("序号") && taskStart) {
 
 					if (EweblibUtil.isValid(rows[1])) {
 						Task task = new Task();
-						task.setAmount(EweblibUtil.getDouble(rows[3], 0d));
-						task.setUnit(rows[2]);
+						task.setAmount(EweblibUtil.getDouble(rows[7], 0d));
+						task.setUnit(rows[6]);
 						task.setTaskName(rows[1]);
 						task.setDisplayOrder(EweblibUtil.getInteger(rows[0], 0));
 						task.setDescription(taskDescrpition);
-						task.setPrice(EweblibUtil.getDouble(rows[5], 0d));
-						task.setAmountDescription(EweblibUtil.getDouble(rows[3], 0d) + rows[2]);
-						task.setPriceDescription(EweblibUtil.getDouble(rows[5], 0d) + "元");
-						task.setRemark(rows[6]);
+						task.setPrice(EweblibUtil.getDouble(rows[9], 0d));
+						task.setAmountDescription(EweblibUtil.getDouble(rows[7], 0d) + rows[6]);
+						task.setPriceDescription(EweblibUtil.getDouble(rows[9], 0d) + "元");
+						task.setRemark(rows[11]);
 						taskList.add(task);
 					}
 
@@ -213,9 +218,10 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 					taskDescrpition = row.split(getKey(row, "施工细节描述"))[1].trim();
 
 					taskStart = false;
-				} else if (row.startsWith("竣工日期")) {
-					projectEndDate = row.split(getKey(row, "绩效单价"))[0].trim().split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
 				}
+//				} else if (row.startsWith("竣工日期")) {
+//					projectEndDate = row.split(getKey(row, "绩效单价"))[0].trim().split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
+//				}
 
 				index++;
 			}
@@ -244,13 +250,26 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		if (user == null) {
 			throw new ResponseException("用户不存在，请先创建用户");
 		}
+		
+		if (EweblibUtil.isEmpty(projectStartDate) || projectEndDate.indexOf("年") == -1) {
+
+			throw new ResponseException("开工日期无法获取，请检查模板");
+		}
+
+		if (EweblibUtil.isEmpty(projectEndDate) || projectEndDate.indexOf("年") == -1) {
+
+			throw new ResponseException("竣工日期无法获取，请检查模板");
+		}
+		
+		Date sdate = getDate(projectStartDate);
+		Date edate = getDate(projectEndDate);
 
 		for (Task task : taskList) {
 			task.setTeamId(team.getId());
 			task.setProjectId(project.getId());
 			task.setProjectName(projectName);
-			task.setProjectStartDate(DateUtil.getDate(projectStartDate, "YYYY年MM月DD日"));
-			task.setProjectEndDate(DateUtil.getDate(projectEndDate, "YYYY年MM月DD日"));
+			task.setProjectStartDate(sdate);
+			task.setProjectEndDate(edate);
 			task.setTeamName(teamName);
 			task.setDescription(taskDescrpition);
 			task.setTaskContactPhone(teamLeaderContactPhone);
@@ -263,6 +282,9 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			pt = (ProjectTask) EweblibUtil.toEntity(task.toString(), ProjectTask.class);
 			break;
 		}
+		
+	
+		
 
 		DataBaseQueryBuilder ptquery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
 		ptquery.and(ProjectTask.USER_ID, user.getId());
@@ -289,12 +311,31 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			}
 		}
 
+		pt.setIsDeleted(false);
 		this.dao.insert(pt);
 
 		for (Task task : taskList) {
 			task.setProjectTaskId(pt.getId());
+			task.setIsDeleted(false);
 			this.dao.insert(task);
 		}
+	}
+	
+	private Date getDate(String date) {
+
+		String year = date.substring(0, 4);
+		String month = date.split("月")[0].split("年")[1];
+		String day = date.split("月")[1].split("日")[0];
+
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, EweblibUtil.getInteger(year, 0));
+
+		c.set(Calendar.MONTH, EweblibUtil.getInteger(month, 0));
+
+		c.set(Calendar.DAY_OF_MONTH, EweblibUtil.getInteger(day, 0));
+
+		return c.getTime();
+
 	}
 
 	public void addUserType(UserType type) {

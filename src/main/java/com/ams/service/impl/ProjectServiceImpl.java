@@ -1030,6 +1030,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
+		builder.orderBy(Task.DISPLAY_ORDER, true);
 
 		builder.limitColumns(new String[] { Task.UNIT, Task.REMARK, Task.AMOUNT, Task.PRICE, Task.TASK_NAME, Task.ID });
 
