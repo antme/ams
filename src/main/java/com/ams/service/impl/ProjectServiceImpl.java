@@ -54,7 +54,6 @@ import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
-import com.eweblib.util.ExcelUtil;
 
 @Service(value = "projectService")
 public class ProjectServiceImpl extends AbstractAmsService implements IProjectService {
@@ -941,7 +940,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		DataBaseQueryBuilder query = getDailyReportQuery(report);
-		List<DailyReport> reportList = this.dao.listByQuery(query, DailyReport.class);
+		List<DailyReportVo> reportList = this.dao.listByQuery(query, DailyReportVo.class);
 		// String[] colunmTitleHeaders = new String[] { "用户", "日期", "项目",
 		// "材料纪录", "作业面记录", "今日总结", "明日计划", "天气" };
 		// String[] colunmHeaders = new String[] { "userName", "reportDay",
@@ -976,7 +975,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			String webPath = request.getSession().getServletContext().getRealPath("/");
 
 			int rowIndex = 1;
-			for (DailyReport rep : reportList) {
+			for (DailyReportVo rep : reportList) {
 				row = sheet1.createRow(rowIndex);
 
 				row.createCell(0).setCellValue(rep.getUserName());
