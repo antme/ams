@@ -270,10 +270,12 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	}
 
 	public Set<String> getOwnedUserIds(String currentUserId) {
-		Set<String> ids = getOwnedDepartmentIds(currentUserId);
-		Set<String> projectIds = getOwnerdProjectIds(currentUserId, ids);
-
-		Set<String> teamIds = getOwnedTeamIds(currentUserId, projectIds);
+		
+		Set<String> mockedUserIds = getOwnedUserIdsByReportManager(currentUserId);
+		
+		Set<String> ids = getOwnedDepartmentIds(mockedUserIds);
+		Set<String> projectIds = getOwnerdProjectIds(mockedUserIds, ids);
+		Set<String> teamIds = getOwnedTeamIds(mockedUserIds, projectIds);
 
 		Set<String> userIds = new HashSet<String>();
 
@@ -290,12 +292,14 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		for (EmployeeTeam ep : etList) {
 			userIds.add(ep.getUserId());
 		}
+		
+		userIds.addAll(mockedUserIds);
 		return userIds;
 	}
 
-	public Set<String> getOwnedTeamIds(String currentUserId, Set<String> projectIds) {
+	public Set<String> getOwnedTeamIds(Set<String> mockedUserIds, Set<String> projectIds) {
 		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
-		teamQuery.or(Team.TEAM_LEADER_ID, currentUserId);
+		teamQuery.or(DataBaseQueryOpertion.IN, Team.TEAM_LEADER_ID, mockedUserIds);
 		teamQuery.or(DataBaseQueryOpertion.IN, Team.PROJECT_ID, projectIds);
 		List<Team> teamList = this.dao.listByQuery(teamQuery, Team.class);
 		Set<String> teamIds = new HashSet<String>();
@@ -306,11 +310,11 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		return teamIds;
 	}
 
-	public Set<String> getOwnerdProjectIds(String currentUserId, Set<String> depIds) {
+	public Set<String> getOwnerdProjectIds(Set<String> mockedUserIds, Set<String> depIds) {
 		Set<String> projectIds = new HashSet<String>();
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		query.or(Project.PROJECT_MANAGER_ID, currentUserId);
-		query.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, currentUserId);
+		query.or(DataBaseQueryOpertion.IN, Project.PROJECT_MANAGER_ID, mockedUserIds);
+		query.or(DataBaseQueryOpertion.IN, Project.PROJECT_ATTENDANCE_MANAGER_ID, mockedUserIds);
 		query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, depIds);
 
 		List<Project> pList = this.dao.listByQuery(query, Project.class);
@@ -322,9 +326,9 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		return projectIds;
 	}
 
-	public Set<String> getOwnedDepartmentIds(String currentUserId) {
+	public Set<String> getOwnedDepartmentIds(Set<String> mockedUserIds) {
 		DataBaseQueryBuilder depQuery = new DataBaseQueryBuilder(Department.TABLE_NAME);
-		depQuery.and(Department.DEPARTMENT_MANAGER_ID, currentUserId);
+		depQuery.and(DataBaseQueryOpertion.IN, Department.DEPARTMENT_MANAGER_ID, mockedUserIds);
 		List<Department> deplist = this.dao.listByQuery(depQuery, Department.class);
 		Set<String> ids = new HashSet<String>();
 
@@ -979,6 +983,43 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public void logout() {
 
 		sys.createMsgLog(EWeblibThreadLocal.getCurrentUserId(), "登出后台系统");
+	}
+	
+	
+	
+	public Set<String> getOwnedUserIdsByReportManager(String userId) {
+		Set<String> ids = new HashSet<String>();
+		ids.add(userId);
+
+		Set<String> finalIds = new HashSet<String>();
+		getIdByReportManager(ids, finalIds);
+		finalIds.add(userId);
+
+		return finalIds;
+
+	}
+	
+
+
+	public void getIdByReportManager(Set<String> ids, Set<String> finalIds) {
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(User.TABLE_NAME);
+		query.limitColumns(new String[] { User.ID });
+		query.and(DataBaseQueryOpertion.IN, User.REPORT_MANAGER_ID, ids);
+
+		List<User> userList = this.dao.listByQuery(query, User.class);
+
+		Set<String> userIds = new HashSet<String>();
+
+		for (User user : userList) {
+			userIds.add(user.getId());
+		}
+
+		if (!userIds.isEmpty()) {
+
+			getIdByReportManager(userIds, finalIds);
+		}
+
+		finalIds.addAll(userIds);
 	}
 
 	public String getUserNameById(String id) {

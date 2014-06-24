@@ -75,13 +75,13 @@ public interface IUserService {
     public boolean isAdmin(String userId);
     
     
-    public Set<String> getOwnedDepartmentIds(String currentUserId);
+    public Set<String> getOwnedDepartmentIds(Set<String> mockedUserIds);
     
     
-    public Set<String> getOwnerdProjectIds(String currentUserId, Set<String> depIds);
+    public Set<String> getOwnerdProjectIds(Set<String> mockedUserIds, Set<String> depIds);
     
     
-    public Set<String> getOwnedTeamIds(String currentUserId, Set<String> projectIds);
+    public Set<String> getOwnedTeamIds(Set<String> mockedUserIds, Set<String> projectIds);
 	public Set<String> getOwnedUserIds(String currentUserId);
 	
 	public void deleteSalary(IDS ids);
@@ -89,8 +89,11 @@ public interface IUserService {
 	
 	public List<Menu> getMenuList();
 	public void logout();
-
 	
+	
+	Set<String> getOwnedUserIdsByReportManager(String userId);
+	
+
 	
 //	public String getUserNameById(String id);
 

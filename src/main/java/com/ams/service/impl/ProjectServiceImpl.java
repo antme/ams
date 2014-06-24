@@ -867,12 +867,12 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		String currentUserId = vo.getUserId();
 		if (!userService.isAdmin(currentUserId)) {
 
-			Set<String> ids = userService.getOwnedDepartmentIds(currentUserId);
+			Set<String> mockedUserIds = userService.getOwnedUserIdsByReportManager(currentUserId);
+			Set<String> ids = userService.getOwnedDepartmentIds(mockedUserIds);
+			Set<String> projectIds = userService.getOwnerdProjectIds(mockedUserIds, ids);
 
 			DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
-			query.or(Project.PROJECT_MANAGER_ID, currentUserId);
-			query.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, currentUserId);
-			query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, ids);
+			query.and(DataBaseQueryOpertion.IN, Project.ID, projectIds);
 
 			List<Project> pList = this.dao.listByQuery(query, Project.class);
 
