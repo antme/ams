@@ -79,6 +79,16 @@
 		}
 	}
 	
+	function onClickRow2(rowIndex, rowData){
+		
+		if(rowData.projectId && !rowData.isMultipleProject){
+			var g = $('#projectMemberSearchIds').combogrid('grid');
+			g.datagrid('unselectRow', rowIndex);			
+		}
+	}
+	
+	
+	
 	function onLoadSuccess(){
 		disableCheckBox("projectMemberIds");
 	}
@@ -330,7 +340,7 @@
 								            fitColumns: true,
 								            rowStyler: rowStyler2,
 								            onLoadSuccess: onLoadSuccess2,
-								            onClickRow: onClickRow,
+								            onClickRow: onClickRow2,
 								            onHidePanel:onHidePanel,
 								            columns:[[
 								            	{field:'ck',checkbox:true},
