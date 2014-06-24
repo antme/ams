@@ -45,6 +45,18 @@ function formatterDescription(val, row) {
 	}
 }
 
+
+function formatterPics(val, rows){
+	
+	var pics = rows.pics;
+	var result = "";
+	for(var j=0; j<pics.length; j++){
+		result = result + '<a  target="_blank" href="' + pics[j]  + '">图片' + j  + ' <a><br>';
+	}
+	
+	return result;
+}
+
 function openDetail(target) {
 	$('#dlg').html(target.attr("title"));
 	$('#dlg').dialog({

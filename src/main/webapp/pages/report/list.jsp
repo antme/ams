@@ -99,11 +99,12 @@ $(function(){
 			<th align="center" field="userName" width="80" sortable="false" resizable="true">用户名</th>
 			<th align="center" field="projectName" width="100" sortable="false" resizable="true">项目</th>
 			<th align="center" field="reportDay" width="80" sortable="false" resizable="true">日报日期</th>
-			<th align="center" field="workingRecord" width="150" sortable="false" resizable="true">工作纪录</th>
-			<th align="center" field="materialRecord" width="150" sortable="false" resizable="true">材料纪录</th>
-			<th align="center" field="summary" width="150" sortable="false" resizable="true">总结</th>
-			<th align="center" field="plan" width="150" sortable="false" resizable="true">明日计划</th>			
+			<th align="center" field="workingRecord" width="150" sortable="false" resizable="true" data-options="formatter:formatterDescription" >工作纪录</th>
+			<th align="center" field="materialRecord" width="150" sortable="false" resizable="true" data-options="formatter:formatterDescription" >材料纪录</th>
+			<th align="center" field="summary" width="150" sortable="false" resizable="true"  data-options="formatter:formatterDescription" >总结</th>
+			<th align="center" field="plan" width="150" sortable="false" resizable="true"  data-options="formatter:formatterDescription" >明日计划</th>			
 			<th align="center" field="weather" width="100" sortable="false" resizable="true">天气</th>
+			<th align="center" field="pics" width="100" sortable="false" resizable="true" data-options="formatter:formatterPics" >图片</th>
 		</tr>
 	</thead>
 </table>
