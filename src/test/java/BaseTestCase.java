@@ -13,10 +13,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.ams.bean.Salary;
+import com.ams.bean.vo.SearchVo;
 import com.ams.service.INoticeService;
 import com.ams.service.ISystemService;
+import com.ams.service.IUserService;
 import com.ams.service.impl.NoticeServiceImpl;
 import com.ams.service.impl.SystemServiceImpl;
+import com.ams.service.impl.UserServiceImpl;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
 import com.eweblib.util.DateUtil;
@@ -34,6 +37,8 @@ public class BaseTestCase extends TestCase {
 	
 	public ISystemService sys;
 
+	
+	public IUserService us;
 
 	public IQueryDao getDao() {
 		return dao;
@@ -51,38 +56,16 @@ public class BaseTestCase extends TestCase {
 		dao = ac.getBean(QueryDaoImpl.class);
 		noticeService = ac.getBean(NoticeServiceImpl.class);
 		sys = ac.getBean(SystemServiceImpl.class);
+		us = ac.getBean(UserServiceImpl.class);
 	}
 
 	public void testEmpty() throws IOException, InterruptedException {
 
-		
-		InputStream is = new FileInputStream("/Users/ymzhou/Downloads/salary.xls");
-		
-		sys.importSalary(is, new Salary());
-		
-		System.out.println(getDate("2014年6月15日"));
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月DD日");
-		
-		System.out.println(sdf.format(new Date()));
+		SearchVo vo = new SearchVo();
+		vo.setUserId("44166a1a-54cc-4ce3-98e2-0d86bc9c5dcf");
+		System.out.println(us.listUserForApp(vo).getEntityList());
 
 	}
 	
 	
-	private Date getDate(String date) {
-
-		String year = date.substring(0, 4);
-		String month = date.split("月")[0].split("年")[1];
-		String day = date.split("月")[1].split("日")[0];
-
-		Calendar c = Calendar.getInstance();
-		c.set(Calendar.YEAR, EweblibUtil.getInteger(year, 0));
-
-		c.set(Calendar.MONTH, EweblibUtil.getInteger(month, 0) - 1);
-
-		c.set(Calendar.DAY_OF_MONTH, EweblibUtil.getInteger(day, 0));
-
-		return c.getTime();
-
-	}
 }

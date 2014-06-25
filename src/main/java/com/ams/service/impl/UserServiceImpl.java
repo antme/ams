@@ -1034,7 +1034,11 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		Set<String> userIds = new HashSet<String>();
 
 		for (User user : userList) {
-			userIds.add(user.getId());
+
+			if (!finalIds.contains(user.getId())) {
+				userIds.add(user.getId());
+				finalIds.add(user.getId());
+			}
 		}
 
 		if (!userIds.isEmpty()) {
@@ -1042,7 +1046,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 			getIdByReportManager(userIds, finalIds);
 		}
 
-		finalIds.addAll(userIds);
 	}
 
 	public String getUserNameById(String id) {
