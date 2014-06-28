@@ -57,7 +57,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 		if (!list.isEmpty()) {
 			SalaryMonth month = getMonthAndSalaryPerDay(list);
-
+			
 			if (month != null && month.getUserName() != null) {
 				List<SalaryItem> items = getPaySalary(list);
 				List<DeductedSalaryItem> ditems = getDeductedSalary(list);
@@ -132,7 +132,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 				}
 
 			} else {
-				throw new ResponseException("请检查模板");
+				throw new ResponseException("模板不对，请检查模板, 并且确保工资信息在excel的第一个sheet后再导入");
 			}
 
 		}
@@ -182,7 +182,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 								teamName = teamInfo[0].trim();
 								teamLeaderName = teamInfo[1].trim();
 							} else {
-								throw new ResponseException("请检查模板中的班组名称");
+								throw new ResponseException("请检查模板中的班组名称，确保已经填写班组名称后再导入");
 							}
 						}
 					}
@@ -241,7 +241,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		Team team = (Team) this.dao.findOneByQuery(teamQuery, Team.class);
 
 		if (team == null) {
-			throw new ResponseException("施工队不存在，请先创建施工队");
+			throw new ResponseException("施工队（班组）不存在，请先创建施工队");
 		}
 
 		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);

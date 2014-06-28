@@ -2,6 +2,7 @@ package com.ams.bean;
 
 import javax.persistence.Column;
 
+import com.eweblib.annotation.column.IntegerColumn;
 import com.eweblib.bean.BaseEntity;
 
 public class AmsBaseEntity extends BaseEntity {
@@ -10,6 +11,7 @@ public class AmsBaseEntity extends BaseEntity {
 
 	public static final String DISPLAY_ORDER = "displayOrder";
 
+	@IntegerColumn
 	@Column(name = DISPLAY_ORDER)
 	public Integer displayOrder;
 

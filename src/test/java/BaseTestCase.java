@@ -61,9 +61,11 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 
-		SearchVo vo = new SearchVo();
-		vo.setUserId("44166a1a-54cc-4ce3-98e2-0d86bc9c5dcf");
-		System.out.println(us.listUserForApp(vo).getEntityList());
+//		SearchVo vo = new SearchVo();
+//		vo.setUserId("44166a1a-54cc-4ce3-98e2-0d86bc9c5dcf");
+//		System.out.println(us.listUserForApp(vo).getEntityList());
+		
+		System.out.println(EweblibUtil.getInteger("006", 0));
 
 	}
 	
