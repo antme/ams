@@ -42,7 +42,7 @@
 
 	function searchUser(){
 		
-		var projectId = $("#projectId").combobox('getValue');
+		var projectId = $("#projectSearchId").combobox('getValue');
 		if(projectId==undefined){
 			projectId = "";
 		}
@@ -220,7 +220,7 @@
 				
 					<div style="display:inline-block; margin-left:25px;">
 			            用户名: <input class="easyui-validatebox textbox" type="text" name="username" id="username" style="width:80px">
-			            项目:<input class="easyui-combobox textbox" type="text" id="projectId" name="projectId" data-options="url:'/ams/project/list.do?userId=',
+			            项目:<input class="easyui-combobox textbox" type="text" id="projectSearchId" name="projectSearchId" data-options="url:'/ams/project/list.do?userId=',
 			                    method:'get',
 			                    valueField:'id',
 			                    textField:'projectName',
