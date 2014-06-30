@@ -603,3 +603,9 @@ alter table Team add column displayForApp tinyint(1) default 1;
 alter table Team add column displayOrder int default 0;
 
 
+alter table Salary add column salaryFileName varchar(255) default null;
+alter table ProjectTask add column taskFileName varchar(255) default null;
+
+
+alter table project modify column   `projectAttendanceManagerId` varchar(512) DEFAULT NULL;
+alter table project modify column   `projectManagerId` varchar(512) DEFAULT NULL;

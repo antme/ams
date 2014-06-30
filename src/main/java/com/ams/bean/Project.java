@@ -68,6 +68,10 @@ public class Project extends AmsBaseEntity {
 	
 	
 	
+	public String[] projectAttendanceManagerIds;
+	
+	public String[] projectManagerIds;
+
 	
 	public Integer projectTotalDays;
 
@@ -94,9 +98,24 @@ public class Project extends AmsBaseEntity {
 	
 	public String prjectMembers;
 	
-	
 
 	
+	public String[] getProjectAttendanceManagerIds() {
+		return projectAttendanceManagerIds;
+	}
+
+	public void setProjectAttendanceManagerIds(String[] projectAttendanceManagerIds) {
+		this.projectAttendanceManagerIds = projectAttendanceManagerIds;
+	}
+
+	public String[] getProjectManagerIds() {
+		return projectManagerIds;
+	}
+
+	public void setProjectManagerIds(String[] projectManagerIds) {
+		this.projectManagerIds = projectManagerIds;
+	}
+
 	public String getPrjectMembers() {
 		return prjectMembers;
 	}

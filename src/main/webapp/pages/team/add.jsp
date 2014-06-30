@@ -193,26 +193,19 @@
 					}"></input>
 			</div>
 			<div>
-			<span class="r-edit-label">所属项目:</span> <input class="easyui-combobox"  name="projectId" 
+			<span class="r-edit-label">所属项目:</span> <input class="easyui-combobox"  name="projectIds[]"  id="projectIds" style="width:500px;"
 					data-options="url:'/ams/project/list.do?userId=',
                     method:'get',
                     valueField:'id',
                     required:true,
+                    multiple: true,
                     textField:'projectName',
                     panelHeight:'auto',
-                    onSelect: function(rec){
-			            $('#departmentId').val(rec.departmentId);
-			            $('#departmentName').val(rec.departmentName);
-			        },
                     loadFilter:function(data){
 						return data.rows;
 					}"></input>
 			</div>
-			
-			<div>
-				<span class="r-edit-label">所属部门:</span> <input type="hidden" class=""  id="departmentId" name="departmentId"></input>
-				<input class=""  disabled id="departmentName" name="departmentName"></input>
-			</div>
+
 			
 			<div>
 				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>

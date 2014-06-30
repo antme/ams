@@ -144,6 +144,7 @@
 			<th align="center" field="totalSalary" width="100" sortable="false" resizable="true">应发工资</th>
 			<th align="center" field="deductedSalary" width="100" sortable="false" resizable="true">应扣工资</th>
 			<th align="center" field="remainingSalaray" width="100" sortable="false" resizable="true">剩余工资</th>
+			<th align="center" field="salaryFileName" width="100" data-options="formatter:formatterSalaryFileName" sortable="false" resizable="true">工资文件</th>
 		</tr>
 	</thead>
 </table>

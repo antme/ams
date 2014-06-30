@@ -94,6 +94,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 				salary.setUserId(user.getId());
 				salary.setRemainingSalaray(totalSalary - deductedSalary);
 				salary.setSalaryPerDay((double) month.getSalaryPerDay());
+				salary.setSalaryFileName(temp.getSalaryFileName());
 
 				DataBaseQueryBuilder exquery = new DataBaseQueryBuilder(Salary.TABLE_NAME);
 				exquery.and(Salary.USER_ID, user.getId());

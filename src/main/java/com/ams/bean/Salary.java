@@ -11,6 +11,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Salary.TABLE_NAME)
 public class Salary extends BaseEntity {
 
+	public static final String SALARY_FILE_NAME = "salaryFileName";
+
 	public static final String USER_ID = "userId";
 
 	public static final String REMAINING_SALARAY = "remainingSalaray";
@@ -42,6 +44,13 @@ public class Salary extends BaseEntity {
 
 	@Column(name = MONTH)
 	public Integer month;
+	
+	
+	
+	@Column(name = SALARY_FILE_NAME)
+	public String salaryFileName;
+	
+	
 
 	public String userName;
 
@@ -54,6 +63,14 @@ public class Salary extends BaseEntity {
 	public String overrideexists;
 	
 	
+
+	public String getSalaryFileName() {
+		return salaryFileName;
+	}
+
+	public void setSalaryFileName(String salaryFileName) {
+		this.salaryFileName = salaryFileName;
+	}
 
 	public String getOverrideexists() {
 		return overrideexists;

@@ -48,8 +48,18 @@ public class Team extends AmsBaseEntity {
 	
 	public String[] teamMemberIds;
 
+	public String[] projectIds;
 	
 	
+	
+	public String[] getProjectIds() {
+		return projectIds;
+	}
+
+	public void setProjectIds(String[] projectIds) {
+		this.projectIds = projectIds;
+	}
+
 	public String getTeamMembers() {
 		return teamMembers;
 	}

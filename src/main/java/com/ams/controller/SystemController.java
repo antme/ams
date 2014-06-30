@@ -1,7 +1,9 @@
 package com.ams.controller;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
 import com.eweblib.bean.Log;
 import com.eweblib.exception.ResponseException;
+import com.eweblib.util.EWeblibThreadLocal;
 
 @Controller
 @RequestMapping("/ams/sys")
@@ -50,11 +53,19 @@ public class SystemController extends AmsController {
 		String fileName = uploadFile.getOriginalFilename();
 
 		if (!(fileName.endsWith("xls") || fileName.endsWith("xlsx"))) {
-
 			throw new ResourceAccessException("请上传excel");
 		}
+
+		String relativeFilePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId());
+
 		try {
 			InputStream inputStream = uploadFile.getInputStream();
+
+			String webPath = request.getSession().getServletContext().getRealPath("/");
+			fileName = new Date().getTime() + fileName;
+			String file = uploadFileByInputStream(multipartRequest, relativeFilePath, fileName, inputStream);
+			inputStream = new FileInputStream(webPath + file);
+			temp.setSalaryFileName(file);
 			sys.importSalary(inputStream, temp);
 		} catch (IOException e) {
 			e.printStackTrace();

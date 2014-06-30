@@ -338,6 +338,14 @@ function formatterPicOperation(val, row) {
 			+ '")> <img height="50" width="100" src="' + val + '"/> </a>';
 }
 
+
+function formatterSalaryFileName(val, row){
+	
+	if(val && val!=""){
+		return '<a target="_blank" href="' + val + '">下载</a>';
+	}
+}
+
 function formatterUserOperation(val, row) {
 	return '<a href="#" onclick=loadRemotePage("user/add&a=4&id=' + row.id
 			+ '")> 编辑 </a>';

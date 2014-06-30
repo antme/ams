@@ -10,6 +10,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = ProjectTask.TABLE_NAME)
 public class ProjectTask extends BaseEntity{
 
+	public static final String TASK_FILE_NAME = "taskFileName";
+
 	public static final String USER_ID = "userId";
 
 	public static final String TEAM_NAME = "teamName";
@@ -87,11 +89,73 @@ public class ProjectTask extends BaseEntity{
 	@Column(name = IS_DELETED)
 	public Boolean isDeleted;
 	
+	@Column(name = TASK_FILE_NAME)
+	public String taskFileName;
 	
 	
+	public Integer projectTotalDays;
+
+	public Integer projectRemainingDays;
+
+	public Integer projectUsedDays;
+	
+	public String memebers;
+	
+	public String taskName;
+	
+	
+	
+	
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
+	public String getMemebers() {
+		return memebers;
+	}
+
+	public void setMemebers(String memebers) {
+		this.memebers = memebers;
+	}
+
+	public Integer getProjectTotalDays() {
+		return projectTotalDays;
+	}
+
+	public void setProjectTotalDays(Integer projectTotalDays) {
+		this.projectTotalDays = projectTotalDays;
+	}
+
+	public Integer getProjectRemainingDays() {
+		return projectRemainingDays;
+	}
+
+	public void setProjectRemainingDays(Integer projectRemainingDays) {
+		this.projectRemainingDays = projectRemainingDays;
+	}
+
+	public Integer getProjectUsedDays() {
+		return projectUsedDays;
+	}
+
+	public void setProjectUsedDays(Integer projectUsedDays) {
+		this.projectUsedDays = projectUsedDays;
+	}
+
 	public String userName;
-	
-	
+
+
+	public String getTaskFileName() {
+		return taskFileName;
+	}
+
+	public void setTaskFileName(String taskFileName) {
+		this.taskFileName = taskFileName;
+	}
 
 	public Boolean getIsDeleted() {
 		return isDeleted;

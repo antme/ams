@@ -64,13 +64,51 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	@Override
 	public void addProject(Project project) {
+		String[] projectMagerIds = project.getProjectManagerIds();
+
+		String pmids = "";
+		if (projectMagerIds != null) {
+
+			for (String id : projectMagerIds) {
+
+				if (EweblibUtil.isValid(id)) {
+					pmids = pmids + id + ",";
+				}
+			}
+		}
+
+		if (EweblibUtil.isValid(pmids)) {
+			pmids = pmids + ";";
+			pmids = pmids.replace(",;", "");
+		}
+
+		project.setProjectManagerId(pmids);
+
+		String[] projectAttendanceMangerids = project.getProjectAttendanceManagerIds();
+
+		pmids = "";
+		if (projectAttendanceMangerids != null) {
+
+			for (String id : projectAttendanceMangerids) {
+				if (EweblibUtil.isValid(id)) {
+					pmids = pmids + id + ",";
+				}
+			}
+		}
+
+		if (EweblibUtil.isValid(pmids)) {
+			pmids = pmids + ";";
+			pmids = pmids.replace(",;", "");
+		}
+
+		project.setProjectAttendanceManagerId(pmids);
 
 		if (EweblibUtil.isValid(project.getId())) {
 
 			this.dao.updateById(project);
 
 			DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
-			teamQuery.and(Team.PROJECT_ID, project.getId());
+			teamQuery.and(DataBaseQueryOpertion.LIKE, Team.PROJECT_ID, project.getId());
 			List<Team> teams = this.dao.listByQuery(teamQuery, Team.class);
 
 			for (Team t : teams) {
@@ -129,6 +167,9 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 				i++;
 			}
 
+			project.setProjectManagerIds(project.getProjectManagerId().split(","));
+			project.setProjectAttendanceManagerIds(project.getProjectAttendanceManagerId().split(","));
+
 			project.setProjectMemberIds(userIds);
 		}
 
@@ -136,6 +177,28 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	}
 
 	public void addTeam(Team team) {
+		
+		String[] projectIds = team.getProjectIds();
+
+		String pids = "";
+		if (projectIds != null) {
+
+			for (String id : projectIds) {
+
+				if (EweblibUtil.isValid(id)) {
+					pids = pids + id + ",";
+				}
+			}
+		}
+
+		if (EweblibUtil.isValid(pids)) {
+			pids = pids + ";";
+			pids = pids.replace(",;", "");
+		}
+
+		team.setProjectId(pids);
+		
+		
 		if (EweblibUtil.isValid(team.getId())) {
 			this.dao.updateById(team);
 		} else {
@@ -227,6 +290,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+		
 		if (team != null) {
 
 			if (EweblibUtil.isValid(team.getTeamName())) {
@@ -238,7 +302,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			}
 
 			if (EweblibUtil.isValid(team.getProjectId())) {
-				builder.and(Team.PROJECT_ID, team.getProjectId());
+				builder.and(DataBaseQueryOpertion.LIKE, Team.PROJECT_ID, team.getProjectId());
 			}
 		}
 
@@ -284,7 +348,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		Team t = (Team) this.dao.findById(team.getTeamId(), Team.TABLE_NAME, Team.class);
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		pquery.and(Project.PROJECT_ATTENDANCE_MANAGER_ID, team.getUserId());
+		pquery.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, team.getUserId());
 		pquery.and(Project.ID, t.getProjectId());
 		if (!this.dao.exists(pquery)) {
 			return new ArrayList<Attendance>();
@@ -349,11 +413,11 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		if (EweblibUtil.isValid(project.getProjectAttendanceManagerId())) {
-			builder.and(Project.PROJECT_ATTENDANCE_MANAGER_ID, project.getProjectAttendanceManagerId());
+			builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, project.getProjectAttendanceManagerId());
 		}
 
 		if (EweblibUtil.isValid(project.getProjectManagerId())) {
-			builder.and(Project.PROJECT_MANAGER_ID, project.getProjectManagerId());
+			builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, project.getProjectManagerId());
 		}
 		builder.limitColumns(new Project().getColumnList());
 
@@ -381,21 +445,37 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		List<User> users = this.dao.listByQuery(new DataBaseQueryBuilder(User.TABLE_NAME), User.class);
 		for (Project p : projects.getEntityList()) {
+			String userName = "";
 
 			for (User user : users) {
-
 				if (p.getProjectAttendanceManagerId() != null) {
-					if (p.getProjectAttendanceManagerId().equalsIgnoreCase(user.getId())) {
-						p.setProjectAttendanceManagerName(user.getUserName());
+					if (p.getProjectAttendanceManagerId().contains(user.getId())) {
+						userName = userName + user.getUserName() + ",";
 					}
 				}
 
+			}
+
+			if (EweblibUtil.isValid(userName)) {
+				userName = userName + ";";
+				userName = userName.replaceAll(",;", "");
+			}
+			p.setProjectAttendanceManagerName(userName);
+
+			userName = "";
+			for (User user : users) {
 				if (p.getProjectManagerId() != null) {
-					if (p.getProjectManagerId().equalsIgnoreCase(user.getId())) {
-						p.setProjectManagerName(user.getUserName());
+					if (p.getProjectManagerId().contains(user.getId())) {
+						userName = userName + user.getUserName() + ",";
 					}
 				}
 			}
+
+			if (EweblibUtil.isValid(userName)) {
+				userName = userName + ";";
+				userName = userName.replaceAll(",;", "");
+			}
+			p.setProjectManagerName(userName);
 
 			p.setPrjectMembers(etMap.get(p.getId()));
 		}
@@ -416,8 +496,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		DataBaseQueryBuilder uquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		uquery.or(Project.PROJECT_MANAGER_ID, vo.getUserId());
-		uquery.or(Project.PROJECT_ATTENDANCE_MANAGER_ID, vo.getUserId());
+		uquery.or(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, vo.getUserId());
+		uquery.or(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, vo.getUserId());
 
 		builder.and(uquery);
 
@@ -583,10 +663,9 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		        Task.PROJECT_END_DATE });
 
 		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
-		
-		
-		if(EweblibUtil.isValid(t.getKeyword())){
-			
+
+		if (EweblibUtil.isValid(t.getKeyword())) {
+
 			builder.and(DataBaseQueryOpertion.LIKE, Task.TASK_NAME, t.getKeyword());
 		}
 
@@ -781,8 +860,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			if (EweblibUtil.isEmpty(userId)) {
 				userId = EWeblibThreadLocal.getCurrentUserId();
 			}
-			
-			if(fromApp){
+
+			if (fromApp) {
 				Set<String> userIds = userService.getOwnedUserIds(userId);
 				userIds.add(userId);
 				builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
@@ -1059,7 +1138,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 				{
 
-
 					e.printStackTrace();
 
 				}
@@ -1120,8 +1198,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		builder.and(DataBaseQueryOpertion.IS_FALSE, ProjectTask.IS_DELETED);
 
-		builder.limitColumns(new String[] { ProjectTask.TASK_PERIOD, ProjectTask.TASK_CONTACT_PHONE, ProjectTask.DESCRIPTION, ProjectTask.ID, ProjectTask.PROJECT_START_DATE,
-		        ProjectTask.PROJECT_END_DATE });
+		builder.limitColumns(new String[] { ProjectTask.TASK_FILE_NAME, ProjectTask.TASK_PERIOD, ProjectTask.TASK_CONTACT_PHONE, ProjectTask.DESCRIPTION, ProjectTask.ID,
+		        ProjectTask.PROJECT_START_DATE, ProjectTask.PROJECT_END_DATE });
 		return this.dao.listByQueryWithPagnation(builder, ProjectTask.class);
 
 	}

@@ -327,12 +327,33 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 	public Set<String> getOwnedTeamIds(Set<String> mockedUserIds, Set<String> projectIds) {
 		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(Team.TABLE_NAME);
-		teamQuery.or(DataBaseQueryOpertion.IN, Team.TEAM_LEADER_ID, mockedUserIds);
-		teamQuery.or(DataBaseQueryOpertion.IN, Team.PROJECT_ID, projectIds);
+//		teamQuery.or(DataBaseQueryOpertion.IN, Team.TEAM_LEADER_ID, mockedUserIds);
+//		teamQuery.or(DataBaseQueryOpertion.IN, Team.PROJECT_ID, projectIds);
 		List<Team> teamList = this.dao.listByQuery(teamQuery, Team.class);
 		Set<String> teamIds = new HashSet<String>();
 		for (Team team : teamList) {
-			teamIds.add(team.getId());
+			
+			boolean find = false;
+			
+			if(team.getTeamLeaderId()!=null && mockedUserIds.contains(team.getTeamLeaderId())){
+				
+				find = true;
+			}
+			
+			if(team.getProjectId()!=null && !find){
+				
+				for(String id: team.getProjectId().split(",")){
+					
+					if(projectIds.contains(id)){
+						find = true;
+						break;
+					}
+				}
+			}
+			
+			if (find) {
+				teamIds.add(team.getId());
+			}
 		}
 
 		return teamIds;
@@ -341,14 +362,59 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public Set<String> getOwnerdProjectIds(Set<String> mockedUserIds, Set<String> depIds) {
 		Set<String> projectIds = new HashSet<String>();
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		query.or(DataBaseQueryOpertion.IN, Project.PROJECT_MANAGER_ID, mockedUserIds);
-		query.or(DataBaseQueryOpertion.IN, Project.PROJECT_ATTENDANCE_MANAGER_ID, mockedUserIds);
-		query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, depIds);
+//		query.or(DataBaseQueryOpertion.IN, Project.PROJECT_MANAGER_ID, mockedUserIds);
+//		query.or(DataBaseQueryOpertion.IN, Project.PROJECT_ATTENDANCE_MANAGER_ID, mockedUserIds);
+//		query.or(DataBaseQueryOpertion.IN, Project.DEPARTMENT_ID, depIds);
+		
+		if (mockedUserIds == null) {
+
+			mockedUserIds = new HashSet<String>();
+
+		}
+
+		if (depIds == null) {
+			depIds = new HashSet<String>();
+		}
 
 		List<Project> pList = this.dao.listByQuery(query, Project.class);
 
 		for (Project project : pList) {
-			projectIds.add(project.getId());
+
+			boolean find = false;
+
+			if (project.getProjectManagerId() != null) {
+
+				for (String id : project.getProjectManagerId().split(",")) {
+
+					if (mockedUserIds.contains(id)) {
+						find = true;
+						break;
+					}
+				}
+			}
+
+			if (project.getProjectManagerId() != null && !find) {
+
+				for (String id : project.getProjectAttendanceManagerId().split(",")) {
+
+					if (mockedUserIds.contains(id)) {
+						find = true;
+						break;
+					}
+				}
+			}
+
+			if (project.getDepartmentId() != null && !find) {
+
+				if (depIds.contains(project.getDepartmentId())) {
+					find = true;
+				}
+			}
+			
+			if (find) {
+				projectIds.add(project.getId());
+
+			}
 		}
 
 		return projectIds;
@@ -494,7 +560,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 			builder.and(Salary.MONTH, salary.getMonth());
 		}
 
-		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
+		builder.limitColumns(new String[] { Salary.USER_ID, Salary.ID, Salary.SALARY_FILE_NAME, Salary.DEDUCTED_SALARY, Salary.REMAINING_SALARAY, Salary.TOTAL_SALARY, Salary.MONTH, Salary.YEAR });
 
 		return this.dao.listByQueryWithPagnation(builder, Salary.class);
 

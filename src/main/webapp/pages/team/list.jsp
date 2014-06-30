@@ -53,8 +53,7 @@
 	<thead>
 		<tr>
 			<th align="center" field="teamName" width="100" sortable="false" resizable="true">团队名称</th>
-			<th align="center" field="departmentName" width="100" sortable="false" resizable="true">所属部门</th>
-			<th align="center" field="projectName" width="150" sortable="false" resizable="true">所属项目</th>
+			<th align="center" field="projectName" width="250" sortable="false" resizable="true">所属项目</th>
 			<th align="center" field="userName" width="100" sortable="false" resizable="true">队长</th>
 			<th align="center" field="teamMembers" width="250" sortable="false" resizable="true">团队成员</th>
 			<th align="center" data-options="field:'id',formatter:formatterTeamOperation"  width="120">操作</th>
