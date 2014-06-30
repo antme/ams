@@ -248,6 +248,12 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			HSSFWorkbook wb = new HSSFWorkbook();
 
 			HSSFSheet sheet1 = wb.createSheet("图片");
+			
+			sheet1.setColumnWidth(1, 4000);
+			sheet1.setColumnWidth(2, 10000);
+			sheet1.setColumnWidth(3, 10000);
+			sheet1.setColumnWidth(4, 10000);
+			
 
 			HSSFRow row = sheet1.createRow(0);
 			int index = 0;

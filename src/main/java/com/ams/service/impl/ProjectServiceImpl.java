@@ -974,7 +974,11 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			HSSFWorkbook wb = new HSSFWorkbook();
 
 			HSSFSheet sheet1 = wb.createSheet("日报");
-
+			sheet1.setColumnWidth(2, 4000);
+			sheet1.setColumnWidth(3, 10000);
+			sheet1.setColumnWidth(4, 10000);
+			sheet1.setColumnWidth(5, 10000);
+			sheet1.setColumnWidth(6, 10000);
 			HSSFRow row = sheet1.createRow(0);
 			int index = 0;
 			for (String header : columnHeaders) {
