@@ -169,23 +169,47 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 				if (index == 1) {
 
-					String[] teamInfo = row.split(getKey(row, "联系电话"));
+					String[] teamInfo = row.split(getKey(row, "手机"));
 					if (teamInfo.length > 1) {
 						teamLeaderContactPhone = teamInfo[1].trim();
 					}
 
-					teamInfo = teamInfo[0].split(getKey(row, "班组名称"));
-					for (String ti : teamInfo) {
-						if (EweblibUtil.isValid(ti)) {
-							teamInfo = ti.trim().split(" ");
-							if (teamInfo.length > 1) {
-								teamName = teamInfo[0].trim();
-								teamLeaderName = teamInfo[1].trim();
-							} else {
-								throw new ResponseException("请检查模板中的班组名称，确保已经填写班组名称后再导入");
-							}
-						}
+					teamInfo = teamInfo[0].split(getKey(row, "联系人"));
+					
+					if (teamInfo.length > 1) {
+						teamLeaderName = teamInfo[1].trim();
+					} else {
+						throw new ResponseException("请检查模板中的联系人，确保已经填写联系人后再导入");
 					}
+
+					teamInfo =  teamInfo[0].split(getKey(row, "班组名称"));
+					
+					if (teamInfo.length > 0) {
+						teamName = teamInfo[1].trim();
+					} else {
+						throw new ResponseException("请检查模板中的班组名称，确保已经填写班组名称后再导入");
+					}
+
+					if (EweblibUtil.isEmpty(teamName)) {
+						throw new ResponseException("请检查模板中的班组名称，确保已经填写班组名称后再导入");
+					}
+
+					if (EweblibUtil.isEmpty(teamLeaderName)) {
+						throw new ResponseException("请检查模板中的联系人，确保已经填写联系人后再导入");
+					}
+					
+					
+//					for (String ti : teamInfo) {
+//						if (EweblibUtil.isValid(ti)) {
+//							teamInfo = ti.trim().split(" ");
+//							if (teamInfo.length > 1) {
+//								teamName = teamInfo[0].trim();
+//								teamLeaderName = teamInfo[1].trim();
+//							} else {
+//								throw new ResponseException("请检查模板中的班组名称，确保已经填写班组名称后再导入");
+//							}
+//						}
+//					}
 
 				} else if (index == 2) {
 					projectPeriod = row.split(getKey(row, "总工期"))[1];

@@ -58,15 +58,19 @@ public class Attendance extends BaseEntity {
 	public Date attendanceDate;
 
 	@Column(name = ATTENDANCE_DAY_TYPE)
+	@IntegerColumn
 	public Integer attendanceDayType;
 
 	@Column(name = ATTENDANCE_TYPE)
+	@IntegerColumn
 	public Integer attendanceType;
 
 	@Column(name = HOURS)
+	@IntegerColumn
 	public Integer hours;
 
 	@Column(name = MINUTES)
+	@IntegerColumn
 	public Integer minutes;
 	
 	
