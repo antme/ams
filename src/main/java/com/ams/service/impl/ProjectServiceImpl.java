@@ -52,6 +52,7 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
+import com.eweblib.util.DateUtil;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 
@@ -988,7 +989,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 				row = sheet1.createRow(rowIndex);
 
 				row.createCell(0).setCellValue(rep.getUserName());
-				row.createCell(1).setCellValue(rep.getReportDay());
+				row.createCell(1).setCellValue(DateUtil.getDateString(rep.getReportDay()));
 				row.createCell(2).setCellValue(rep.getProjectName());
 				row.createCell(3).setCellValue(rep.getMaterialRecord());
 				row.createCell(4).setCellValue(rep.getWorkingRecord());
