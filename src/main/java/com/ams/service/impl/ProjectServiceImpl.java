@@ -206,6 +206,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			}
 		}
 
+		mergeCommonQuery(builder);
 		EntityResults<Team> teamList = this.dao.listByQueryWithPagnation(builder, Team.class);
 
 		for (Team t : teamList.getEntityList()) {
@@ -263,6 +264,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			builder.and(Team.PROJECT_ID, team.getProjectId());
 		}
 
+		mergeCommonQueryForApp(builder);
 		List<Team> teams = this.dao.listByQuery(builder, Team.class);
 
 		for (Team t : teams) {

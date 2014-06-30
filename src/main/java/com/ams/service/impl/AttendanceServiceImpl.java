@@ -131,7 +131,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			}
 
 			if (EweblibUtil.isValid(attendance.getMonth())) {
-				builder.and(Attendance.MONTH, attendance.getMonth());
+				builder.and(Attendance.MONTH, attendance.getMonth()-1);
 			}
 		}
 
@@ -188,25 +188,25 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 				if (at.getAttendanceType() == 0) {
 					type = "√";
-				} else if (at.getAttendanceType() == 0) {
-					type = "●";
 				} else if (at.getAttendanceType() == 1) {
-					type = "○";
+					type = "●";
 				} else if (at.getAttendanceType() == 2) {
-					type = "×";
+					type = "○";
 				} else if (at.getAttendanceType() == 3) {
-					type = "△";
+					type = "×";
 				} else if (at.getAttendanceType() == 4) {
-					type = "□";
+					type = "△";
 				} else if (at.getAttendanceType() == 5) {
-					type = "◇";
+					type = "□";
 				} else if (at.getAttendanceType() == 6) {
-					type = "◆";
+					type = "◇";
 				} else if (at.getAttendanceType() == 7) {
-					type = "▼";
+					type = "◆";
 				} else if (at.getAttendanceType() == 8) {
-					type = "▲";
+					type = "▼";
 				} else if (at.getAttendanceType() == 9) {
+					type = "▲";
+				} else if (at.getAttendanceType() == 10) {
 					type = "■";
 				}
 

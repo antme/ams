@@ -598,3 +598,8 @@ alter table ProjectTask modify column isDeleted tinyint(1) DEFAULT 0;
 
 
 
+
+alter table Team add column displayForApp tinyint(1) default 1;
+alter table Team add column displayOrder int default 0;
+
+

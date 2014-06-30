@@ -215,6 +215,17 @@
 			</div>
 			
 			<div>
+				<span class="r-edit-label">显示顺序:</span> <input class="easyui-validatebox textbox input-title" type="number" name="displayOrder" value="0" ></input>
+				<span>数值高的将显示在后面</span>
+			</div>
+			<div>
+				<span class="r-edit-label">是否手机显示:</span> <select class="easyui-combobox" name="displayForApp" style="width: 200px;" >
+					<option value="1">是</option>
+					<option value="0">否</option>									
+				</select>
+			</div>
+			
+			<div>
 				<span class="r-edit-label"></span> 
 				<span style="display:inline-block;"> 
 				

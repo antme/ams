@@ -3,10 +3,8 @@ package com.ams.bean;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.eweblib.bean.BaseEntity;
-
 @Table(name = Team.TABLE_NAME)
-public class Team extends BaseEntity {
+public class Team extends AmsBaseEntity {
 	public static final String PROJECT_ID = "projectId";
 
 	public static final String TEAM_LEADER_ID = "teamLeaderId";
