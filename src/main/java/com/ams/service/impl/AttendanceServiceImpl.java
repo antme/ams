@@ -35,6 +35,7 @@ import com.eweblib.bean.EntityResults;
 import com.eweblib.dbhelper.DataBaseQueryBuilder;
 import com.eweblib.dbhelper.DataBaseQueryOpertion;
 import com.eweblib.service.AbstractService;
+import com.eweblib.util.DateUtil;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
 import com.eweblib.util.ExcelTemplateUtil;
@@ -270,7 +271,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				row.createCell(0).setCellValue(pic.getUserName());
 				row.createCell(1).setCellValue(pic.getProjectName());
 				row.createCell(2).setCellValue(pic.getDescription());
-				row.createCell(3).setCellValue(pic.getCreatedOn());
+				row.createCell(3).setCellValue(DateUtil.getDateStringTime(pic.getCreatedOn()));
 				if (picFile.exists()) {
 					HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
 					HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 120, (short) 4, rowIndex, (short) 5, (rowIndex + 1));
