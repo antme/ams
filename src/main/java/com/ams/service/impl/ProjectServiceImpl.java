@@ -61,6 +61,10 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	@Autowired
 	private IUserService userService;
+	
+	
+	public static Map<String, String> projectMap = new HashMap<String, String>();
+	
 
 	@Override
 	public void addProject(Project project) {
@@ -327,6 +331,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		if (team.getProjectId() != null) {
 			builder.and(Team.PROJECT_ID, team.getProjectId());
+			projectMap.put(team.getUserId(), team.getProjectId());
 		}
 
 		mergeCommonQueryForApp(builder);
@@ -346,23 +351,47 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
 
-		Team t = (Team) this.dao.findById(team.getTeamId(), Team.TABLE_NAME, Team.class);
-		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		pquery.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, team.getUserId());
-		pquery.and(Project.ID, t.getProjectId());
-		if (!this.dao.exists(pquery)) {
-			return new ArrayList<Attendance>();
-		}
+//		Team t = (Team) this.dao.findById(team.getTeamId(), Team.TABLE_NAME, Team.class);
+//		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+//		pquery.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, team.getUserId());
+//		pquery.and(Project.ID, t.getProjectId());
+//		if (!this.dao.exists(pquery)) {
+//			return new ArrayList<Attendance>();
+//		}
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
 		query.and(EmployeeTeam.TEAM_ID, team.getTeamId());
 		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
 
+		
+		//FIXME: FOR TEST, REMOVE IT LATER
+		String projectId = projectMap.get(team.getUserId());
+		
+		if(EweblibUtil.isValid(team.getProjectId())){
+			projectId = team.getProjectId();
+		}
+		
+		DataBaseQueryBuilder epquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
+		epquery.and(EmployeeProject.PROJECT_ID, projectId);
+		List<EmployeeProject> eps = this.dao.listByQuery(epquery, EmployeeProject.class);
+		Set<String> epuids = new HashSet<String>();
+		for(EmployeeProject ep: eps){
+			epuids.add(ep.getUserId());
+		}
+		
+		
 		Set<String> userIds = new HashSet<String>();
 
 		for (EmployeeTeam et : ets) {
-			userIds.add(et.getUserId());
+
+			if (epuids.contains(et.getUserId())) {
+				userIds.add(et.getUserId());
+			}
 		}
+
+
+		
+		
 
 		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(User.TABLE_NAME);
 		atquery.join(User.TABLE_NAME, Attendance.TABLE_NAME, User.ID, Attendance.USER_ID);
@@ -483,7 +512,10 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		return projects;
 	}
 
+
 	public List<Project> listProjectsForApp(SearchVo vo) {
+		
+		
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
@@ -509,19 +541,19 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	}
 
 	@Override
-	public List<Task> listProjectTasksForAppDailyReport(Task t) {
+	public List<Project> listProjectTasksForAppDailyReport(Task t) {
 
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
-		builder.limitColumns(new String[] { Task.TASK_NAME, Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE, Task.PROJECT_END_DATE });
+		builder.limitColumns(new String[] { Task.TASK_NAME, Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
 
-		builder.and(Task.USER_ID, t.getUserId());
+		// builder.and(Task.USER_ID, t.getUserId());
 
 		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
 
-		List<Task> tasks = this.dao.listByQuery(builder, Task.class);
+		List<Project> tasks = this.dao.listByQuery(builder, Project.class);
 
-		for (Task task : tasks) {
+		for (Project task : tasks) {
 
 			Calendar c = Calendar.getInstance();
 			c.setTime(task.getProjectStartDate());
@@ -538,7 +570,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			task.setProjectRemainingDays(endDay - currentDay);
 			task.setProjectUsedDays(currentDay - startDay);
 
-			task.setUserWorkedDays(getUserWorkedDaysFromTask(task));
+			task.setUserWorkedDays(getUserWorkedDaysFromProject(task, t.getUserId()));
 
 		}
 
@@ -564,6 +596,25 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		return set.size();
 	}
+	
+	private double getUserWorkedDaysFromProject(Project project, String userId) {
+
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
+		query.and(Attendance.USER_ID, userId);
+		query.and(Attendance.PROJECT_ID, project.getId());
+		query.limitColumns(new String[] { Attendance.HOURS, Attendance.MINUTES, Attendance.ATTENDANCE_DATE });
+
+		Set<String> set = new HashSet<String>();
+
+		List<Attendance> list = this.dao.listByQuery(query, Attendance.class);
+		for (Attendance attendance : list) {
+
+			set.add(String.valueOf(attendance.getAttendanceDate().getTime()));
+		}
+
+		return set.size();
+	}
+
 
 	public EntityResults<Task> listAllTasksFor(Task task) {
 
@@ -712,10 +763,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 			this.dao.updateById(report);
 		} else {
-			Task task = (Task) this.dao.findById(report.getTaskId(), Task.TABLE_NAME, Task.class);
 
-			report.setProjectId(task.getProjectId());
-
+			report.setProjectId(vo.getTaskId());
 			this.dao.insert(report);
 		}
 

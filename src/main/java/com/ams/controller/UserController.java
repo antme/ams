@@ -204,14 +204,13 @@ public class UserController extends AmsController {
 	@RequestMapping("/team/app/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeamsForApp(HttpServletRequest request, HttpServletResponse response) {
-		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
 		Team team  = (Team) parserJsonParameters(request, false, Team.class);
 		
-//		if(EweblibUtil.isEmpty(team.getProjectId())){
-//			throw new ResponseException("请先选择项目");
-//		}
-//		
-		if(vo.getUserId() == null){
+		if (EweblibUtil.isEmpty(team.getProjectId())) {
+			throw new ResponseException("请先选择项目");
+		}
+
+		if (EweblibUtil.isEmpty(team.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
 		

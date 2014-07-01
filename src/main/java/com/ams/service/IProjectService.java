@@ -29,8 +29,6 @@ public interface IProjectService {
 	public Project getProjectInfo(Project project);
 
 	EntityResults<Project> listProjects(Project project);
-	
-	
 
 	EntityResults<Task> listProjectTasks(Task task);
 
@@ -40,7 +38,7 @@ public interface IProjectService {
 
 	public void addDailyReportComment(DailyReportComment comment);
 
-	List<Task> listProjectTasksForAppDailyReport(Task t);
+	List<Project> listProjectTasksForAppDailyReport(Task t);
 
 	EntityResults<Customer> listCustomers(SearchVo vo);
 
@@ -85,6 +83,7 @@ public interface IProjectService {
 	void deleteProjectTasks(IDS ids);
 
 	List<Project> listProjectsForApp(SearchVo vo);
+
 
 
 }
