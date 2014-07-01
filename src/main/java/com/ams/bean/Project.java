@@ -1,9 +1,12 @@
 package com.ams.bean;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+
+import com.eweblib.util.EweblibUtil;
 
 @Table(name = Project.TABLE_NAME)
 public class Project extends AmsBaseEntity {
@@ -299,20 +302,9 @@ public class Project extends AmsBaseEntity {
 	public void setUserWorkedDays(Double userWokedDays) {
 		this.userWorkedDays = userWokedDays;
 	}
+	
+	
 
-	public static void main(String args[]){
-		Project project = new Project();
-		project.setId("");
-		project.setProjectName("");
-		project.setProjectStartDate(new Date());
-		project.setProjectEndDate(new Date());
-		project.setProjectRemainingDays(11);
-		project.setProjectUsedDays(44);
-		project.setProjectTotalDays(55);
-		project.setUserWorkedDays(11.5);
-		
-		System.out.println(project.toString());
-		
-	}
+	
 
 }

@@ -199,13 +199,40 @@ public class ProjectController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_SITE_MSG_MANAGE, permissionID = PermissionConstants.ADM_SITE_MSG_MANAGE)
 	public void listDailyReport(HttpServletRequest request, HttpServletResponse response) {
 		DailyReportVo report = (DailyReportVo) parserJsonParameters(request, false, DailyReportVo.class);
-		
-		SearchVo vo = (SearchVo)parserJsonParameters(request, false, SearchVo.class);
-		if (EweblibUtil.isEmpty(vo.getUserId())) {			
+
+		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
+		if (EweblibUtil.isEmpty(vo.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
 
-		responseWithDataPagnation(projectService.listDailyReport(report, true), request, response);
+		EntityResults<DailyReportVo> results = projectService.listDailyReport(report, true);
+
+		Map<String, Object> list = new HashMap<String, Object>();
+		list.put("total", results.getPagnation().getTotal());
+
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+
+		for (DailyReportVo dr : results.getEntityList()) {
+
+			Map<String, Object> map = dr.toMap();
+
+			Map<String, Object> projectMap = dr.getTaskInfo().toMap();
+
+			if (projectMap.get(Project.PROJECT_START_DATE) == null) {
+				projectMap.put(Project.PROJECT_START_DATE, "");
+			}
+			if (projectMap.get(Project.PROJECT_END_DATE) == null) {
+				projectMap.put(Project.PROJECT_END_DATE, "");
+			}
+
+			map.put("taskInfo", projectMap);
+			mapList.add(map);
+
+		}
+		list.put("rows", mapList);
+
+		responseMsg(list, ResponseStatus.SUCCESS, request, response, null);
+
 	}
 	
 	

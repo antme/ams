@@ -1,10 +1,8 @@
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -13,10 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.Salary;
-import com.ams.bean.Team;
+import com.ams.bean.Project;
 import com.ams.bean.vo.DailyReportVo;
-import com.ams.bean.vo.SearchVo;
 import com.ams.service.INoticeService;
 import com.ams.service.IProjectService;
 import com.ams.service.ISystemService;
@@ -25,12 +21,10 @@ import com.ams.service.impl.NoticeServiceImpl;
 import com.ams.service.impl.ProjectServiceImpl;
 import com.ams.service.impl.SystemServiceImpl;
 import com.ams.service.impl.UserServiceImpl;
+import com.eweblib.bean.EntityResults;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
-import com.eweblib.util.DateUtil;
-import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
-import com.eweblib.util.ExcelTemplateUtil;
 
 public class BaseTestCase extends TestCase {
 	private static Logger logger = LogManager.getLogger(BaseTestCase.class);
@@ -73,8 +67,40 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 		DailyReportVo report = new DailyReportVo();
+		report.setUserId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
+		
+		
+	
+		EntityResults<DailyReportVo> results = pservice.listDailyReport(report,true);
+		
+		
+		Map<String, Object> list = new HashMap<String, Object>();
+		list.put("total", results.getPagnation().getTotal());
 
-		pservice.listDailyReportPlan(report);
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+
+		for (DailyReportVo dr : results.getEntityList()) {
+
+			Map<String, Object> map = dr.toMap();
+
+			Map<String, Object> projectMap = dr.getTaskInfo().toMap();
+
+			if (projectMap.get(Project.PROJECT_START_DATE) == null) {
+				projectMap.put(Project.PROJECT_START_DATE, "");
+			}
+			if (projectMap.get(Project.PROJECT_END_DATE) == null) {
+				projectMap.put(Project.PROJECT_END_DATE, "");
+			}
+
+			map.put("taskInfo", projectMap);
+			mapList.add(map);
+
+		}
+		list.put("rows", mapList);
+
+		
+		
+		System.out.println(EweblibUtil.toJson(list));
 
 	}
 	

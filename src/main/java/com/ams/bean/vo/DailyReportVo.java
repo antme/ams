@@ -2,11 +2,12 @@ package com.ams.bean.vo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Project;
-import com.ams.bean.Task;
+import com.eweblib.util.EweblibUtil;
 
 public class DailyReportVo extends DailyReport {
 
@@ -129,5 +130,6 @@ public class DailyReportVo extends DailyReport {
 	public void setDailyReportId(String dailyReportId) {
 		this.dailyReportId = dailyReportId;
 	}
+	
 
 }
