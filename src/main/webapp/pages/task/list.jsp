@@ -32,7 +32,7 @@
                     singleSelect:true,
                     rownumbers:true,
                     loadMsg:'',
-                    height:'auto',
+                    height:'250',
                     data: data.rows,
                     columns:[[
                         {field:'taskName',title:'单项施工名称',width:50},
@@ -42,20 +42,20 @@
                         {field:'remark',title:'备注及具体施工位置',width:150,align:'right'}
                     ]],
                     onResize:function(){
-                        $('#salaryList').datagrid('fixDetailRowHeight',index);
+                        $('#taskList').datagrid('fixDetailRowHeight',index);
                     },
                     onLoadSuccess:function(){
                         setTimeout(function(){
-                            $('#salaryList').datagrid('fixDetailRowHeight',index);
+                            $('#taskList').datagrid('fixDetailRowHeight',index);
                         },0);
                     }
                 });
 
                 
-                $('#salaryList').datagrid('fixDetailRowHeight',index);
+                $('#taskList').datagrid('fixDetailRowHeight',index);
                 
                 });
-                $('#salaryList').datagrid('fixDetailRowHeight',index);
+                $('#taskList').datagrid('fixDetailRowHeight',index);
             }
         });
     });
