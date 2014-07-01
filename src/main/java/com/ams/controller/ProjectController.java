@@ -28,6 +28,7 @@ import com.ams.service.IProjectService;
 import com.ams.util.PermissionConstants;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.bean.EntityResults;
 import com.eweblib.bean.IDS;
 import com.eweblib.constants.EWebLibConstants;
 import com.eweblib.controller.AbstractController.ResponseStatus;
@@ -203,7 +204,7 @@ public class ProjectController extends AmsController {
 		if (EweblibUtil.isEmpty(vo.getUserId())) {			
 			throw new ResponseException("请先登录");
 		}
-		
+
 		responseWithDataPagnation(projectService.listDailyReport(report, true), request, response);
 	}
 	

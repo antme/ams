@@ -15,6 +15,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.ams.bean.Salary;
 import com.ams.bean.Team;
+import com.ams.bean.vo.DailyReportVo;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.INoticeService;
 import com.ams.service.IProjectService;
@@ -71,25 +72,9 @@ public class BaseTestCase extends TestCase {
 	}
 
 	public void testEmpty() throws IOException, InterruptedException {
+		DailyReportVo report = new DailyReportVo();
 
-	
-		
-		ExcelTemplateUtil etu = new ExcelTemplateUtil();
-		etu.setSrcPath("/Users/ymzhou/Documents/workspace/ams/src/main/webapp/template/attendance.xls");
-
-		String desXlsPath = "/Users/ymzhou/Documents/workspace/ams/src/main/webapp/template/test.xls";
-
-		if (new File(desXlsPath).exists()) {
-			new File(desXlsPath).delete();
-		}
-		new File(desXlsPath).getParentFile().mkdirs();
-		etu.setDesPath(desXlsPath);
-		etu.setSheetName("考勤表");
-
-		etu.getSheet();
-		etu.deletRow(50, 100);
-		etu.exportToNewFile();
-
+		pservice.listDailyReportPlan(report);
 
 	}
 	

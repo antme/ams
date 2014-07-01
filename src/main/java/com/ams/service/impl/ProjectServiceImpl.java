@@ -577,6 +577,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		 builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, t.getUserId());
 
 //		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
+		 
+		mergeCommonQueryForApp(builder);
 
 		List<Project> tasks = this.dao.listByQuery(builder, Project.class);
 
@@ -709,6 +711,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Customer.TABLE_NAME);
 
+		mergeCommonQuery(builder);
 		builder.limitColumns(new String[] { Customer.ID, Customer.NAME, Customer.CONTACT_MOBILE_NUMBER, Customer.CONTACT_PERSON, Customer.ADDRESS, Customer.REMARK, Customer.POSITION });
 
 		mergeKeywordQuery(builder, vo.getKeyword(), Customer.TABLE_NAME, new String[] { Customer.ID, Customer.NAME, Customer.ADDRESS, Customer.CONTACT_PERSON, Customer.CONTACT_MOBILE_NUMBER });
@@ -893,20 +896,28 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			projectQuery.limitColumns(new String[] { Project.PROJECT_END_DATE, Project.PROJECT_NAME, Project.PROJECT_START_DATE, Project.ID });
 			Project p = (Project) this.dao.findOneByQuery(projectQuery, Project.class);
 
+			p.setProjectTotalDays(0);
+			p.setProjectRemainingDays(0);
+			p.setProjectUsedDays(0);
+			p.setUserWorkedDays(0d);
+			
 			if (p != null) {
-				Calendar c = Calendar.getInstance();
-				c.setTime(p.getProjectStartDate());
-				int startDay = c.get(Calendar.DAY_OF_YEAR);
 
-				c.setTime(p.getProjectEndDate());
-				int endDay = c.get(Calendar.DAY_OF_YEAR);
+				if (p.getProjectStartDate() != null && p.getProjectEndDate() != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(p.getProjectStartDate());
+					int startDay = c.get(Calendar.DAY_OF_YEAR);
 
-				c.setTime(new Date());
-				int currentDay = c.get(Calendar.DAY_OF_YEAR);
+					c.setTime(p.getProjectEndDate());
+					int endDay = c.get(Calendar.DAY_OF_YEAR);
 
-				p.setProjectTotalDays((endDay - startDay));
-				p.setProjectRemainingDays(endDay - currentDay);
-				p.setProjectUsedDays(currentDay - startDay);
+					c.setTime(new Date());
+					int currentDay = c.get(Calendar.DAY_OF_YEAR);
+
+					p.setProjectTotalDays((endDay - startDay));
+					p.setProjectRemainingDays(endDay - currentDay);
+					p.setProjectUsedDays(currentDay - startDay);
+				}
 				p.setUserWorkedDays(getUserWorkedDaysFromProject(p, report.getUserId()));
 				p.setTaskName(p.getProjectName());
 				vo.setTaskInfo(p);
@@ -976,10 +987,14 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public List<DailyReportVo> listDailyReportPlan(DailyReportVo report) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 
+		query.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+		
+		
 		query.join(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
 		query.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
-		query.and(DailyReport.USER_ID, report.getUserId());
+		query.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userService.getOwnedUserIdsByReportManager(report.getUserId()));
 
 		Calendar c = Calendar.getInstance();
 
