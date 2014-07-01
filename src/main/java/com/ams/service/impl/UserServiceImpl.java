@@ -642,9 +642,11 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 			Calendar c = Calendar.getInstance();
 			c.setTime(attendance.getAttendanceDate());
 
-			Team team = (Team) this.dao.findById(attendance.getTeamId(), Team.TABLE_NAME, Team.class);
-			attendance.setProjectId(team.getProjectId());
-			attendance.setDepartmentId(team.getDepartmentId());
+			Project p = (Project) this.dao.findById(attendance.getProjectId(), Project.TABLE_NAME, Project.class);
+
+			if (p != null) {
+				attendance.setDepartmentId(p.getDepartmentId());
+			}
 
 			attendance.setYear(c.get(Calendar.YEAR));
 			attendance.setMonth(c.get(Calendar.MONDAY));

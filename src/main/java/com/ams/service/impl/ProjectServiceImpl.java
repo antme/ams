@@ -330,7 +330,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		if (team.getProjectId() != null) {
-			builder.and(Team.PROJECT_ID, team.getProjectId());
+			builder.and(DataBaseQueryOpertion.LIKE, Team.PROJECT_ID, team.getProjectId());
 			projectMap.put(team.getUserId(), team.getProjectId());
 		}
 
