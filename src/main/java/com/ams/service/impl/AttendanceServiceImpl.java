@@ -232,6 +232,8 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			start = start + 2;
 
 		}
+		
+		etu.deletRow(start, 100);
 		etu.exportToNewFile();
 
 		return desXlsPath;

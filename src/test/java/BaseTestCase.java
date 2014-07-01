@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,9 @@ import com.ams.service.impl.UserServiceImpl;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
 import com.eweblib.util.DateUtil;
+import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
+import com.eweblib.util.ExcelTemplateUtil;
 
 public class BaseTestCase extends TestCase {
 	private static Logger logger = LogManager.getLogger(BaseTestCase.class);
@@ -69,11 +72,24 @@ public class BaseTestCase extends TestCase {
 
 	public void testEmpty() throws IOException, InterruptedException {
 
-		Team team = new Team();
-		team.setUserId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
-		team.setProjectId("b14132c1-50a7-4b92-a9cc-7672ccb4ba48");
-		pservice.listTeamsForApp(team);
+	
 		
+		ExcelTemplateUtil etu = new ExcelTemplateUtil();
+		etu.setSrcPath("/Users/ymzhou/Documents/workspace/ams/src/main/webapp/template/attendance.xls");
+
+		String desXlsPath = "/Users/ymzhou/Documents/workspace/ams/src/main/webapp/template/test.xls";
+
+		if (new File(desXlsPath).exists()) {
+			new File(desXlsPath).delete();
+		}
+		new File(desXlsPath).getParentFile().mkdirs();
+		etu.setDesPath(desXlsPath);
+		etu.setSheetName("考勤表");
+
+		etu.getSheet();
+		etu.deletRow(50, 100);
+		etu.exportToNewFile();
+
 
 	}
 	
