@@ -30,6 +30,7 @@ import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
 import com.eweblib.bean.IDS;
 import com.eweblib.constants.EWebLibConstants;
+import com.eweblib.controller.AbstractController.ResponseStatus;
 import com.eweblib.exception.ResponseException;
 import com.eweblib.util.EWeblibThreadLocal;
 import com.eweblib.util.EweblibUtil;
@@ -93,11 +94,31 @@ public class ProjectController extends AmsController {
 	
 	@RequestMapping("/app/task/select.do")
 	public void listProjectTasksForApp(HttpServletRequest request, HttpServletResponse response) {
-		Task t = (Task)parserJsonParameters(request, false, Task.class);
-		if (EweblibUtil.isEmpty(t.getUserId())) {			
+		Task t = (Task) parserJsonParameters(request, false, Task.class);
+		if (EweblibUtil.isEmpty(t.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
-		responseWithListData(projectService.listProjectTasksForAppDailyReport(t), request, response);
+		List<Project> plist = projectService.listProjectTasksForAppDailyReport(t);
+
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+
+		for (Project project : plist) {
+			Map<String, Object> pmap = project.toMap();
+
+			if (pmap.get(Project.PROJECT_START_DATE) == null) {
+				pmap.put(Project.PROJECT_START_DATE, "");
+			}
+			if (pmap.get(Project.PROJECT_END_DATE) == null) {
+				pmap.put(Project.PROJECT_END_DATE, "");
+			}
+			mapList.add(pmap);
+
+		}
+
+		Map<String, Object> list = new HashMap<String, Object>();
+		list.put("rows", mapList);
+		responseMsg(list, ResponseStatus.SUCCESS, request, response, null);
+
 	}
 	
 	@RequestMapping("/app/task/list.do")

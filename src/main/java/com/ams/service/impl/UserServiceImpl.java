@@ -340,16 +340,16 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 				find = true;
 			}
 			
-			if(team.getProjectId()!=null && !find){
-				
-				for(String id: team.getProjectId().split(",")){
-					
-					if(projectIds.contains(id)){
-						find = true;
-						break;
-					}
-				}
-			}
+//			if(team.getProjectId()!=null && !find){
+//				
+//				for(String id: team.getProjectId().split(",")){
+//					
+//					if(projectIds.contains(id)){
+//						find = true;
+//						break;
+//					}
+//				}
+//			}
 			
 			if (find) {
 				teamIds.add(team.getId());
@@ -393,7 +393,8 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 				}
 			}
 
-			if (project.getProjectManagerId() != null && !find) {
+			//FIXME ： 考勤负责人是否也能查看所有的人员信息？
+			if (project.getProjectAttendanceManagerId() != null && !find) {
 
 				for (String id : project.getProjectAttendanceManagerId().split(",")) {
 
@@ -692,6 +693,10 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 		if (EweblibUtil.isValid(vo.getUserLevelId())) {
 			builder.and(User.USER_LEVEL_ID, vo.getUserLevelId());
+		}
+		
+		if (EweblibUtil.isValid(vo.getReportManagerId())) {
+			builder.and(User.REPORT_MANAGER_ID, vo.getReportManagerId());
 		}
 
 		builder.limitColumns(new User().getColumnList());

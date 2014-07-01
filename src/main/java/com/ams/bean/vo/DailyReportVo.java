@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
+import com.ams.bean.Project;
 import com.ams.bean.Task;
 
 public class DailyReportVo extends DailyReport {
@@ -23,7 +24,7 @@ public class DailyReportVo extends DailyReport {
 
 	public Integer imagesCount;
 
-	public Task taskInfo;
+	public Project taskInfo;
 
 	public String projectName;
 
@@ -65,11 +66,11 @@ public class DailyReportVo extends DailyReport {
 		this.projectName = projectName;
 	}
 
-	public Task getTaskInfo() {
+	public Project getTaskInfo() {
 		return taskInfo;
 	}
 
-	public void setTaskInfo(Task taskInfo) {
+	public void setTaskInfo(Project taskInfo) {
 		this.taskInfo = taskInfo;
 	}
 

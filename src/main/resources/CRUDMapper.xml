@@ -98,20 +98,34 @@
 	</select>
 
 
-	<select id="findOneByID" resultMap="map">
-		select * from ${table} where
-		id=#{id}
-	</select>
 
 	<select id="findOneByQuery" resultMap="map">
 		select
-		<if test="limitColumns!=null">
+		<if test="distinctColumn!=null">
+			distinct ${distinctColumn}
+		</if>
+
+		<if test="limitColumns!=null and distinctColumn==null">
 			${limitColumns}
 		</if>
-		<if test="limitColumns==null">
+		<if test="limitColumns==null and distinctColumn==null">
 			*
 		</if>
-		from ${table} where ${queryStr} limit 0,1
+		from ${table} as ${table}
+
+		<if test="onQuery!=null">
+			${onQuery}
+		</if>
+
+		<if test="queryStr!=null">
+			where ${queryStr}
+		</if>
+
+		<if test="orderBy!=null">
+			order by ${orderBy}
+		</if>
+		
+		limit 0,1
 	</select>
 
 	<insert id="insert">

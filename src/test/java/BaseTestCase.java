@@ -13,11 +13,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.ams.bean.Salary;
+import com.ams.bean.Team;
 import com.ams.bean.vo.SearchVo;
 import com.ams.service.INoticeService;
+import com.ams.service.IProjectService;
 import com.ams.service.ISystemService;
 import com.ams.service.IUserService;
 import com.ams.service.impl.NoticeServiceImpl;
+import com.ams.service.impl.ProjectServiceImpl;
 import com.ams.service.impl.SystemServiceImpl;
 import com.ams.service.impl.UserServiceImpl;
 import com.eweblib.dao.IQueryDao;
@@ -39,6 +42,9 @@ public class BaseTestCase extends TestCase {
 
 	
 	public IUserService us;
+	
+	
+	public IProjectService pservice;
 
 	public IQueryDao getDao() {
 		return dao;
@@ -57,15 +63,17 @@ public class BaseTestCase extends TestCase {
 		noticeService = ac.getBean(NoticeServiceImpl.class);
 		sys = ac.getBean(SystemServiceImpl.class);
 		us = ac.getBean(UserServiceImpl.class);
+		pservice = ac.getBean(ProjectServiceImpl.class);
+		
 	}
 
 	public void testEmpty() throws IOException, InterruptedException {
 
-//		SearchVo vo = new SearchVo();
-//		vo.setUserId("44166a1a-54cc-4ce3-98e2-0d86bc9c5dcf");
-//		System.out.println(us.listUserForApp(vo).getEntityList());
+		Team team = new Team();
+		team.setUserId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
+		team.setProjectId("b14132c1-50a7-4b92-a9cc-7672ccb4ba48");
+		pservice.listTeamsForApp(team);
 		
-		System.out.println(EweblibUtil.getInteger("006", 0));
 
 	}
 	

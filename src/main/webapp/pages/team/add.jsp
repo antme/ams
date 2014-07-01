@@ -22,6 +22,7 @@
 							url: url, 
 							onLoadSuccess: function(){
 								$('#teamMemberIds').combogrid('setValues', team.teamMemberIds);
+								$('#projectIds').combobox('setValues', team.projectIds);
 								onHidePanel();
 								disableCheckBox("teamMemberIds");
 							}

@@ -9,7 +9,8 @@
 			groupId : $("#groupId").combobox('getValue'),
 			userCode : $("#userCode").val(),
 			teamGroup : $("#teamGroup").val(),
-			idCard : $("#idCard").val()
+			idCard : $("#idCard").val(),
+			reportManagerId : $("#reportManagerId").combobox('getValue')
 			
 		});
 	}
@@ -30,6 +31,15 @@
 	<span class="r-edit-label">身份证号:</span>
 	<input type="text" name="idCard" id="idCard"/> 
 	<p></p>
+	<span class="r-edit-label">领导:</span> <input class="easyui-combobox textbox" type="text" id="reportManagerId" name="reportManagerId" data-options="
+                    valueField:'id',
+                    url:'/ams/user/list.do?userId=',
+                    textField:'userName',
+                    panelHeight:'auto',
+                    loadFilter:function(data){
+						return data.rows;
+					}"></input>
+					
 	<span class="r-edit-label"> 角色:</span>
 	 <input class="easyui-combobox textbox" type="text" id="groupId" name="groupId" data-options="url:'/ams/sys/group/list.do?userId=',
                     method:'get',
