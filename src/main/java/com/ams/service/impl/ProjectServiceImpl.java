@@ -288,8 +288,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		builder.join(Team.TABLE_NAME, User.TABLE_NAME, Team.TEAM_LEADER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
-		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+//		builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID, Project.ID);
+//		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 		
 		if (team != null) {
 

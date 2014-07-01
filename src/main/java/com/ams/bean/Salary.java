@@ -11,6 +11,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = Salary.TABLE_NAME)
 public class Salary extends BaseEntity {
 
+	public static final String SALARY_PER_DAY = "salaryPerDay";
+
 	public static final String SALARY_FILE_NAME = "salaryFileName";
 
 	public static final String USER_ID = "userId";
@@ -50,11 +52,12 @@ public class Salary extends BaseEntity {
 	@Column(name = SALARY_FILE_NAME)
 	public String salaryFileName;
 	
-	
+	@Column(name = SALARY_PER_DAY)
+	public Double salaryPerDay;
 
 	public String userName;
 
-	public Double salaryPerDay;
+	
 
 	public List<SalaryItem> salaryItems;
 
