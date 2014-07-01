@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Pic;
+import com.ams.bean.Project;
 import com.ams.bean.Team;
 import com.ams.bean.User;
 import com.ams.service.IAttendanceService;
@@ -71,7 +72,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			for (Team team : teams) {
 				if (a.getTeamId().equalsIgnoreCase(team.getId())) {
 					a.setDepartmentName(team.getDepartmentName());
-					a.setProjectName(team.getProjectName());
+//					a.setProjectName(team.getProjectName());
 					break;
 				}
 			}
@@ -88,6 +89,11 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		builder.join(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+		
+		
+		builder.join(Attendance.TABLE_NAME, Project.TABLE_NAME, Attendance.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
 
 		if (attendance != null) {
 			String userName = attendance.getUserName();
@@ -127,12 +133,12 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				builder.and(Attendance.PROJECT_ID, attendance.getProjectId());
 			}
 
-			if (EweblibUtil.isValid(attendance.getYear())) {
+			if (EweblibUtil.isValid(attendance.getYear()) && attendance.getYear() > 0) {
 				builder.and(Attendance.YEAR, attendance.getYear());
 			}
 
-			if (EweblibUtil.isValid(attendance.getMonth())) {
-				builder.and(Attendance.MONTH, attendance.getMonth()-1);
+			if (EweblibUtil.isValid(attendance.getMonth()) && attendance.getMonth() > 0) {
+				builder.and(Attendance.MONTH, attendance.getMonth() - 1);
 			}
 		}
 

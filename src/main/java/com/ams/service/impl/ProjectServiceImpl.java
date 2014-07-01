@@ -744,7 +744,9 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
-		builder.and(Task.USER_ID, t.getUserId());
+		Set<String> userIds = userService.getOwnedUserIds(t.getUserId());
+		builder.and(DataBaseQueryOpertion.IN, Task.USER_ID, userIds);
+		
 		builder.limitColumns(new String[] { Task.TASK_NAME, Task.DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.PRICE_DESCRIPTION, Task.TEAM_NAME, Task.PROJECT_NAME, Task.ID, Task.PROJECT_START_DATE,
 		        Task.PROJECT_END_DATE });
 
