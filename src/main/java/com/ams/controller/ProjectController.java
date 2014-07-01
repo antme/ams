@@ -80,25 +80,25 @@ public class ProjectController extends AmsController {
 	
 	
 	@RequestMapping("/app/list.do")
-	public void listProjectsForApp(HttpServletRequest request, HttpServletResponse response) {
+	public void listProjectsForAppAttendance(HttpServletRequest request, HttpServletResponse response) {
 
 		SearchVo vo = (SearchVo) parserJsonParameters(request, false, SearchVo.class);
 		
 		if(vo.getUserId() == null){
 			throw new ResponseException("请先登录");
 		}
-		responseWithListData(projectService.listProjectsForApp(vo), request, response);
+		responseWithListData(projectService.listProjectsForAppAttendance(vo), request, response);
 	}
 	
 
 	
 	@RequestMapping("/app/task/select.do")
-	public void listProjectTasksForApp(HttpServletRequest request, HttpServletResponse response) {
+	public void listProjectsForAppDailyReportSelect(HttpServletRequest request, HttpServletResponse response) {
 		Task t = (Task) parserJsonParameters(request, false, Task.class);
 		if (EweblibUtil.isEmpty(t.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
-		List<Project> plist = projectService.listProjectTasksForAppDailyReport(t);
+		List<Project> plist = projectService.listProjectsForAppDailyReportSelect(t);
 
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 

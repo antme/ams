@@ -541,7 +541,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		return projects;
 	}
 
-	public List<Project> listProjectsForApp(SearchVo vo) {
+	public List<Project> listProjectsForAppAttendance(SearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
@@ -567,7 +567,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	}
 
 	@Override
-	public List<Project> listProjectTasksForAppDailyReport(Task t) {
+	public List<Project> listProjectsForAppDailyReportSelect(Task t) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
