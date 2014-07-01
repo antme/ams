@@ -273,12 +273,12 @@
 
 			<div>
 				<span class="r-edit-label">项目开始时间:</span>
-				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectStartDate" ></input></td>
+				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" required name="projectStartDate" ></input></td>
 			</div>
 
 			<div>
 				<span class="r-edit-label">项目结束时间:</span>
-				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" name="projectEndDate"></input></td>
+				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" required name="projectEndDate"></input></td>
 			</div>
 				
 			<div>
@@ -293,7 +293,7 @@
 			</div>
 			
 			<div>
-				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId"  style="width:250px;"
+				<span class="r-edit-label">客户:</span> <input class="easyui-combobox"  name="customerId"  required style="width:250px;"
 					data-options="url:'/ams/project/customer/list.do?userId=',
                     method:'get',
                     valueField:'id',
@@ -308,7 +308,8 @@
 			
 			<div>
 				<span class="r-edit-label">项目作息时间:</span>
-				<textarea class="easyui-validatebox textarea" name="workTimePeriod"></textarea>
+				<textarea class="easyui-validatebox textarea" name="workTimePeriod" required></textarea>
+				<span style="display:inline-block; text-align:left;">时间请用分号或者逗号隔开，如：<br> <strong>“早晨：7：00-11：30 <font color="red">;</font> 下午：13：00-17：30”</strong></span>
 			</div>
 			<div>
 				<span class="r-edit-label">项目描述:</span>

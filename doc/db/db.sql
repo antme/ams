@@ -615,5 +615,5 @@ alter table Salary add column `salaryPerDay` double DEFAULT 0;
 
 alter table Team modify column  `projectId` varchar(512) DEFAULT NULL;
 
-
+alter table AmsLog modify userId varchar(36) default null;
 

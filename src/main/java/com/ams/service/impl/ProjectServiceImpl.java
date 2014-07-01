@@ -369,7 +369,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			t.setMembersNumber(this.dao.count(teamquery));
 
 			if (p != null) {
-				t.setWorkTimePeriod(p.getWorkTimePeriod());
+				String wp = p.getWorkTimePeriod();
+				wp = wp.replaceAll(";", " ");
+				wp = wp.replaceAll(",", " ");
+				wp = wp.replaceAll("；", " ");
+				wp = wp.replaceAll("，", " ");
+				
+				t.setWorkTimePeriod(wp);
 				t.setDepartmentName(p.getDepartmentName());
 			}else{
 				t.setWorkTimePeriod(" 未设置");
@@ -939,7 +945,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			}
 
 			if (fromApp) {
-				Set<String> userIds = userService.getOwnedUserIds(userId);
+				Set<String> userIds = userService.getOwnedUserIdsByReportManager(userId);
 				userIds.add(userId);
 				builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
 			}
@@ -1337,5 +1343,37 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 	}
+	
+	
+
+	public void addAttendance(List<Attendance> attendanceList, Attendance att) {
+
+		for (Attendance attendance : attendanceList) {
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(attendance.getAttendanceDate());
+
+			// FIXME: FOR TEST, REMOVE IT LATER
+			String projectId = projectMap.get(att.getUserId());
+
+			System.out.println(projectId);
+
+			if (EweblibUtil.isValid(attendance.getProjectId())) {
+				projectId = attendance.getProjectId();
+			}
+
+			Project p = (Project) this.dao.findById(projectId, Project.TABLE_NAME, Project.class);
+
+			if (p != null) {
+				attendance.setDepartmentId(p.getDepartmentId());
+			}
+
+			attendance.setYear(c.get(Calendar.YEAR));
+			attendance.setMonth(c.get(Calendar.MONDAY));
+
+			this.dao.insert(attendance);
+		}
+	}
+
 
 }

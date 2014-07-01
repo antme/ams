@@ -84,6 +84,7 @@ public interface IProjectService {
 
 	List<Project> listProjectsForApp(SearchVo vo);
 
+	public void addAttendance(List<Attendance> attendanceList, Attendance att);
 
 
 }

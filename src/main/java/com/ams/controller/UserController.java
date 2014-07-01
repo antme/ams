@@ -238,7 +238,8 @@ public class UserController extends AmsController {
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addAttendance(HttpServletRequest request, HttpServletResponse response) {
 		List<Attendance> attendanceList =  parserListJsonParameters(request,  false, Attendance.class);
-		userService.addAttendance(attendanceList);
+		Attendance att = (Attendance) parserJsonParameters(request, false, Attendance.class);
+		projectService.addAttendance(attendanceList, att);
 		responseWithData(null, request, response);
 	}
 	

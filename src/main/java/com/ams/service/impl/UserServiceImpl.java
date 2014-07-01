@@ -636,26 +636,6 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		return this.dao.listByQueryWithPagnation(builder, Department.class);
 	}
 
-	public void addAttendance(List<Attendance> attendanceList) {
-
-		for (Attendance attendance : attendanceList) {
-
-			Calendar c = Calendar.getInstance();
-			c.setTime(attendance.getAttendanceDate());
-
-			Project p = (Project) this.dao.findById(attendance.getProjectId(), Project.TABLE_NAME, Project.class);
-
-			if (p != null) {
-				attendance.setDepartmentId(p.getDepartmentId());
-			}
-
-			attendance.setYear(c.get(Calendar.YEAR));
-			attendance.setMonth(c.get(Calendar.MONDAY));
-
-			this.dao.insert(attendance);
-		}
-	}
-
 	public EntityResults<User> listAllUsers(User vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
