@@ -273,12 +273,12 @@
 
 			<div>
 				<span class="r-edit-label">项目开始时间:</span>
-				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" required name="projectStartDate" ></input></td>
+				<td><input class="easyui-datebox easyui-validatebox textbox" type="text"  name="projectStartDate" ></input></td>
 			</div>
 
 			<div>
 				<span class="r-edit-label">项目结束时间:</span>
-				<td><input class="easyui-datebox easyui-validatebox textbox" type="text" required name="projectEndDate"></input></td>
+				<td><input class="easyui-datebox easyui-validatebox textbox" type="text"  name="projectEndDate"></input></td>
 			</div>
 				
 			<div>
