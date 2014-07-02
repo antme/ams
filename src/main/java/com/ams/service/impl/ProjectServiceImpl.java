@@ -867,7 +867,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder taskQuery = new DataBaseQueryBuilder(Task.TABLE_NAME);
 		taskQuery.and(Task.PROJECT_TASK_ID, pt.getId());
-		taskQuery.limitColumns(new String[] { Task.PRICE_DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.TASK_NAME, Task.REMARK });
+		taskQuery.limitColumns(new String[] { Task.DISPLAY_ORDER, Task.PRICE_DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.TASK_NAME, Task.REMARK });
+		taskQuery.orderBy(Task.DISPLAY_ORDER, true);
 		List<Task> tasks = this.dao.listByQuery(taskQuery, Task.class);
 
 		pt.setTasks(tasks);
