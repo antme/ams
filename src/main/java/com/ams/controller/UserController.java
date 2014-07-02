@@ -226,6 +226,10 @@ public class UserController extends AmsController {
 		if(EweblibUtil.isEmpty(team.getTeamId())){
 			throw new ResponseException("请先选择团队");
 		}
+//		
+//		if(EweblibUtil.isEmpty(team.getProjectId())){
+//			throw new ResponseException("请先选择项目");
+//		}
 		
 		if(EweblibUtil.isEmpty(team.getUserId())){
 			throw new ResponseException("请先登录");
@@ -237,8 +241,10 @@ public class UserController extends AmsController {
 	@RequestMapping("/attendance/app/add.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void addAttendance(HttpServletRequest request, HttpServletResponse response) {
-		List<Attendance> attendanceList =  parserListJsonParameters(request,  false, Attendance.class);
+
 		Attendance att = (Attendance) parserJsonParameters(request, false, Attendance.class);
+		List<Attendance> attendanceList =  parserListJsonParameters(request,  false, Attendance.class);
+		System.out.println(attendanceList);
 		projectService.addAttendance(attendanceList, att);
 		responseWithData(null, request, response);
 	}

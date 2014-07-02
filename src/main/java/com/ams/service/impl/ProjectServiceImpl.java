@@ -1454,19 +1454,29 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	public void addAttendance(List<Attendance> attendanceList, Attendance att) {
 
+		String userId = att.getUserId();
+		
 		for (Attendance attendance : attendanceList) {
 
 			Calendar c = Calendar.getInstance();
 			c.setTime(attendance.getAttendanceDate());
 
-			// FIXME: FOR TEST, REMOVE IT LATER
-			String projectId = projectMap.get(att.getUserId());
+			
+			if(EweblibUtil.isEmpty(userId)){
+				userId = attendance.getOperatorId();
+			}
 
-			System.out.println(projectId);
+
+			// FIXME: FOR TEST, REMOVE IT LATER
+			String projectId = projectMap.get(userId);
+			
+			System.out.println("===========" + attendance.getProjectId());
 
 			if (EweblibUtil.isValid(attendance.getProjectId())) {
 				projectId = attendance.getProjectId();
 			}
+			
+			attendance.setProjectId(projectId);
 
 			Project p = (Project) this.dao.findById(projectId, Project.TABLE_NAME, Project.class);
 
