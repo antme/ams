@@ -310,11 +310,8 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		}
 
 		DataBaseQueryBuilder ptquery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
-		ptquery.and(ProjectTask.USER_ID, user.getId());
 		ptquery.and(ProjectTask.TEAM_ID, team.getId());
 		ptquery.and(ProjectTask.PROJECT_ID, project.getId());
-		ptquery.and(ProjectTask.PROJECT_START_DATE, pt.getProjectStartDate());
-		ptquery.and(ProjectTask.PROJECT_END_DATE, pt.getProjectEndDate());
 		ptquery.and(DataBaseQueryOpertion.IS_FALSE, ProjectTask.IS_DELETED);
 
 		ProjectTask prot = (ProjectTask) this.dao.findOneByQuery(ptquery, ProjectTask.class);

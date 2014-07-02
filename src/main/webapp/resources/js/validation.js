@@ -47,5 +47,16 @@ $.extend($.fn.validatebox.defaults.rules,{
              return /^-?\d+\.?\d*$/.test(value);
         },
         message: '请输入正确的数字!'
+    },
+    worktime: {
+        validator: function (value, param) {
+             if(value.indexOf(";")==-1 && value.indexOf("；") && value.indexOf("，") && value.indexOf(",")){
+            	 return false;
+             }
+             
+             return true;
+             
+        },
+        message: '作息时间段之间请用“分号”或者逗号隔开!'
     }
 }); 
