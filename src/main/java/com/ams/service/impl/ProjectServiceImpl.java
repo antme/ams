@@ -787,6 +787,94 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		return tasks;
 
 	}
+	
+	
+	public EntityResults<ProjectTask> listProjectTasksForApp(Task task) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+		builder.join(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
+		builder.join(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
+		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+
+		builder.join(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		Set<String> userIds = userService.getOwnedUserIdsByReportManager(task.getUserId());
+		Set<String> depIds = userService.getOwnedDepartmentIds(userIds);
+		Set<String> pids = userService.getOwnerdProjectIds(userIds, depIds);
+		DataBaseQueryBuilder ownQuery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+		ownQuery.or(DataBaseQueryOpertion.IN, ProjectTask.TABLE_NAME + "." + ProjectTask.USER_ID, userIds);
+		ownQuery.or(DataBaseQueryOpertion.IN, ProjectTask.TABLE_NAME + "." + ProjectTask.PROJECT_ID, pids);
+		ownQuery.or(DataBaseQueryOpertion.IN, ProjectTask.TABLE_NAME + "." + ProjectTask.TEAM_ID, userService.getOwnedTeamIds(userIds, pids));
+
+		builder.and(DataBaseQueryOpertion.IS_FALSE, ProjectTask.IS_DELETED);
+		builder.and(ownQuery);
+
+		DataBaseQueryBuilder keywordQuery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+
+		if (EweblibUtil.isValid(task.getKeyword())) {
+
+			keywordQuery.or(DataBaseQueryOpertion.LIKE, User.TABLE_NAME + "." + User.USER_NAME, task.getKeyword());
+			keywordQuery.or(DataBaseQueryOpertion.LIKE, Project.TABLE_NAME + "." + Project.PROJECT_NAME, task.getKeyword());
+			keywordQuery.or(DataBaseQueryOpertion.LIKE, Team.TABLE_NAME + "." + Team.TEAM_NAME, task.getKeyword());
+
+			builder.and(keywordQuery);
+		}
+
+		builder.limitColumns(new String[] { ProjectTask.ID });
+
+		return this.dao.listByQueryWithPagnation(builder, ProjectTask.class);
+
+	}
+	
+	
+	public ProjectTask getProjectTaskDetails(ProjectTask task) {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
+		builder.join(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
+		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
+
+		builder.join(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
+		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
+
+		builder.join(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
+		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+		builder.and(ProjectTask.ID, task.getId());
+		builder.limitColumns(new String[] { ProjectTask.ID, ProjectTask.TASK_PERIOD, ProjectTask.DESCRIPTION, ProjectTask.PROJECT_START_DATE, ProjectTask.PROJECT_END_DATE, ProjectTask.TASK_CONTACT_PHONE });
+
+		ProjectTask pt = (ProjectTask) this.dao.findOneByQuery(builder, ProjectTask.class);
+
+		Calendar c = Calendar.getInstance();
+		c.setTime(pt.getProjectStartDate());
+		int startDay = c.get(Calendar.DAY_OF_YEAR);
+
+		c.setTime(pt.getProjectEndDate());
+		int endDay = c.get(Calendar.DAY_OF_YEAR);
+
+		c.setTime(new Date());
+		int currentDay = c.get(Calendar.DAY_OF_YEAR);
+
+		if (currentDay < startDay) {
+			currentDay = startDay;
+		}
+		pt.setProjectTotalDays((endDay - startDay -1));
+		pt.setProjectRemainingDays(endDay - currentDay -1);
+		pt.setProjectUsedDays(currentDay - startDay);
+
+		pt.setMemebers(pt.getUserName());
+
+		DataBaseQueryBuilder taskQuery = new DataBaseQueryBuilder(Task.TABLE_NAME);
+		taskQuery.and(Task.PROJECT_TASK_ID, pt.getId());
+		taskQuery.limitColumns(new String[] { Task.PRICE_DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.TASK_NAME, Task.REMARK });
+		List<Task> tasks = this.dao.listByQuery(taskQuery, Task.class);
+
+		pt.setTasks(tasks);
+
+		return pt;
+
+	}
 
 	@Transactional
 	public DailyReport addDailyReport(DailyReportVo vo, List<String> pics) {

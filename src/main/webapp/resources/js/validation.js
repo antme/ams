@@ -50,7 +50,7 @@ $.extend($.fn.validatebox.defaults.rules,{
     },
     worktime: {
         validator: function (value, param) {
-             if(value.indexOf(";")==-1 && value.indexOf("；") && value.indexOf("，") && value.indexOf(",")){
+             if(value.indexOf(";")==-1 && value.indexOf("；")==-1 && value.indexOf("，")==-1 && value.indexOf(",") ==-1){
             	 return false;
              }
              

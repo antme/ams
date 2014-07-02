@@ -31,6 +31,11 @@ public interface IProjectService {
 	EntityResults<Project> listProjects(Project project);
 
 	EntityResults<Task> listProjectTasks(Task task);
+	
+	EntityResults<ProjectTask> listProjectTasksForApp(Task task);
+	
+	ProjectTask getProjectTaskDetails(ProjectTask task);
+	
 
 	public DailyReport addDailyReport(DailyReportVo report, List<String> pics);
 
@@ -85,6 +90,10 @@ public interface IProjectService {
 	List<Project> listProjectsForAppAttendance(SearchVo vo);
 
 	public void addAttendance(List<Attendance> attendanceList, Attendance att);
+
+
+
+	
 
 
 }

@@ -128,6 +128,32 @@ public class ProjectController extends AmsController {
 		responseWithDataPagnation(projectService.listProjectTasks(task), request, response);
 	}
 	
+	
+	@RequestMapping("/projecttask/app/list.do")
+	public void listProjectTasksForApp(HttpServletRequest request, HttpServletResponse response) {
+		Task task = (Task) parserJsonParameters(request, false, Task.class);
+		
+		if (EweblibUtil.isEmpty(task.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
+		responseWithDataPagnation(projectService.listProjectTasksForApp(task), request, response);
+	}
+	
+	@RequestMapping("/projecttask/app/detail.do")
+	public void getProjectTaskDetails(HttpServletRequest request, HttpServletResponse response) {
+		ProjectTask task = (ProjectTask) parserJsonParameters(request, true, ProjectTask.class);		
+		if (EweblibUtil.isEmpty(task.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
+		
+		if (EweblibUtil.isEmpty(task.getId())) {
+			throw new ResponseException("请选择要查看的项目");
+		}
+		
+		responseWithEntity(projectService.getProjectTaskDetails(task), request, response);
+	}
+	
+	
 	@RequestMapping("/projecttask/list.do")
 	public void listAllProjectTasks(HttpServletRequest request, HttpServletResponse response) {
 		ProjectTask task = (ProjectTask) parserJsonParameters(request, true, ProjectTask.class);
@@ -137,8 +163,11 @@ public class ProjectController extends AmsController {
 	@RequestMapping("/projecttask/task/list.do")
 	public void listAllTasksFromProjectTasks(HttpServletRequest request, HttpServletResponse response) {
 		Task task = (Task) parserJsonParameters(request, true, Task.class);
+		
 		responseWithListData(projectService.listAllTasksFromProjectTasks(task), request, response);
 	}
+	
+	
 	
 	@RequestMapping("/projecttask/delete.do")
 	public void deleteProjectTasks(HttpServletRequest request, HttpServletResponse response) {

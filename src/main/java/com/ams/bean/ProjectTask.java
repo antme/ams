@@ -1,6 +1,7 @@
 package com.ams.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -104,8 +105,19 @@ public class ProjectTask extends BaseEntity{
 	public String taskName;
 	
 	
+	public List<Task> tasks;
 	
 	
+
+	
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	public String getTaskName() {
 		return taskName;
 	}
