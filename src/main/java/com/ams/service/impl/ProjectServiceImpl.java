@@ -500,6 +500,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			}
 		}
 
+		mergeCommonQuery(builder);
 		EntityResults<Project> projects = this.dao.listByQueryWithPagnation(builder, Project.class);
 
 		List<User> users = this.dao.listByQuery(new DataBaseQueryBuilder(User.TABLE_NAME), User.class);
@@ -581,9 +582,9 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		 
 		mergeCommonQueryForApp(builder);
 
-		List<Project> tasks = this.dao.listByQuery(builder, Project.class);
+		List<Project> projectList = this.dao.listByQuery(builder, Project.class);
 
-		for (Project project : tasks) {
+		for (Project project : projectList) {
 			project.setTaskName(project.getProjectName());
 			Calendar c = Calendar.getInstance();
 			project.setProjectTotalDays(0);
@@ -613,7 +614,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		}
 
-		return tasks;
+		return projectList;
 
 	}
 
@@ -945,7 +946,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public int countDailyReport(DailyReportVo report) {
 
 		// FXIME: 性能问题
-		DataBaseQueryBuilder query = getDaliReportQueryBuilderForApp(report.getUserId());
+		DataBaseQueryBuilder query = getDailyReportQuery(report, true);
 
 		List<DailyReport> reports = this.dao.listByQuery(query, DailyReport.class);
 
@@ -1044,6 +1045,20 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	}
 
+//	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp(String currentUserId) {
+//		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+//		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+//		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+//
+//		Set<String> userIds = userService.getOwnedUserIds(currentUserId);
+//		userIds.add(currentUserId);
+//		builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
+//
+//		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
+//		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
+//		return builder;
+//	}
+	
 	public DataBaseQueryBuilder getDailyReportQuery(DailyReportVo report, boolean fromApp) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
@@ -1124,19 +1139,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	}
 
-	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp(String currentUserId) {
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
-		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
-		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-
-		Set<String> userIds = userService.getOwnedUserIds(currentUserId);
-		userIds.add(currentUserId);
-		builder.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userIds);
-
-		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
-		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
-		return builder;
-	}
+	
 
 	public void addDailyReportComment(DailyReportComment comment) {
 		comment.setCommentDate(new Date());

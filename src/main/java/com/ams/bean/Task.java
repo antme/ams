@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.eweblib.annotation.column.BooleanColumn;
 import com.eweblib.bean.BaseEntity;
 
 @Table(name = Task.TABLE_NAME)
@@ -117,6 +118,7 @@ public class Task extends BaseEntity {
 	@Column(name = PROJECT_TASK_ID)
 	public String projectTaskId;
 	
+	@BooleanColumn
 	@Column(name = IS_DELETED)
 	public Boolean isDeleted;
 	

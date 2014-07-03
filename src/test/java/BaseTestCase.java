@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -8,7 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.vo.DailyReportVo;
+import com.ams.bean.AmsBaseEntity;
+import com.ams.bean.Project;
 import com.ams.service.INoticeService;
 import com.ams.service.IProjectService;
 import com.ams.service.ISystemService;
@@ -19,6 +21,7 @@ import com.ams.service.impl.SystemServiceImpl;
 import com.ams.service.impl.UserServiceImpl;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
+import com.eweblib.util.EweblibUtil;
 
 public class BaseTestCase extends TestCase {
 	private static Logger logger = LogManager.getLogger(BaseTestCase.class);
@@ -60,14 +63,14 @@ public class BaseTestCase extends TestCase {
 	}
 
 	public void testEmpty() throws IOException, InterruptedException {
-	
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(AmsBaseEntity.DISPLAY_FOR_APP, 1);
+		Project p = (Project) EweblibUtil.toEntity(map, Project.class);
 		
-		double a=1.2;
-		double b = 0.8;
 		
 		
-		String.valueOf(a + b + 1.2);
-		System.out.println(a + b + 1.2);
+		System.out.println(p);
+
 	}
 	
 	

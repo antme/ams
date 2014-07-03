@@ -2,12 +2,10 @@ package com.ams.bean.vo;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
 import com.ams.bean.Project;
-import com.eweblib.util.EweblibUtil;
 
 public class DailyReportVo extends DailyReport {
 

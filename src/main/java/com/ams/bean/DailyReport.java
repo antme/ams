@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.eweblib.annotation.column.BooleanColumn;
 import com.eweblib.bean.BaseEntity;
 
 @Table(name = DailyReport.TABLE_NAME)
@@ -59,6 +60,7 @@ public class DailyReport extends BaseEntity {
 	@Column(name = PLAN)
 	public String plan;
 
+	@BooleanColumn
 	@Column(name = IS_COMMENTED)
 	public Boolean isCommented;
 

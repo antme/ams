@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.eweblib.annotation.column.BooleanColumn;
 import com.google.gson.annotations.Expose;
 
 @Table(name = User.TABLE_NAME)
@@ -87,12 +88,15 @@ public class User extends AmsBaseEntity {
 	@Column(name = ID_CARD)
 	public String idCard;
 
+	@BooleanColumn
 	@Column(name = IS_ADMIN)
 	public Boolean isAdmin;
 
+	@BooleanColumn
 	@Column(name = IS_MULTIPLE_PROJECT)
 	public Boolean isMultipleProject;
 
+	@BooleanColumn
 	@Column(name = IS_MULTIPLE_TEAM)
 	public Boolean isMultipleTeam;
 

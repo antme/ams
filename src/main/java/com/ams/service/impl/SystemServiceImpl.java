@@ -311,6 +311,8 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 			pt = (ProjectTask) EweblibUtil.toEntity(task.toString(), ProjectTask.class);
 			break;
 		}
+		
+		pt.setAddress(address);
 
 		DataBaseQueryBuilder ptquery = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
 		ptquery.and(ProjectTask.TEAM_ID, team.getId());
