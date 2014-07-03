@@ -617,3 +617,5 @@ alter table Team modify column  `projectId` varchar(512) DEFAULT NULL;
 
 alter table AmsLog modify userId varchar(36) default null;
 
+
+alter table ProjectTask add column address varchar(512) default null;

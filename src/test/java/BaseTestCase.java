@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DecimalFormat;
 
 import junit.framework.TestCase;
 
@@ -11,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import com.ams.bean.Project;
 import com.ams.bean.vo.DailyReportVo;
 import com.ams.service.INoticeService;
 import com.ams.service.IProjectService;
@@ -21,10 +17,8 @@ import com.ams.service.impl.NoticeServiceImpl;
 import com.ams.service.impl.ProjectServiceImpl;
 import com.ams.service.impl.SystemServiceImpl;
 import com.ams.service.impl.UserServiceImpl;
-import com.eweblib.bean.EntityResults;
 import com.eweblib.dao.IQueryDao;
 import com.eweblib.dao.QueryDaoImpl;
-import com.eweblib.util.EweblibUtil;
 
 public class BaseTestCase extends TestCase {
 	private static Logger logger = LogManager.getLogger(BaseTestCase.class);
@@ -68,39 +62,13 @@ public class BaseTestCase extends TestCase {
 	public void testEmpty() throws IOException, InterruptedException {
 		DailyReportVo report = new DailyReportVo();
 		report.setUserId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
+		   DecimalFormat   df2   =   new   DecimalFormat("####0.0"); 
+
+           System.out.println(df2.format((double)16/8)); 
+
+           
 		
-		
-	
-		EntityResults<DailyReportVo> results = pservice.listDailyReport(report,true);
-		
-		
-		Map<String, Object> list = new HashMap<String, Object>();
-		list.put("total", results.getPagnation().getTotal());
-
-		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-
-		for (DailyReportVo dr : results.getEntityList()) {
-
-			Map<String, Object> map = dr.toMap();
-
-			Map<String, Object> projectMap = dr.getTaskInfo().toMap();
-
-			if (projectMap.get(Project.PROJECT_START_DATE) == null) {
-				projectMap.put(Project.PROJECT_START_DATE, "");
-			}
-			if (projectMap.get(Project.PROJECT_END_DATE) == null) {
-				projectMap.put(Project.PROJECT_END_DATE, "");
-			}
-
-			map.put("taskInfo", projectMap);
-			mapList.add(map);
-
-		}
-		list.put("rows", mapList);
-
-		
-		
-		System.out.println(EweblibUtil.toJson(list));
+		System.out.println((double)5/8);
 
 	}
 	

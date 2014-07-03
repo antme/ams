@@ -5,12 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -166,8 +169,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		pquery.and(Project.ID, attendance.getProjectId());		
 		pquery.limitColumns(new String[]{Project.PROJECT_NAME});
 		Project project = (Project) this.dao.findOneByQuery(pquery, Project.class);
-		String projectInfo="部门：" + project.getDepartmentName() + "                  项目名称：" + project.getProjectName() +"                          记录员：dylan" + "                应出勤天数：2天" + "           应休天数：  5天";        																																										
-
+	
 		if (new File(desXlsPath).exists()) {
 			new File(desXlsPath).delete();
 		}
@@ -178,7 +180,6 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		etu.getSheet();
 		etu.setCellDoubleValue(0, 2, attendance.getYear());
 		etu.setCellDoubleValue(0, 6, attendance.getMonth());
-		etu.setCellStrValue(2, 0, projectInfo);
 		Map<String, List<Attendance>> mapList = new HashMap<String, List<Attendance>>();
 
 		for (Attendance at : list) {
@@ -197,17 +198,51 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		}
 
 		int start = 6;
+		int totalWork = 0;
+		int totalRest = 0;
+		
+		Set<String> operatoids = new HashSet<String>();
+
 		for (String userName : mapList.keySet()) {
 			etu.setCellStrValue(start, 0, userName);
 
+			Map<String, Integer> timeMap = new HashMap<String, Integer>();
+			timeMap.put("√", 0);
+			timeMap.put("●", 0);
+			timeMap.put("○", 0);
+			timeMap.put("×", 0);
+			timeMap.put("△", 0);
+			timeMap.put("◇", 0);
+			timeMap.put("□", 0);
+			timeMap.put("◆", 0);
+			timeMap.put("▼", 0);
+			timeMap.put("▲", 0);
+			timeMap.put("■", 0);
+
 			for (Attendance at : mapList.get(userName)) {
 
+				operatoids.add(at.getOperatorId());
+				
 				String type = "";
+
+				int hours = 4;
+				if (at.getHours() != null && at.getHours() > 0) {
+					hours = at.getHours();
+				}
+
+				if (at.getMinutes() > 30) {
+					hours = hours + 1;
+				}
+				
+				
 
 				if (at.getAttendanceType() == 0) {
 					type = "√";
+					totalWork = totalWork + hours;
 				} else if (at.getAttendanceType() == 1) {
 					type = "●";
+					totalRest = totalRest + hours;
+					
 				} else if (at.getAttendanceType() == 2) {
 					type = "○";
 				} else if (at.getAttendanceType() == 3) {
@@ -238,16 +273,58 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 					etu.setCellStrValue(start + 1, dayOfMonth + 1, type);
 
 				}
+				
+				
+				timeMap.put(type, timeMap.get(type) + hours);
+				
 
 			}
+			int column = 32;
+			
+			etu.setCellStrValue(start, column+1, getTime(timeMap.get("√")));
+			etu.setCellStrValue(start, column+2, getTime(timeMap.get("●")));
+			etu.setCellStrValue(start, column+3, getTime(timeMap.get("○")));
+			etu.setCellStrValue(start, column+4, getTime(timeMap.get("×")));
+			etu.setCellStrValue(start, column+5, getTime(timeMap.get("△")));
+			etu.setCellStrValue(start, column+6, getTime(timeMap.get("□")));
+			etu.setCellStrValue(start, column+7, getTime(timeMap.get("◇")));
+			etu.setCellStrValue(start, column+8, getTime(timeMap.get("◆")));
+			etu.setCellStrValue(start, column+9, getTime(timeMap.get("▼")));
+			etu.setCellStrValue(start, column+10, getTime(timeMap.get("▲")));
+			etu.setCellStrValue(start, column+11, getTime(timeMap.get("■")));
+
+	
 			start = start + 2;
 
 		}
+
+
+		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
+		userQuery.and(DataBaseQueryOpertion.IN, User.ID, operatoids);
+		userQuery.limitColumns(new String[]{User.USER_NAME});
+		List<User> users = this.dao.listByQuery(userQuery, User.class);
+		String userName = "";
 		
+		for(User user: users){
+			
+			userName = userName + user.getUserName() + " ";
+		}
+		
+		String projectInfo = "部门：" + project.getDepartmentName() + "                  项目名称：" + project.getProjectName() + "                          记录员：" + userName + "                应出勤天数："
+		        + getTime(totalWork) + "天" + "           应休天数：  " + getTime(totalRest) + "天";
+		etu.setCellStrValue(2, 0, projectInfo);
+
 		etu.deletRow(start, 100);
 		etu.exportToNewFile();
 
 		return desXlsPath;
+	}
+	
+	
+	private String getTime(int hours) {
+		DecimalFormat df2 = new DecimalFormat("####0.0");
+
+		return df2.format((double) hours / 8);
 	}
 
 	public String exportPicToExcle(Pic p, HttpServletRequest request) {

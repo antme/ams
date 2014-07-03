@@ -842,7 +842,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		builder.and(ProjectTask.ID, task.getId());
-		builder.limitColumns(new String[] { ProjectTask.ID, ProjectTask.TASK_PERIOD, ProjectTask.DESCRIPTION, ProjectTask.PROJECT_START_DATE, ProjectTask.PROJECT_END_DATE, ProjectTask.TASK_CONTACT_PHONE });
+		builder.limitColumns(new String[] { ProjectTask.ADDRESS, ProjectTask.ID, ProjectTask.TASK_PERIOD, ProjectTask.DESCRIPTION, ProjectTask.PROJECT_START_DATE, ProjectTask.PROJECT_END_DATE,
+		        ProjectTask.TASK_CONTACT_PHONE });
 
 		ProjectTask pt = (ProjectTask) this.dao.findOneByQuery(builder, ProjectTask.class);
 
@@ -859,8 +860,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		if (currentDay < startDay) {
 			currentDay = startDay;
 		}
-		pt.setProjectTotalDays((endDay - startDay -1));
-		pt.setProjectRemainingDays(endDay - currentDay -1);
+		pt.setProjectTotalDays((endDay - startDay - 1));
+		pt.setProjectRemainingDays(endDay - currentDay - 1);
 		pt.setProjectUsedDays(currentDay - startDay);
 
 		pt.setMemebers(pt.getUserName());
@@ -872,6 +873,12 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		List<Task> tasks = this.dao.listByQuery(taskQuery, Task.class);
 
 		pt.setTasks(tasks);
+
+		double totalPrice = 0;
+		for (Task t : tasks) {
+			totalPrice = totalPrice + t.getPrice();
+		}
+		pt.setPrice(totalPrice);
 
 		return pt;
 

@@ -11,6 +11,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = ProjectTask.TABLE_NAME)
 public class ProjectTask extends BaseEntity{
 
+	public static final String ADDRESS = "address";
+
 	public static final String TASK_FILE_NAME = "taskFileName";
 
 	public static final String USER_ID = "userId";
@@ -93,7 +95,13 @@ public class ProjectTask extends BaseEntity{
 	@Column(name = TASK_FILE_NAME)
 	public String taskFileName;
 	
+	@Column(name = ADDRESS)
+	public String address;
 	
+	
+	public double price;
+	
+
 	public Integer projectTotalDays;
 
 	public Integer projectRemainingDays;
@@ -107,9 +115,23 @@ public class ProjectTask extends BaseEntity{
 	
 	public List<Task> tasks;
 	
-	
 
-	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public List<Task> getTasks() {
 		return tasks;
 	}

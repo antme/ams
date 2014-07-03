@@ -154,6 +154,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 		String projectEndDate = "";
 		String projectPeriod = "";
 		String taskDescrpition = "";
+		String address = "";
 
 		List<Task> taskList = new ArrayList<Task>();
 
@@ -222,6 +223,8 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 					projectName = row.split(getKey(row, "地址"))[0].trim();
 					projectName = projectName.split(getKey(row, "项目名称"))[1].trim();
+					
+					address = row.split(getKey(row, "地址"))[1].trim();
 				} else if (!row.startsWith("施工细节") && !row.startsWith("序号") && taskStart) {
 
 					if (EweblibUtil.isValid(rows[1])) {
