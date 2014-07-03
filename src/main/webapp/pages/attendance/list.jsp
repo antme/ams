@@ -26,6 +26,13 @@
 			return false;
 		}
 		
+		var projectId = $("#projectId").combobox('getValue');
+		console.log(projectId);
+		if(!projectId && projectId == ""){
+			alert("请选择项目");
+			return false;
+		}
+		
 		return true;
 	}
 </script>

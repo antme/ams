@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
+import com.ams.bean.Department;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
 import com.ams.bean.Team;
@@ -156,6 +157,16 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "考勤表" + attendance.getYear() + "-" + attendance.getMonth() + ".xls";
 		String desXlsPath = webPath + filePath;
+		
+		
+		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		pquery.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		pquery.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
+		
+		pquery.and(Project.ID, attendance.getProjectId());		
+		pquery.limitColumns(new String[]{Project.PROJECT_NAME});
+		Project project = (Project) this.dao.findOneByQuery(pquery, Project.class);
+		String projectInfo="部门：" + project.getDepartmentName() + "                  项目名称：" + project.getProjectName() +"                          记录员：dylan" + "                应出勤天数：2天" + "           应休天数：  5天";        																																										
 
 		if (new File(desXlsPath).exists()) {
 			new File(desXlsPath).delete();
@@ -167,7 +178,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		etu.getSheet();
 		etu.setCellDoubleValue(0, 2, attendance.getYear());
 		etu.setCellDoubleValue(0, 6, attendance.getMonth());
-
+		etu.setCellStrValue(2, 0, projectInfo);
 		Map<String, List<Attendance>> mapList = new HashMap<String, List<Attendance>>();
 
 		for (Attendance at : list) {
