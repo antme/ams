@@ -99,7 +99,7 @@ public class ProjectTask extends BaseEntity{
 	public String address;
 	
 	
-	public double price;
+	public String price;
 	
 
 	public Integer projectTotalDays;
@@ -124,11 +124,11 @@ public class ProjectTask extends BaseEntity{
 		this.address = address;
 	}
 
-	public double getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 

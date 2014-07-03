@@ -60,16 +60,14 @@ public class BaseTestCase extends TestCase {
 	}
 
 	public void testEmpty() throws IOException, InterruptedException {
-		DailyReportVo report = new DailyReportVo();
-		report.setUserId("05c07bcc-833e-4b22-a8be-3c3a63609ac8");
-		   DecimalFormat   df2   =   new   DecimalFormat("####0.0"); 
-
-           System.out.println(df2.format((double)16/8)); 
-
-           
+	
 		
-		System.out.println((double)5/8);
-
+		double a=1.2;
+		double b = 0.8;
+		
+		
+		String.valueOf(a + b + 1.2);
+		System.out.println(a + b + 1.2);
 	}
 	
 	

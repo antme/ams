@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -868,17 +869,23 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder taskQuery = new DataBaseQueryBuilder(Task.TABLE_NAME);
 		taskQuery.and(Task.PROJECT_TASK_ID, pt.getId());
-		taskQuery.limitColumns(new String[] { Task.DISPLAY_ORDER, Task.PRICE_DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.TASK_NAME, Task.REMARK });
+		taskQuery.limitColumns(new String[] { Task.PRICE, Task.DISPLAY_ORDER, Task.PRICE_DESCRIPTION, Task.AMOUNT_DESCRIPTION, Task.TASK_NAME, Task.REMARK });
 		taskQuery.orderBy(Task.DISPLAY_ORDER, true);
 		List<Task> tasks = this.dao.listByQuery(taskQuery, Task.class);
 
 		pt.setTasks(tasks);
 
 		double totalPrice = 0;
+		BigDecimal bd = new BigDecimal(0);
 		for (Task t : tasks) {
-			totalPrice = totalPrice + t.getPrice();
+			
+			
+			
+			bd = bd.add(new BigDecimal(t.getPrice()));
+			
 		}
-		pt.setPrice(totalPrice);
+		
+		pt.setPrice(String.valueOf(bd.doubleValue()));
 
 		return pt;
 
