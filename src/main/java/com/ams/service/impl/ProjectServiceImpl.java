@@ -33,7 +33,6 @@ import com.ams.bean.Customer;
 import com.ams.bean.CustomerContact;
 import com.ams.bean.DailyReport;
 import com.ams.bean.DailyReportComment;
-import com.ams.bean.DailyReportView;
 import com.ams.bean.Department;
 import com.ams.bean.EmployeeProject;
 import com.ams.bean.EmployeeTeam;
@@ -618,41 +617,37 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	}
 
-	private double getUserWorkedDaysFromTask(Task task) {
-		Task temp = (Task) this.dao.findById(task.getId(), Task.TABLE_NAME, Task.class);
-
-		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
-		query.and(Attendance.USER_ID, temp.getUserId());
-		query.and(Attendance.PROJECT_ID, temp.getProjectId());
-		query.limitColumns(new String[] { Attendance.HOURS, Attendance.MINUTES, Attendance.ATTENDANCE_DATE });
-
-		Set<String> set = new HashSet<String>();
-
-		List<Attendance> list = this.dao.listByQuery(query, Attendance.class);
-		for (Attendance attendance : list) {
-
-			set.add(String.valueOf(attendance.getAttendanceDate().getTime()));
-		}
-
-		return set.size();
-	}
 
 	private double getUserWorkedDaysFromProject(Project project, String userId) {
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
-		query.and(Attendance.USER_ID, userId);
+		// query.and(Attendance.USER_ID, userId);
 		query.and(Attendance.PROJECT_ID, project.getId());
 		query.limitColumns(new String[] { Attendance.HOURS, Attendance.MINUTES, Attendance.ATTENDANCE_DATE });
 
-		Set<String> set = new HashSet<String>();
+		BigDecimal days = new BigDecimal(0);
 
 		List<Attendance> list = this.dao.listByQuery(query, Attendance.class);
 		for (Attendance attendance : list) {
 
-			set.add(String.valueOf(attendance.getAttendanceDate().getTime()));
+			if (attendance.getAttendanceType() == 0 || attendance.getAttendanceType() == 5 || attendance.getAttendanceType() == 6 || attendance.getAttendanceType() == 7
+			        || attendance.getAttendanceType() == 10 || attendance.getAttendanceType() == 4) {
+				days = days.add(new BigDecimal(0.5));
+
+			}
+
+			if (attendance.getAttendanceType() == 4) {
+
+				if (attendance.getHours() != null && attendance.getHours() > 5) {
+					days = days.add(new BigDecimal(1));
+				} else if (attendance.getHours() != null && attendance.getHours() > 3) {
+					days = days.add(new BigDecimal(0.5));
+				}
+			}
+
 		}
 
-		return set.size();
+		return days.doubleValue();
 	}
 
 	public EntityResults<Task> listAllTasksFor(Task task) {
@@ -907,9 +902,24 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 			this.dao.updateById(report);
 		} else {
+			
+			Set<String> managerIds = userService.getUserReportManagerIds(report.getUserId());
+
+			String mids = null;
+			for (String managerId : managerIds) {
+				if (mids == null) {
+					mids = managerId;
+				} else {
+					mids = mids + " " + managerId;
+				}
+
+			}
 
 			report.setProjectId(vo.getTaskId());
+			report.setManagerIds(mids);
 			this.dao.insert(report);
+	
+
 		}
 
 		if (pics != null) {
@@ -921,56 +931,58 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 				this.dao.insert(picture);
 			}
 		}
+		
+		
 
 		return report;
 
 	}
 
 	public void viewDailyReport(DailyReportVo report) {
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		builder.and(DailyReport.ID, report.getDailyReportId());
+		builder.limitColumns(new String[] { DailyReport.ID, DailyReport.MANAGER_IDS });
 
-		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
-		builder.and(DailyReportView.DAILY_REPORT_ID, report.getDailyReportId());
-		builder.and(DailyReportView.USER_ID, report.getUserId());
+		DailyReport rep = (DailyReport) this.dao.findOneByQuery(builder, DailyReport.class);
 
-		if (!this.dao.exists(builder)) {
+		if (rep != null) {
 
-			DailyReportView view = new DailyReportView();
-			view.setDailyReportId(report.getDailyReportId());
-			view.setUserId(report.getUserId());
+			if (EweblibUtil.isValid(rep.getManagerIds())) {
 
-			this.dao.insert(view);
+				rep.setManagerIds(rep.getManagerIds().replaceAll(report.getUserId(), " "));
+
+				this.dao.updateById(rep);
+			}
 		}
 
 	}
 
 	public int countDailyReport(DailyReportVo report) {
-
-		// FXIME: 性能问题
-		DataBaseQueryBuilder query = getDailyReportQuery(report, true);
-
-		List<DailyReport> reports = this.dao.listByQuery(query, DailyReport.class);
-
-		int count = reports.size();
-
-		for (DailyReport rep : reports) {
-			DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
-			viewQuery.and(DailyReportView.USER_ID, report.getUserId());
-			viewQuery.and(DailyReportView.DAILY_REPORT_ID, rep.getId());
-			if (this.dao.exists(viewQuery)) {
-				count = count - 1;
-			}
-
-		}
-
-		return count;
-
+		return this.dao.count(getNotViewdReportQuery(report));
 	}
 
 	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report, boolean fromApp) {
+		
+		
+		List<DailyReport> list = this.dao.listByQuery(getNotViewdReportQuery(report), DailyReport.class);
+		
+		Set<String> ids =new HashSet<String>();
+		
+		if(list.size() > 0){
+			for(DailyReport dr: list){
+				ids.add(dr.getId());
+			}
+		}
+		
+		DataBaseQueryBuilder notViewedQuery = getDailyReportQuery(report, fromApp);
+		notViewedQuery.and(DataBaseQueryOpertion.IN, DailyReport.ID, ids);
+
+		List<DailyReportVo> notreviewedlist = this.dao.listByQuery(notViewedQuery, DailyReportVo.class);
 
 		DataBaseQueryBuilder builder = getDailyReportQuery(report, fromApp);
-
+		builder.and(DataBaseQueryOpertion.NOT_IN, DailyReport.ID, ids);
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
+
 
 		for (DailyReportVo vo : reports.getEntityList()) {
 
@@ -984,15 +996,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			}
 			vo.setPics(picUrls);
 
-			DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReportView.TABLE_NAME);
-			viewQuery.and(DailyReportView.DAILY_REPORT_ID, vo.getId());
-			viewQuery.and(DailyReportView.USER_ID, report.getUserId());
-			if (this.dao.exists(viewQuery)) {
-				vo.setIsViewed(true);
-			} else {
-				vo.setIsViewed(false);
-			}
-
 			DataBaseQueryBuilder projectQuery = new DataBaseQueryBuilder(Project.TABLE_NAME);
 
 			projectQuery.and(Project.ID, vo.getProjectId());
@@ -1004,7 +1007,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			p.setProjectRemainingDays(0);
 			p.setProjectUsedDays(0);
 			p.setUserWorkedDays(0d);
-			
+
 			if (p != null) {
 
 				if (p.getProjectStartDate() != null && p.getProjectEndDate() != null) {
@@ -1039,11 +1042,23 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			List<DailyReportComment> comments = this.dao.listByQuery(commentQuery, DailyReportComment.class);
 
 			vo.setComments(comments);
+
+
+
 		}
 
+		notreviewedlist.addAll(reports.getEntityList());
+		reports.setEntityList(notreviewedlist);
 		return reports;
 
 	}
+
+	public DataBaseQueryBuilder getNotViewdReportQuery(DailyReportVo report) {
+	    DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
+		viewQuery.and(DataBaseQueryOpertion.LIKE, DailyReport.MANAGER_IDS, report.getUserId());
+		viewQuery.limitColumns(new String[]{DailyReport.ID});
+	    return viewQuery;
+    }
 
 //	public DataBaseQueryBuilder getDaliReportQueryBuilderForApp(String currentUserId) {
 //		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
@@ -1098,7 +1113,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		builder.limitColumns(new String[] { DailyReport.TASK_ID, DailyReport.PROJECT_ID, DailyReport.ID, DailyReport.WEATHER, DailyReport.MATERIAL_RECORD, DailyReport.WORKING_RECORD, DailyReport.PLAN, DailyReport.SUMMARY,
-		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON });
+		        DailyReport.REPORT_DAY, DailyReport.CREATED_ON, DailyReport.MANAGER_IDS });
 		return builder;
 	}
 

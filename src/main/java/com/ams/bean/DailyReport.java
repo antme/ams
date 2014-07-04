@@ -11,6 +11,8 @@ import com.eweblib.bean.BaseEntity;
 @Table(name = DailyReport.TABLE_NAME)
 public class DailyReport extends BaseEntity {
 
+	public static final String MANAGER_IDS = "managerIds";
+
 	public static final String TASK_ID = "taskId";
 
 	public static final String IS_COMMENTED = "isCommented";
@@ -65,6 +67,17 @@ public class DailyReport extends BaseEntity {
 	public Boolean isCommented;
 
 	
+	@Column(name = MANAGER_IDS)
+	public String managerIds;
+
+	
+	public String getManagerIds() {
+		return managerIds;
+	}
+
+	public void setManagerIds(String managerIds) {
+		this.managerIds = managerIds;
+	}
 
 	public String getTaskId() {
 		return taskId;

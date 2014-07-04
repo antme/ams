@@ -1,7 +1,6 @@
 package com.ams.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ams.bean.Attendance;
 import com.ams.bean.DeductedSalaryItem;
 import com.ams.bean.Department;
 import com.ams.bean.EmployeeProject;
@@ -1073,6 +1071,44 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		finalIds.add(userId);
 
 		return finalIds;
+
+	}
+	
+	
+	public Set<String> getUserReportManagerIds(String userId){
+		Set<String> ids = new HashSet<String>();
+		ids.add(userId);
+
+		Set<String> finalIds = new HashSet<String>();
+		getReportManagerIds(ids, finalIds);
+
+		return finalIds;
+		
+	}
+	
+
+	public void getReportManagerIds(Set<String> ids, Set<String> finalIds) {
+		DataBaseQueryBuilder query = new DataBaseQueryBuilder(User.TABLE_NAME);
+		query.and(DataBaseQueryOpertion.IN, User.ID, ids);
+		query.limitColumns(new String[] { User.REPORT_MANAGER_ID });
+
+
+		List<User> userList = this.dao.listByQuery(query, User.class);
+
+		Set<String> userIds = new HashSet<String>();
+
+		for (User user : userList) {
+
+			if (!finalIds.contains(user.getReportManagerId())) {
+				userIds.add(user.getReportManagerId());
+				finalIds.add(user.getReportManagerId());
+			}
+		}
+
+		if (!userIds.isEmpty()) {
+
+			getReportManagerIds(userIds, finalIds);
+		}
 
 	}
 

@@ -92,7 +92,7 @@ public interface IUserService {
 	
 	Set<String> getOwnedUserIdsByReportManager(String userId);
 	
-
+	Set<String> getUserReportManagerIds(String userId);
 	
 //	public String getUserNameById(String id);
 

@@ -619,3 +619,7 @@ alter table AmsLog modify userId varchar(36) default null;
 
 
 alter table ProjectTask add column address varchar(512) default null;
+
+alter table DailyReport add column managerIds text default null;
+
+
