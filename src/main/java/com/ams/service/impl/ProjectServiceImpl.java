@@ -623,7 +623,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
 		// query.and(Attendance.USER_ID, userId);
 		query.and(Attendance.PROJECT_ID, project.getId());
-		query.limitColumns(new String[] { Attendance.HOURS, Attendance.MINUTES, Attendance.ATTENDANCE_DATE });
+		query.limitColumns(new String[] { Attendance.ATTENDANCE_TYPE, Attendance.HOURS, Attendance.MINUTES, Attendance.ATTENDANCE_DATE });
 
 		BigDecimal days = new BigDecimal(0);
 
@@ -978,73 +978,18 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		notViewedQuery.and(DataBaseQueryOpertion.IN, DailyReport.ID, ids);
 
 		List<DailyReportVo> notreviewedlist = this.dao.listByQuery(notViewedQuery, DailyReportVo.class);
+		for (DailyReportVo vo : notreviewedlist) {
+			mergeReportInfo(report, vo);
+			vo.setIsViewed(false);
+		}
 
 		DataBaseQueryBuilder builder = getDailyReportQuery(report, fromApp);
 		builder.and(DataBaseQueryOpertion.NOT_IN, DailyReport.ID, ids);
 		EntityResults<DailyReportVo> reports = this.dao.listByQueryWithPagnation(builder, DailyReportVo.class);
 
-
 		for (DailyReportVo vo : reports.getEntityList()) {
-
-			List<String> picUrls = new ArrayList<String>();
-
-			DataBaseQueryBuilder picQuery = new DataBaseQueryBuilder(Pic.TABLE_NAME);
-			picQuery.and(Pic.DAILY_REPORT_ID, vo.getId());
-			List<Pic> pics = this.dao.listByQuery(picQuery, Pic.class);
-			for (Pic p : pics) {
-				picUrls.add(p.getPicUrl());
-			}
-			vo.setPics(picUrls);
-
-			DataBaseQueryBuilder projectQuery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-
-			projectQuery.and(Project.ID, vo.getProjectId());
-
-			projectQuery.limitColumns(new String[] { Project.PROJECT_END_DATE, Project.PROJECT_NAME, Project.PROJECT_START_DATE, Project.ID });
-			Project p = (Project) this.dao.findOneByQuery(projectQuery, Project.class);
-
-			p.setProjectTotalDays(0);
-			p.setProjectRemainingDays(0);
-			p.setProjectUsedDays(0);
-			p.setUserWorkedDays(0d);
-
-			if (p != null) {
-
-				if (p.getProjectStartDate() != null && p.getProjectEndDate() != null) {
-					Calendar c = Calendar.getInstance();
-					c.setTime(p.getProjectStartDate());
-					int startDay = c.get(Calendar.DAY_OF_YEAR);
-
-					c.setTime(p.getProjectEndDate());
-					int endDay = c.get(Calendar.DAY_OF_YEAR);
-
-					c.setTime(new Date());
-					int currentDay = c.get(Calendar.DAY_OF_YEAR);
-
-					p.setProjectTotalDays((endDay - startDay));
-					p.setProjectRemainingDays(endDay - currentDay);
-					p.setProjectUsedDays(currentDay - startDay);
-				}
-				p.setUserWorkedDays(getUserWorkedDaysFromProject(p, report.getUserId()));
-				p.setTaskName(p.getProjectName());
-				vo.setTaskInfo(p);
-
-			}
-
-			DataBaseQueryBuilder commentQuery = new DataBaseQueryBuilder(DailyReportComment.TABLE_NAME);
-			commentQuery.join(DailyReportComment.TABLE_NAME, User.TABLE_NAME, DailyReportComment.USER_ID, User.ID);
-			commentQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
-
-			commentQuery.and(DailyReportComment.DAILY_REPORT_ID, vo.getId());
-
-			commentQuery.limitColumns(new String[] { DailyReportComment.COMMENT, DailyReportComment.COMMENT_DATE, DailyReportComment.ID });
-
-			List<DailyReportComment> comments = this.dao.listByQuery(commentQuery, DailyReportComment.class);
-
-			vo.setComments(comments);
-
-
-
+			mergeReportInfo(report, vo);
+			vo.setIsViewed(true);
 		}
 
 		notreviewedlist.addAll(reports.getEntityList());
@@ -1052,6 +997,65 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		return reports;
 
 	}
+
+	public void mergeReportInfo(DailyReportVo report, DailyReportVo vo) {
+	    List<String> picUrls = new ArrayList<String>();
+
+	    DataBaseQueryBuilder picQuery = new DataBaseQueryBuilder(Pic.TABLE_NAME);
+	    picQuery.and(Pic.DAILY_REPORT_ID, vo.getId());
+	    List<Pic> pics = this.dao.listByQuery(picQuery, Pic.class);
+	    for (Pic p : pics) {
+	    	picUrls.add(p.getPicUrl());
+	    }
+	    vo.setPics(picUrls);
+
+	    DataBaseQueryBuilder projectQuery = new DataBaseQueryBuilder(Project.TABLE_NAME);
+
+	    projectQuery.and(Project.ID, vo.getProjectId());
+
+	    projectQuery.limitColumns(new String[] { Project.PROJECT_END_DATE, Project.PROJECT_NAME, Project.PROJECT_START_DATE, Project.ID });
+	    Project p = (Project) this.dao.findOneByQuery(projectQuery, Project.class);
+
+	    p.setProjectTotalDays(0);
+	    p.setProjectRemainingDays(0);
+	    p.setProjectUsedDays(0);
+	    p.setUserWorkedDays(0d);
+
+	    if (p != null) {
+
+	    	if (p.getProjectStartDate() != null && p.getProjectEndDate() != null) {
+	    		Calendar c = Calendar.getInstance();
+	    		c.setTime(p.getProjectStartDate());
+	    		int startDay = c.get(Calendar.DAY_OF_YEAR);
+
+	    		c.setTime(p.getProjectEndDate());
+	    		int endDay = c.get(Calendar.DAY_OF_YEAR);
+
+	    		c.setTime(new Date());
+	    		int currentDay = c.get(Calendar.DAY_OF_YEAR);
+
+	    		p.setProjectTotalDays((endDay - startDay));
+	    		p.setProjectRemainingDays(endDay - currentDay);
+	    		p.setProjectUsedDays(currentDay - startDay);
+	    	}
+	    	p.setUserWorkedDays(getUserWorkedDaysFromProject(p, report.getUserId()));
+	    	p.setTaskName(p.getProjectName());
+	    	vo.setTaskInfo(p);
+
+	    }
+
+	    DataBaseQueryBuilder commentQuery = new DataBaseQueryBuilder(DailyReportComment.TABLE_NAME);
+	    commentQuery.join(DailyReportComment.TABLE_NAME, User.TABLE_NAME, DailyReportComment.USER_ID, User.ID);
+	    commentQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+
+	    commentQuery.and(DailyReportComment.DAILY_REPORT_ID, vo.getId());
+
+	    commentQuery.limitColumns(new String[] { DailyReportComment.COMMENT, DailyReportComment.COMMENT_DATE, DailyReportComment.ID });
+
+	    List<DailyReportComment> comments = this.dao.listByQuery(commentQuery, DailyReportComment.class);
+
+	    vo.setComments(comments);
+    }
 
 	public DataBaseQueryBuilder getNotViewdReportQuery(DailyReportVo report) {
 	    DataBaseQueryBuilder viewQuery = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
