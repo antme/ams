@@ -36,7 +36,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	public EntityResults<Notice> listNotices(SearchVo notice) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Notice.TABLE_NAME);
-		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
+		builder.leftJoin(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });
 		builder.limitColumns(new String[] { Notice.PUBLISH_END_DATE, Notice.CREATED_ON, Notice.TITLE, Notice.PRIORITY, Notice.CONTENT, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
 		
@@ -50,7 +50,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	@Override
 	public EntityResults<Notice> listNoticesForApp(SearchVo notice) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Notice.TABLE_NAME);
-		builder.join(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
+		builder.leftJoin(Notice.TABLE_NAME, User.TABLE_NAME, Notice.CREATOR_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME + "," + Notice.PUBLISHER });
 		builder.limitColumns(new String[] { Notice.TITLE, Notice.CONTENT, Notice.PUBLISH_DATE, Notice.ATTACH_FILE_URL, Notice.ID });
 
@@ -122,7 +122,7 @@ public class NoticeServiceImpl extends AbstractService implements INoticeService
 	public EntityResults<Reminder> listAllUserReminder(Reminder reminder){
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Reminder.TABLE_NAME);
-		builder.join(Reminder.TABLE_NAME, User.TABLE_NAME, Reminder.USER_ID, User.ID);
+		builder.leftJoin(Reminder.TABLE_NAME, User.TABLE_NAME, Reminder.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[]{User.USER_NAME});
 
 		mergeKeywordQuery(builder, reminder.getKeyword(), Reminder.TABLE_NAME, new String[] { Reminder.TITLE, Reminder.CONTENT });

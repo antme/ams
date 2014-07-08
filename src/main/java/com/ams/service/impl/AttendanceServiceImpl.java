@@ -88,14 +88,14 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 	public DataBaseQueryBuilder getAttendanceQuery(Attendance attendance) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
-		builder.join(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
+		builder.leftJoin(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		builder.join(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
+		builder.leftJoin(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 		
 		
-		builder.join(Attendance.TABLE_NAME, Project.TABLE_NAME, Attendance.PROJECT_ID, Project.ID);
+		builder.leftJoin(Attendance.TABLE_NAME, Project.TABLE_NAME, Attendance.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
 
@@ -163,7 +163,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		
 		
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		pquery.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		pquery.leftJoin(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		pquery.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
 		
 		pquery.and(Project.ID, attendance.getProjectId());		

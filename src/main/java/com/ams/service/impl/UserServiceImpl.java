@@ -250,10 +250,10 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public EntityResults<User> listUserForApp(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
 
-		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.leftJoin(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
 		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME + "," + "userType" });
 
-		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.leftJoin(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME + "," + "userLevel" });
 
 		builder.limitColumns(new String[] { User.USER_NAME, User.USER_CODE, User.MOBILE_NUMBER, User.ID });
@@ -273,7 +273,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		EntityResults<User> userList = this.dao.listByQueryWithPagnation(builder, User.class);
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-		query.join(EmployeeTeam.TABLE_NAME, Team.TABLE_NAME, EmployeeTeam.TEAM_ID, Team.ID);
+		query.leftJoin(EmployeeTeam.TABLE_NAME, Team.TABLE_NAME, EmployeeTeam.TEAM_ID, Team.ID);
 		query.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 		query.limitColumns(new String[] { EmployeeTeam.USER_ID });
 
@@ -456,7 +456,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 	public EntityResults<Department> listDepartments(SearchVo vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Department.TABLE_NAME);
-		builder.join(Department.TABLE_NAME, User.TABLE_NAME, Department.DEPARTMENT_MANAGER_ID, User.ID);
+		builder.leftJoin(Department.TABLE_NAME, User.TABLE_NAME, Department.DEPARTMENT_MANAGER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		builder.limitColumns(new Department().getColumnList());
 		mergeCommonQuery(builder);
@@ -476,7 +476,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public DataBaseQueryBuilder getPicQuery(Pic pic) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Pic.TABLE_NAME);
 
-		builder.join(Pic.TABLE_NAME, User.TABLE_NAME, Pic.USER_ID, User.ID);
+		builder.leftJoin(Pic.TABLE_NAME, User.TABLE_NAME, Pic.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		builder.limitColumns(new Pic().getColumnList());
 
@@ -507,7 +507,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public EntityResults<Salary> listUserSalaries(Salary salary) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
-		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
+		builder.leftJoin(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		Set<String> userIds = getOwnedUserIds(salary.getUserId());
@@ -543,7 +543,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public EntityResults<Salary> listAllUserSalaries(Salary salary) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Salary.TABLE_NAME);
-		builder.join(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
+		builder.leftJoin(Salary.TABLE_NAME, User.TABLE_NAME, Salary.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		if (EweblibUtil.isValid(salary.getUserId())) {
@@ -636,13 +636,13 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 
 	public EntityResults<User> listAllUsers(User vo) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.leftJoin(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
 		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
 
-		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.leftJoin(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
 
-		builder.join(User.TABLE_NAME, RoleGroup.TABLE_NAME, User.GROUP_ID, RoleGroup.ID);
+		builder.leftJoin(User.TABLE_NAME, RoleGroup.TABLE_NAME, User.GROUP_ID, RoleGroup.ID);
 		builder.joinColumns(RoleGroup.TABLE_NAME, new String[] { RoleGroup.GROUP_NAME });
 
 		if (EweblibUtil.isValid(vo.getUserName())) {
@@ -684,7 +684,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		EntityResults<User> results = this.dao.listByQueryWithPagnation(builder, User.class);
 
 		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
-		etQuery.join(EmployeeProject.TABLE_NAME, Project.TABLE_NAME, EmployeeProject.PROJECT_ID, Project.ID);
+		etQuery.leftJoin(EmployeeProject.TABLE_NAME, Project.TABLE_NAME, EmployeeProject.PROJECT_ID, Project.ID);
 		etQuery.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 		etQuery.limitColumns(new String[] { EmployeeProject.USER_ID });
 
@@ -703,7 +703,7 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 		}
 
 		DataBaseQueryBuilder teamQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-		teamQuery.join(EmployeeTeam.TABLE_NAME, Team.TABLE_NAME, EmployeeTeam.TEAM_ID, Team.ID);
+		teamQuery.leftJoin(EmployeeTeam.TABLE_NAME, Team.TABLE_NAME, EmployeeTeam.TEAM_ID, Team.ID);
 		teamQuery.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 		teamQuery.limitColumns(new String[] { EmployeeTeam.USER_ID });
 
@@ -754,10 +754,10 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public List<User> selectAllUsersForProject(UserSearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.leftJoin(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
 		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
 
-		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.leftJoin(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
 
 		// DataBaseQueryBuilder pquery = new
@@ -866,10 +866,10 @@ public class UserServiceImpl extends AbstractAmsService implements IUserService 
 	public List<User> selectAllUsersForTeam(UserSearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(User.TABLE_NAME);
-		builder.join(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
+		builder.leftJoin(User.TABLE_NAME, UserType.TABLE_NAME, User.USER_TYPE_ID, UserType.ID);
 		builder.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
 
-		builder.join(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
+		builder.leftJoin(User.TABLE_NAME, UserLevel.TABLE_NAME, User.USER_LEVEL_ID, UserLevel.ID);
 		builder.joinColumns(UserLevel.TABLE_NAME, new String[] { UserLevel.LEVEL_NAME });
 
 		// DataBaseQueryBuilder tquery = new

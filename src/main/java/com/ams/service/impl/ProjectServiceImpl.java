@@ -258,7 +258,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		DataBaseQueryBuilder builder = getTeamQuery(team);
 
 		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-		etQuery.join(EmployeeTeam.TABLE_NAME, User.TABLE_NAME, EmployeeTeam.USER_ID, User.ID);
+		etQuery.leftJoin(EmployeeTeam.TABLE_NAME, User.TABLE_NAME, EmployeeTeam.USER_ID, User.ID);
 		etQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		etQuery.limitColumns(new String[] { EmployeeTeam.TEAM_ID });
 
@@ -305,10 +305,10 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	public DataBaseQueryBuilder getTeamQuery(Team team) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
-		builder.join(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
+		builder.leftJoin(Team.TABLE_NAME, Department.TABLE_NAME, Team.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
-		builder.join(Team.TABLE_NAME, User.TABLE_NAME, Team.TEAM_LEADER_ID, User.ID);
+		builder.leftJoin(Team.TABLE_NAME, User.TABLE_NAME, Team.TEAM_LEADER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		// builder.join(Team.TABLE_NAME, Project.TABLE_NAME, Team.PROJECT_ID,
@@ -351,7 +351,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		
 		
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		pquery.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		pquery.leftJoin(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		pquery.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 		pquery.and(Project.ID, team.getProjectId());
 		pquery.limitColumns(new String[]{Project.WORK_TIME_PERIOD});
@@ -423,7 +423,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		}
 
 		DataBaseQueryBuilder atquery = new DataBaseQueryBuilder(User.TABLE_NAME);
-		atquery.join(User.TABLE_NAME, Attendance.TABLE_NAME, User.ID, Attendance.USER_ID);
+		atquery.leftJoin(User.TABLE_NAME, Attendance.TABLE_NAME, User.ID, Attendance.USER_ID);
 		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE, Attendance.MINUTES, Attendance.ATTENDANCE_TYPE,
 		        Attendance.HOURS });
 
@@ -458,10 +458,10 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public EntityResults<Project> listProjects(Project project) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		builder.leftJoin(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
-		builder.join(Project.TABLE_NAME, Customer.TABLE_NAME, Project.CUSTOMER_ID, Customer.ID);
+		builder.leftJoin(Project.TABLE_NAME, Customer.TABLE_NAME, Project.CUSTOMER_ID, Customer.ID);
 		builder.joinColumns(Customer.TABLE_NAME, new String[] { Customer.NAME + "," + "customerName" });
 
 		if (EweblibUtil.isValid(project.getProjectName())) {
@@ -480,7 +480,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		builder.limitColumns(new Project().getColumnList());
 
 		DataBaseQueryBuilder etQuery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
-		etQuery.join(EmployeeProject.TABLE_NAME, User.TABLE_NAME, EmployeeProject.USER_ID, User.ID);
+		etQuery.leftJoin(EmployeeProject.TABLE_NAME, User.TABLE_NAME, EmployeeProject.USER_ID, User.ID);
 		etQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		etQuery.limitColumns(new String[] { EmployeeProject.PROJECT_ID });
 
@@ -545,7 +545,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public List<Project> listProjectsForAppAttendance(SearchVo vo) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		builder.join(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
+		builder.leftJoin(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
 		if (EweblibUtil.isValid(vo.getKeyword())) {
@@ -654,7 +654,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
-		builder.join(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
+		builder.leftJoin(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		String userName = task.getUserName();
@@ -789,13 +789,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public EntityResults<ProjectTask> listProjectTasksForApp(Task task) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
-		builder.join(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
-		builder.join(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 
-		builder.join(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		Set<String> userIds = userService.getOwnedUserIdsByReportManager(task.getUserId());
@@ -829,13 +829,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	
 	public ProjectTask getProjectTaskDetails(ProjectTask task) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
-		builder.join(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
-		builder.join(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 
-		builder.join(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		builder.and(ProjectTask.ID, task.getId());
@@ -1045,7 +1045,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	    }
 
 	    DataBaseQueryBuilder commentQuery = new DataBaseQueryBuilder(DailyReportComment.TABLE_NAME);
-	    commentQuery.join(DailyReportComment.TABLE_NAME, User.TABLE_NAME, DailyReportComment.USER_ID, User.ID);
+	    commentQuery.leftJoin(DailyReportComment.TABLE_NAME, User.TABLE_NAME, DailyReportComment.USER_ID, User.ID);
 	    commentQuery.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 	    commentQuery.and(DailyReportComment.DAILY_REPORT_ID, vo.getId());
@@ -1080,10 +1080,10 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	
 	public DataBaseQueryBuilder getDailyReportQuery(DailyReportVo report, boolean fromApp) {
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
-		builder.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		builder.leftJoin(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		builder.join(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
+		builder.leftJoin(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
 		if (report.getQueryUserId() == null) {
@@ -1124,11 +1124,11 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public List<DailyReportVo> listDailyReportPlan(DailyReportVo report) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(DailyReport.TABLE_NAME);
 
-		query.join(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
+		query.leftJoin(DailyReport.TABLE_NAME, User.TABLE_NAME, DailyReport.USER_ID, User.ID);
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 		
 		
-		query.join(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
+		query.leftJoin(DailyReport.TABLE_NAME, Project.TABLE_NAME, DailyReport.PROJECT_ID, Project.ID);
 		query.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
 		query.and(DataBaseQueryOpertion.IN, DailyReport.USER_ID, userService.getOwnedUserIdsByReportManager(report.getUserId()));
@@ -1399,13 +1399,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(ProjectTask.TABLE_NAME);
 
-		builder.join(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, User.TABLE_NAME, ProjectTask.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		builder.join(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, Project.TABLE_NAME, ProjectTask.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
-		builder.join(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
+		builder.leftJoin(ProjectTask.TABLE_NAME, Team.TABLE_NAME, ProjectTask.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 
 		if (EweblibUtil.isValid(task.getUserId())) {
@@ -1433,13 +1433,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Task.TABLE_NAME);
 
-		builder.join(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
+		builder.leftJoin(Task.TABLE_NAME, User.TABLE_NAME, Task.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		builder.join(Task.TABLE_NAME, Project.TABLE_NAME, Task.PROJECT_ID, Project.ID);
+		builder.leftJoin(Task.TABLE_NAME, Project.TABLE_NAME, Task.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
 
-		builder.join(Task.TABLE_NAME, Team.TABLE_NAME, Task.TEAM_ID, Team.ID);
+		builder.leftJoin(Task.TABLE_NAME, Team.TABLE_NAME, Task.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
 
 		builder.and(Task.PROJECT_TASK_ID, task.getProjectTaskId());

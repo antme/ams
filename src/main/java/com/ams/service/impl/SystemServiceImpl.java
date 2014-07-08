@@ -422,7 +422,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 	public EntityResults<UserType> listUserTypes(UserType type) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(UserType.TABLE_NAME);
-		query.join(UserType.TABLE_NAME, User.TABLE_NAME, UserType.CREATOR_ID, User.ID);
+		query.leftJoin(UserType.TABLE_NAME, User.TABLE_NAME, UserType.CREATOR_ID, User.ID);
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		query.limitColumns(new UserType().getColumnList());
@@ -436,10 +436,10 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 	public EntityResults<UserLevel> listUserLevels(UserLevel level) {
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(UserLevel.TABLE_NAME);
-		query.join(UserLevel.TABLE_NAME, User.TABLE_NAME, UserLevel.CREATOR_ID, User.ID);
+		query.leftJoin(UserLevel.TABLE_NAME, User.TABLE_NAME, UserLevel.CREATOR_ID, User.ID);
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
-		query.join(UserLevel.TABLE_NAME, UserType.TABLE_NAME, UserLevel.USER_TYPE_ID, UserType.ID);
+		query.leftJoin(UserLevel.TABLE_NAME, UserType.TABLE_NAME, UserLevel.USER_TYPE_ID, UserType.ID);
 		query.joinColumns(UserType.TABLE_NAME, new String[] { UserType.TYPE_NAME });
 
 		query.limitColumns(new UserLevel().getColumnList());
@@ -789,7 +789,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 	public EntityResults<Log> listLogs(SearchVo vo) {
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(Log.TABLE_NAME);
-		query.join(Log.TABLE_NAME, User.TABLE_NAME, Log.USER_ID, User.ID);
+		query.leftJoin(Log.TABLE_NAME, User.TABLE_NAME, Log.USER_ID, User.ID);
 		query.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
 
 		query.limitColumns(new Log().getColumnList());
