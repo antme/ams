@@ -186,7 +186,7 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 					teamInfo =  teamInfo[0].split(getKey(row, "班组名称"));
 					
-					if (teamInfo.length > 0) {
+					if (teamInfo.length > 1) {
 						teamName = teamInfo[1].trim();
 					} else {
 						throw new ResponseException("请检查模板中的班组名称，确保已经填写班组名称后再导入");
@@ -216,8 +216,16 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 				} else if (index == 2) {
 					projectPeriod = row.split(getKey(row, "总工期"))[1];
 					projectPeriod = projectPeriod.split(getKey(row, "竣工日期"))[0];
-					projectStartDate = row.split(getKey(row, "总工期"))[0].split("开工日期")[1].replace(" ", "").replace("：", "").trim();
-					projectEndDate = row.split(getKey(row, "竣工日期"))[1].trim().replace(" ", "");
+					String[] pstartDate = row.split(getKey(row, "总工期"))[0].split("开工日期");
+					
+					if (pstartDate.length > 1) {
+						projectStartDate = pstartDate[1].replace(" ", "").replace("：", "").trim();
+					}
+					String[] pendDate = row.split(getKey(row, "竣工日期"));
+
+					if (pendDate.length > 0) {
+						projectEndDate = pendDate[1].trim().replace(" ", "");
+					}
 
 				} else if (index == 3) {
 
