@@ -221,10 +221,15 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 				} else if (index == 3) {
 
-					projectName = row.split(getKey(row, "地址"))[0].trim();
+					String[] addressSplit = row.split(getKey(row, "地址"));
+					projectName = addressSplit[0].trim();
 					projectName = projectName.split(getKey(row, "项目名称"))[1].trim();
 					
-					address = row.split(getKey(row, "地址"))[1].trim();
+					if (addressSplit.length > 1) {
+						address = addressSplit[1].trim();
+					}
+					
+					
 				} else if (!row.startsWith("施工细节") && !row.startsWith("序号") && taskStart) {
 
 					if (EweblibUtil.isValid(rows[1])) {
