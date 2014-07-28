@@ -231,8 +231,12 @@ public class SystemServiceImpl extends AbstractAmsService implements ISystemServ
 
 					String[] addressSplit = row.split(getKey(row, "地址"));
 					projectName = addressSplit[0].trim();
-					projectName = projectName.split(getKey(row, "项目名称"))[1].trim();
-					
+					String[] pname = projectName.split(getKey(row, "项目名称"));
+
+					if (pname.length > 1) {
+						projectName = pname[1].trim();
+					}
+
 					if (addressSplit.length > 1) {
 						address = addressSplit[1].trim();
 					}
