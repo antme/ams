@@ -554,9 +554,16 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		}
 
+		Set<String> userIds = userService.getOwnedUserIdsByReportManager(vo.getUserId());
+		String id = "";
+		// FIXME : USER LOGIC
+		for (String userId : userIds) {
+			id = userId + "," + id;
+		}
+		
 		DataBaseQueryBuilder uquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
-		uquery.or(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, vo.getUserId());
-		uquery.or(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, vo.getUserId());
+		uquery.or(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, id);
+		uquery.or(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, id);
 
 		builder.and(uquery);
 
@@ -574,8 +581,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID, Project.PROJECT_START_DATE, Project.PROJECT_END_DATE });
 
-		//FIXME : USER LOGIC
-		 builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, t.getUserId());
+		Set<String> userIds = userService.getOwnedUserIdsByReportManager(t.getUserId());
+		String id = "";
+		// FIXME : USER LOGIC
+		for (String userId : userIds) {
+			id = userId + "," + id;
+		}
+		builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_MANAGER_ID, id);
 
 //		builder.and(DataBaseQueryOpertion.IS_FALSE, Task.IS_DELETED);
 		 
