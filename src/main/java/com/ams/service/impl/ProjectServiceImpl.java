@@ -65,6 +65,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public static Map<String, String> projectMap = new HashMap<String, String>();
 
 	@Override
+	@Transactional
 	public void addProject(Project project) {
 		String[] projectMagerIds = project.getProjectManagerIds();
 
@@ -114,10 +115,10 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			List<Team> teams = this.dao.listByQuery(teamQuery, Team.class);
 
 			for (Team t : teams) {
-				if (!t.getDepartmentId().equalsIgnoreCase(project.getDepartmentId())) {
-					t.setDepartmentId(project.getDepartmentId());
-					this.dao.updateById(t);
-				}
+//				if (!t.getDepartmentId().equalsIgnoreCase(project.getDepartmentId())) {
+//					t.setDepartmentId(project.getDepartmentId());
+//					this.dao.updateById(t);
+//				}
 			}
 
 			DataBaseQueryBuilder attQuery = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
@@ -125,9 +126,11 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			List<Attendance> attlist = this.dao.listByQuery(attQuery, Attendance.class);
 
 			for (Attendance a : attlist) {
-				if (!a.getDepartmentId().equalsIgnoreCase(project.getDepartmentId())) {
-					a.setDepartmentId(project.getDepartmentId());
-					this.dao.updateById(a);
+				if(a.getDepartmentId()!=null){
+					if (!a.getDepartmentId().equalsIgnoreCase(project.getDepartmentId())) {
+						a.setDepartmentId(project.getDepartmentId());
+						this.dao.updateById(a);
+					}
 				}
 			}
 
@@ -178,6 +181,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		return project;
 	}
 
+	@Transactional
 	public void addTeam(Team team) {
 
 		String[] projectIds = team.getProjectIds();
@@ -243,10 +247,14 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			team.setTeamMemberIds(userIds);
 		}
 
-		Department dep = (Department) this.dao.findById(team.getDepartmentId(), Department.TABLE_NAME, Department.class);
+		if (team.getDepartmentId() != null) {
+			Department dep = (Department) this.dao.findById(team.getDepartmentId(), Department.TABLE_NAME, Department.class);
 
-		team.setDepartmentName(dep.getDepartmentName());
+			if (dep != null) {
+				team.setDepartmentName(dep.getDepartmentName());
+			}
 
+		}
 		if (team.getProjectId() != null) {
 			team.setProjectIds(team.getProjectId().split(","));
 		}
@@ -444,8 +452,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 		if (result.isEmpty()) {
 			DataBaseQueryBuilder userquery = new DataBaseQueryBuilder(User.TABLE_NAME);
-			userquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
 			userquery.and(DataBaseQueryOpertion.IN, User.ID, userIds);
+			userquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
 
 			result = this.dao.listByQuery(userquery, Attendance.class);
 		}
