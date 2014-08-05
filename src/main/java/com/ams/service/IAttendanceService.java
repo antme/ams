@@ -1,5 +1,7 @@
 package com.ams.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.ams.bean.Attendance;
@@ -16,7 +18,11 @@ public interface IAttendanceService {
 
 
 
-	String exportPicToExcle(Pic pic, HttpServletRequest request);  
+	String exportPicToExcle(Pic pic, HttpServletRequest request);
+
+
+
+	List<Attendance> checkAttendance(Attendance attendance);  
     
 
 }

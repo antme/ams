@@ -62,7 +62,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	@Autowired
 	private IUserService userService;
 
-	public static Map<String, String> projectMap = new HashMap<String, String>();
 
 	@Override
 	@Transactional
@@ -343,25 +342,24 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		return builder;
 	}
 
-	public List<Team> listTeamsForApp(Team team) {
+	public List<Team> listTeamsForAppAttendance(Attendance att) {
 
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Team.TABLE_NAME);
 		builder.limitColumns(new String[] { Team.ID, Team.TEAM_DESCRIPTION, Team.TEAM_NAME });
 
-		if (team.getDepartmentId() != null) {
-			builder.and(Team.DEPARTMENT_ID, team.getDepartmentId());
+		if (att.getDepartmentId() != null) {
+			builder.and(Team.DEPARTMENT_ID, att.getDepartmentId());
 		}
 
-		if (team.getProjectId() != null) {
-			builder.and(DataBaseQueryOpertion.LIKE, Team.PROJECT_ID, team.getProjectId());
-			projectMap.put(team.getUserId(), team.getProjectId());
+		if (att.getProjectId() != null) {
+			builder.and(DataBaseQueryOpertion.LIKE, Team.PROJECT_ID, att.getProjectId());
 		}
 		
 		
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		pquery.leftJoin(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
 		pquery.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
-		pquery.and(Project.ID, team.getProjectId());
+		pquery.and(Project.ID, att.getProjectId());
 		pquery.limitColumns(new String[]{Project.WORK_TIME_PERIOD});
 		Project p = (Project) this.dao.findOneByQuery(pquery, Project.class);
 		
@@ -396,21 +394,19 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 	}
 
-	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team) {
+	public List<Attendance> listTeamMemebersForAppAttendance(Attendance atten) {
 
 
 
 		DataBaseQueryBuilder query = new DataBaseQueryBuilder(EmployeeTeam.TABLE_NAME);
-		query.and(EmployeeTeam.TEAM_ID, team.getTeamId());
+		query.and(EmployeeTeam.TEAM_ID, atten.getTeamId());
 		List<EmployeeTeam> ets = this.dao.listByQuery(query, EmployeeTeam.class);
 
 		// FIXME: FOR TEST, REMOVE IT LATER
-		String projectId = projectMap.get(team.getUserId());
-		
-		System.out.println(projectId);
+		String projectId = null;
 
-		if (EweblibUtil.isValid(team.getProjectId())) {
-			projectId = team.getProjectId();
+		if (EweblibUtil.isValid(atten.getProjectId())) {
+			projectId = atten.getProjectId();
 		}
 
 		DataBaseQueryBuilder epquery = new DataBaseQueryBuilder(EmployeeProject.TABLE_NAME);
@@ -435,15 +431,15 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 		atquery.joinColumns(Attendance.TABLE_NAME, new String[] { Attendance.ID, Attendance.ATTENDANCE_DATE, Attendance.ATTENDANCE_DAY_TYPE, Attendance.MINUTES, Attendance.ATTENDANCE_TYPE,
 		        Attendance.HOURS });
 
-		if (team.getAttendanceDate() != null) {
-			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, team.getAttendanceDate());
+		if (atten.getAttendanceDate() != null) {
+			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DATE, atten.getAttendanceDate());
 		}
 
-		if (team.getAttendanceDayType() != null) {
-			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DAY_TYPE, team.getAttendanceDayType());
+		if (atten.getAttendanceDayType() != null) {
+			atquery.and(Attendance.TABLE_NAME + "." + Attendance.ATTENDANCE_DAY_TYPE, atten.getAttendanceDayType());
 		}
 
-		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, team.getTeamId());
+		atquery.and(Attendance.TABLE_NAME + "." + Attendance.TEAM_ID, atten.getTeamId());
 
 		atquery.limitColumns(new String[] { User.USER_NAME, User.ID + "," + Attendance.USER_ID });
 		atquery.and(DataBaseQueryOpertion.IN, User.ID, userIds);
@@ -1533,7 +1529,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 
 
 			// FIXME: FOR TEST, REMOVE IT LATER
-			String projectId = projectMap.get(userId);
+			String projectId = null;
 			
 			System.out.println("===========" + attendance.getProjectId());
 

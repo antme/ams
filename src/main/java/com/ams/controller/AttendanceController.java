@@ -14,6 +14,8 @@ import com.ams.bean.Pic;
 import com.ams.service.IAttendanceService;
 import com.eweblib.annotation.column.LoginRequired;
 import com.eweblib.annotation.column.Permission;
+import com.eweblib.exception.ResponseException;
+import com.eweblib.util.EweblibUtil;
 
 @Controller
 @RequestMapping("/ams/attendance")
@@ -50,6 +52,23 @@ public class AttendanceController extends AmsController {
 		String path = attendanceService.exportPicToExcle(pic, request);
 
 		exportFile(response, path);
+
+	}
+	
+	@RequestMapping("/check.do")
+	public void checkAttendance(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Attendance attendance = (Attendance) parserJsonParameters(request, false, Attendance.class);
+
+		if (EweblibUtil.isEmpty(attendance.getUserId())) {
+			throw new ResponseException("请先登录");
+		}
+
+		if (EweblibUtil.isEmpty(attendance.getAttendanceDayType())) {
+			throw new ResponseException("请选择上午或者下午");
+		}
+		// 以流的形式下载文件。
+
+		responseWithListData(attendanceService.checkAttendance(attendance), request, response);
 
 	}
 

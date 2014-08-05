@@ -204,37 +204,37 @@ public class UserController extends AmsController {
 	@RequestMapping("/team/app/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeamsForApp(HttpServletRequest request, HttpServletResponse response) {
-		Team team  = (Team) parserJsonParameters(request, false, Team.class);
+		Attendance att  = (Attendance) parserJsonParameters(request, false, Attendance.class);
 		
-		if (EweblibUtil.isEmpty(team.getProjectId())) {
+		if (EweblibUtil.isEmpty(att.getProjectId())) {
 			throw new ResponseException("请先选择项目");
 		}
 
-		if (EweblibUtil.isEmpty(team.getUserId())) {
+		if (EweblibUtil.isEmpty(att.getUserId())) {
 			throw new ResponseException("请先登录");
 		}
 		
-		responseWithListData(projectService.listTeamsForApp(team), request, response);
+		responseWithListData(projectService.listTeamsForAppAttendance(att), request, response);
 	}
 	
 	
 	@RequestMapping("/team/memebers/app/list.do")
 	@Permission(groupName = PermissionConstants.ADM_USER_MANAGE, permissionID = PermissionConstants.ADM_USER_MANAGE)
 	public void listTeamMemebersForApp(HttpServletRequest request, HttpServletResponse response) {
-		EmployeeTeam team  = (EmployeeTeam) parserJsonParameters(request, false, EmployeeTeam.class);
+		Attendance att = (Attendance) parserJsonParameters(request, false, Attendance.class);
 		
-		if(EweblibUtil.isEmpty(team.getTeamId())){
+		if(EweblibUtil.isEmpty(att.getTeamId())){
 			throw new ResponseException("请先选择团队");
 		}
 		
-		if(EweblibUtil.isEmpty(team.getProjectId())){
+		if(EweblibUtil.isEmpty(att.getProjectId())){
 			throw new ResponseException("请先选择项目");
 		}
 		
-		if(EweblibUtil.isEmpty(team.getUserId())){
+		if(EweblibUtil.isEmpty(att.getUserId())){
 			throw new ResponseException("请先登录");
 		}
-		responseWithListData(projectService.listTeamMemebersForApp(team), request, response);
+		responseWithListData(projectService.listTeamMemebersForAppAttendance(att), request, response);
 	}
 	
 	
@@ -243,8 +243,10 @@ public class UserController extends AmsController {
 	public void addAttendance(HttpServletRequest request, HttpServletResponse response) {
 
 		Attendance att = (Attendance) parserJsonParameters(request, false, Attendance.class);
-		List<Attendance> attendanceList =  parserListJsonParameters(request,  false, Attendance.class);
-		System.out.println(attendanceList);
+		List<Attendance> attendanceList = parserListJsonParameters(request, false, Attendance.class);
+		if (EweblibUtil.isEmpty(att.getProjectId())) {
+			throw new ResponseException("请先选择项目");
+		}
 		projectService.addAttendance(attendanceList, att);
 		responseWithData(null, request, response);
 	}

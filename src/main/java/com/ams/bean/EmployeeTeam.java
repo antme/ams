@@ -1,7 +1,5 @@
 package com.ams.bean;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -25,14 +23,7 @@ public class EmployeeTeam extends BaseEntity {
 
 	public String userName;
 
-	public Date attendanceDate;
-
-	public Integer attendanceDayType;
-	
-	
 	public String projectId;
-	
-	
 
 	public String getProjectId() {
 		return projectId;
@@ -48,14 +39,6 @@ public class EmployeeTeam extends BaseEntity {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public Integer getAttendanceDayType() {
-		return attendanceDayType;
-	}
-
-	public void setAttendanceDayType(Integer attendanceDayType) {
-		this.attendanceDayType = attendanceDayType;
 	}
 
 	public String getTeamName() {
@@ -80,14 +63,6 @@ public class EmployeeTeam extends BaseEntity {
 
 	public void setTeamId(String teamId) {
 		this.teamId = teamId;
-	}
-
-	public Date getAttendanceDate() {
-		return attendanceDate;
-	}
-
-	public void setAttendanceDate(Date attendanceDate) {
-		this.attendanceDate = attendanceDate;
 	}
 
 }

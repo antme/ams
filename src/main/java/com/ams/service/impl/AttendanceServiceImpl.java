@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import com.ams.bean.Attendance;
 import com.ams.bean.Department;
+import com.ams.bean.EmployeeTeam;
 import com.ams.bean.Pic;
 import com.ams.bean.Project;
 import com.ams.bean.Team;
@@ -76,7 +77,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			for (Team team : teams) {
 				if (a.getTeamId().equalsIgnoreCase(team.getId())) {
 					a.setDepartmentName(team.getDepartmentName());
-//					a.setProjectName(team.getProjectName());
+					// a.setProjectName(team.getProjectName());
 					break;
 				}
 			}
@@ -93,11 +94,9 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		builder.leftJoin(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
-		
-		
+
 		builder.leftJoin(Attendance.TABLE_NAME, Project.TABLE_NAME, Attendance.PROJECT_ID, Project.ID);
 		builder.joinColumns(Project.TABLE_NAME, new String[] { Project.PROJECT_NAME });
-
 
 		if (attendance != null) {
 			String userName = attendance.getUserName();
@@ -160,16 +159,15 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		String filePath = genDownloadRandomRelativePath(EWeblibThreadLocal.getCurrentUserId()) + "考勤表" + attendance.getYear() + "-" + attendance.getMonth() + ".xls";
 		String desXlsPath = webPath + filePath;
-		
-		
+
 		DataBaseQueryBuilder pquery = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		pquery.leftJoin(Project.TABLE_NAME, Department.TABLE_NAME, Project.DEPARTMENT_ID, Department.ID);
-		pquery.joinColumns(Department.TABLE_NAME, new String[]{Department.DEPARTMENT_NAME});
-		
-		pquery.and(Project.ID, attendance.getProjectId());		
-		pquery.limitColumns(new String[]{Project.PROJECT_NAME});
+		pquery.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
+
+		pquery.and(Project.ID, attendance.getProjectId());
+		pquery.limitColumns(new String[] { Project.PROJECT_NAME });
 		Project project = (Project) this.dao.findOneByQuery(pquery, Project.class);
-	
+
 		if (new File(desXlsPath).exists()) {
 			new File(desXlsPath).delete();
 		}
@@ -200,7 +198,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		int start = 6;
 		int totalWork = 0;
 		int totalRest = 0;
-		
+
 		Set<String> operatoids = new HashSet<String>();
 
 		for (String userName : mapList.keySet()) {
@@ -222,7 +220,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			for (Attendance at : mapList.get(userName)) {
 
 				operatoids.add(at.getOperatorId());
-				
+
 				String type = "";
 
 				int hours = 4;
@@ -233,8 +231,6 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				if (at.getMinutes() > 30) {
 					hours = hours + 1;
 				}
-				
-				
 
 				if (at.getAttendanceType() == 0) {
 					type = "√";
@@ -242,7 +238,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				} else if (at.getAttendanceType() == 1) {
 					type = "●";
 					totalRest = totalRest + hours;
-					
+
 				} else if (at.getAttendanceType() == 2) {
 					type = "○";
 				} else if (at.getAttendanceType() == 3) {
@@ -273,43 +269,39 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 					etu.setCellStrValue(start + 1, dayOfMonth + 1, type);
 
 				}
-				
-				
+
 				timeMap.put(type, timeMap.get(type) + hours);
-				
 
 			}
 			int column = 32;
-			
-			etu.setCellStrValue(start, column+1, getTime(timeMap.get("√")));
-			etu.setCellStrValue(start, column+2, getTime(timeMap.get("●")));
-			etu.setCellStrValue(start, column+3, getTime(timeMap.get("○")));
-			etu.setCellStrValue(start, column+4, getTime(timeMap.get("×")));
-			etu.setCellStrValue(start, column+5, getTime(timeMap.get("△")));
-			etu.setCellStrValue(start, column+6, getTime(timeMap.get("□")));
-			etu.setCellStrValue(start, column+7, getTime(timeMap.get("◇")));
-			etu.setCellStrValue(start, column+8, getTime(timeMap.get("◆")));
-			etu.setCellStrValue(start, column+9, getTime(timeMap.get("▼")));
-			etu.setCellStrValue(start, column+10, getTime(timeMap.get("▲")));
-			etu.setCellStrValue(start, column+11, getTime(timeMap.get("■")));
 
-	
+			etu.setCellStrValue(start, column + 1, getTime(timeMap.get("√")));
+			etu.setCellStrValue(start, column + 2, getTime(timeMap.get("●")));
+			etu.setCellStrValue(start, column + 3, getTime(timeMap.get("○")));
+			etu.setCellStrValue(start, column + 4, getTime(timeMap.get("×")));
+			etu.setCellStrValue(start, column + 5, getTime(timeMap.get("△")));
+			etu.setCellStrValue(start, column + 6, getTime(timeMap.get("□")));
+			etu.setCellStrValue(start, column + 7, getTime(timeMap.get("◇")));
+			etu.setCellStrValue(start, column + 8, getTime(timeMap.get("◆")));
+			etu.setCellStrValue(start, column + 9, getTime(timeMap.get("▼")));
+			etu.setCellStrValue(start, column + 10, getTime(timeMap.get("▲")));
+			etu.setCellStrValue(start, column + 11, getTime(timeMap.get("■")));
+
 			start = start + 2;
 
 		}
 
-
 		DataBaseQueryBuilder userQuery = new DataBaseQueryBuilder(User.TABLE_NAME);
 		userQuery.and(DataBaseQueryOpertion.IN, User.ID, operatoids);
-		userQuery.limitColumns(new String[]{User.USER_NAME});
+		userQuery.limitColumns(new String[] { User.USER_NAME });
 		List<User> users = this.dao.listByQuery(userQuery, User.class);
 		String userName = "";
-		
-		for(User user: users){
-			
+
+		for (User user : users) {
+
 			userName = userName + user.getUserName() + " ";
 		}
-		
+
 		String projectInfo = "部门：" + project.getDepartmentName() + "                  项目名称：" + project.getProjectName() + "                          记录员：" + userName + "                应出勤天数："
 		        + getTime(totalWork) + "天" + "           应休天数：  " + getTime(totalRest) + "天";
 		etu.setCellStrValue(2, 0, projectInfo);
@@ -319,8 +311,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		return desXlsPath;
 	}
-	
-	
+
 	private String getTime(int hours) {
 		DecimalFormat df2 = new DecimalFormat("####0.0");
 
@@ -344,12 +335,11 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 			HSSFWorkbook wb = new HSSFWorkbook();
 
 			HSSFSheet sheet1 = wb.createSheet("图片");
-			
+
 			sheet1.setColumnWidth(1, 4000);
 			sheet1.setColumnWidth(2, 10000);
 			sheet1.setColumnWidth(3, 10000);
 			sheet1.setColumnWidth(4, 10000);
-			
 
 			HSSFRow row = sheet1.createRow(0);
 			int index = 0;
@@ -429,7 +419,6 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 				{
 
-
 					e.printStackTrace();
 
 				}
@@ -438,6 +427,62 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		}
 		return desXlsPath;
+
+	}
+
+	public List<Attendance> checkAttendance(Attendance attendance) {
+
+		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
+		builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, attendance.getUserId());
+		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID });
+		List<Project> list = this.dao.listByQuery(builder, Project.class);
+
+		Set<String> projectIds = new HashSet<String>();
+
+		List<Attendance> checkList = new ArrayList<Attendance>();
+
+		if (list != null) {
+
+			for (Project project : list) {
+				projectIds.add(project.getId());
+				Attendance att = new Attendance();
+
+				att.setUserId(attendance.getUserId());
+				att.setProjectId(project.getId());
+
+				List<Team> teamList = pservice.listTeamsForAppAttendance(att);
+
+				for (Team team : teamList) {
+					boolean find = false;
+					att.setTeamId(team.getId());
+					att.setAttendanceDayType(attendance.getAttendanceDayType());
+					att.setAttendanceDate(DateUtil.getDate(DateUtil.getDateString(new Date()), DateUtil.formatSimple));
+
+					List<Attendance> attendanceList = pservice.listTeamMemebersForAppAttendance(att);
+
+					for (Attendance temp : attendanceList) {
+
+						if (temp.getAttendanceType() != null) {
+							find = false;
+
+							break;
+						}
+
+						find = true;
+					}
+
+					if (find) {
+						Attendance a = new Attendance();
+						a.setProjectName(project.getProjectName());
+						a.setTeamName(team.getTeamName());
+						checkList.add(a);
+					}
+				}
+
+			}
+		}
+
+		return checkList;
 
 	}
 

@@ -60,9 +60,9 @@ public interface IProjectService {
 	
 	public DataBaseQueryBuilder getTeamQuery(Team team);
 
-	public List<Team> listTeamsForApp(Team team);
+	public List<Team> listTeamsForAppAttendance(Attendance att);
 	
-	public List<Attendance> listTeamMemebersForApp(EmployeeTeam team);
+	public List<Attendance> listTeamMemebersForAppAttendance(Attendance atten);
 	
 
 	public void addCustomer(Customer customer);
