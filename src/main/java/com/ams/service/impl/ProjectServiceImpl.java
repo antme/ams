@@ -1531,7 +1531,6 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			// FIXME: FOR TEST, REMOVE IT LATER
 			String projectId = null;
 			
-			System.out.println("===========" + attendance.getProjectId());
 
 			if (EweblibUtil.isValid(att.getProjectId())) {
 				projectId = att.getProjectId();
