@@ -74,11 +74,14 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 
 		for (Attendance a : list.getEntityList()) {
 
-			for (Team team : teams) {
-				if (a.getTeamId().equalsIgnoreCase(team.getId())) {
-					a.setDepartmentName(team.getDepartmentName());
-					// a.setProjectName(team.getProjectName());
-					break;
+			if (EweblibUtil.isEmpty(a.getDepartmentName())) {
+				for (Team team : teams) {
+					if (a.getTeamId().equalsIgnoreCase(team.getId())) {
+
+						a.setDepartmentName(team.getDepartmentName());
+						// a.setProjectName(team.getProjectName());
+						break;
+					}
 				}
 			}
 			a.setOperator(userNameMap.get(a.getOperatorId()));
@@ -91,6 +94,9 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Attendance.TABLE_NAME);
 		builder.leftJoin(Attendance.TABLE_NAME, User.TABLE_NAME, Attendance.USER_ID, User.ID);
 		builder.joinColumns(User.TABLE_NAME, new String[] { User.USER_NAME });
+	
+		builder.leftJoin(Attendance.TABLE_NAME, Department.TABLE_NAME, Attendance.DEPARTMENT_ID, Department.ID);
+		builder.joinColumns(Department.TABLE_NAME, new String[] { Department.DEPARTMENT_NAME });
 
 		builder.leftJoin(Attendance.TABLE_NAME, Team.TABLE_NAME, Attendance.TEAM_ID, Team.ID);
 		builder.joinColumns(Team.TABLE_NAME, new String[] { Team.TEAM_NAME });
