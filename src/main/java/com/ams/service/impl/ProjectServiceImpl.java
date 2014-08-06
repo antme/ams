@@ -1533,8 +1533,8 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			
 			System.out.println("===========" + attendance.getProjectId());
 
-			if (EweblibUtil.isValid(attendance.getProjectId())) {
-				projectId = attendance.getProjectId();
+			if (EweblibUtil.isValid(att.getProjectId())) {
+				projectId = att.getProjectId();
 			}
 			
 			attendance.setProjectId(projectId);
