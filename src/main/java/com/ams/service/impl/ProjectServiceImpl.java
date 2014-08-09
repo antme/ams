@@ -989,7 +989,7 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 	public EntityResults<DailyReportVo> listDailyReport(DailyReportVo report, boolean fromApp) {
 		
 		
-		List<DailyReport> list = this.dao.listByQuery(getNotViewdReportQuery(report), DailyReport.class);
+		List<DailyReport> list = this.dao.listByQueryWithPagnation(getNotViewdReportQuery(report), DailyReport.class).getEntityList();
 		
 		Set<String> ids =new HashSet<String>();
 		
