@@ -47,7 +47,7 @@ import com.eweblib.util.EweblibUtil;
 import com.eweblib.util.ExcelTemplateUtil;
 
 @Service(value = "attendanceService")
-public class AttendanceServiceImpl extends AbstractService implements IAttendanceService {
+public class AttendanceServiceImpl extends AbstractAmsService  implements IAttendanceService {
 
 	@Autowired
 	private IProjectService pservice;
@@ -441,6 +441,7 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 		DataBaseQueryBuilder builder = new DataBaseQueryBuilder(Project.TABLE_NAME);
 		builder.and(DataBaseQueryOpertion.LIKE, Project.PROJECT_ATTENDANCE_MANAGER_ID, attendance.getUserId());
 		builder.limitColumns(new String[] { Project.PROJECT_NAME, Project.ID });
+		mergeCommonQueryForApp(builder);
 		List<Project> list = this.dao.listByQuery(builder, Project.class);
 
 		Set<String> projectIds = new HashSet<String>();
@@ -459,25 +460,27 @@ public class AttendanceServiceImpl extends AbstractService implements IAttendanc
 				List<Team> teamList = pservice.listTeamsForAppAttendance(att);
 
 				for (Team team : teamList) {
-					boolean find = false;
+					boolean needAttendance = false;
 					att.setTeamId(team.getId());
 					att.setAttendanceDayType(attendance.getAttendanceDayType());
 					att.setAttendanceDate(DateUtil.getDate(DateUtil.getDateString(new Date()), DateUtil.formatSimple));
 
 					List<Attendance> attendanceList = pservice.listTeamMemebersForAppAttendance(att);
 
-					for (Attendance temp : attendanceList) {
+					if (attendanceList != null) {
+						for (Attendance temp : attendanceList) {
 
-						if (temp.getAttendanceType() != null) {
-							find = false;
+							if (temp.getAttendanceType() != null) {
+								needAttendance = false;
 
-							break;
+								break;
+							}
+
+							needAttendance = true;
 						}
-
-						find = true;
 					}
 
-					if (find) {
+					if (needAttendance) {
 						Attendance a = new Attendance();
 						a.setProjectName(project.getProjectName());
 						a.setTeamName(team.getTeamName());
