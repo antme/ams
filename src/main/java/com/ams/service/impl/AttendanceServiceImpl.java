@@ -227,6 +227,17 @@ public class AttendanceServiceImpl extends AbstractAmsService  implements IAtten
 
 				operatoids.add(at.getOperatorId());
 
+				
+				if(at.getMinutes() == null){
+					at.setMinutes(0);
+					
+				}
+				
+				if(at.getHours() == null){
+					at.setHours(0);
+				}
+				
+				
 				String type = "";
 
 				int hours = 4;

@@ -1522,20 +1522,17 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			Calendar c = Calendar.getInstance();
 			c.setTime(attendance.getAttendanceDate());
 
-			
-			if(EweblibUtil.isEmpty(userId)){
+			if (EweblibUtil.isEmpty(userId)) {
 				userId = attendance.getOperatorId();
 			}
 
-
 			// FIXME: FOR TEST, REMOVE IT LATER
 			String projectId = null;
-			
 
 			if (EweblibUtil.isValid(att.getProjectId())) {
 				projectId = att.getProjectId();
 			}
-			
+
 			attendance.setProjectId(projectId);
 
 			Project p = (Project) this.dao.findById(projectId, Project.TABLE_NAME, Project.class);
@@ -1547,6 +1544,13 @@ public class ProjectServiceImpl extends AbstractAmsService implements IProjectSe
 			attendance.setYear(c.get(Calendar.YEAR));
 			attendance.setMonth(c.get(Calendar.MONDAY));
 
+			if (attendance.getMinutes() == null) {
+				attendance.setMinutes(0);
+			}
+
+			if (attendance.getHours() == null) {
+				attendance.setHours(0);
+			}
 			this.dao.insert(attendance);
 		}
 	}
